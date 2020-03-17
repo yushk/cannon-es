@@ -4,7 +4,7 @@ import { Quaternion } from './Quaternion'
 /**
  * @class Transform
  * @constructor
- * @param {Object} options Optional. An object containing 
+ * @param {Object} options Optional. An object containing position and quaternion data (both optional properties)
  */
 export class Transform {
   position: Vec3
