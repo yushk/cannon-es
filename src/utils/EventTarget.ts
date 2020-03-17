@@ -6,7 +6,7 @@
 export class EventTarget {
   _listeners: { [key: string]: Function[] } | undefined
 
-  constructor () {}
+  constructor() {}
 
   /**
    * Add an event listener
