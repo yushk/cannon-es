@@ -207,10 +207,11 @@ class OctreeNode {
  */
 export class Octree extends OctreeNode {
   constructor(aabb, options = {}) {
-    super(options)
 
     options.root = null
     options.aabb = aabb
+
+    super(options)
 
     /**
      * Maximum subdivision depth
