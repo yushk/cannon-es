@@ -4,17 +4,11 @@
  * @constructor
  */
 export class Pool {
-  constructor() {
-    /**
-     * The pooled objects
-     * @property {Array} objects
-     */
-    this.objects = []
+  objects: any[]
+  type: any
 
-    /**
-     * Constructor of the objects
-     * @property {mixed} type
-     */
+  constructor() {
+    this.objects = []
     this.type = Object
   }
 
@@ -23,7 +17,7 @@ export class Pool {
    * @method release
    * @param {Object} obj
    */
-  release(...args) {
+  release(...args: any[]): Pool {
     const Nargs = args.length
     for (let i = 0; i !== Nargs; i++) {
       this.objects.push(args[i])
@@ -36,7 +30,7 @@ export class Pool {
    * @method get
    * @return {mixed}
    */
-  get() {
+  get(): any {
     if (this.objects.length === 0) {
       return this.constructObject()
     } else {
@@ -45,11 +39,11 @@ export class Pool {
   }
 
   /**
-   * Construct an object. Should be implmented in each subclass.
+   * Construct an object. Should be implemented in each subclass.
    * @method constructObject
    * @return {mixed}
    */
-  constructObject() {
+  constructObject(): void {
     throw new Error('constructObject() not implemented in this Pool subclass yet!')
   }
 
@@ -58,7 +52,7 @@ export class Pool {
    * @param {number} size
    * @return {Pool} Self, for chaining
    */
-  resize(size) {
+  resize(size: number): Pool {
     const objects = this.objects
 
     while (objects.length > size) {

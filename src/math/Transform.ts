@@ -15,10 +15,10 @@ export class Transform {
   static vectorToWorldFrame: (quaternion: Quaternion, localVector: Vec3, result: Vec3) => Vec3
   static vectorToLocalFrame: (position: Vec3, quaternion: Quaternion, worldVector: Vec3, result?: Vec3) => Vec3
 
-  constructor(options: { position?: Vec3, quaternion?: Quaternion } = {}) {
+  constructor(options: { position?: Vec3; quaternion?: Quaternion } = {}) {
     this.position = new Vec3()
     this.quaternion = new Quaternion()
-  
+
     if (options.position) {
       this.position.copy(options.position)
     }
@@ -92,7 +92,12 @@ Transform.vectorToWorldFrame = (quaternion: Quaternion, localVector: Vec3, resul
   return result
 }
 
-Transform.vectorToLocalFrame = (position: Vec3, quaternion: Quaternion, worldVector: Vec3, result = new Vec3()): Vec3 => {
+Transform.vectorToLocalFrame = (
+  position: Vec3,
+  quaternion: Quaternion,
+  worldVector: Vec3,
+  result = new Vec3()
+): Vec3 => {
   quaternion.w *= -1
   quaternion.vmult(worldVector, result)
   quaternion.w *= -1
