@@ -12,4 +12,4 @@ import { World } from 'cannon-es'
 
 - Finish TS conversion
 - Revisit math/Transform.ts types
-- Standardize JSDoc comments
+- Correct & standardize JSDoc comments

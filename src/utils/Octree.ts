@@ -1,40 +1,29 @@
 import { AABB } from '../collision/AABB'
 import { Vec3 } from '../math/Vec3'
+import { Transform } from '../math/Transform'
+import { Ray } from '../collision/Ray'
 
 /**
  * @class OctreeNode
+ * @constructor
  * @param {object} [options]
  * @param {Octree} [options.root]
  * @param {AABB} [options.aabb]
  */
 class OctreeNode {
-  constructor(options = {}) {
-    /**
-     * The root node
-     * @property {OctreeNode} root
-     */
+  root: OctreeNode | null // The root node
+  aabb: AABB // Boundary of this node
+  data: object[] // Contained data at the current node level
+  children: OctreeNode[] // Children to this node
+
+  constructor(options: { root?: Octree | null, aabb?: AABB } = {}) {
     this.root = options.root || null
-
-    /**
-     * Boundary of this node
-     * @property {AABB} aabb
-     */
     this.aabb = options.aabb ? options.aabb.clone() : new AABB()
-
-    /**
-     * Contained data at the current node level.
-     * @property {Array} data
-     */
     this.data = []
-
-    /**
-     * Children to this node
-     * @property {Array} children
-     */
     this.children = []
   }
 
-  reset(aabb, options) {
+  reset() {
     this.children.length = this.data.length = 0
   }
 
@@ -45,9 +34,8 @@ class OctreeNode {
    * @param  {object} elementData
    * @return {boolean} True if successful, otherwise false
    */
-  insert(aabb, elementData, level) {
+  insert(aabb: AABB, elementData: object, level = 0): boolean {
     const nodeData = this.data
-    level = level || 0
 
     // Ignore objects that do not belong in this node
     if (!this.aabb.contains(aabb)) {
@@ -55,8 +43,9 @@ class OctreeNode {
     }
 
     const children = this.children
+    const maxDepth = (this as unknown as Octree).maxDepth || (this.root as unknown as Octree).maxDepth
 
-    if (level < (this.maxDepth || this.root.maxDepth)) {
+    if (level < maxDepth) {
       // Subdivide if there are no children yet
       let subdivided = false
       if (!children.length) {
@@ -87,7 +76,7 @@ class OctreeNode {
    * Create 8 equally sized children nodes and put them in the .children array.
    * @method subdivide
    */
-  subdivide() {
+  subdivide(): void {
     const aabb = this.aabb
     const l = aabb.lowerBound
     const u = aabb.upperBound
@@ -136,7 +125,7 @@ class OctreeNode {
    * @param  {array} result
    * @return {array} The "result" object
    */
-  aabbQuery(aabb, result) {
+  aabbQuery(aabb: AABB, result: object[]): object[] {
     const nodeData = this.data
 
     // abort if the range does not intersect this node
@@ -157,7 +146,7 @@ class OctreeNode {
 
     const queue = [this]
     while (queue.length) {
-      const node = queue.pop()
+      const node = queue.pop() as OctreeNode
       if (node.aabb.overlaps(aabb)) {
         Array.prototype.push.apply(result, node.data)
       }
@@ -175,7 +164,7 @@ class OctreeNode {
    * @param  {array} result
    * @return {array} The "result" object
    */
-  rayQuery(ray, treeTransform, result) {
+  rayQuery(ray: Ray, treeTransform: Transform, result: object[]): object[] {
     // Use aabb query for now.
     // @todo implement real ray query which needs less lookups
     ray.getAABB(tmpAABB)
@@ -188,7 +177,7 @@ class OctreeNode {
   /**
    * @method removeEmptyNodes
    */
-  removeEmptyNodes() {
+  removeEmptyNodes(): void {
     for (let i = this.children.length - 1; i >= 0; i--) {
       this.children[i].removeEmptyNodes()
       if (!this.children[i].children.length && !this.children[i].data.length) {
@@ -202,20 +191,18 @@ class OctreeNode {
  * @class Octree
  * @param {AABB} aabb The total AABB of the tree
  * @param {object} [options]
- * @param {number} [options.maxDepth=8]
+ * @param {number} [options.maxDepth=8] Maximum subdivision depth
  * @extends OctreeNode
  */
 export class Octree extends OctreeNode {
-  constructor(aabb, options = {}) {
+  maxDepth: number // Maximum subdivision depth
+
+  constructor(aabb: AABB, options: { maxDepth?: number, root?: Octree | null, aabb?: AABB } = {}) {
     super(options)
 
     options.root = null
     options.aabb = aabb
 
-    /**
-     * Maximum subdivision depth
-     * @property {number} maxDepth
-     */
     this.maxDepth = typeof options.maxDepth !== 'undefined' ? options.maxDepth : 8
   }
 }
