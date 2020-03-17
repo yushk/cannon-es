@@ -23,41 +23,38 @@ import { Transform } from '../math/Transform'
  */
 
 export class ConvexPolyhedron extends Shape {
-  constructor(points, faces, uniqueAxes, precomputedGeometry = null) {
+  constructor({ vertices = [], faces = [], normals = [], axes, boundingSphereRadius }) {
     super({
       type: Shape.types.CONVEXPOLYHEDRON,
     })
 
-    if (precomputedGeometry) {
-      // assume valid THREE.Geometry structure and data
-      this.vertices = precomputedGeometry.vertices.map(v => new Vec3(v.x, v.y, v.z))
-      this.faces = precomputedGeometry.faces.map(f => [f.a, f.b, f.c])
-      this.faceNormals = precomputedGeometry.faces.map(f => new Vec3(f.normal.x, f.normal.y, f.normal.z))
-      // THREE.ConeGeometry does not provide a boundingSphere, for example
-      this.boundingSphereRadius = precomputedGeometry.boundingSphere
-        ? precomputedGeometry.boundingSphere.radius
-        : this.updateBoundingSphereRadius()
-    } else {
-      /**
-       * Array of Vec3
-       * @property vertices
-       * @type {Array}
-       */
-      this.vertices = points || []
-      /**
-       * Array of integer arrays, indicating which vertices each face consists of
-       * @property faces
-       * @type {Array}
-       */
-      this.faces = faces || []
-      /**
-       * Array of Vec3
-       * @property faceNormals
-       * @type {Array}
-       */
-      this.faceNormals = []
+    /**
+     * Array of Vec3
+     * @property vertices
+     * @type {Array}
+     */
+    this.vertices = vertices
+    /**
+     * Array of integer arrays, indicating which vertices each face consists of
+     * @property faces
+     * @type {Array}
+     */
+    this.faces = faces
+    /**
+     * Array of Vec3
+     * @property faceNormals
+     * @type {Array}
+     */
+    this.faceNormals = normals
+
+    if (this.faceNormals == []) {
       this.computeNormals()
+    }
+
+    if (!boundingSphereRadius) {
       this.updateBoundingSphereRadius()
+    } else {
+      this.boundingSphereRadius = boundingSphereRadius
     }
 
     this.worldVertices = [] // World transformed version of .vertices
@@ -69,7 +66,7 @@ export class ConvexPolyhedron extends Shape {
      * If given, these locally defined, normalized axes are the only ones being checked when doing separating axis check.
      * @property {Array} uniqueAxes
      */
-    this.uniqueAxes = uniqueAxes ? uniqueAxes.slice() : null
+    this.uniqueAxes = axes ? axes.slice() : null
 
     /**
      * Array of Vec3
