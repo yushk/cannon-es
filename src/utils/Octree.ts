@@ -16,7 +16,7 @@ class OctreeNode {
   data: object[] // Contained data at the current node level
   children: OctreeNode[] // Children to this node
 
-  constructor(options: { root?: Octree | null, aabb?: AABB } = {}) {
+  constructor(options: { root?: Octree | null; aabb?: AABB } = {}) {
     this.root = options.root || null
     this.aabb = options.aabb ? options.aabb.clone() : new AABB()
     this.data = []
@@ -43,7 +43,7 @@ class OctreeNode {
     }
 
     const children = this.children
-    const maxDepth = (this as unknown as Octree).maxDepth || (this.root as unknown as Octree).maxDepth
+    const maxDepth = ((this as unknown) as Octree).maxDepth || ((this.root as unknown) as Octree).maxDepth
 
     if (level < maxDepth) {
       // Subdivide if there are no children yet
@@ -197,7 +197,7 @@ class OctreeNode {
 export class Octree extends OctreeNode {
   maxDepth: number // Maximum subdivision depth
 
-  constructor(aabb: AABB, options: { maxDepth?: number, root?: Octree | null, aabb?: AABB } = {}) {
+  constructor(aabb: AABB, options: { maxDepth?: number; root?: Octree | null; aabb?: AABB } = {}) {
     super(options)
 
     options.root = null

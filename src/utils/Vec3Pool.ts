@@ -6,7 +6,7 @@ import { Pool } from './Pool'
  * @constructor
  * @extends Pool
  */
-export class Vec3Pool extends Pool {  
+export class Vec3Pool extends Pool {
   type: typeof Vec3
 
   constructor() {

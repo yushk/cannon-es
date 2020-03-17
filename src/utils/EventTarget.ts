@@ -4,6 +4,10 @@
  * @constructor
  */
 export class EventTarget {
+  _listeners: { [key: string]: Function[] } | undefined
+
+  constructor () {}
+
   /**
    * Add an event listener
    * @method addEventListener
@@ -11,7 +15,7 @@ export class EventTarget {
    * @param  {Function} listener
    * @return {EventTarget} The self object, for chainability.
    */
-  addEventListener(type, listener) {
+  addEventListener(type: string, listener: Function): EventTarget {
     if (this._listeners === undefined) {
       this._listeners = {}
     }
@@ -32,7 +36,7 @@ export class EventTarget {
    * @param  {Function} listener
    * @return {Boolean}
    */
-  hasEventListener(type, listener) {
+  hasEventListener(type: string, listener: Function): boolean {
     if (this._listeners === undefined) {
       return false
     }
@@ -49,7 +53,7 @@ export class EventTarget {
    * @param  {String} type
    * @return {Boolean}
    */
-  hasAnyEventListener(type) {
+  hasAnyEventListener(type: string): boolean {
     if (this._listeners === undefined) {
       return false
     }
@@ -64,7 +68,7 @@ export class EventTarget {
    * @param  {Function} listener
    * @return {EventTarget} The self object, for chainability.
    */
-  removeEventListener(type, listener) {
+  removeEventListener(type: string, listener: Function): EventTarget {
     if (this._listeners === undefined) {
       return this
     }
@@ -86,7 +90,7 @@ export class EventTarget {
    * @param  {String} event.type
    * @return {EventTarget} The self object, for chainability.
    */
-  dispatchEvent(event) {
+  dispatchEvent(event: any): EventTarget {
     if (this._listeners === undefined) {
       return this
     }
