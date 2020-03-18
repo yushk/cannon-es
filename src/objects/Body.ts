@@ -76,7 +76,8 @@ type BodyOptions = {
  */
 export class Body extends EventTarget {
   id: number
-  world: World | null // Reference to the world the body is living in
+  index: number // Position of body in World.bodies. Updated by World and used in ArrayCollisionMatrix.
+  world: World | null // Reference to the world the body is living in.
   preStep: Function | null // Callback function that is used BEFORE stepping the system. Use it to apply forces, for example. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
   postStep: Function | null // Callback function that is used AFTER stepping the system. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
   vlambda: Vec3
@@ -143,6 +144,7 @@ export class Body extends EventTarget {
     super()
 
     this.id = Body.idCounter++
+    this.index = 0
     this.world = null
     this.preStep = null
     this.postStep = null
