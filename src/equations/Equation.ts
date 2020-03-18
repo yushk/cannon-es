@@ -1,5 +1,6 @@
 import { JacobianElement } from '../math/JacobianElement'
 import { Vec3 } from '../math/Vec3'
+import { Body } from '../objects/Body'
 
 /**
  * Equation base class
@@ -12,81 +13,43 @@ import { Vec3 } from '../math/Vec3'
  * @param {Number} maxForce Maximum (read: positive max) force to be applied by the constraint.
  */
 export class Equation {
-  constructor(bi, bj, minForce, maxForce) {
+  id: number
+  minForce: number
+  maxForce: number
+  bi: Body
+  bj: Body
+  a: number // SPOOK parameter
+  b: number // SPOOK parameter
+  eps: number // SPOOK parameter
+  jacobianElementA: JacobianElement
+  jacobianElementB: JacobianElement
+  enabled: boolean
+  multiplier: number // A number, proportional to the force added to the bodies.
+
+  static id: number
+
+  constructor(bi: Body, bj: Body, minForce = -1e6, maxForce = 1e6) {
     this.id = Equation.id++
-
-    /**
-     * @property {number} minForce
-     */
-    this.minForce = typeof minForce === 'undefined' ? -1e6 : minForce
-
-    /**
-     * @property {number} maxForce
-     */
-    this.maxForce = typeof maxForce === 'undefined' ? 1e6 : maxForce
-
-    /**
-     * @property bi
-     * @type {Body}
-     */
+    this.minForce = minForce
+    this.maxForce = maxForce
     this.bi = bi
-
-    /**
-     * @property bj
-     * @type {Body}
-     */
     this.bj = bj
-
-    /**
-     * SPOOK parameter
-     * @property {number} a
-     */
-    this.a = 0.0
-
-    /**
-     * SPOOK parameter
-     * @property {number} b
-     */
-    this.b = 0.0
-
-    /**
-     * SPOOK parameter
-     * @property {number} eps
-     */
-    this.eps = 0.0
-
-    /**
-     * @property {JacobianElement} jacobianElementA
-     */
+    this.a = 0.0 // SPOOK parameter
+    this.b = 0.0 // SPOOK parameter
+    this.eps = 0.0 // SPOOK parameter
     this.jacobianElementA = new JacobianElement()
-
-    /**
-     * @property {JacobianElement} jacobianElementB
-     */
     this.jacobianElementB = new JacobianElement()
-
-    /**
-     * @property {boolean} enabled
-     * @default true
-     */
     this.enabled = true
-
-    /**
-     * A number, proportional to the force added to the bodies.
-     * @property {number} multiplier
-     * @readonly
-     */
     this.multiplier = 0
-
-    // Set typical spook params
-    this.setSpookParams(1e7, 4, 1 / 60)
+    
+    this.setSpookParams(1e7, 4, 1 / 60) // Set typical spook params
   }
 
   /**
    * Recalculates a,b,eps.
    * @method setSpookParams
    */
-  setSpookParams(stiffness, relaxation, timeStep) {
+  setSpookParams(stiffness: number, relaxation: number, timeStep: number): void {
     const d = relaxation
     const k = stiffness
     const h = timeStep
@@ -100,7 +63,7 @@ export class Equation {
    * @method computeB
    * @return {Number}
    */
-  computeB(a, b, h) {
+  computeB(a: number, b: number, h: number): number {
     const GW = this.computeGW()
     const Gq = this.computeGq()
     const GiMf = this.computeGiMf()
@@ -112,7 +75,7 @@ export class Equation {
    * @method computeGq
    * @return {Number}
    */
-  computeGq() {
+  computeGq(): number {
     const GA = this.jacobianElementA
     const GB = this.jacobianElementB
     const bi = this.bi
@@ -127,7 +90,7 @@ export class Equation {
    * @method computeGW
    * @return {Number}
    */
-  computeGW() {
+  computeGW(): number {
     const GA = this.jacobianElementA
     const GB = this.jacobianElementB
     const bi = this.bi
@@ -144,7 +107,7 @@ export class Equation {
    * @method computeGWlambda
    * @return {Number}
    */
-  computeGWlambda() {
+  computeGWlambda(): number {
     const GA = this.jacobianElementA
     const GB = this.jacobianElementB
     const bi = this.bi
@@ -156,7 +119,7 @@ export class Equation {
     return GA.multiplyVectors(vi, wi) + GB.multiplyVectors(vj, wj)
   }
 
-  computeGiMf() {
+  computeGiMf(): number {
     const GA = this.jacobianElementA
     const GB = this.jacobianElementB
     const bi = this.bi
@@ -177,7 +140,7 @@ export class Equation {
     return GA.multiplyVectors(iMfi, invIi_vmult_taui) + GB.multiplyVectors(iMfj, invIj_vmult_tauj)
   }
 
-  computeGiMGt() {
+  computeGiMGt(): number {
     const GA = this.jacobianElementA
     const GB = this.jacobianElementB
     const bi = this.bi
@@ -202,7 +165,7 @@ export class Equation {
    * @method addToWlambda
    * @param {Number} deltalambda
    */
-  addToWlambda(deltalambda) {
+  addToWlambda(deltalambda: number): void {
     const GA = this.jacobianElementA
     const GB = this.jacobianElementB
     const bi = this.bi
@@ -228,7 +191,7 @@ export class Equation {
    * @param  {Number} eps
    * @return {Number}
    */
-  computeC() {
+  computeC(): number {
     return this.computeGiMGt() + this.eps
   }
 }

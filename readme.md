@@ -14,5 +14,6 @@ import { World } from 'cannon-es'
 - Revisit math/Transform.ts types
 - Revisit material/ContactMaterial.ts constructor assertions
 - Remove use of defined assertion (!) where possible
+- Find and refactor regex: `options:.*Options = \{\}`
 - Correct & standardize JSDoc comments
 - Test possible performance improvements by converting matrices to Maps (instead of Arrays)
