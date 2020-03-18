@@ -1,5 +1,9 @@
-import { Solver } from './Solver'
+import { Solver } from '../solver/Solver'
+import { World } from '../world/World'
 import { Body } from '../objects/Body'
+import { Equation } from '../equations/Equation'
+
+type SplitSolverNode = { body: Body | null, children: SplitSolverNode[], eqs: Equation[], visited: boolean }
 
 /**
  * Splits the equations into islands and solves them independently. Can improve performance.
@@ -9,7 +13,13 @@ import { Body } from '../objects/Body'
  * @param {Solver} subsolver
  */
 export class SplitSolver extends Solver {
-  constructor(subsolver) {
+  iterations: number // The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
+  tolerance: number // When tolerance is reached, the system is assumed to be converged.
+  subsolver: SplitSolver
+  nodes: SplitSolverNode[]
+  nodePool: SplitSolverNode[]
+
+  constructor(subsolver: SplitSolver) {
     super()
 
     this.iterations = 10
@@ -24,7 +34,7 @@ export class SplitSolver extends Solver {
     }
   }
 
-  createNode() {
+  createNode(): SplitSolverNode {
     return { body: null, children: [], eqs: [], visited: false }
   }
 
@@ -33,8 +43,9 @@ export class SplitSolver extends Solver {
    * @method solve
    * @param  {Number} dt
    * @param  {World} world
+   * @return {Number} number of iterations performed
    */
-  solve(dt, world) {
+  solve(dt: number, world: World): number {
     const nodes = SplitSolver_solve_nodes
     const nodePool = this.nodePool
     const bodies = world.bodies
@@ -48,12 +59,12 @@ export class SplitSolver extends Solver {
       nodePool.push(this.createNode())
     }
     nodes.length = Nbodies
-    for (var i = 0; i < Nbodies; i++) {
+    for (let i = 0; i < Nbodies; i++) {
       nodes[i] = nodePool[i]
     }
 
     // Reset node values
-    for (var i = 0; i !== Nbodies; i++) {
+    for (let i = 0; i !== Nbodies; i++) {
       const node = nodes[i]
       node.body = bodies[i]
       node.children.length = 0
@@ -62,7 +73,7 @@ export class SplitSolver extends Solver {
     }
     for (let k = 0; k !== Neq; k++) {
       const eq = equations[k]
-      var i = bodies.indexOf(eq.bi)
+      const i = bodies.indexOf(eq.bi)
       const j = bodies.indexOf(eq.bj)
       const ni = nodes[i]
       const nj = nodes[j]
@@ -72,7 +83,7 @@ export class SplitSolver extends Solver {
       nj.eqs.push(eq)
     }
 
-    let child
+    let child: SplitSolverNode | false
     let n = 0
     let eqs = SplitSolver_solve_eqs
 
@@ -103,14 +114,14 @@ export class SplitSolver extends Solver {
 }
 
 // Returns the number of subsystems
-const SplitSolver_solve_nodes = [] // All allocated node objects
-const SplitSolver_solve_nodePool = [] // All allocated node objects
-const SplitSolver_solve_eqs = [] // Temp array
-const SplitSolver_solve_bds = [] // Temp array
+const SplitSolver_solve_nodes: SplitSolverNode[] = [] // All allocated node objects
+const SplitSolver_solve_nodePool: SplitSolverNode[] = [] // All allocated node objects
+const SplitSolver_solve_eqs: Equation[] = [] // Temp array
+const SplitSolver_solve_bds: Body[] = [] // Temp array
 const SplitSolver_solve_dummyWorld = { bodies: [] } // Temp object
 
 const STATIC = Body.STATIC
-function getUnvisitedNode(nodes) {
+function getUnvisitedNode(nodes: SplitSolverNode[]): SplitSolverNode | false {
   const Nnodes = nodes.length
   for (let i = 0; i !== Nnodes; i++) {
     const node = nodes[i]
@@ -121,15 +132,15 @@ function getUnvisitedNode(nodes) {
   return false
 }
 
-const queue = []
-function bfs(root, visitFunc, bds, eqs) {
+const queue: SplitSolverNode[] = []
+function bfs(root: SplitSolverNode, visitFunc: (node: SplitSolverNode, bds: Body[], eqs: Equation[]) => void, bds: Body[], eqs: Equation[]) {
   queue.push(root)
   root.visited = true
   visitFunc(root, bds, eqs)
   while (queue.length) {
-    const node = queue.pop()
+    const node = queue.pop()!
     // Loop over unvisited child nodes
-    let child
+    let child: SplitSolverNode | false
     while ((child = getUnvisitedNode(node.children))) {
       child.visited = true
       visitFunc(child, bds, eqs)
@@ -138,7 +149,7 @@ function bfs(root, visitFunc, bds, eqs) {
   }
 }
 
-function visitFunc(node, bds, eqs) {
+function visitFunc(node: SplitSolverNode, bds: Body[], eqs: Equation[]) {
   bds.push(node.body)
   const Neqs = node.eqs.length
   for (let i = 0; i !== Neqs; i++) {
@@ -149,6 +160,6 @@ function visitFunc(node, bds, eqs) {
   }
 }
 
-function sortById(a, b) {
+function sortById(a: { id: number }, b: { id: number }) {
   return b.id - a.id
 }

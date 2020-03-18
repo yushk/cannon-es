@@ -1,4 +1,5 @@
-import { Solver } from './Solver'
+import { Solver } from '../solver/Solver'
+import { World } from '../world/World'
 
 /**
  * Constraint equation Gauss-Seidel solver.
@@ -10,26 +11,24 @@ import { Solver } from './Solver'
  * @extends Solver
  */
 export class GSSolver extends Solver {
+  iterations: number // The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
+  tolerance: number // When tolerance is reached, the system is assumed to be converged.
+
   constructor() {
     super()
 
-    /**
-     * The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
-     * @property iterations
-     * @type {Number}
-     * @todo write more about solver and iterations in the wiki
-     */
     this.iterations = 10
-
-    /**
-     * When tolerance is reached, the system is assumed to be converged.
-     * @property tolerance
-     * @type {Number}
-     */
     this.tolerance = 1e-7
   }
 
-  solve(dt, world) {
+  /**
+   * Solve
+   * @method solve
+   * @param  {Number} dt
+   * @param  {World} world
+   * @return {Number} number of iterations performed
+   */
+  solve(dt: number, world: World): number {
     let iter = 0
     const maxIter = this.iterations
     const tolSquared = this.tolerance * this.tolerance
@@ -137,6 +136,6 @@ export class GSSolver extends Solver {
   }
 }
 
-const GSSolver_solve_lambda = [] // Just temporary number holders that we want to reuse each solve.
-const GSSolver_solve_invCs = []
-const GSSolver_solve_Bs = []
+const GSSolver_solve_lambda: number[] = [] // Just temporary number holders that we want to reuse each solve.
+const GSSolver_solve_invCs: number[] = []
+const GSSolver_solve_Bs: number[] = []
