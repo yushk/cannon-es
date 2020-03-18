@@ -1,3 +1,5 @@
+import { Body } from '../objects/Body'
+
 /**
  * Collision "matrix". It's actually a triangular-shaped array of whether two bodies are touching this step, for reference next step
  * @class ArrayCollisionMatrix
@@ -17,7 +19,7 @@ export class ArrayCollisionMatrix {
    * @param  {Number} j
    * @return {Number}
    */
-  get(i, j): number {
+  get(i: Body, j: Body): number {
     i = i.index
     j = j.index
     if (j > i) {
@@ -35,7 +37,7 @@ export class ArrayCollisionMatrix {
    * @param {Number} j
    * @param {Number} value
    */
-  set(i, j, value): void {
+  set(i: Body, j: Body, value: boolean): void {
     i = i.index
     j = j.index
     if (j > i) {
