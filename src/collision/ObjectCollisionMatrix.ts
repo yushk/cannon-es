@@ -6,7 +6,7 @@ import { Body } from '../objects/Body'
  * @constructor
  */
 export class ObjectCollisionMatrix {
-  matrix: { [key: string]: boolean } // The matrix storage.
+  matrix: Record<string, boolean> // The matrix storage.
 
   constructor() {
     this.matrix = {}

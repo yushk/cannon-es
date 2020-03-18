@@ -40,7 +40,7 @@ export class Shape {
   collisionResponse: boolean // Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled.
   collisionFilterGroup: number
   collisionFilterMask: number
-  material: Material
+  material: Material | null
   body: Body | null
 
   static idCounter: number

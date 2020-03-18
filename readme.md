@@ -12,5 +12,6 @@ import { World } from 'cannon-es'
 
 - Finish TS conversion
 - Revisit math/Transform.ts types
+- Revisit material/ContactMaterial.ts constructor assertions
 - Correct & standardize JSDoc comments
 - Test possible performance improvements by converting matrices to Maps (instead of Arrays)

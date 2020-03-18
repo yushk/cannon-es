@@ -4,7 +4,7 @@
  * @constructor
  */
 export class EventTarget {
-  private _listeners: { [key: string]: Function[] } | undefined
+  private _listeners: Record<string, Function[]> | undefined
 
   constructor() {}
 

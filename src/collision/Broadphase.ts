@@ -185,7 +185,7 @@ const Broadphase_collisionPairs_relpos = new Vec3()
  * @param {Array} pairs1
  * @param {Array} pairs2
  */
-const Broadphase_makePairsUnique_temp: { [key: string]: any } = { keys: [] }
+const Broadphase_makePairsUnique_temp: Record<string, any> = { keys: [] }
 
 const Broadphase_makePairsUnique_p1: Body[] = []
 const Broadphase_makePairsUnique_p2: Body[] = []
