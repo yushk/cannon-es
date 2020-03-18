@@ -1,4 +1,5 @@
 import { Vec3 } from '../math/Vec3'
+// prettier-ignore
 import { Body } from '../objects/Body'
 
 /**
@@ -7,27 +8,21 @@ import { Body } from '../objects/Body'
  * @constructor
  */
 export class SPHSystem {
+  particles: Body[]
+  density: number // Density of the system (kg/m3).
+  smoothingRadius: number // Distance below which two particles are considered to be neighbors. It should be adjusted so there are about 15-20 neighbor particles within this radius.
+  speedOfSound: number
+  viscosity: number // Viscosity of the system.
+  eps: number
+  pressures: number[]
+  densities: number[]
+  neighbors: Body[]
+
   constructor() {
     this.particles = []
-
-    /**
-     * Density of the system (kg/m3).
-     * @property {number} density
-     */
     this.density = 1
-
-    /**
-     * Distance below which two particles are considered to be neighbors.
-     * It should be adjusted so there are about 15-20 neighbor particles within this radius.
-     * @property {number} smoothingRadius
-     */
     this.smoothingRadius = 1
     this.speedOfSound = 1
-
-    /**
-     * Viscosity of the system.
-     * @property {number} viscosity
-     */
     this.viscosity = 0.01
     this.eps = 0.000001
 
@@ -42,7 +37,7 @@ export class SPHSystem {
    * @method add
    * @param {Body} particle
    */
-  add(particle) {
+  add(particle: Body): void {
     this.particles.push(particle)
     if (this.neighbors.length < this.particles.length) {
       this.neighbors.push([])
@@ -54,7 +49,7 @@ export class SPHSystem {
    * @method remove
    * @param {Body} particle
    */
-  remove(particle) {
+  remove(particle: Body): void {
     const idx = this.particles.indexOf(particle)
     if (idx !== -1) {
       this.particles.splice(idx, 1)
@@ -64,7 +59,7 @@ export class SPHSystem {
     }
   }
 
-  getNeighbors(particle, neighbors) {
+  getNeighbors(particle: Body, neighbors: Body[]) {
     const N = this.particles.length
     const id = particle.id
     const R2 = this.smoothingRadius * this.smoothingRadius
@@ -78,7 +73,7 @@ export class SPHSystem {
     }
   }
 
-  update() {
+  update(): void {
     const N = this.particles.length
     const dist = SPHSystem_update_dist
     const cs = this.speedOfSound
@@ -173,21 +168,21 @@ export class SPHSystem {
   }
 
   // Calculate the weight using the W(r) weightfunction
-  w(r) {
+  w(r: number): number {
     // 315
     const h = this.smoothingRadius
     return (315.0 / (64.0 * Math.PI * h ** 9)) * (h * h - r * r) ** 3
   }
 
   // calculate gradient of the weight function
-  gradw(rVec, resultVec) {
+  gradw(rVec: Vec3, resultVec: Vec3): void {
     const r = rVec.norm()
     const h = this.smoothingRadius
     rVec.mult((945.0 / (32.0 * Math.PI * h ** 9)) * (h * h - r * r) ** 2, resultVec)
   }
 
   // Calculate nabla(W)
-  nablaw(r) {
+  nablaw(r: number): number {
     const h = this.smoothingRadius
     const nabla = (945.0 / (32.0 * Math.PI * h ** 9)) * (h * h - r * r) * (7 * r * r - 3 * h * h)
     return nabla
