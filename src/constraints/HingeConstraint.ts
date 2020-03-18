@@ -2,6 +2,15 @@ import { PointToPointConstraint } from './PointToPointConstraint'
 import { RotationalEquation } from '../equations/RotationalEquation'
 import { RotationalMotorEquation } from '../equations/RotationalMotorEquation'
 import { Vec3 } from '../math/Vec3'
+import { Body } from '../objects/Body'
+
+type HingeConstraintOptions = {
+  maxForce?: number
+  pivotA?: Vec3
+  pivotB?: Vec3
+  axisA?: Vec3
+  axisB?: Vec3
+}
 
 /**
  * Hinge constraint. Think of it as a door hinge. It tries to keep the door in the correct place and with the correct orientation.
@@ -19,47 +28,34 @@ import { Vec3 } from '../math/Vec3'
  * @extends PointToPointConstraint
  */
 export class HingeConstraint extends PointToPointConstraint {
-  constructor(bodyA, bodyB, options = {}) {
+  axisA: Vec3 // Rotation axis, defined locally in bodyA.
+  axisB: Vec3 // Rotation axis, defined locally in bodyB.
+  rotationalEquation1: RotationalEquation
+  rotationalEquation2: RotationalEquation
+  motorEquation: RotationalMotorEquation
+
+  constructor(bodyA: Body, bodyB: Body, options: HingeConstraintOptions = {}) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
     const pivotA = options.pivotA ? options.pivotA.clone() : new Vec3()
     const pivotB = options.pivotB ? options.pivotB.clone() : new Vec3()
 
     super(bodyA, pivotA, bodyB, pivotB, maxForce)
 
-    /**
-     * Rotation axis, defined locally in bodyA.
-     * @property {Vec3} axisA
-     */
     const axisA = (this.axisA = options.axisA ? options.axisA.clone() : new Vec3(1, 0, 0))
     axisA.normalize()
 
-    /**
-     * Rotation axis, defined locally in bodyB.
-     * @property {Vec3} axisB
-     */
     const axisB = (this.axisB = options.axisB ? options.axisB.clone() : new Vec3(1, 0, 0))
     axisB.normalize()
 
-    /**
-     * @property {RotationalEquation} rotationalEquation1
-     */
-    const r1 = (this.rotationalEquation1 = new RotationalEquation(bodyA, bodyB, options))
-
-    /**
-     * @property {RotationalEquation} rotationalEquation2
-     */
-    const r2 = (this.rotationalEquation2 = new RotationalEquation(bodyA, bodyB, options))
-
-    /**
-     * @property {RotationalMotorEquation} motorEquation
-     */
+    const rotational1 = (this.rotationalEquation1 = new RotationalEquation(bodyA, bodyB, options))
+    const rotational2 = (this.rotationalEquation2 = new RotationalEquation(bodyA, bodyB, options))
     const motor = (this.motorEquation = new RotationalMotorEquation(bodyA, bodyB, maxForce))
     motor.enabled = false // Not enabled by default
 
     // Equations to be fed to the solver
     this.equations.push(
-      r1, // rotational1
-      r2, // rotational2
+      rotational1,
+      rotational2,
       motor
     )
   }
@@ -67,14 +63,14 @@ export class HingeConstraint extends PointToPointConstraint {
   /**
    * @method enableMotor
    */
-  enableMotor() {
+  enableMotor(): void {
     this.motorEquation.enabled = true
   }
 
   /**
    * @method disableMotor
    */
-  disableMotor() {
+  disableMotor(): void {
     this.motorEquation.enabled = false
   }
 
@@ -82,7 +78,7 @@ export class HingeConstraint extends PointToPointConstraint {
    * @method setMotorSpeed
    * @param {number} speed
    */
-  setMotorSpeed(speed) {
+  setMotorSpeed(speed: number): void {
     this.motorEquation.targetVelocity = speed
   }
 
@@ -90,12 +86,12 @@ export class HingeConstraint extends PointToPointConstraint {
    * @method setMotorMaxForce
    * @param {number} maxForce
    */
-  setMotorMaxForce(maxForce) {
+  setMotorMaxForce(maxForce: number): void {
     this.motorEquation.maxForce = maxForce
     this.motorEquation.minForce = -maxForce
   }
 
-  update() {
+  update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB
     const motor = this.motorEquation

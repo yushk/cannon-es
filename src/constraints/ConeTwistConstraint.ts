@@ -1,7 +1,19 @@
-import { PointToPointConstraint } from './PointToPointConstraint'
+import { PointToPointConstraint } from '../constraints/PointToPointConstraint'
 import { ConeEquation } from '../equations/ConeEquation'
 import { RotationalEquation } from '../equations/RotationalEquation'
 import { Vec3 } from '../math/Vec3'
+import { Body } from '../objects/Body'
+
+type ConeTwistConstraintOptions = {
+  maxForce?: number
+  pivotA?: Vec3
+  pivotB?: Vec3
+  axisA?: Vec3
+  axisB?: Vec3
+  collideConnected?: boolean
+  angle?: number
+  twistAngle?: number
+}
 
 /**
  * @class ConeTwistConstraint
@@ -18,7 +30,14 @@ import { Vec3 } from '../math/Vec3'
  * @extends PointToPointConstraint
  */
 export class ConeTwistConstraint extends PointToPointConstraint {
-  constructor(bodyA, bodyB, options = {}) {
+  axisA: Vec3
+  axisB: Vec3
+  angle: number
+  coneEquation: ConeEquation
+  twistEquation: RotationalEquation
+  twistAngle: number
+
+  constructor(bodyA: Body, bodyB: Body, options: ConeTwistConstraintOptions = {}) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     // Set pivot point in between
@@ -34,14 +53,8 @@ export class ConeTwistConstraint extends PointToPointConstraint {
 
     this.angle = typeof options.angle !== 'undefined' ? options.angle : 0
 
-    /**
-     * @property {ConeEquation} coneEquation
-     */
     const c = (this.coneEquation = new ConeEquation(bodyA, bodyB, options))
 
-    /**
-     * @property {RotationalEquation} twistEquation
-     */
     const t = (this.twistEquation = new RotationalEquation(bodyA, bodyB, options))
     this.twistAngle = typeof options.twistAngle !== 'undefined' ? options.twistAngle : 0
 
@@ -56,7 +69,7 @@ export class ConeTwistConstraint extends PointToPointConstraint {
     this.equations.push(c, t)
   }
 
-  update() {
+  update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB
     const cone = this.coneEquation

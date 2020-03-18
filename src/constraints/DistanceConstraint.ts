@@ -1,5 +1,6 @@
-import { Constraint } from './Constraint'
+import { Constraint } from '../constraints/Constraint'
 import { ContactEquation } from '../equations/ContactEquation'
+import { Body } from '../objects/Body'
 
 /**
  * Constrains two bodies to be at a constant distance from each others center of mass.
@@ -13,25 +14,17 @@ import { ContactEquation } from '../equations/ContactEquation'
  * @extends Constraint
  */
 export class DistanceConstraint extends Constraint {
-  constructor(bodyA, bodyB, distance, maxForce) {
+  distance: number
+  distanceEquation: ContactEquation
+
+  constructor(bodyA: Body, bodyB: Body, distance?: number, maxForce = 1e6) {
     super(bodyA, bodyB)
 
     if (typeof distance === 'undefined') {
       distance = bodyA.position.distanceTo(bodyB.position)
     }
 
-    if (typeof maxForce === 'undefined') {
-      maxForce = 1e6
-    }
-
-    /**
-     * @property {number} distance
-     */
-    this.distance = distance
-
-    /**
-     * @property {ContactEquation} distanceEquation
-     */
+    this.distance = distance!
     const eq = (this.distanceEquation = new ContactEquation(bodyA, bodyB))
     this.equations.push(eq)
 
@@ -40,7 +33,7 @@ export class DistanceConstraint extends Constraint {
     eq.maxForce = maxForce
   }
 
-  update() {
+  update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB
     const eq = this.distanceEquation
