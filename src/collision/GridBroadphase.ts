@@ -1,6 +1,9 @@
-import { Broadphase } from './Broadphase'
+import { Broadphase } from '../collision/Broadphase'
 import { Vec3 } from '../math/Vec3'
 import { Shape } from '../shapes/Shape'
+import { World } from '../world/World'
+import { Body } from '../objects/Body'
+import { AABB } from '../collision/AABB'
 
 /**
  * Axis aligned uniform grid broadphase.
@@ -15,14 +18,22 @@ import { Shape } from '../shapes/Shape'
  * @param {Number} nz Number of boxes along z
  */
 export class GridBroadphase extends Broadphase {
-  constructor(aabbMin, aabbMax, nx, ny, nz) {
+  nx: number
+  ny: number
+  nz: number
+  aabbMin: Vec3
+  aabbMax: Vec3
+  bins: number[][]
+  binLengths: number[]
+
+  constructor(aabbMin = new Vec3(100, 100, 100), aabbMax = new Vec3(-100, -100, -100), nx = 10, ny = 10, nz = 10) {
     super()
 
-    this.nx = nx || 10
-    this.ny = ny || 10
-    this.nz = nz || 10
-    this.aabbMin = aabbMin || new Vec3(100, 100, 100)
-    this.aabbMax = aabbMax || new Vec3(-100, -100, -100)
+    this.nx = nx
+    this.ny = ny
+    this.nz = nz
+    this.aabbMin = aabbMin
+    this.aabbMax = aabbMax
     const nbins = this.nx * this.ny * this.nz
     if (nbins <= 0) {
       throw "GridBroadphase: Each dimension's n must be >0"
@@ -37,11 +48,11 @@ export class GridBroadphase extends Broadphase {
     }
   }
 
-  collisionPairs(world, pairs1, pairs2) {
+  collisionPairs(world: World, pairs1: Body[], pairs2: Body[]): void {
     const N = world.numObjects()
     const bodies = world.bodies
-    var max = this.aabbMax
-    var min = this.aabbMin
+    const max = this.aabbMax
+    const min = this.aabbMin
     const nx = this.nx
     const ny = this.ny
     const nz = this.nz
@@ -81,10 +92,8 @@ export class GridBroadphase extends Broadphase {
     }
 
     const ceil = Math.ceil
-    var min = Math.min
-    var max = Math.max
 
-    function addBoxToBins(x0, y0, z0, x1, y1, z1, bi) {
+    function addBoxToBins(x0: number, y0: number, z0: number, x1: number, y1: number, z1: number, bi: number): void {
       let xoff0 = ((x0 - xmin) * xmult) | 0
       let yoff0 = ((y0 - ymin) * ymult) | 0
       let zoff0 = ((z0 - zmin) * zmult) | 0

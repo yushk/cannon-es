@@ -14,7 +14,7 @@ export class Broadphase {
   world: World | null // The world to search for collisions in.
   useBoundingBoxes: boolean // If set to true, the broadphase uses bounding boxes for intersection test, else it uses bounding spheres.
   dirty: boolean // Set to true if the objects in the world moved.
-  
+
   static boundingSphereCheck: (bodyA: Body, bodyB: Body) => boolean
 
   constructor() {

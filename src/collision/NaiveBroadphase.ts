@@ -3,7 +3,6 @@ import { Body } from '../objects/Body'
 import { World } from '../world/World'
 import { AABB } from '../collision/AABB'
 
-
 /**
  * Naive broadphase implementation, used in lack of better ones.
  * @class NaiveBroadphase
