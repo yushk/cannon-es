@@ -1,4 +1,4 @@
-import { Shape } from './Shape'
+import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
 import { Transform } from '../math/Transform'

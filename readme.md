@@ -18,6 +18,6 @@ import { World } from 'cannon-es'
 - Correct & standardize JSDoc comments
 - Test possible performance improvements by converting matrices to Maps (instead of Arrays)
 - Only import types where possible (don't impot unused class as value):
-    - Upgrade @babel/preset-typescript after March 20th for TypeScript 3.8 support
-    - Update class imports marked with `// prettier-ignore` to `import type`
-    - Remove Prettier ignore comments when TypeScript 3.8 is supported (Prettier 2.0 release+)
+  - Upgrade @babel/preset-typescript after March 20th for TypeScript 3.8 support
+  - Update class imports marked with `// prettier-ignore` to `import type`
+  - Remove Prettier ignore comments when TypeScript 3.8 is supported (Prettier 2.0 release+)

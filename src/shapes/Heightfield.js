@@ -1,5 +1,5 @@
-import { Shape } from './Shape'
-import { ConvexPolyhedron } from './ConvexPolyhedron'
+import { Shape } from '../shapes/Shape'
+import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import { Vec3 } from '../math/Vec3'
 import { Utils } from '../utils/Utils'
 

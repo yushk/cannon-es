@@ -1,4 +1,4 @@
-import { Constraint } from './Constraint'
+import { Constraint } from '../constraints/Constraint'
 import { ContactEquation } from '../equations/ContactEquation'
 import { Vec3 } from '../math/Vec3'
 // prettier-ignore

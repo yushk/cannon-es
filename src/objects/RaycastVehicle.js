@@ -1,4 +1,4 @@
-import { Body } from './Body'
+import { Body } from '../objects/Body'
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
 import { Ray } from '../collision/Ray'

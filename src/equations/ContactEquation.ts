@@ -21,7 +21,7 @@ export class ContactEquation extends Equation {
   constructor(bodyA: Body, bodyB: Body, maxForce = 1e6) {
     super(bodyA, bodyB, 0, maxForce)
 
-    this.restitution = 0.0 
+    this.restitution = 0.0
     this.ri = new Vec3()
     this.rj = new Vec3()
     this.ni = new Vec3()

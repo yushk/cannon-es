@@ -1,6 +1,6 @@
 import { Vec3 } from '../math/Vec3'
 import { GSSolver } from '../solver/GSSolver'
-import { Narrowphase } from './Narrowphase'
+import { Narrowphase } from '../world/Narrowphase'
 import { EventTarget } from '../utils/EventTarget'
 import { ArrayCollisionMatrix } from '../collision/ArrayCollisionMatrix'
 import { OverlapKeeper } from '../collision/OverlapKeeper'

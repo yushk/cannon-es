@@ -1,4 +1,4 @@
-import { Body } from './Body'
+import { Body } from '../objects/Body'
 import { Sphere } from '../shapes/Sphere'
 import { Box } from '../shapes/Box'
 import { Vec3 } from '../math/Vec3'
