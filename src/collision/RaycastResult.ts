@@ -1,4 +1,6 @@
 import { Vec3 } from '../math/Vec3'
+import { Shape } from '../shapes/Shape'
+import { Body } from '../objects/Body'
 
 /**
  * Storage for Ray casting data.
@@ -6,64 +8,29 @@ import { Vec3 } from '../math/Vec3'
  * @constructor
  */
 export class RaycastResult {
+  rayFromWorld: Vec3
+  rayToWorld: Vec3
+  hitNormalWorld: Vec3
+  hitPointWorld: Vec3
+  hasHit: boolean
+  shape: Shape | null
+  body: Body | null
+  hitFaceIndex: number // The index of the hit triangle, if the hit shape was a trimesh.
+  distance: number // Distance to the hit. Will be set to -1 if there was no hit.
+
+  private _shouldStop: boolean // If the ray should stop traversing the bodies.
+
   constructor() {
-    /**
-     * @property {Vec3} rayFromWorld
-     */
     this.rayFromWorld = new Vec3()
-
-    /**
-     * @property {Vec3} rayToWorld
-     */
     this.rayToWorld = new Vec3()
-
-    /**
-     * @property {Vec3} hitNormalWorld
-     */
     this.hitNormalWorld = new Vec3()
-
-    /**
-     * @property {Vec3} hitPointWorld
-     */
     this.hitPointWorld = new Vec3()
-
-    /**
-     * @property {boolean} hasHit
-     */
     this.hasHit = false
-
-    /**
-     * The hit shape, or null.
-     * @property {Shape} shape
-     */
     this.shape = null
-
-    /**
-     * The hit body, or null.
-     * @property {Body} body
-     */
     this.body = null
-
-    /**
-     * The index of the hit triangle, if the hit shape was a trimesh.
-     * @property {number} hitFaceIndex
-     * @default -1
-     */
     this.hitFaceIndex = -1
-
-    /**
-     * Distance to the hit. Will be set to -1 if there was no hit.
-     * @property {number} distance
-     * @default -1
-     */
     this.distance = -1
 
-    /**
-     * If the ray should stop traversing the bodies.
-     * @private
-     * @property {Boolean} _shouldStop
-     * @default false
-     */
     this._shouldStop = false
   }
 
@@ -71,7 +38,7 @@ export class RaycastResult {
    * Reset all result data.
    * @method reset
    */
-  reset() {
+  reset(): void {
     this.rayFromWorld.setZero()
     this.rayToWorld.setZero()
     this.hitNormalWorld.setZero()
@@ -87,7 +54,7 @@ export class RaycastResult {
   /**
    * @method abort
    */
-  abort() {
+  abort(): void {
     this._shouldStop = true
   }
 
@@ -101,7 +68,7 @@ export class RaycastResult {
    * @param {Body} body
    * @param {number} distance
    */
-  set(rayFromWorld, rayToWorld, hitNormalWorld, hitPointWorld, shape, body, distance) {
+  set(rayFromWorld: Vec3, rayToWorld: Vec3, hitNormalWorld: Vec3, hitPointWorld: Vec3, shape: Shape, body: Body, distance: number): void {
     this.rayFromWorld.copy(rayFromWorld)
     this.rayToWorld.copy(rayToWorld)
     this.hitNormalWorld.copy(hitNormalWorld)
