@@ -34,7 +34,7 @@ export class ContactMaterial {
   frictionEquationStiffness: number // Stiffness of the produced friction equations.
   frictionEquationRelaxation: number // Relaxation time of the produced friction equations
 
-  static idCounter: number;
+  static idCounter: number
 
   constructor(m1: Material, m2: Material, options: ContactMaterialOptions) {
     options = Utils.defaults(options, {
