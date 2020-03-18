@@ -100,7 +100,7 @@ export class WheelInfo {
   suspensionLength: number
   sideImpulse: number
   forwardImpulse: number
-  raycastResult: RaycastResult & Partial<{ suspensionLength: number, directionWorld: Vec3 }> // The result from raycasting.
+  raycastResult: RaycastResult & Partial<{ suspensionLength: number; directionWorld: Vec3 }> // The result from raycasting.
   worldTransform: Transform // Wheel world transform.
   isInContact: boolean
 
