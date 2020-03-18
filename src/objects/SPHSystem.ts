@@ -16,7 +16,7 @@ export class SPHSystem {
   eps: number
   pressures: number[]
   densities: number[]
-  neighbors: Body[]
+  neighbors: Body[][]
 
   constructor() {
     this.particles = []

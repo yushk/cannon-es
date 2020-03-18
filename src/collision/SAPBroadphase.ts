@@ -15,12 +15,12 @@ import { AABB } from '../collision/AABB'
 export class SAPBroadphase extends Broadphase {
   axisList: Body[] // List of bodies currently in the broadphase.
   world: World | null // The world to search in.
-  axisIndex: number // Axis to sort the bodies along. Set to 0 for x axis, and 1 for y axis. For best performance, choose an axis that the bodies are spread out more on.
+  axisIndex: 0 | 1 | 2 // Axis to sort the bodies along. Set to 0 for x axis, and 1 for y axis. For best performance, choose an axis that the bodies are spread out more on.
 
   private _addBodyHandler: (event: { body: Body }) => void
   private _removeBodyHandler: (event: { body: Body }) => void
 
-  static checkBounds: (bi: Body, bj: Body, axisIndex: number) => boolean
+  static checkBounds: (bi: Body, bj: Body, axisIndex: 0 | 1 | 2) => boolean
   static insertionSortX: (a: Body[]) => Body[]
   static insertionSortY: (a: Body[]) => Body[]
   static insertionSortZ: (a: Body[]) => Body[]
@@ -298,9 +298,9 @@ SAPBroadphase.insertionSortZ = (a: Body[]): Body[] => {
  * @param  {Number} axisIndex
  * @return {Boolean}
  */
-SAPBroadphase.checkBounds = (bi: Body, bj: Body, axisIndex: number): boolean => {
-  let biPos
-  let bjPos
+SAPBroadphase.checkBounds = (bi: Body, bj: Body, axisIndex: 0 | 1 | 2): boolean => {
+  let biPos: number
+  let bjPos: number
 
   if (axisIndex === 0) {
     biPos = bi.position.x
@@ -316,8 +316,8 @@ SAPBroadphase.checkBounds = (bi: Body, bj: Body, axisIndex: number): boolean => 
   const ri = bi.boundingRadius,
     rj = bj.boundingRadius,
     // boundA1 = biPos - ri,
-    boundA2 = biPos + ri,
-    boundB1 = bjPos - rj
+    boundA2 = biPos! + ri,
+    boundB1 = bjPos! - rj
   // boundB2 = bjPos + rj;
 
   return boundB1 < boundA2

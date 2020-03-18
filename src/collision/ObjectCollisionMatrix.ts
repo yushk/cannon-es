@@ -18,9 +18,7 @@ export class ObjectCollisionMatrix {
    * @param  {Body} j
    * @return {boolean}
    */
-  get(i: Body, j: Body): boolean {
-    i = i.id
-    j = j.id
+  get({ id: i }: Body, { id: j }: Body): boolean {
     if (j > i) {
       const temp = j
       j = i
@@ -35,9 +33,7 @@ export class ObjectCollisionMatrix {
    * @param  {Body} j
    * @param {boolean} value
    */
-  set(i: Body, j: Body, value: boolean): void {
-    i = i.id
-    j = j.id
+  set({ id: i }: Body, { id: j }: Body, value: boolean): void {
     if (j > i) {
       const temp = j
       j = i

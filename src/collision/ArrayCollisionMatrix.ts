@@ -19,9 +19,7 @@ export class ArrayCollisionMatrix {
    * @param  {Body} j
    * @return {Number}
    */
-  get(i: Body, j: Body): number {
-    i = i.index
-    j = j.index
+  get({ id: i }: Body, { id: j }: Body): number {
     if (j > i) {
       const temp = j
       j = i
@@ -37,9 +35,7 @@ export class ArrayCollisionMatrix {
    * @param {Body} j
    * @param {boolean} value
    */
-  set(i: Body, j: Body, value: boolean): void {
-    i = i.index
-    j = j.index
+  set({ id: i }: Body, { id: j }: Body, value: boolean): void {
     if (j > i) {
       const temp = j
       j = i

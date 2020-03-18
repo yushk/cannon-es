@@ -30,9 +30,7 @@ import { Body } from '../objects/Body'
  *     world.addConstraint(constraint);
  */
 export class PointToPointConstraint extends Constraint {
-  bodyA: Body
   pivotA: Vec3 // Pivot, defined locally in bodyA.
-  bodyB: Body
   pivotB: Vec3 // Pivot, defined locally in bodyB.
   equationX: ContactEquation
   equationY: ContactEquation

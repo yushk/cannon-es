@@ -125,7 +125,7 @@ function getUnvisitedNode(nodes: SplitSolverNode[]): SplitSolverNode | false {
   const Nnodes = nodes.length
   for (let i = 0; i !== Nnodes; i++) {
     const node = nodes[i]
-    if (!node.visited && !(node.body.type & STATIC)) {
+    if (!node.visited && !(node.body!.type & STATIC)) {
       return node
     }
   }
@@ -135,8 +135,8 @@ function getUnvisitedNode(nodes: SplitSolverNode[]): SplitSolverNode | false {
 const queue: SplitSolverNode[] = []
 function bfs(
   root: SplitSolverNode,
-  visitFunc: (node: SplitSolverNode, bds: Body[], eqs: Equation[]) => void,
-  bds: Body[],
+  visitFunc: (node: SplitSolverNode, bds: (Body | null)[], eqs: Equation[]) => void,
+  bds: (Body | null)[],
   eqs: Equation[]
 ) {
   queue.push(root)
@@ -154,7 +154,7 @@ function bfs(
   }
 }
 
-function visitFunc(node: SplitSolverNode, bds: Body[], eqs: Equation[]) {
+function visitFunc(node: SplitSolverNode, bds: (Body | null)[], eqs: Equation[]) {
   bds.push(node.body)
   const Neqs = node.eqs.length
   for (let i = 0; i !== Neqs; i++) {

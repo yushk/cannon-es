@@ -146,7 +146,7 @@ export class Ray {
       body.quaternion.vmult(body.shapeOffsets[i], xi)
       xi.vadd(body.position, xi)
 
-      this.intersectShape(shape, qi, xi, body)
+      this.intersectShape(shape as any, qi, xi, body)
 
       if (this.result.shouldStop) {
         break

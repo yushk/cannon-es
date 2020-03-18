@@ -12,6 +12,8 @@ import { World } from 'cannon-es'
 
 - Finish TS conversion
 - Remove all use of `var`
+- Check for any functions missing an explicit return type with regex: `\) \{`
+- Check for any removed `@todo` or `@deprecated` JSDoc comments
 - Convert to abstract classes where possible (Equation, Solver, etc.?)
 - Resolve `as any` type assertions where possible
 - Revisit math/Transform.ts types

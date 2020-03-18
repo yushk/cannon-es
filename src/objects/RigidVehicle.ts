@@ -6,6 +6,11 @@ import { HingeConstraint } from '../constraints/HingeConstraint'
 // prettier-ignore
 import { World } from '../world/World'
 
+type RigidVehicleOptions = {
+  coordinateSystem?: Vec3
+  chassisBody?: Body
+}
+
 type RigidVehicleWheelOptions = {
   body?: Body
   position?: Vec3
@@ -26,15 +31,16 @@ export class RigidVehicle {
   wheelAxes: Vec3[]
   wheelForces: number[]
 
-  constructor({ coordinateSystem, chassisBody }: { coordinateSystem?: Vec3, chassisBody?: Body }) {
+  constructor(options: RigidVehicleOptions = {}) {
     this.wheelBodies = []
-    this.coordinateSystem = typeof coordinateSystem === 'undefined' ? new Vec3(1, 2, 3) : coordinateSystem.clone()
-    this.chassisBody = chassisBody
+    this.coordinateSystem =
+      typeof options.coordinateSystem !== 'undefined' ? options.coordinateSystem.clone() : new Vec3(1, 2, 3)
 
-    if (!this.chassisBody) {
+    if (options.chassisBody) {
+      this.chassisBody = options.chassisBody
+    } else {
       // No chassis body given. Create it!
-      const chassisShape = new Box(new Vec3(5, 2, 0.5))
-      this.chassisBody = new Body(1, chassisShape)
+      this.chassisBody = new Body({ mass: 1, shape: new Box(new Vec3(5, 2, 0.5)) })
     }
 
     this.constraints = []
@@ -53,10 +59,15 @@ export class RigidVehicle {
    * @param {Body} [options.body] The wheel body.
    */
   addWheel(options: RigidVehicleWheelOptions = {}): number {
-    let wheelBody = options.body
-    if (!wheelBody) {
-      wheelBody = new Body(1, new Sphere(1.2))
+    let wheelBody: Body
+
+    if (options.body) {
+      wheelBody = options.body
+    } else {
+      // No wheel body given. Create it!
+      wheelBody = new Body({ mass: 1, shape: new Sphere(1.2) })
     }
+
     this.wheelBodies.push(wheelBody)
     this.wheelForces.push(0)
 

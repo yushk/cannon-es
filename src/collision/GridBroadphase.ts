@@ -23,7 +23,7 @@ export class GridBroadphase extends Broadphase {
   nz: number
   aabbMin: Vec3
   aabbMax: Vec3
-  bins: number[][]
+  bins: Body[][]
   binLengths: number[]
 
   constructor(aabbMin = new Vec3(100, 100, 100), aabbMax = new Vec3(-100, -100, -100), nx = 10, ny = 10, nz = 10) {
@@ -93,7 +93,7 @@ export class GridBroadphase extends Broadphase {
 
     const ceil = Math.ceil
 
-    function addBoxToBins(x0: number, y0: number, z0: number, x1: number, y1: number, z1: number, bi: number): void {
+    function addBoxToBins(x0: number, y0: number, z0: number, x1: number, y1: number, z1: number, bi: Body): void {
       let xoff0 = ((x0 - xmin) * xmult) | 0
       let yoff0 = ((y0 - ymin) * ymult) | 0
       let zoff0 = ((z0 - zmin) * zmult) | 0

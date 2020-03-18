@@ -1,16 +1,10 @@
 import { Vec3 } from '../math/Vec3'
 import { Material } from '../material/Material'
 import { Body } from '../objects/Body'
+// prettier-ignore
+import { Quaternion } from '../math/Quaternion'
 
-type ShapeOptions = {
-  type?: number
-  collisionResponse?: boolean
-  collisionFilterGroup?: number
-  collisionFilterMask?: number
-  material?: Material
-}
-
-const SHAPE_TYPES = {
+export const SHAPE_TYPES = {
   SPHERE: 1 as 1,
   PLANE: 2 as 2,
   BOX: 4 as 4,
@@ -20,6 +14,14 @@ const SHAPE_TYPES = {
   PARTICLE: 64 as 64,
   CYLINDER: 128 as 128,
   TRIMESH: 256 as 256,
+}
+
+type ShapeOptions = {
+  type?: typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES]
+  collisionResponse?: boolean
+  collisionFilterGroup?: number
+  collisionFilterMask?: number
+  material?: Material
 }
 
 /**
@@ -83,6 +85,10 @@ export class Shape {
    */
   calculateLocalInertia(mass: number, target: Vec3): void {
     throw `calculateLocalInertia() not implemented for shape type ${this.type}`
+  }
+
+  calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
+    throw `calculateWorldAABB() not implemented for shape type ${this.type}`
   }
 }
 

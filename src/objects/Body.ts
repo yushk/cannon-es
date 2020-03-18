@@ -441,7 +441,7 @@ export class Body extends EventTarget {
       offset.vadd(this.position, offset)
 
       // Get shape world quaternion
-      bodyQuat.mult(shapeOrientations[i], orientation);
+      bodyQuat.mult(shapeOrientations[i], orientation)
 
       // Get shape AABB
       shape.calculateWorldAABB(offset, orientation, shapeAABB.lowerBound, shapeAABB.upperBound)
