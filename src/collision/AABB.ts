@@ -16,14 +16,14 @@ export class AABB {
   lowerBound: Vec3 // The lower bound of the bounding box
   upperBound: Vec3 // The upper bound of the bounding box
 
-  constructor(options: { upperBound?: Vec3, lowerBound?: Vec3 } = {}) {
+  constructor(options: { upperBound?: Vec3; lowerBound?: Vec3 } = {}) {
     this.lowerBound = new Vec3()
     this.upperBound = new Vec3()
-    
+
     if (options.lowerBound) {
       this.lowerBound.copy(options.lowerBound)
     }
-    
+
     if (options.upperBound) {
       this.upperBound.copy(options.upperBound)
     }

@@ -35,7 +35,7 @@ export class Ray {
   checkCollisionResponse: boolean // Set to true if you want the Ray to take .collisionResponse flags into account on bodies and shapes.
   skipBackfaces: boolean // If set to true, the ray skips any hits with normal.dot(rayDirection) < 0.
   collisionFilterMask: number
-  collisionFilterGroup: number 
+  collisionFilterGroup: number
   mode: number // The intersection mode. Should be Ray.ANY, Ray.ALL or Ray.CLOSEST.
   result: RaycastResult // Current result object.
   hasHit: boolean // Will be set to true during intersectWorld() if the ray hit anything.
@@ -55,7 +55,6 @@ export class Ray {
   static [Shape.types.SPHERE]: Function
   static [Shape.types.CONVEXPOLYHEDRON]: Function
   static [Shape.types.TRIMESH]: Function
-
 
   constructor(from = new Vec3(), to = new Vec3()) {
     this.from = from.clone()
@@ -86,7 +85,8 @@ export class Ray {
     this.skipBackfaces = !!options.skipBackfaces
     this.collisionFilterMask = typeof options.collisionFilterMask !== 'undefined' ? options.collisionFilterMask : -1
     this.collisionFilterGroup = typeof options.collisionFilterGroup !== 'undefined' ? options.collisionFilterGroup : -1
-    this.checkCollisionResponse = typeof (options.checkCollisionResponse) !== 'undefined' ? options.checkCollisionResponse : true
+    this.checkCollisionResponse =
+      typeof options.checkCollisionResponse !== 'undefined' ? options.checkCollisionResponse : true
 
     if (options.from) {
       this.from.copy(options.from)
@@ -207,7 +207,13 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectBox({ convexPolyhedronRepresentation }: Shape, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  private intersectBox(
+    { convexPolyhedronRepresentation }: Shape,
+    quat: Quaternion,
+    position: Vec3,
+    body: Body,
+    reportedShape: Shape
+  ): void {
     return this.intersectConvex(convexPolyhedronRepresentation, quat, position, body, reportedShape)
   }
 
@@ -422,7 +428,14 @@ export class Ray {
    * @param {object} [options]
    * @param {array} [options.faceList]
    */
-  private intersectConvex(shape: Shape, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape, options?: { faceList: any[] }): void {
+  private intersectConvex(
+    shape: Shape,
+    quat: Quaternion,
+    position: Vec3,
+    body: Body,
+    reportedShape: Shape,
+    options?: { faceList: any[] }
+  ): void {
     const minDistNormal = intersectConvex_minDistNormal
     const normal = intersectConvex_normal
     const vector = intersectConvex_vector
@@ -529,7 +542,14 @@ export class Ray {
    * @todo Optimize by transforming the world to local space first.
    * @todo Use Octree lookup
    */
-  private intersectTrimesh(mesh: Shape, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape, options?: { faceList?: any[] }): void {
+  private intersectTrimesh(
+    mesh: Shape,
+    quat: Quaternion,
+    position: Vec3,
+    body: Body,
+    reportedShape: Shape,
+    options?: { faceList?: any[] }
+  ): void {
     const normal = intersectTrimesh_normal
     const triangles = intersectTrimesh_triangles
     const treeTransform = intersectTrimesh_treeTransform
