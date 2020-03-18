@@ -16,8 +16,10 @@ import { World } from 'cannon-es'
 - Resolve `as any` type assertions where possible
 - Revisit math/Transform.ts types
 - Revisit material/ContactMaterial.ts constructor assertions
+- Consider narrowing types in objects/SPHSystem (Body -> Particle)
 - Remove use of defined assertion (!) where possible
 - Find and refactor regex: `options:.*Options = \{\}`
+- Should `HingeConstraint` be passing `collideConnected` through `PointToPointConstraint` to `Constraint`? (used in `RigidVehicle` line 81)
 - Correct & standardize JSDoc comments
 - Test possible performance improvements by converting matrices to Maps (instead of Arrays)
 - Only import types where possible (don't impot unused class as value):
