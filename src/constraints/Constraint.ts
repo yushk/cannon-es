@@ -1,5 +1,7 @@
 import { Utils } from '../utils/Utils'
+// prettier-ignore
 import { Body } from '../objects/Body'
+// prettier-ignore
 import { Equation } from '../equations/Equation'
 
 type ConstraintOptions = {

@@ -1,6 +1,7 @@
 import { JacobianElement } from '../math/JacobianElement'
 import { Vec3 } from '../math/Vec3'
-import type { Body } from '../objects/Body'
+// prettier-ignore
+import { Body } from '../objects/Body'
 
 /**
  * Equation base class

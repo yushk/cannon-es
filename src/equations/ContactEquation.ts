@@ -1,6 +1,7 @@
-import { Equation } from './Equation'
+import { Equation } from '../equations/Equation'
 import { Vec3 } from '../math/Vec3'
-import type { Body } from '../objects/Body'
+// prettier-ignore
+import { Body } from '../objects/Body'
 
 /**
  * Contact/non-penetration constraint equation
