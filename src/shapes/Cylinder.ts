@@ -1,5 +1,5 @@
 import { Vec3 } from '../math/Vec3'
-import { ConvexPolyhedron } from './ConvexPolyhedron'
+import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 
 /**
  * @class Cylinder
@@ -12,7 +12,7 @@ import { ConvexPolyhedron } from './ConvexPolyhedron'
  * @param {Number} numSegments The number of segments to build the cylinder out of
  */
 export class Cylinder extends ConvexPolyhedron {
-  constructor(radiusTop, radiusBottom, height, numSegments) {
+  constructor(radiusTop: number, radiusBottom: number, height: number, numSegments: number) {
     const N = numSegments
     const verts = []
     const axes = []
