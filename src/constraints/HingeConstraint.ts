@@ -1,4 +1,4 @@
-import { PointToPointConstraint } from './PointToPointConstraint'
+import { PointToPointConstraint } from '../constraints/PointToPointConstraint'
 import { RotationalEquation } from '../equations/RotationalEquation'
 import { RotationalMotorEquation } from '../equations/RotationalMotorEquation'
 import { Vec3 } from '../math/Vec3'
@@ -53,11 +53,7 @@ export class HingeConstraint extends PointToPointConstraint {
     motor.enabled = false // Not enabled by default
 
     // Equations to be fed to the solver
-    this.equations.push(
-      rotational1,
-      rotational2,
-      motor
-    )
+    this.equations.push(rotational1, rotational2, motor)
   }
 
   /**

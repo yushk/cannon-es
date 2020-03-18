@@ -1,4 +1,4 @@
-import { PointToPointConstraint } from './PointToPointConstraint'
+import { PointToPointConstraint } from '../constraints/PointToPointConstraint'
 import { RotationalEquation } from '../equations/RotationalEquation'
 import { RotationalMotorEquation } from '../equations/RotationalMotorEquation'
 import { Vec3 } from '../math/Vec3'

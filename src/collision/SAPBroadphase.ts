@@ -1,5 +1,8 @@
 import { Shape } from '../shapes/Shape'
 import { Broadphase } from '../collision/Broadphase'
+import { World } from '../world/World'
+import { Body } from '../objects/Body'
+import { AABB } from '../collision/AABB'
 
 /**
  * Sweep and prune broadphase along one axis.
@@ -10,37 +13,32 @@ import { Broadphase } from '../collision/Broadphase'
  * @extends Broadphase
  */
 export class SAPBroadphase extends Broadphase {
-  constructor(world) {
+  axisList: Body[] // List of bodies currently in the broadphase.
+  world: World | null // The world to search in.
+  axisIndex: number // Axis to sort the bodies along. Set to 0 for x axis, and 1 for y axis. For best performance, choose an axis that the bodies are spread out more on.
+
+  private _addBodyHandler: (event: { body: Body }) => void
+  private _removeBodyHandler: (event: { body: Body }) => void
+
+  static checkBounds: (bi: Body, bj: Body, axisIndex: number) => boolean
+  static insertionSortX: (a: Body[]) => Body[]
+  static insertionSortY: (a: Body[]) => Body[]
+  static insertionSortZ: (a: Body[]) => Body[]
+
+  constructor(world: World) {
     super()
 
-    /**
-     * List of bodies currently in the broadphase.
-     * @property axisList
-     * @type {Array}
-     */
     this.axisList = []
-
-    /**
-     * The world to search in.
-     * @property world
-     * @type {World}
-     */
     this.world = null
-
-    /**
-     * Axis to sort the bodies along. Set to 0 for x axis, and 1 for y axis. For best performance, choose an axis that the bodies are spread out more on.
-     * @property axisIndex
-     * @type {Number}
-     */
     this.axisIndex = 0
 
     const axisList = this.axisList
 
-    this._addBodyHandler = ({ body }) => {
+    this._addBodyHandler = ({ body }: { body: Body }) => {
       axisList.push(body)
     }
 
-    this._removeBodyHandler = ({ body }) => {
+    this._removeBodyHandler = ({ body }: { body: Body }) => {
       const idx = axisList.indexOf(body)
       if (idx !== -1) {
         axisList.splice(idx, 1)
@@ -57,7 +55,7 @@ export class SAPBroadphase extends Broadphase {
    * @method setWorld
    * @param  {World} world
    */
-  setWorld(world) {
+  setWorld(world: World): void {
     // Clear the old axis array
     this.axisList.length = 0
 
@@ -85,7 +83,7 @@ export class SAPBroadphase extends Broadphase {
    * @param  {Array} p1
    * @param  {Array} p2
    */
-  collisionPairs(world, p1, p2) {
+  collisionPairs(world: World, p1: Body[], p2: Body[]) {
     const bodies = this.axisList
     const N = bodies.length
     const axisIndex = this.axisIndex
@@ -117,7 +115,7 @@ export class SAPBroadphase extends Broadphase {
     }
   }
 
-  sortList() {
+  sortList(): void {
     const axisList = this.axisList
     const axisIndex = this.axisIndex
     const N = axisList.length
@@ -197,14 +195,14 @@ export class SAPBroadphase extends Broadphase {
    * @param {array} result An array to store resulting bodies in.
    * @return {array}
    */
-  aabbQuery(world, aabb, result = []) {
+  aabbQuery(world: World, aabb: AABB, result: Body[] = []) {
     if (this.dirty) {
       this.sortList()
       this.dirty = false
     }
 
     const axisIndex = this.axisIndex
-    let axis = 'x'
+    let axis: 'x' | 'y' | 'z' = 'x'
     if (axisIndex === 1) {
       axis = 'y'
     }
@@ -237,7 +235,7 @@ export class SAPBroadphase extends Broadphase {
  * @param  {Array} a
  * @return {Array}
  */
-SAPBroadphase.insertionSortX = a => {
+SAPBroadphase.insertionSortX = (a: Body[]): Body[] => {
   for (let i = 1, l = a.length; i < l; i++) {
     const v = a[i]
     for (var j = i - 1; j >= 0; j--) {
@@ -257,7 +255,7 @@ SAPBroadphase.insertionSortX = a => {
  * @param  {Array} a
  * @return {Array}
  */
-SAPBroadphase.insertionSortY = a => {
+SAPBroadphase.insertionSortY = (a: Body[]): Body[] => {
   for (let i = 1, l = a.length; i < l; i++) {
     const v = a[i]
     for (var j = i - 1; j >= 0; j--) {
@@ -277,7 +275,7 @@ SAPBroadphase.insertionSortY = a => {
  * @param  {Array} a
  * @return {Array}
  */
-SAPBroadphase.insertionSortZ = a => {
+SAPBroadphase.insertionSortZ = (a: Body[]): Body[] => {
   for (let i = 1, l = a.length; i < l; i++) {
     const v = a[i]
     for (var j = i - 1; j >= 0; j--) {
@@ -300,7 +298,7 @@ SAPBroadphase.insertionSortZ = a => {
  * @param  {Number} axisIndex
  * @return {Boolean}
  */
-SAPBroadphase.checkBounds = (bi, bj, axisIndex) => {
+SAPBroadphase.checkBounds = (bi: Body, bj: Body, axisIndex: number): boolean => {
   let biPos
   let bjPos
 
