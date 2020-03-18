@@ -38,6 +38,7 @@ type RayShapeTypes = { [K in keyof RayShapes]: RayShapes[K] }[keyof RayShapes]
 export class Ray {
   from: Vec3
   to: Vec3
+  direction: Vec3
   precision: number // The precision of the ray. Used when checking parallelity etc.
   checkCollisionResponse: boolean // Set to true if you want the Ray to take .collisionResponse flags into account on bodies and shapes.
   skipBackfaces: boolean // If set to true, the ray skips any hits with normal.dot(rayDirection) < 0.
@@ -47,8 +48,6 @@ export class Ray {
   result: RaycastResult // Current result object.
   hasHit: boolean // Will be set to true during intersectWorld() if the ray hit anything.
   callback: (result: RaycastResult) => void // User-provided result callback. Will be used if mode is Ray.ALL.
-
-  private _direction: Vec3
 
   static ALL: number
   static CLOSEST: number
@@ -66,6 +65,7 @@ export class Ray {
   constructor(from = new Vec3(), to = new Vec3()) {
     this.from = from.clone()
     this.to = to.clone()
+    this.direction = new Vec3()
     this.precision = 0.0001
     this.checkCollisionResponse = true
     this.skipBackfaces = false
@@ -75,8 +75,6 @@ export class Ray {
     this.result = new RaycastResult()
     this.hasHit = false
     this.callback = result => {}
-
-    this._direction = new Vec3()
   }
 
   /**
@@ -173,13 +171,13 @@ export class Ray {
   }
 
   /**
-   * Updates the _direction vector.
+   * Updates the direction vector.
    * @private
    * @method _updateDirection
    */
   private _updateDirection(): void {
-    this.to.vsub(this.from, this._direction)
-    this._direction.normalize()
+    this.to.vsub(this.from, this.direction)
+    this.direction.normalize()
   }
 
   /**
@@ -194,7 +192,7 @@ export class Ray {
     const from = this.from
 
     // Checking boundingSphere
-    const distance = distanceFromIntersection(from, this._direction, position)
+    const distance = distanceFromIntersection(from, this.direction, position)
     if (distance > shape.boundingSphereRadius) {
       return
     }
@@ -214,7 +212,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectBox(
+  intersectBox(
     { convexPolyhedronRepresentation }: Box,
     quat: Quaternion,
     position: Vec3,
@@ -233,10 +231,10 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectPlane(shape: Plane, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  intersectPlane(shape: Plane, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const from = this.from
     const to = this.to
-    const direction = this._direction
+    const direction = this.direction
 
     // Get plane normal
     const worldNormal = new Vec3(0, 0, 1)
@@ -301,7 +299,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectHeightfield(
+  intersectHeightfield(
     shape: Heightfield,
     quat: Quaternion,
     position: Vec3,
@@ -377,7 +375,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectSphere(
+  intersectSphere(
     { radius }: Sphere,
     quat: Quaternion,
     position: Vec3,
@@ -447,7 +445,7 @@ export class Ray {
    * @param {object} [options]
    * @param {array} [options.faceList]
    */
-  private intersectConvex(
+  intersectConvex(
     shape: ConvexPolyhedron,
     quat: Quaternion,
     position: Vec3,
@@ -466,7 +464,7 @@ export class Ray {
 
     const vertices = shape.vertices
     const normals = shape.faceNormals
-    const direction = this._direction
+    const direction = this.direction
 
     const from = this.from
     const to = this.to
@@ -561,7 +559,7 @@ export class Ray {
    * @todo Optimize by transforming the world to local space first.
    * @todo Use Octree lookup
    */
-  private intersectTrimesh(
+  intersectTrimesh(
     mesh: Trimesh,
     quat: Quaternion,
     position: Vec3,
@@ -591,7 +589,7 @@ export class Ray {
 
     const from = this.from
     const to = this.to
-    const direction = this._direction
+    const direction = this.direction
 
     const minDist = -1
     treeTransform.position.copy(position)
@@ -688,7 +686,7 @@ export class Ray {
     const result = this.result
 
     // Skip back faces?
-    if (this.skipBackfaces && normal.dot(this._direction) > 0) {
+    if (this.skipBackfaces && normal.dot(this.direction) > 0) {
       return
     }
 

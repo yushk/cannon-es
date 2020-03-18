@@ -271,13 +271,13 @@ export class AABB {
    * @param  {Ray} ray
    * @return {Boolean}
    */
-  overlapsRay({ _direction, from }: Ray): boolean {
+  overlapsRay({ direction, from }: Ray): boolean {
     const t = 0
 
     // ray.direction is unit direction vector of ray
-    const dirFracX = 1 / _direction.x
-    const dirFracY = 1 / _direction.y
-    const dirFracZ = 1 / _direction.z
+    const dirFracX = 1 / direction.x
+    const dirFracY = 1 / direction.y
+    const dirFracZ = 1 / direction.z
 
     // this.lowerBound is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
     const t1 = (this.lowerBound.x - from.x) * dirFracX
