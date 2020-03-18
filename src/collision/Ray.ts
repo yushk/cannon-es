@@ -54,13 +54,13 @@ export class Ray {
   static CLOSEST: number
   static ANY: number
 
-  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean
+  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
 
-  [Shape.types.SPHERE]: Function
-  [Shape.types.PLANE]: Function
-  [Shape.types.BOX]: Function
-  [Shape.types.CONVEXPOLYHEDRON]: Function
-  [Shape.types.HEIGHTFIELD]: Function
+  [Shape.types.SPHERE]: Function;
+  [Shape.types.PLANE]: Function;
+  [Shape.types.BOX]: Function;
+  [Shape.types.CONVEXPOLYHEDRON]: Function;
+  [Shape.types.HEIGHTFIELD]: Function;
   [Shape.types.TRIMESH]: Function
 
   constructor(from = new Vec3(), to = new Vec3()) {
@@ -301,7 +301,13 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  private intersectHeightfield(
+    shape: Heightfield,
+    quat: Quaternion,
+    position: Vec3,
+    body: Body,
+    reportedShape: Shape
+  ): void {
     const data = shape.data
     const w = shape.elementSize
 
@@ -371,7 +377,13 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectSphere({ radius }: Sphere, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  private intersectSphere(
+    { radius }: Sphere,
+    quat: Quaternion,
+    position: Vec3,
+    body: Body,
+    reportedShape: Shape
+  ): void {
     const from = this.from
     const to = this.to
     const r = radius
