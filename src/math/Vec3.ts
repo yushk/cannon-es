@@ -1,4 +1,4 @@
-import { Mat3 } from './Mat3'
+import { Mat3 } from '../math/Mat3'
 
 /**
  * 3-dimensional vector
