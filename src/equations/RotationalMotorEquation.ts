@@ -1,5 +1,6 @@
 import { Vec3 } from '../math/Vec3'
 import { Equation } from './Equation'
+import type { Body } from '../objects/Body'
 
 /**
  * Rotational motor constraint. Tries to keep the relative angular velocity of the bodies to a given value.
@@ -12,29 +13,19 @@ import { Equation } from './Equation'
  * @extends Equation
  */
 export class RotationalMotorEquation extends Equation {
-  constructor(bodyA, bodyB, maxForce = 1e6) {
+  axisA: Vec3 // World oriented rotational axis.
+  axisB: Vec3 // World oriented rotational axis.
+  targetVelocity: number // Motor velocity.
+
+  constructor(bodyA: Body, bodyB: Body, maxForce = 1e6) {
     super(bodyA, bodyB, -maxForce, maxForce)
 
-    /**
-     * World oriented rotational axis
-     * @property {Vec3} axisA
-     */
     this.axisA = new Vec3()
-
-    /**
-     * World oriented rotational axis
-     * @property {Vec3} axisB
-     */
-    this.axisB = new Vec3() // World oriented rotational axis
-
-    /**
-     * Motor velocity
-     * @property {Number} targetVelocity
-     */
+    this.axisB = new Vec3()
     this.targetVelocity = 0
   }
 
-  computeB(h) {
+  computeB(h: number): number {
     const a = this.a
     const b = this.b
     const bi = this.bi
