@@ -1,6 +1,12 @@
 import { PointToPointConstraint } from './PointToPointConstraint'
 import { RotationalEquation } from '../equations/RotationalEquation'
+import { RotationalMotorEquation } from '../equations/RotationalMotorEquation'
 import { Vec3 } from '../math/Vec3'
+import { Body } from '../objects/Body'
+
+type LockConstraintOptions = {
+  maxForce?: number
+}
 
 /**
  * Lock constraint. Will remove all degrees of freedom between the bodies.
@@ -14,7 +20,18 @@ import { Vec3 } from '../math/Vec3'
  * @extends PointToPointConstraint
  */
 export class LockConstraint extends PointToPointConstraint {
-  constructor(bodyA, bodyB, options = {}) {
+  xA: Vec3
+  xB: Vec3
+  yA: Vec3
+  yB: Vec3
+  zA: Vec3
+  zB: Vec3
+  rotationalEquation1: RotationalEquation
+  rotationalEquation2: RotationalEquation
+  rotationalEquation3: RotationalEquation
+  motorEquation: RotationalMotorEquation
+
+  constructor(bodyA: Body, bodyB: Body, options: LockConstraintOptions = {}) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     // Set pivot point in between
@@ -38,26 +55,14 @@ export class LockConstraint extends PointToPointConstraint {
     this.zB = bodyB.vectorToLocalFrame(Vec3.UNIT_Z)
 
     // ...and the following rotational equations will keep all rotational DOF's in place
-
-    /**
-     * @property {RotationalEquation} rotationalEquation1
-     */
     const r1 = (this.rotationalEquation1 = new RotationalEquation(bodyA, bodyB, options))
-
-    /**
-     * @property {RotationalEquation} rotationalEquation2
-     */
     const r2 = (this.rotationalEquation2 = new RotationalEquation(bodyA, bodyB, options))
-
-    /**
-     * @property {RotationalEquation} rotationalEquation3
-     */
     const r3 = (this.rotationalEquation3 = new RotationalEquation(bodyA, bodyB, options))
 
     this.equations.push(r1, r2, r3)
   }
 
-  update() {
+  update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB
     const motor = this.motorEquation
