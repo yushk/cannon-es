@@ -1,5 +1,6 @@
-import { Shape } from './Shape'
+import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
+import { Quaternion } from '../math/Quaternion'
 
 /**
  * A plane, facing in the Z direction. The plane has its surface at z=0 and everything below z=0 is assumed to be solid plane. To make the plane face in some other direction than z, you must put it inside a Body and rotate that body. See the demos.
@@ -9,10 +10,12 @@ import { Vec3 } from '../math/Vec3'
  * @author schteppe
  */
 export class Plane extends Shape {
+  worldNormal: Vec3
+  worldNormalNeedsUpdate: boolean
+  boundingSphereRadius: number
+
   constructor() {
-    super({
-      type: Shape.types.PLANE,
-    })
+    super({ type: Shape.types.PLANE })
 
     // World oriented normal
     this.worldNormal = new Vec3()
@@ -21,25 +24,25 @@ export class Plane extends Shape {
     this.boundingSphereRadius = Number.MAX_VALUE
   }
 
-  computeWorldNormal(quat) {
+  computeWorldNormal(quat: Quaternion): void {
     const n = this.worldNormal
     n.set(0, 0, 1)
     quat.vmult(n, n)
     this.worldNormalNeedsUpdate = false
   }
 
-  calculateLocalInertia(mass, target = new Vec3()) {
+  calculateLocalInertia(mass: number, target = new Vec3()): Vec3 {
     return target
   }
 
-  volume() {
+  volume(): number {
     return (
       // The plane is infinite...
       Number.MAX_VALUE
     )
   }
 
-  calculateWorldAABB({ x, y, z }, quat, min, max) {
+  calculateWorldAABB({ x, y, z }: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
     // The plane AABB is infinite, except if the normal is pointing along any axis
     tempNormal.set(0, 0, 1) // Default plane normal is z
     quat.vmult(tempNormal, tempNormal)
@@ -68,7 +71,7 @@ export class Plane extends Shape {
     }
   }
 
-  updateBoundingSphereRadius() {
+  updateBoundingSphereRadius(): void {
     this.boundingSphereRadius = Number.MAX_VALUE
   }
 }

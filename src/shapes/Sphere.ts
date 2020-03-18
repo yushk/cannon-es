@@ -1,5 +1,6 @@
-import { Shape } from './Shape'
+import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
+import { Quaternion } from 'math/Quaternion'
 
 /**
  * Spherical shape
@@ -10,14 +11,11 @@ import { Vec3 } from '../math/Vec3'
  * @author schteppe / http://github.com/schteppe
  */
 export class Sphere extends Shape {
-  constructor(radius) {
-    super({
-      type: Shape.types.SPHERE,
-    })
+  radius: number
 
-    /**
-     * @property {Number} radius
-     */
+  constructor(radius: number) {
+    super({ type: Shape.types.SPHERE })
+
     this.radius = radius !== undefined ? radius : 1.0
 
     if (this.radius < 0) {
@@ -27,7 +25,7 @@ export class Sphere extends Shape {
     this.updateBoundingSphereRadius()
   }
 
-  calculateLocalInertia(mass, target = new Vec3()) {
+  calculateLocalInertia(mass: number, target = new Vec3()): Vec3 {
     const I = (2.0 * mass * this.radius * this.radius) / 5.0
     target.x = I
     target.y = I
@@ -35,17 +33,17 @@ export class Sphere extends Shape {
     return target
   }
 
-  volume() {
+  volume(): number {
     return (4.0 * Math.PI * Math.pow(this.radius, 3)) / 3.0
   }
 
-  updateBoundingSphereRadius() {
+  updateBoundingSphereRadius(): void {
     this.boundingSphereRadius = this.radius
   }
 
-  calculateWorldAABB(pos, quat, min, max) {
+  calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
     const r = this.radius
-    const axes = ['x', 'y', 'z']
+    const axes = ['x', 'y', 'z'] as ['x', 'y', 'z']
     for (let i = 0; i < axes.length; i++) {
       const ax = axes[i]
       min[ax] = pos[ax] - r

@@ -1,4 +1,4 @@
-import { Shape } from './Shape'
+import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
 import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import { Quaternion } from '../math/Quaternion'
@@ -58,7 +58,7 @@ export class Box extends Shape {
 
     const axes = [new V(0, 0, 1), new V(0, 1, 0), new V(1, 0, 0)]
 
-    const h = new ConvexPolyhedron({vertices, faces, axes})
+    const h = new ConvexPolyhedron({ vertices, faces, axes })
     this.convexPolyhedronRepresentation = h
     h.material = this.material
   }
