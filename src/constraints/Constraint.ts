@@ -1,4 +1,11 @@
 import { Utils } from '../utils/Utils'
+import { Body } from '../objects/Body'
+import { Equation } from '../equations/Equation'
+
+type ConstraintOptions = {
+  collideConnected?: boolean
+  wakeUpBodies?: boolean
+}
 
 /**
  * Constraint base class
@@ -12,40 +19,25 @@ import { Utils } from '../utils/Utils'
  * @param {boolean} [options.wakeUpBodies=true]
  */
 export class Constraint {
-  constructor(bodyA, bodyB, options) {
+  equations: Equation[] // Equations to be solved in this constraint.
+  bodyA: Body
+  bodyB: Body
+  id: number
+  collideConnected: boolean // Set to true if you want the bodies to collide when they are connected.
+
+  static idCounter: number
+
+  constructor(bodyA: Body, bodyB: Body, options: ConstraintOptions = {}) {
     options = Utils.defaults(options, {
       collideConnected: true,
       wakeUpBodies: true,
     })
 
-    /**
-     * Equations to be solved in this constraint
-     * @property equations
-     * @type {Array}
-     */
     this.equations = []
-
-    /**
-     * @property {Body} bodyA
-     */
     this.bodyA = bodyA
-
-    /**
-     * @property {Body} bodyB
-     */
     this.bodyB = bodyB
-
-    /**
-     * @property {Number} id
-     */
     this.id = Constraint.idCounter++
-
-    /**
-     * Set to true if you want the bodies to collide when they are connected.
-     * @property collideConnected
-     * @type {boolean}
-     */
-    this.collideConnected = options.collideConnected
+    this.collideConnected = options.collideConnected!
 
     if (options.wakeUpBodies) {
       if (bodyA) {
@@ -61,7 +53,7 @@ export class Constraint {
    * Update all the equations with data.
    * @method update
    */
-  update() {
+  update(): void {
     throw new Error('method update() not implmemented in this Constraint subclass!')
   }
 
@@ -69,7 +61,7 @@ export class Constraint {
    * Enables all equations in the constraint.
    * @method enable
    */
-  enable() {
+  enable(): void {
     const eqs = this.equations
     for (let i = 0; i < eqs.length; i++) {
       eqs[i].enabled = true
@@ -80,7 +72,7 @@ export class Constraint {
    * Disables all equations in the constraint.
    * @method disable
    */
-  disable() {
+  disable(): void {
     const eqs = this.equations
     for (let i = 0; i < eqs.length; i++) {
       eqs[i].enabled = false

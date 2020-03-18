@@ -1,6 +1,7 @@
 import { Constraint } from './Constraint'
 import { ContactEquation } from '../equations/ContactEquation'
 import { Vec3 } from '../math/Vec3'
+import { Body } from '../objects/Body'
 
 /**
  * Connects two bodies at given offset points.
@@ -28,36 +29,22 @@ import { Vec3 } from '../math/Vec3'
  *     world.addConstraint(constraint);
  */
 export class PointToPointConstraint extends Constraint {
-  constructor(bodyA, pivotA, bodyB, pivotB, maxForce) {
+  bodyA: Body
+  pivotA: Vec3 // Pivot, defined locally in bodyA.
+  bodyB: Body
+  pivotB: Vec3 // Pivot, defined locally in bodyB.
+  equationX: ContactEquation
+  equationY: ContactEquation
+  equationZ: ContactEquation
+
+  constructor(bodyA: Body, pivotA = new Vec3(), bodyB: Body, pivotB = new Vec3(), maxForce = 1e6) {
     super(bodyA, bodyB)
 
-    maxForce = typeof maxForce !== 'undefined' ? maxForce : 1e6
+    this.pivotA = pivotA.clone()
+    this.pivotB = pivotB.clone()
 
-    /**
-     * Pivot, defined locally in bodyA.
-     * @property {Vec3} pivotA
-     */
-    this.pivotA = pivotA ? pivotA.clone() : new Vec3()
-
-    /**
-     * Pivot, defined locally in bodyB.
-     * @property {Vec3} pivotB
-     */
-    this.pivotB = pivotB ? pivotB.clone() : new Vec3()
-
-    /**
-     * @property {ContactEquation} equationX
-     */
     const x = (this.equationX = new ContactEquation(bodyA, bodyB))
-
-    /**
-     * @property {ContactEquation} equationY
-     */
     const y = (this.equationY = new ContactEquation(bodyA, bodyB))
-
-    /**
-     * @property {ContactEquation} equationZ
-     */
     const z = (this.equationZ = new ContactEquation(bodyA, bodyB))
 
     // Equations to be fed to the solver
@@ -72,7 +59,7 @@ export class PointToPointConstraint extends Constraint {
     z.ni.set(0, 0, 1)
   }
 
-  update() {
+  update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB
     const x = this.equationX

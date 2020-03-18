@@ -299,13 +299,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  intersectHeightfield(
-    shape: Heightfield,
-    quat: Quaternion,
-    position: Vec3,
-    body: Body,
-    reportedShape: Shape
-  ): void {
+  intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const data = shape.data
     const w = shape.elementSize
 
@@ -375,13 +369,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  intersectSphere(
-    { radius }: Sphere,
-    quat: Quaternion,
-    position: Vec3,
-    body: Body,
-    reportedShape: Shape
-  ): void {
+  intersectSphere({ radius }: Sphere, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const from = this.from
     const to = this.to
     const r = radius
