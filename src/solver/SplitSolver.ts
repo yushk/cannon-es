@@ -3,7 +3,7 @@ import { World } from '../world/World'
 import { Body } from '../objects/Body'
 import { Equation } from '../equations/Equation'
 
-type SplitSolverNode = { body: Body | null, children: SplitSolverNode[], eqs: Equation[], visited: boolean }
+type SplitSolverNode = { body: Body | null; children: SplitSolverNode[]; eqs: Equation[]; visited: boolean }
 
 /**
  * Splits the equations into islands and solves them independently. Can improve performance.
@@ -133,7 +133,12 @@ function getUnvisitedNode(nodes: SplitSolverNode[]): SplitSolverNode | false {
 }
 
 const queue: SplitSolverNode[] = []
-function bfs(root: SplitSolverNode, visitFunc: (node: SplitSolverNode, bds: Body[], eqs: Equation[]) => void, bds: Body[], eqs: Equation[]) {
+function bfs(
+  root: SplitSolverNode,
+  visitFunc: (node: SplitSolverNode, bds: Body[], eqs: Equation[]) => void,
+  bds: Body[],
+  eqs: Equation[]
+) {
   queue.push(root)
   root.visited = true
   visitFunc(root, bds, eqs)

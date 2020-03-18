@@ -1,8 +1,8 @@
 import { Body } from '../objects/Body'
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
-import { Shape } from '../shapes/Shape'
-import { Plane } from '../shapes/Plane'
+import { World } from '../world/World'
+import { AABB } from '../collision/AABB'
 
 /**
  * Base class for broadphase implementations
@@ -11,25 +11,15 @@ import { Plane } from '../shapes/Plane'
  * @author schteppe
  */
 export class Broadphase {
+  world: World | null // The world to search for collisions in.
+  useBoundingBoxes: boolean // If set to true, the broadphase uses bounding boxes for intersection test, else it uses bounding spheres.
+  dirty: boolean // Set to true if the objects in the world moved.
+  
+  static boundingSphereCheck: (bodyA: Body, bodyB: Body) => boolean
+
   constructor() {
-    /**
-     * The world to search for collisions in.
-     * @property world
-     * @type {World}
-     */
     this.world = null
-
-    /**
-     * If set to true, the broadphase uses bounding boxes for intersection test, else it uses bounding spheres.
-     * @property useBoundingBoxes
-     * @type {Boolean}
-     */
     this.useBoundingBoxes = false
-
-    /**
-     * Set to true if the objects in the world moved.
-     * @property {Boolean} dirty
-     */
     this.dirty = true
   }
 
@@ -40,7 +30,7 @@ export class Broadphase {
    * @param {Array} p1 Empty array to be filled with body objects
    * @param {Array} p2 Empty array to be filled with body objects
    */
-  collisionPairs(world, p1, p2) {
+  collisionPairs(world: World, p1: Body[], p2: Body[]): void {
     throw new Error('collisionPairs not implemented for this BroadPhase class!')
   }
 
@@ -51,7 +41,7 @@ export class Broadphase {
    * @param {Body} bodyB
    * @return {bool}
    */
-  needBroadphaseCollision(bodyA, bodyB) {
+  needBroadphaseCollision(bodyA: Body, bodyB: Body): boolean {
     // Check collision filter masks
     if (
       (bodyA.collisionFilterGroup & bodyB.collisionFilterMask) === 0 ||
@@ -80,7 +70,7 @@ export class Broadphase {
    * @param {array} pairs1
    * @param {array} pairs2
    */
-  intersectionTest(bodyA, bodyB, pairs1, pairs2) {
+  intersectionTest(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void {
     if (this.useBoundingBoxes) {
       this.doBoundingBoxBroadphase(bodyA, bodyB, pairs1, pairs2)
     } else {
@@ -88,7 +78,7 @@ export class Broadphase {
     }
   }
 
-  doBoundingSphereBroadphase(bodyA, bodyB, pairs1, pairs2) {
+  doBoundingSphereBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void {
     const r = Broadphase_collisionPairs_r
     bodyB.position.vsub(bodyA.position, r)
     const boundingRadiusSum2 = (bodyA.boundingRadius + bodyB.boundingRadius) ** 2
@@ -107,7 +97,7 @@ export class Broadphase {
    * @param {Array} pairs1
    * @param {Array} pairs2
    */
-  doBoundingBoxBroadphase(bodyA, bodyB, pairs1, pairs2) {
+  doBoundingBoxBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void {
     if (bodyA.aabbNeedsUpdate) {
       bodyA.computeAABB()
     }
@@ -122,7 +112,7 @@ export class Broadphase {
     }
   }
 
-  makePairsUnique(pairs1, pairs2) {
+  makePairsUnique(pairs1: Body[], pairs2: Body[]): void {
     const t = Broadphase_makePairsUnique_temp
     const p1 = Broadphase_makePairsUnique_p1
     const p2 = Broadphase_makePairsUnique_p2
@@ -139,13 +129,13 @@ export class Broadphase {
     for (var i = 0; i !== N; i++) {
       const id1 = p1[i].id
       const id2 = p2[i].id
-      var key = id1 < id2 ? `${id1},${id2}` : `${id2},${id1}`
+      const key = id1 < id2 ? `${id1},${id2}` : `${id2},${id1}`
       t[key] = i
       t.keys.push(key)
     }
 
     for (var i = 0; i !== t.keys.length; i++) {
-      var key = t.keys.pop()
+      const key = t.keys.pop()
       const pairIndex = t[key]
       pairs1.push(p1[pairIndex])
       pairs2.push(p2[pairIndex])
@@ -158,7 +148,7 @@ export class Broadphase {
    * @method setWorld
    * @param {World} world
    */
-  setWorld(world) {}
+  setWorld(world: World): void {}
 
   /**
    * Returns all the bodies within the AABB.
@@ -168,7 +158,7 @@ export class Broadphase {
    * @param  {array} result An array to store resulting bodies in.
    * @return {array}
    */
-  aabbQuery(world, aabb, result) {
+  aabbQuery(world: World, aabb: AABB, result: Body[]): Body[] {
     console.warn('.aabbQuery is not implemented in this Broadphase subclass.')
     return []
   }
@@ -195,10 +185,10 @@ const Broadphase_collisionPairs_relpos = new Vec3()
  * @param {Array} pairs1
  * @param {Array} pairs2
  */
-const Broadphase_makePairsUnique_temp = { keys: [] }
+const Broadphase_makePairsUnique_temp: { [key: string]: any } = { keys: [] }
 
-const Broadphase_makePairsUnique_p1 = []
-const Broadphase_makePairsUnique_p2 = []
+const Broadphase_makePairsUnique_p1: Body[] = []
+const Broadphase_makePairsUnique_p2: Body[] = []
 
 /**
  * Check if the bounding spheres of two bodies overlap.

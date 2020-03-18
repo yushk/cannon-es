@@ -4,12 +4,9 @@
  * @constructor
  */
 export class ArrayCollisionMatrix {
+  matrix: number[] // The matrix storage.
+
   constructor() {
-    /**
-     * The matrix storage
-     * @property matrix
-     * @type {Array}
-     */
     this.matrix = []
   }
 
@@ -20,7 +17,7 @@ export class ArrayCollisionMatrix {
    * @param  {Number} j
    * @return {Number}
    */
-  get(i, j) {
+  get(i, j): number {
     i = i.index
     j = j.index
     if (j > i) {
@@ -38,7 +35,7 @@ export class ArrayCollisionMatrix {
    * @param {Number} j
    * @param {Number} value
    */
-  set(i, j, value) {
+  set(i, j, value): void {
     i = i.index
     j = j.index
     if (j > i) {
@@ -53,7 +50,7 @@ export class ArrayCollisionMatrix {
    * Sets all elements to zero
    * @method reset
    */
-  reset() {
+  reset(): void {
     for (let i = 0, l = this.matrix.length; i !== l; i++) {
       this.matrix[i] = 0
     }
@@ -64,7 +61,7 @@ export class ArrayCollisionMatrix {
    * @method setNumObjects
    * @param {Number} n
    */
-  setNumObjects(n) {
+  setNumObjects(n: number): void {
     this.matrix.length = (n * (n - 1)) >> 1
   }
 }
