@@ -17,8 +17,7 @@ export class RaycastResult {
   body: Body | null
   hitFaceIndex: number // The index of the hit triangle, if the hit shape was a trimesh.
   distance: number // Distance to the hit. Will be set to -1 if there was no hit.
-
-  private _shouldStop: boolean // If the ray should stop traversing the bodies.
+  shouldStop: boolean // If the ray should stop traversing the bodies.
 
   constructor() {
     this.rayFromWorld = new Vec3()
@@ -30,8 +29,7 @@ export class RaycastResult {
     this.body = null
     this.hitFaceIndex = -1
     this.distance = -1
-
-    this._shouldStop = false
+    this.shouldStop = false
   }
 
   /**
@@ -48,14 +46,14 @@ export class RaycastResult {
     this.body = null
     this.hitFaceIndex = -1
     this.distance = -1
-    this._shouldStop = false
+    this.shouldStop = false
   }
 
   /**
    * @method abort
    */
   abort(): void {
-    this._shouldStop = true
+    this.shouldStop = true
   }
 
   /**
@@ -68,7 +66,15 @@ export class RaycastResult {
    * @param {Body} body
    * @param {number} distance
    */
-  set(rayFromWorld: Vec3, rayToWorld: Vec3, hitNormalWorld: Vec3, hitPointWorld: Vec3, shape: Shape, body: Body, distance: number): void {
+  set(
+    rayFromWorld: Vec3,
+    rayToWorld: Vec3,
+    hitNormalWorld: Vec3,
+    hitPointWorld: Vec3,
+    shape: Shape,
+    body: Body,
+    distance: number
+  ): void {
     this.rayFromWorld.copy(rayFromWorld)
     this.rayToWorld.copy(rayToWorld)
     this.hitNormalWorld.copy(hitNormalWorld)

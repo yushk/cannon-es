@@ -6,6 +6,12 @@ import { Shape } from '../shapes/Shape'
 import { AABB } from '../collision/AABB'
 import { World } from '../world/World'
 import { Body } from '../objects/Body'
+import { Sphere } from '../shapes/Sphere'
+import { Box } from '../shapes/Box'
+import { Plane } from '../shapes/Plane'
+import { Heightfield } from '../shapes/Heightfield'
+import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
+import { Trimesh } from '../shapes/Trimesh'
 
 type RayOptions = {
   from?: Vec3
@@ -19,7 +25,8 @@ type RayOptions = {
   callback?: (result: RaycastResult) => void
 }
 
-const test = 'one'
+type RayShapes = Omit<typeof Shape.types, 'COMPOUND' | 'PARTICLE' | 'CYLINDER'>
+type RayShapeTypes = { [K in keyof RayShapes]: RayShapes[K] }[keyof RayShapes]
 
 /**
  * A line in 3D space that intersects bodies and return points.
@@ -49,12 +56,12 @@ export class Ray {
 
   static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean
 
-  static [Shape.types.BOX]: Function
-  static [Shape.types.PLANE]: Function
-  static [Shape.types.HEIGHTFIELD]: Function
-  static [Shape.types.SPHERE]: Function
-  static [Shape.types.CONVEXPOLYHEDRON]: Function
-  static [Shape.types.TRIMESH]: Function
+  [Shape.types.SPHERE]: Function
+  [Shape.types.PLANE]: Function
+  [Shape.types.BOX]: Function
+  [Shape.types.CONVEXPOLYHEDRON]: Function
+  [Shape.types.HEIGHTFIELD]: Function
+  [Shape.types.TRIMESH]: Function
 
   constructor(from = new Vec3(), to = new Vec3()) {
     this.from = from.clone()
@@ -143,7 +150,7 @@ export class Ray {
 
       this.intersectShape(shape, qi, xi, body)
 
-      if (this.result._shouldStop) {
+      if (this.result.shouldStop) {
         break
       }
     }
@@ -160,7 +167,7 @@ export class Ray {
       this._updateDirection()
     }
 
-    for (let i = 0, l = bodies.length; !this.result._shouldStop && i < l; i++) {
+    for (let i = 0, l = bodies.length; !this.result.shouldStop && i < l; i++) {
       this.intersectBody(bodies[i])
     }
   }
@@ -183,7 +190,7 @@ export class Ray {
    * @param {Vec3} position
    * @param {Body} body
    */
-  intersectShape(shape: Shape, quat: Quaternion, position: Vec3, body: Body): void {
+  intersectShape(shape: Shape & { type: RayShapeTypes }, quat: Quaternion, position: Vec3, body: Body): void {
     const from = this.from
 
     // Checking boundingSphere
@@ -208,7 +215,7 @@ export class Ray {
    * @param  {Shape} reportedShape
    */
   private intersectBox(
-    { convexPolyhedronRepresentation }: Shape,
+    { convexPolyhedronRepresentation }: Box,
     quat: Quaternion,
     position: Vec3,
     body: Body,
@@ -226,7 +233,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectPlane(shape: Shape, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  private intersectPlane(shape: Plane, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const from = this.from
     const to = this.to
     const direction = this._direction
@@ -294,7 +301,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectHeightfield(shape: Shape, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  private intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const data = shape.data
     const w = shape.elementSize
 
@@ -329,7 +336,7 @@ export class Ray {
 
     for (let i = iMinX; i < iMaxX; i++) {
       for (let j = iMinY; j < iMaxY; j++) {
-        if (this.result._shouldStop) {
+        if (this.result.shouldStop) {
           return
         }
 
@@ -343,7 +350,7 @@ export class Ray {
         Transform.pointToWorldFrame(position, quat, shape.pillarOffset, worldPillarOffset)
         this.intersectConvex(shape.pillarConvex, quat, worldPillarOffset, body, reportedShape, intersectConvexOptions)
 
-        if (this.result._shouldStop) {
+        if (this.result.shouldStop) {
           return
         }
 
@@ -364,7 +371,7 @@ export class Ray {
    * @param  {Body} body
    * @param  {Shape} reportedShape
    */
-  private intersectSphere({ radius }: Shape, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  private intersectSphere({ radius }: Sphere, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const from = this.from
     const to = this.to
     const r = radius
@@ -404,7 +411,7 @@ export class Ray {
         this.reportIntersection(normal, intersectionPoint, reportedShape, body, -1)
       }
 
-      if (this.result._shouldStop) {
+      if (this.result.shouldStop) {
         return
       }
 
@@ -429,7 +436,7 @@ export class Ray {
    * @param {array} [options.faceList]
    */
   private intersectConvex(
-    shape: Shape,
+    shape: ConvexPolyhedron,
     quat: Quaternion,
     position: Vec3,
     body: Body,
@@ -457,7 +464,7 @@ export class Ray {
     const Nfaces = faceList ? faceList.length : faces.length
     const result = this.result
 
-    for (let j = 0; !result._shouldStop && j < Nfaces; j++) {
+    for (let j = 0; !result.shouldStop && j < Nfaces; j++) {
       const fi = faceList ? faceList[j] : j
 
       const face = faces[fi]
@@ -506,7 +513,7 @@ export class Ray {
       q.vmult(a, a)
       x.vadd(a, a)
 
-      for (let i = 1; !result._shouldStop && i < face.length - 1; i++) {
+      for (let i = 1; !result.shouldStop && i < face.length - 1; i++) {
         // Transform 3 vertices to world coords
         b.copy(vertices[face[i]])
         c.copy(vertices[face[i + 1]])
@@ -543,7 +550,7 @@ export class Ray {
    * @todo Use Octree lookup
    */
   private intersectTrimesh(
-    mesh: Shape,
+    mesh: Trimesh,
     quat: Quaternion,
     position: Vec3,
     body: Body,
@@ -597,7 +604,7 @@ export class Ray {
 
     mesh.tree.rayQuery(this, treeTransform, triangles)
 
-    for (let i = 0, N = triangles.length; !this.result._shouldStop && i !== N; i++) {
+    for (let i = 0, N = triangles.length; !this.result.shouldStop && i !== N; i++) {
       const trianglesIndex = triangles[i]
 
       mesh.getNormal(trianglesIndex, normal)
@@ -697,7 +704,7 @@ export class Ray {
         this.hasHit = true
         result.hasHit = true
         result.set(from, to, normal, hitPointWorld, shape, body, distance)
-        result._shouldStop = true
+        result.shouldStop = true
         break
     }
   }
