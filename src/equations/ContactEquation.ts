@@ -1,5 +1,6 @@
 import { Equation } from './Equation'
 import { Vec3 } from '../math/Vec3'
+import type { Body } from '../objects/Body'
 
 /**
  * Contact/non-penetration constraint equation
@@ -11,35 +12,21 @@ import { Vec3 } from '../math/Vec3'
  * @extends Equation
  */
 export class ContactEquation extends Equation {
-  constructor(bodyA, bodyB, maxForce = 1e6) {
+  restitution: number // "bounciness": u1 = -e*u0
+  ri: Vec3 // World-oriented vector that goes from the center of bi to the contact point.
+  rj: Vec3 // World-oriented vector that starts in body j position and goes to the contact point.
+  ni: Vec3 // Contact normal, pointing out of body i.
+
+  constructor(bodyA: Body, bodyB: Body, maxForce = 1e6) {
     super(bodyA, bodyB, 0, maxForce)
 
-    /**
-     * @property restitution
-     * @type {Number}
-     */
-    this.restitution = 0.0 // "bounciness": u1 = -e*u0
-
-    /**
-     * World-oriented vector that goes from the center of bi to the contact point.
-     * @property {Vec3} ri
-     */
+    this.restitution = 0.0 
     this.ri = new Vec3()
-
-    /**
-     * World-oriented vector that starts in body j position and goes to the contact point.
-     * @property {Vec3} rj
-     */
     this.rj = new Vec3()
-
-    /**
-     * Contact normal, pointing out of body i.
-     * @property {Vec3} ni
-     */
     this.ni = new Vec3()
   }
 
-  computeB(h) {
+  computeB(h: number): number {
     const a = this.a
     const b = this.b
     const bi = this.bi
@@ -95,7 +82,7 @@ export class ContactEquation extends Equation {
    * @method getImpactVelocityAlongNormal
    * @return {number}
    */
-  getImpactVelocityAlongNormal() {
+  getImpactVelocityAlongNormal(): number {
     const vi = ContactEquation_getImpactVelocityAlongNormal_vi
     const vj = ContactEquation_getImpactVelocityAlongNormal_vj
     const xi = ContactEquation_getImpactVelocityAlongNormal_xi

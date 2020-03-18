@@ -1,6 +1,6 @@
 import { JacobianElement } from '../math/JacobianElement'
 import { Vec3 } from '../math/Vec3'
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 /**
  * Equation base class
@@ -41,7 +41,7 @@ export class Equation {
     this.jacobianElementB = new JacobianElement()
     this.enabled = true
     this.multiplier = 0
-    
+
     this.setSpookParams(1e7, 4, 1 / 60) // Set typical spook params
   }
 

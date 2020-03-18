@@ -1,5 +1,6 @@
 import { Equation } from './Equation'
 import { Vec3 } from '../math/Vec3'
+import type { Body } from '../objects/Body'
 
 /**
  * Constrains the slipping in a contact along a tangent
@@ -12,14 +13,18 @@ import { Vec3 } from '../math/Vec3'
  * @extends Equation
  */
 export class FrictionEquation extends Equation {
-  constructor(bodyA, bodyB, slipForce) {
+  ri: Vec3
+  rj: Vec3
+  t: Vec3 // Tangent.
+
+  constructor(bodyA: Body, bodyB: Body, slipForce: number) {
     super(bodyA, bodyB, -slipForce, slipForce)
     this.ri = new Vec3()
     this.rj = new Vec3()
-    this.t = new Vec3() // tangent
+    this.t = new Vec3()
   }
 
-  computeB(h) {
+  computeB(h: number): number {
     const a = this.a
     const b = this.b
     const bi = this.bi

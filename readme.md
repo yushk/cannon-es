@@ -11,6 +11,7 @@ import { World } from 'cannon-es'
 #### TO DO:
 
 - Finish TS conversion
+- Only import types where possible (don't impot unused class as value)
 - Revisit math/Transform.ts types
 - Revisit material/ContactMaterial.ts constructor assertions
 - Remove use of defined assertion (!) where possible

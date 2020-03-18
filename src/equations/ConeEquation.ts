@@ -1,6 +1,6 @@
 import { Vec3 } from '../math/Vec3'
 import { Equation } from './Equation'
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 type ConeEquationOptions = {
   maxForce?: number
