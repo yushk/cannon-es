@@ -30,7 +30,7 @@ export class LockConstraint extends PointToPointConstraint {
   rotationalEquation1: RotationalEquation
   rotationalEquation2: RotationalEquation
   rotationalEquation3: RotationalEquation
-  motorEquation: RotationalMotorEquation
+  motorEquation?: RotationalMotorEquation
 
   constructor(bodyA: Body, bodyB: Body, options: LockConstraintOptions = {}) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6

@@ -47,7 +47,7 @@ export class GSSolver extends Solver {
 
     // Update solve mass
     if (Neq !== 0) {
-      for (var i = 0; i !== Nbodies; i++) {
+      for (let i = 0; i !== Nbodies; i++) {
         bodies[i].updateSolveMassProperties()
       }
     }
@@ -60,8 +60,8 @@ export class GSSolver extends Solver {
     invCs.length = Neq
     Bs.length = Neq
     lambda.length = Neq
-    for (var i = 0; i !== Neq; i++) {
-      var c = equations[i]
+    for (let i = 0; i !== Neq; i++) {
+      const c = equations[i] as any
       lambda[i] = 0.0
       Bs[i] = c.computeB(h)
       invCs[i] = 1.0 / c.computeC()
@@ -69,8 +69,8 @@ export class GSSolver extends Solver {
 
     if (Neq !== 0) {
       // Reset vlambda
-      for (var i = 0; i !== Nbodies; i++) {
-        var b = bodies[i]
+      for (let i = 0; i !== Nbodies; i++) {
+        const b = bodies[i]
         const vlambda = b.vlambda
         const wlambda = b.wlambda
         vlambda.set(0, 0, 0)
@@ -83,7 +83,7 @@ export class GSSolver extends Solver {
         deltalambdaTot = 0.0
 
         for (let j = 0; j !== Neq; j++) {
-          var c = equations[j]
+          const c = equations[j]
 
           // Compute iteration
           B = Bs[j]
@@ -112,8 +112,8 @@ export class GSSolver extends Solver {
       }
 
       // Add result to velocity
-      for (var i = 0; i !== Nbodies; i++) {
-        var b = bodies[i]
+      for (let i = 0; i !== Nbodies; i++) {
+        const b = bodies[i]
         const v = b.velocity
         const w = b.angularVelocity
 

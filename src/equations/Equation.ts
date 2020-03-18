@@ -60,7 +60,7 @@ export class Equation {
   }
 
   /**
-   * Computes the RHS of the SPOOK equation
+   * Computes the right hand side of the SPOOK equation
    * @method computeB
    * @return {Number}
    */

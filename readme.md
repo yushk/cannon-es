@@ -11,6 +11,9 @@ import { World } from 'cannon-es'
 #### TO DO:
 
 - Finish TS conversion
+- Remove all use of `var`
+- Convert to abstract classes where possible (Equation, Solver, etc.?)
+- Resolve `as any` type assertions where possible
 - Revisit math/Transform.ts types
 - Revisit material/ContactMaterial.ts constructor assertions
 - Remove use of defined assertion (!) where possible
