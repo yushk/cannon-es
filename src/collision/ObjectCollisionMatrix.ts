@@ -1,25 +1,24 @@
+import { Body } from '../objects/Body'
+
 /**
  * Records what objects are colliding with each other
  * @class ObjectCollisionMatrix
  * @constructor
  */
 export class ObjectCollisionMatrix {
+  matrix: { [key: string]: boolean } // The matrix storage.
+
   constructor() {
-    /**
-     * The matrix storage
-     * @property matrix
-     * @type {Object}
-     */
     this.matrix = {}
   }
 
   /**
    * @method get
-   * @param  {Number} i
-   * @param  {Number} j
-   * @return {Number}
+   * @param  {Body} i
+   * @param  {Body} j
+   * @return {boolean}
    */
-  get(i, j) {
+  get(i: Body, j: Body): boolean {
     i = i.id
     j = j.id
     if (j > i) {
@@ -32,11 +31,11 @@ export class ObjectCollisionMatrix {
 
   /**
    * @method set
-   * @param  {Number} i
-   * @param  {Number} j
-   * @param {Number} value
+   * @param  {Body} i
+   * @param  {Body} j
+   * @param {boolean} value
    */
-  set(i, j, value) {
+  set(i: Body, j: Body, value: boolean): void {
     i = i.id
     j = j.id
     if (j > i) {
@@ -55,7 +54,7 @@ export class ObjectCollisionMatrix {
    * Empty the matrix
    * @method reset
    */
-  reset() {
+  reset(): void {
     this.matrix = {}
   }
 
@@ -64,5 +63,5 @@ export class ObjectCollisionMatrix {
    * @method setNumObjects
    * @param {Number} n
    */
-  setNumObjects(n) {}
+  setNumObjects(n: number): void {}
 }

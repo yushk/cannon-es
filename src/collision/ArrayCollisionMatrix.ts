@@ -15,8 +15,8 @@ export class ArrayCollisionMatrix {
   /**
    * Get an element
    * @method get
-   * @param  {Number} i
-   * @param  {Number} j
+   * @param  {Body} i
+   * @param  {Body} j
    * @return {Number}
    */
   get(i: Body, j: Body): number {
@@ -33,9 +33,9 @@ export class ArrayCollisionMatrix {
   /**
    * Set an element
    * @method set
-   * @param {Number} i
-   * @param {Number} j
-   * @param {Number} value
+   * @param {Body} i
+   * @param {Body} j
+   * @param {boolean} value
    */
   set(i: Body, j: Body, value: boolean): void {
     i = i.index

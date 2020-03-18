@@ -3,12 +3,15 @@
  * @constructor
  */
 export class OverlapKeeper {
+  current: number[]
+  previous: number[]
+
   constructor() {
     this.current = []
     this.previous = []
   }
 
-  getKey(i, j) {
+  getKey(i: number, j: number): number {
     if (j < i) {
       const temp = j
       j = i
@@ -22,7 +25,7 @@ export class OverlapKeeper {
    * @param {Number} i
    * @param {Number} j
    */
-  set(i, j) {
+  set(i: number, j: number): void {
     // Insertion sort. This way the diff will have linear complexity.
     const key = this.getKey(i, j)
     const current = this.current
@@ -42,7 +45,7 @@ export class OverlapKeeper {
   /**
    * @method tick
    */
-  tick() {
+  tick(): void {
     const tmp = this.current
     this.current = this.previous
     this.previous = tmp
@@ -54,7 +57,7 @@ export class OverlapKeeper {
    * @param  {array} additions
    * @param  {array} removals
    */
-  getDiff(additions, removals) {
+  getDiff(additions: number[], removals: number[]): void {
     const a = this.current
     const b = this.previous
     const al = a.length
@@ -89,6 +92,6 @@ export class OverlapKeeper {
   }
 }
 
-function unpackAndPush(array, key) {
+function unpackAndPush(array: number[], key: number): void {
   array.push((key & 0xffff0000) >> 16, key & 0x0000ffff)
 }
