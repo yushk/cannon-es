@@ -190,7 +190,7 @@ export class Ray {
    * @param {Vec3} position
    * @param {Body} body
    */
-  intersectShape(shape: Shape & { type: RayShapeTypes }, quat: Quaternion, position: Vec3, body: Body): void {
+  private intersectShape(shape: Shape & { type: RayShapeTypes }, quat: Quaternion, position: Vec3, body: Body): void {
     const from = this.from
 
     // Checking boundingSphere
@@ -813,7 +813,7 @@ const intersectTrimesh_localTo = new Vec3()
 const intersectTrimesh_worldNormal = new Vec3()
 const intersectTrimesh_worldIntersectPoint = new Vec3()
 const intersectTrimesh_localAABB = new AABB()
-const intersectTrimesh_triangles = []
+const intersectTrimesh_triangles: number[] = []
 const intersectTrimesh_treeTransform = new Transform()
 
 Ray.prototype[Shape.types.TRIMESH] = Ray.prototype.intersectTrimesh
