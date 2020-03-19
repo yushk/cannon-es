@@ -47,7 +47,7 @@ export class ConvexPolyhedron extends Shape {
      */
     this.faceNormals = normals
 
-    if (this.faceNormals == []) {
+    if (this.faceNormals.length == 0) {
       this.computeNormals()
     }
 
