@@ -4,7 +4,7 @@ import { RaycastResult } from '../collision/RaycastResult'
 import { Utils } from '../utils/Utils'
 import { Body } from '../objects/Body'
 
-type WheelInfoOptions = {
+export type WheelInfoOptions = {
   chassisConnectionPointLocal?: Vec3
   chassisConnectionPointWorld?: Vec3
   directionLocal?: Vec3
@@ -27,12 +27,21 @@ type WheelInfoOptions = {
   clippedInvContactDotSuspension?: number
   suspensionRelativeVelocity?: number
   suspensionForce?: number
+  slipInfo?: number
   skidInfo?: number
   suspensionLength?: number
   maxSuspensionTravel?: number
   useCustomSlidingRotationalSpeed?: boolean
   customSlidingRotationalSpeed?: number
 }
+
+export type WheelRaycastResult =
+  & RaycastResult
+  & Partial<{
+    suspensionLength: number
+    directionWorld: Vec3
+    groundObject: number
+  }>
 
 /**
  * @class WheelInfo
@@ -96,11 +105,12 @@ export class WheelInfo {
   clippedInvContactDotSuspension: number
   suspensionRelativeVelocity: number
   suspensionForce: number
+  slipInfo: number
   skidInfo: number
   suspensionLength: number
   sideImpulse: number
   forwardImpulse: number
-  raycastResult: RaycastResult & Partial<{ suspensionLength: number; directionWorld: Vec3 }> // The result from raycasting.
+  raycastResult: WheelRaycastResult // The result from raycasting.
   worldTransform: Transform // Wheel world transform.
   isInContact: boolean
 
@@ -128,6 +138,7 @@ export class WheelInfo {
       clippedInvContactDotSuspension: 1,
       suspensionRelativeVelocity: 0,
       suspensionForce: 0,
+      slipInfo: 0,
       skidInfo: 0,
       suspensionLength: 0,
       maxSuspensionTravel: 1,
@@ -163,6 +174,7 @@ export class WheelInfo {
     this.clippedInvContactDotSuspension = 1
     this.suspensionRelativeVelocity = 0
     this.suspensionForce = 0
+    this.slipInfo = 0
     this.skidInfo = 0
     this.suspensionLength = 0
     this.sideImpulse = 0

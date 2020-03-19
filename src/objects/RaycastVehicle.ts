@@ -2,7 +2,20 @@ import { Body } from '../objects/Body'
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
 import { Ray } from '../collision/Ray'
-import { WheelInfo } from '../objects/WheelInfo'
+import { WheelInfo, WheelInfoOptions } from '../objects/WheelInfo'
+// prettier-ignore
+import { World } from '../world/World'
+// prettier-ignore
+import { Constraint } from '../constraints/Constraint'
+// prettier-ignore
+import { Transform } from '../math/Transform'
+
+type RaycastVehicleOptions = {
+  chassisBody: Body
+  indexRightAxis?: number
+  indexForwardAxis?: number
+  indexUpAxis?: number
+}
 
 /**
  * Vehicle helper class that casts rays from the wheel positions towards the ground and applies forces.
@@ -15,49 +28,28 @@ import { WheelInfo } from '../objects/WheelInfo'
  * @param {integer} [options.indexUpAxis]
  */
 export class RaycastVehicle {
-  constructor({ chassisBody, indexRightAxis, indexForwardAxis, indexUpAxis }) {
-    /**
-     * @property {Body} chassisBody
-     */
-    this.chassisBody = chassisBody
+  chassisBody: Body
+  wheelInfos: WheelInfo[]
+  sliding: boolean // Will be set to true if the car is sliding.
+  world: World | null
+  indexRightAxis: number // Index of the right axis, 0=x, 1=y, 2=z
+  indexForwardAxis: number // Index of the forward axis, 0=x, 1=y, 2=z
+  indexUpAxis: number // Index of the up axis, 0=x, 1=y, 2=z
+  constraints: Constraint[]
+  preStepCallback: () => void
+  currentVehicleSpeedKmHour: number
 
-    /**
-     * An array of WheelInfo objects.
-     * @property {array} wheelInfos
-     */
+  constructor(options: RaycastVehicleOptions) {
+    this.chassisBody = options.chassisBody
     this.wheelInfos = []
-
-    /**
-     * Will be set to true if the car is sliding.
-     * @property {boolean} sliding
-     */
     this.sliding = false
-
-    /**
-     * @property {World} world
-     */
     this.world = null
-
-    /**
-     * Index of the right axis, 0=x, 1=y, 2=z
-     * @property {integer} indexRightAxis
-     * @default 1
-     */
-    this.indexRightAxis = typeof indexRightAxis !== 'undefined' ? indexRightAxis : 1
-
-    /**
-     * Index of the forward axis, 0=x, 1=y, 2=z
-     * @property {integer} indexForwardAxis
-     * @default 0
-     */
-    this.indexForwardAxis = typeof indexForwardAxis !== 'undefined' ? indexForwardAxis : 0
-
-    /**
-     * Index of the up axis, 0=x, 1=y, 2=z
-     * @property {integer} indexUpAxis
-     * @default 2
-     */
-    this.indexUpAxis = typeof indexUpAxis !== 'undefined' ? indexUpAxis : 2
+    this.indexRightAxis = typeof options.indexRightAxis !== 'undefined' ? options.indexRightAxis : 1
+    this.indexForwardAxis = typeof options.indexForwardAxis !== 'undefined' ? options.indexForwardAxis : 0
+    this.indexUpAxis = typeof options.indexUpAxis !== 'undefined' ? options.indexUpAxis : 2
+    this.constraints = []
+    this.preStepCallback = () => {}
+    this.currentVehicleSpeedKmHour = 0
   }
 
   /**
@@ -65,7 +57,7 @@ export class RaycastVehicle {
    * @method addWheel
    * @param {object} [options]
    */
-  addWheel(options = {}) {
+  addWheel(options: WheelInfoOptions = {}): number {
     const info = new WheelInfo(options)
     const index = this.wheelInfos.length
     this.wheelInfos.push(info)
@@ -79,7 +71,7 @@ export class RaycastVehicle {
    * @param {number} value
    * @param {integer} wheelIndex
    */
-  setSteeringValue(value, wheelIndex) {
+  setSteeringValue(value: number, wheelIndex: number): void {
     const wheel = this.wheelInfos[wheelIndex]
     wheel.steering = value
   }
@@ -90,7 +82,7 @@ export class RaycastVehicle {
    * @param  {number} value
    * @param  {integer} wheelIndex
    */
-  applyEngineForce(value, wheelIndex) {
+  applyEngineForce(value: number, wheelIndex: number): void {
     this.wheelInfos[wheelIndex].engineForce = value
   }
 
@@ -100,7 +92,7 @@ export class RaycastVehicle {
    * @param {number} brake
    * @param {integer} wheelIndex
    */
-  setBrake(brake, wheelIndex) {
+  setBrake(brake: number, wheelIndex: number): void {
     this.wheelInfos[wheelIndex].brake = brake
   }
 
@@ -109,7 +101,7 @@ export class RaycastVehicle {
    * @method addToWorld
    * @param {World} world
    */
-  addToWorld(world) {
+  addToWorld(world: World): void {
     const constraints = this.constraints
     world.addBody(this.chassisBody)
     const that = this
@@ -127,12 +119,12 @@ export class RaycastVehicle {
    * @param  {integer} axisIndex
    * @param  {Vec3} result
    */
-  getVehicleAxisWorld(axisIndex, result) {
+  getVehicleAxisWorld(axisIndex: number, result: Vec3): void {
     result.set(axisIndex === 0 ? 1 : 0, axisIndex === 1 ? 1 : 0, axisIndex === 2 ? 1 : 0)
     this.chassisBody.vectorToWorldFrame(result, result)
   }
 
-  updateVehicle(timeStep) {
+  updateVehicle(timeStep: number): void {
     const wheelInfos = this.wheelInfos
     const numWheels = wheelInfos.length
     const chassisBody = this.chassisBody
@@ -217,7 +209,7 @@ export class RaycastVehicle {
     }
   }
 
-  updateSuspension(deltaTime) {
+  updateSuspension(deltaTime: number): void {
     const chassisBody = this.chassisBody
     const chassisMass = chassisBody.mass
     const wheelInfos = this.wheelInfos
@@ -261,14 +253,14 @@ export class RaycastVehicle {
    * @method removeFromWorld
    * @param {World} world
    */
-  removeFromWorld(world) {
+  removeFromWorld(world: World): void {
     const constraints = this.constraints
     world.remove(this.chassisBody)
     world.removeEventListener('preStep', this.preStepCallback)
     this.world = null
   }
 
-  castRay(wheel) {
+  castRay(wheel: WheelInfo): number {
     const rayvector = castRay_rayvector
     const target = castRay_target
 
@@ -344,7 +336,7 @@ export class RaycastVehicle {
     return depth
   }
 
-  updateWheelTransformWorld(wheel) {
+  updateWheelTransformWorld(wheel: WheelInfo): void {
     wheel.isInContact = false
     const chassisBody = this.chassisBody
     chassisBody.pointToWorldFrame(wheel.chassisConnectionPointLocal, wheel.chassisConnectionPointWorld)
@@ -358,7 +350,7 @@ export class RaycastVehicle {
    * @method updateWheelTransform
    * @param {integer} wheelIndex The wheel index to update.
    */
-  updateWheelTransform(wheelIndex) {
+  updateWheelTransform(wheelIndex: number): void {
     const up = tmpVec4
     const right = tmpVec5
     const fwd = tmpVec6
@@ -400,11 +392,11 @@ export class RaycastVehicle {
    * @param  {integer} wheelIndex
    * @return {Transform}
    */
-  getWheelTransformWorld(wheelIndex) {
+  getWheelTransformWorld(wheelIndex: number): Transform {
     return this.wheelInfos[wheelIndex].worldTransform
   }
 
-  updateFriction(timeStep) {
+  updateFriction(timeStep: number): void {
     const surfNormalWS_scaled_proj = updateFriction_surfNormalWS_scaled_proj
 
     //calculate the impulse, so that the wheels don't move sidewards
@@ -473,7 +465,7 @@ export class RaycastVehicle {
     this.sliding = false
     for (var i = 0; i < numWheels; i++) {
       var wheel = wheelInfos[i]
-      var groundObject = wheel.raycastResult.body
+      const groundObject = wheel.raycastResult.body
 
       let rollingFriction = 0
 
@@ -559,7 +551,7 @@ export class RaycastVehicle {
       }
 
       if (wheel.sideImpulse !== 0) {
-        var groundObject = wheel.raycastResult.body
+        const groundObject = wheel.raycastResult.body!
 
         const rel_pos2 = new Vec3()
         wheel.raycastResult.hitPointWorld.vsub(groundObject.position, rel_pos2)
@@ -569,8 +561,8 @@ export class RaycastVehicle {
 
         // Scale the relative position in the up direction with rollInfluence.
         // If rollInfluence is 1, the impulse will be applied on the hitPoint (easy to roll over), if it is zero it will be applied in the same plane as the center of mass (not easy to roll over).
-        chassisBody.vectorToLocalFrame(rel_pos, rel_pos)
-        rel_pos['xyz'[this.indexUpAxis]] *= wheel.rollInfluence
+        chassisBody.vectorToLocalFrame(rel_pos, rel_pos);
+        (rel_pos as any)['xyz'[this.indexUpAxis]] *= wheel.rollInfluence
         chassisBody.vectorToWorldFrame(rel_pos, rel_pos)
         chassisBody.applyImpulse(sideImp, rel_pos)
 
@@ -598,15 +590,15 @@ const castRay_target = new Vec3()
 const directions = [new Vec3(1, 0, 0), new Vec3(0, 1, 0), new Vec3(0, 0, 1)]
 
 const updateFriction_surfNormalWS_scaled_proj = new Vec3()
-const updateFriction_axle = []
-const updateFriction_forwardWS = []
+const updateFriction_axle: Vec3[] = []
+const updateFriction_forwardWS: Vec3[] = []
 const sideFrictionStiffness2 = 1
 
 const calcRollingFriction_vel1 = new Vec3()
 const calcRollingFriction_vel2 = new Vec3()
 const calcRollingFriction_vel = new Vec3()
 
-function calcRollingFriction(body0, body1, frictionPosWorld, frictionDirectionWorld, maxImpulse) {
+function calcRollingFriction(body0: Body, body1: Body, frictionPosWorld: Vec3, frictionDirectionWorld: Vec3, maxImpulse: number) {
   let j1 = 0
   const contactPosWorld = frictionPosWorld
 
@@ -646,7 +638,7 @@ const computeImpulseDenominator_r0 = new Vec3()
 const computeImpulseDenominator_c0 = new Vec3()
 const computeImpulseDenominator_vec = new Vec3()
 const computeImpulseDenominator_m = new Vec3()
-function computeImpulseDenominator({ position, invInertiaWorld, invMass }, pos, normal) {
+function computeImpulseDenominator({ position, invInertiaWorld, invMass }: Body, pos: Vec3, normal: Vec3): number {
   const r0 = computeImpulseDenominator_r0
   const c0 = computeImpulseDenominator_c0
   const vec = computeImpulseDenominator_vec
@@ -665,7 +657,7 @@ const resolveSingleBilateral_vel2 = new Vec3()
 const resolveSingleBilateral_vel = new Vec3()
 
 //bilateral constraint between two dynamic objects
-function resolveSingleBilateral(body1, pos1, body2, pos2, normal, impulse) {
+function resolveSingleBilateral(body1: Body, pos1: Vec3, body2: Body, pos2: Vec3, normal: Vec3): number {
   const normalLenSqr = normal.norm2()
   if (normalLenSqr > 1.1) {
     return 0 // no impulse
@@ -687,7 +679,7 @@ function resolveSingleBilateral(body1, pos1, body2, pos2, normal, impulse) {
 
   const contactDamping = 0.2
   const massTerm = 1 / (body1.invMass + body2.invMass)
-  var impulse = -contactDamping * rel_vel * massTerm
+  const impulse = -contactDamping * rel_vel * massTerm
 
   return impulse
 }
