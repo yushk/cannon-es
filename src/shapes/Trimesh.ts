@@ -13,15 +13,15 @@ import { Octree } from '../utils/Octree'
  * @extends Shape
  * @example
  *     // How to make a mesh with a single triangle
- *     var vertices = [
+ *     const vertices = [
  *         0, 0, 0, // vertex 0
  *         1, 0, 0, // vertex 1
  *         0, 1, 0  // vertex 2
  *     ];
- *     var indices = [
+ *     const indices = [
  *         0, 1, 2  // triangle 0
  *     ];
- *     var trimeshShape = new Trimesh(vertices, indices);
+ *     const trimeshShape = new Trimesh(vertices, indices);
  */
 export class Trimesh extends Shape {
   vertices: Float32Array
@@ -177,7 +177,7 @@ export class Trimesh extends Shape {
       const key = a < b ? `${a}_${b}` : `${b}_${a}`
       edges[key] = true
     }
-    for (var i = 0; i < this.indices.length / 3; i++) {
+    for (let i = 0; i < this.indices.length / 3; i++) {
       const i3 = i * 3
       const a = this.indices[i3]
       const b = this.indices[i3 + 1]
@@ -188,7 +188,7 @@ export class Trimesh extends Shape {
     }
     const keys = Object.keys(edges)
     this.edges = new Int16Array(keys.length * 2)
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       const indices = keys[i].split('_')
       this.edges[2 * i] = parseInt(indices[0], 10)
       this.edges[2 * i + 1] = parseInt(indices[1], 10)
@@ -388,12 +388,12 @@ export class Trimesh extends Shape {
    */
   calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3) {
     /*
-        var n = this.vertices.length / 3,
+        const n = this.vertices.length / 3,
             verts = this.vertices;
-        var minx,miny,minz,maxx,maxy,maxz;
+        const minx,miny,minz,maxx,maxy,maxz;
 
-        var v = tempWorldVertex;
-        for(var i=0; i<n; i++){
+        const v = tempWorldVertex;
+        for(let i=0; i<n; i++){
             this.getVertex(i, v);
             quat.vmult(v, v);
             pos.vadd(v, v);
@@ -466,9 +466,9 @@ Trimesh.computeNormal = (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3): void => {
   }
 }
 
-var va = new Vec3()
-var vb = new Vec3()
-var vc = new Vec3()
+const va = new Vec3()
+const vb = new Vec3()
+const vc = new Vec3()
 
 const cli_aabb = new AABB()
 
@@ -492,8 +492,8 @@ Trimesh.createTorus = (radius = 1, tube = 0.5, radialSegments = 8, tubularSegmen
   const vertices = []
   const indices = []
 
-  for (var j = 0; j <= radialSegments; j++) {
-    for (var i = 0; i <= tubularSegments; i++) {
+  for (let j = 0; j <= radialSegments; j++) {
+    for (let i = 0; i <= tubularSegments; i++) {
       const u = (i / tubularSegments) * arc
       const v = (j / radialSegments) * Math.PI * 2
 
@@ -505,8 +505,8 @@ Trimesh.createTorus = (radius = 1, tube = 0.5, radialSegments = 8, tubularSegmen
     }
   }
 
-  for (var j = 1; j <= radialSegments; j++) {
-    for (var i = 1; i <= tubularSegments; i++) {
+  for (let j = 1; j <= radialSegments; j++) {
+    for (let i = 1; i <= tubularSegments; i++) {
       const a = (tubularSegments + 1) * j + i - 1
       const b = (tubularSegments + 1) * (j - 1) + i - 1
       const c = (tubularSegments + 1) * (j - 1) + i

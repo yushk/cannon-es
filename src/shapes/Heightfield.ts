@@ -33,17 +33,17 @@ type HeightfieldPillar = {
  *
  * @example
  *     // Generate some height data (y-values).
- *     var data = [];
- *     for(var i = 0; i < 1000; i++){
- *         var y = 0.5 * Math.cos(0.2 * i);
+ *     const data = [];
+ *     for(let i = 0; i < 1000; i++){
+ *         const y = 0.5 * Math.cos(0.2 * i);
  *         data.push(y);
  *     }
  *
  *     // Create the heightfield shape
- *     var heightfieldShape = new Heightfield(data, {
+ *     const heightfieldShape = new Heightfield(data, {
  *         elementSize: 1 // Distance between the data points in X and Y directions
  *     });
- *     var heightfieldBody = new Body();
+ *     const heightfieldBody = new Body();
  *     heightfieldBody.addShape(heightfieldShape);
  *     world.addBody(heightfieldBody);
  */
@@ -399,7 +399,7 @@ export class Heightfield extends Shape {
 
     // Reuse verts if possible
     result.vertices.length = 6
-    for (var i = 0; i < 6; i++) {
+    for (let i = 0; i < 6; i++) {
       if (!result.vertices[i]) {
         result.vertices[i] = new Vec3()
       }
@@ -407,7 +407,7 @@ export class Heightfield extends Shape {
 
     // Reuse faces if possible
     faces.length = 5
-    for (var i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       if (!faces[i]) {
         faces[i] = []
       }

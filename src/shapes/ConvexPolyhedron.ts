@@ -43,7 +43,15 @@ export class ConvexPolyhedron extends Shape {
   static computeNormal: (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3) => void
   static project: ({ vertices }: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]) => void
 
-  constructor(props: { vertices?: Vec3[], faces?: number[][], normals?: Vec3[], axes?: Vec3[], boundingSphereRadius?: number } = {}) {
+  constructor(
+    props: {
+      vertices?: Vec3[]
+      faces?: number[][]
+      normals?: Vec3[]
+      axes?: Vec3[]
+      boundingSphereRadius?: number
+    } = {}
+  ) {
     const { vertices = [], faces = [], normals = [], axes, boundingSphereRadius } = props
 
     super({ type: Shape.types.CONVEXPOLYHEDRON })
@@ -164,7 +172,17 @@ export class ConvexPolyhedron extends Shape {
    * @param {Number} maxDist
    * @param {array} result The an array of contact point objects, see clipFaceAgainstHull
    */
-  clipAgainstHull(posA: Vec3, quatA: Quaternion, hullB: ConvexPolyhedron, posB: Vec3, quatB: Quaternion, separatingNormal: Vec3, minDist: number, maxDist: number, result: ContactPoint[]) {
+  clipAgainstHull(
+    posA: Vec3,
+    quatA: Quaternion,
+    hullB: ConvexPolyhedron,
+    posB: Vec3,
+    quatB: Quaternion,
+    separatingNormal: Vec3,
+    minDist: number,
+    maxDist: number,
+    result: ContactPoint[]
+  ) {
     const WorldNormal = new Vec3()
     let closestFaceB = -1
     let dmax = -Number.MAX_VALUE
@@ -206,7 +224,16 @@ export class ConvexPolyhedron extends Shape {
    * @param {Vec3} target The target vector to save the axis in
    * @return {bool} Returns false if a separation is found, else true
    */
-  findSeparatingAxis(hullB: ConvexPolyhedron, posA: Vec3, quatA: Quaternion, posB: Vec3, quatB: Quaternion, target: Vec3, faceListA: number[], faceListB: number[]): boolean {
+  findSeparatingAxis(
+    hullB: ConvexPolyhedron,
+    posA: Vec3,
+    quatA: Quaternion,
+    posB: Vec3,
+    quatB: Quaternion,
+    target: Vec3,
+    faceListA: number[],
+    faceListB: number[]
+  ): boolean {
     const faceANormalWS3 = new Vec3()
     const Worldnormal1 = new Vec3()
     const deltaC = new Vec3()
@@ -223,13 +250,13 @@ export class ConvexPolyhedron extends Shape {
 
       // Test face normals from hullA
       for (let i = 0; i < numFacesA; i++) {
-        var fi = faceListA ? faceListA[i] : i
+        const fi = faceListA ? faceListA[i] : i
 
         // Get world face normal
         faceANormalWS3.copy(hullA.faceNormals[fi])
         quatA.vmult(faceANormalWS3, faceANormalWS3)
 
-        var d = hullA.testSepAxis(faceANormalWS3, hullB, posA, quatA, posB, quatB)
+        const d = hullA.testSepAxis(faceANormalWS3, hullB, posA, quatA, posB, quatB)
         if (d === false) {
           return false
         }
@@ -245,7 +272,7 @@ export class ConvexPolyhedron extends Shape {
         // Get world axis
         quatA.vmult(hullA.uniqueAxes[i], faceANormalWS3)
 
-        var d = hullA.testSepAxis(faceANormalWS3, hullB, posA, quatA, posB, quatB)
+        const d = hullA.testSepAxis(faceANormalWS3, hullB, posA, quatA, posB, quatB)
         if (d === false) {
           return false
         }
@@ -261,12 +288,12 @@ export class ConvexPolyhedron extends Shape {
       // Test face normals from hullB
       const numFacesB = faceListB ? faceListB.length : hullB.faces.length
       for (let i = 0; i < numFacesB; i++) {
-        var fi = faceListB ? faceListB[i] : i
+        const fi = faceListB ? faceListB[i] : i
 
         Worldnormal1.copy(hullB.faceNormals[fi])
         quatB.vmult(Worldnormal1, Worldnormal1)
         curPlaneTests++
-        var d = hullA.testSepAxis(Worldnormal1, hullB, posA, quatA, posB, quatB)
+        const d = hullA.testSepAxis(Worldnormal1, hullB, posA, quatA, posB, quatB)
         if (d === false) {
           return false
         }
@@ -282,7 +309,7 @@ export class ConvexPolyhedron extends Shape {
         quatB.vmult(hullB.uniqueAxes[i], Worldnormal1)
 
         curPlaneTests++
-        var d = hullA.testSepAxis(Worldnormal1, hullB, posA, quatA, posB, quatB)
+        const d = hullA.testSepAxis(Worldnormal1, hullB, posA, quatA, posB, quatB)
         if (d === false) {
           return false
         }
@@ -337,7 +364,14 @@ export class ConvexPolyhedron extends Shape {
    * @param {Quaternion} quatB
    * @return {number} The overlap depth, or FALSE if no penetration.
    */
-  testSepAxis(axis: Vec3, hullB: ConvexPolyhedron, posA: Vec3, quatA: Quaternion, posB: Vec3, quatB: Quaternion): number | false {
+  testSepAxis(
+    axis: Vec3,
+    hullB: ConvexPolyhedron,
+    posA: Vec3,
+    quatA: Quaternion,
+    posB: Vec3,
+    quatB: Quaternion
+  ): number | false {
     const hullA = this
     ConvexPolyhedron.project(hullA, axis, posA, quatA, maxminA)
     ConvexPolyhedron.project(hullB, axis, posB, quatB, maxminB)
@@ -397,7 +431,15 @@ export class ConvexPolyhedron extends Shape {
    * @param {Number} maxDist
    * @param Array result Array to store resulting contact points in. Will be objects with properties: point, depth, normal. These are represented in world coordinates.
    */
-  clipFaceAgainstHull(separatingNormal: Vec3, posA: Vec3, quatA: Quaternion, worldVertsB1: Vec3[], minDist: number, maxDist: number, result: ContactPoint[]): void {
+  clipFaceAgainstHull(
+    separatingNormal: Vec3,
+    posA: Vec3,
+    quatA: Quaternion,
+    worldVertsB1: Vec3[],
+    minDist: number,
+    maxDist: number,
+    result: ContactPoint[]
+  ): void {
     const faceANormalWS = new Vec3()
     const edge0 = new Vec3()
     const WorldEdge0 = new Vec3()
@@ -552,19 +594,19 @@ export class ConvexPolyhedron extends Shape {
       if (n_dot_first < 0) {
         if (n_dot_last < 0) {
           // Start < 0, end < 0, so output lastVertex
-          var newv = new Vec3()
+          const newv = new Vec3()
           newv.copy(lastVertex)
           outVertices.push(newv)
         } else {
           // Start < 0, end >= 0, so output intersection
-          var newv = new Vec3()
+          const newv = new Vec3()
           firstVertex.lerp(lastVertex, n_dot_first / (n_dot_first - n_dot_last), newv)
           outVertices.push(newv)
         }
       } else {
         if (n_dot_last < 0) {
           // Start >= 0, end < 0 so output intersection and end
-          var newv = new Vec3()
+          const newv = new Vec3()
           firstVertex.lerp(lastVertex, n_dot_first / (n_dot_first - n_dot_last), newv)
           outVertices.push(newv)
           outVertices.push(lastVertex)
@@ -741,18 +783,18 @@ export class ConvexPolyhedron extends Shape {
     if (quat) {
       // Rotate vertices
       for (let i = 0; i < n; i++) {
-        var v = verts[i]
+        const v = verts[i]
         quat.vmult(v, v)
       }
       // Rotate face normals
       for (let i = 0; i < this.faceNormals.length; i++) {
-        var v = this.faceNormals[i]
+        const v = this.faceNormals[i]
         quat.vmult(v, v)
       }
       /*
             // Rotate edges
             for(let i=0; i<this.uniqueEdges.length; i++){
-                var v = this.uniqueEdges[i];
+                const v = this.uniqueEdges[i];
                 quat.vmult(v,v);
             }*/
     }
@@ -760,7 +802,7 @@ export class ConvexPolyhedron extends Shape {
     // Apply offset
     if (offset) {
       for (let i = 0; i < n; i++) {
-        var v = verts[i]
+        const v = verts[i]
         v.vadd(offset, v)
       }
     }
@@ -839,7 +881,13 @@ const maxminB: number[] = []
  * @param {Quaternion} quat
  * @param {array} result result[0] and result[1] will be set to maximum and minimum, respectively.
  */
-ConvexPolyhedron.project = ({ vertices }: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]): void => {
+ConvexPolyhedron.project = (
+  { vertices }: ConvexPolyhedron,
+  axis: Vec3,
+  pos: Vec3,
+  quat: Quaternion,
+  result: number[]
+): void => {
   const n = vertices.length
   const localAxis = new Vec3()
   let max = 0

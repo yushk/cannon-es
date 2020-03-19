@@ -804,7 +804,7 @@ const intersectTrimesh_treeTransform = new Transform()
 
 Ray.prototype[Shape.types.TRIMESH] = Ray.prototype.intersectTrimesh
 
-var v0 = new Vec3()
+const v0 = new Vec3()
 const intersect = new Vec3()
 function distanceFromIntersection(from: Vec3, direction: Vec3, position: Vec3) {
   // v0 is vector from from to position

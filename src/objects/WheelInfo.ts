@@ -209,6 +209,5 @@ export class WheelInfo {
   }
 }
 
-var chassis_velocity_at_contactPoint = new Vec3()
+const chassis_velocity_at_contactPoint = new Vec3()
 const relpos = new Vec3()
-var chassis_velocity_at_contactPoint = new Vec3()

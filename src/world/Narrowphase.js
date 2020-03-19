@@ -555,7 +555,7 @@ Narrowphase.prototype[Shape.types.SPHERE | Shape.types.TRIMESH] = Narrowphase.pr
   )
 
   trimeshShape.getTrianglesInAABB(localSphereAABB, triangles)
-  //for (var i = 0; i < trimeshShape.indices.length / 3; i++) triangles.push(i); // All
+  //for (let i = 0; i < trimeshShape.indices.length / 3; i++) triangles.push(i); // All
 
   // Vertices
   const v = sphereTrimesh_v

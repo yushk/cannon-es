@@ -287,8 +287,8 @@ export class AABB {
     const t5 = (this.lowerBound.z - from.z) * dirFracZ
     const t6 = (this.upperBound.z - from.z) * dirFracZ
 
-    // var tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)));
-    // var tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)));
+    // const tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)));
+    // const tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)));
     const tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)), Math.min(t5, t6))
     const tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)), Math.max(t5, t6))
 

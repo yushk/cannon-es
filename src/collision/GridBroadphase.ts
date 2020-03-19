@@ -87,7 +87,7 @@ export class GridBroadphase extends Broadphase {
     const Nbins = this.bins.length
 
     // Reset bins
-    for (var i = 0; i !== Nbins; i++) {
+    for (let i = 0; i !== Nbins; i++) {
       binLengths[i] = 0
     }
 
@@ -150,8 +150,8 @@ export class GridBroadphase extends Broadphase {
     }
 
     // Put all bodies into the bins
-    for (var i = 0; i !== N; i++) {
-      var bi = bodies[i]
+    for (let i = 0; i !== N; i++) {
+      const bi = bodies[i]
       const si = bi.shape
 
       switch (si.type) {
@@ -183,8 +183,8 @@ export class GridBroadphase extends Broadphase {
           const d = GridBroadphase_collisionPairs_d
           d.set(xreset, yreset, zreset)
 
-          for (var xi = 0, xoff = 0; xi !== nx; xi++, xoff += xstep, d.y = yreset, d.x += binsizeX) {
-            for (var yi = 0, yoff = 0; yi !== ny; yi++, yoff += ystep, d.z = zreset, d.y += binsizeY) {
+          for (let xi = 0, xoff = 0; xi !== nx; xi++, xoff += xstep, d.y = yreset, d.x += binsizeX) {
+            for (let yi = 0, yoff = 0; yi !== ny; yi++, yoff += ystep, d.z = zreset, d.y += binsizeY) {
               for (let zi = 0, zoff = 0; zi !== nz; zi++, zoff += zstep, d.z += binsizeZ) {
                 if (d.dot(planeNormal) < binRadius) {
                   const idx = xoff + yoff + zoff
@@ -214,16 +214,16 @@ export class GridBroadphase extends Broadphase {
     }
 
     // Check each bin
-    for (var i = 0; i !== Nbins; i++) {
+    for (let i = 0; i !== Nbins; i++) {
       const binLength = binLengths[i]
       //Skip bins with no potential collisions
       if (binLength > 1) {
         const bin = bins[i]
 
         // Do N^2 broadphase inside
-        for (var xi = 0; xi !== binLength; xi++) {
-          var bi = bin[xi]
-          for (var yi = 0; yi !== xi; yi++) {
+        for (let xi = 0; xi !== binLength; xi++) {
+          const bi = bin[xi]
+          for (let yi = 0; yi !== xi; yi++) {
             const bj = bin[yi]
             if (this.needBroadphaseCollision(bi, bj)) {
               this.intersectionTest(bi, bj, pairs1, pairs2)
@@ -233,12 +233,12 @@ export class GridBroadphase extends Broadphase {
       }
     }
 
-    //	for (var zi = 0, zoff=0; zi < nz; zi++, zoff+= zstep) {
+    //	for (let zi = 0, zoff=0; zi < nz; zi++, zoff+= zstep) {
     //		console.log("layer "+zi);
-    //		for (var yi = 0, yoff=0; yi < ny; yi++, yoff += ystep) {
-    //			var row = '';
-    //			for (var xi = 0, xoff=0; xi < nx; xi++, xoff += xstep) {
-    //				var idx = xoff + yoff + zoff;
+    //		for (let yi = 0, yoff=0; yi < ny; yi++, yoff += ystep) {
+    //			const row = '';
+    //			for (let xi = 0, xoff=0; xi < nx; xi++, xoff += xstep) {
+    //				const idx = xoff + yoff + zoff;
     //				row += ' ' + binLengths[idx];
     //			}
     //			console.log(row);

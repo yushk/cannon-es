@@ -67,10 +67,10 @@ export type BodyOptions = {
  * @param {Vec3} [options.angularFactor]
  * @param {Shape} [options.shape]
  * @example
- *     var body = new Body({
+ *     const body = new Body({
  *         mass: 1
  *     });
- *     var shape = new Sphere(1);
+ *     const shape = new Sphere(1);
  *     body.addShape(shape);
  *     world.addBody(body);
  */

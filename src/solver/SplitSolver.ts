@@ -100,7 +100,7 @@ export class SplitSolver extends Solver {
 
       eqs = eqs.sort(sortById)
 
-      for (var i = 0; i !== Neqs; i++) {
+      for (let i = 0; i !== Neqs; i++) {
         subsolver.addEquation(eqs[i])
       }
 

@@ -36,7 +36,7 @@ export class OverlapKeeper {
     if (key === current[index]) {
       return // Pair was already added
     }
-    for (var j = current.length - 1; j >= index; j--) {
+    for (let j = current.length - 1; j >= index; j--) {
       current[j + 1] = current[j]
     }
     current[index] = key
@@ -64,8 +64,8 @@ export class OverlapKeeper {
     const bl = b.length
 
     let j = 0
-    for (var i = 0; i < al; i++) {
-      var found = false
+    for (let i = 0; i < al; i++) {
+      let found = false
       const keyA = a[i]
       while (keyA > b[j]) {
         j++
@@ -77,8 +77,8 @@ export class OverlapKeeper {
       }
     }
     j = 0
-    for (var i = 0; i < bl; i++) {
-      var found = false
+    for (let i = 0; i < bl; i++) {
+      let found = false
       const keyB = b[i]
       while (keyB > a[j]) {
         j++

@@ -129,7 +129,7 @@ export class RaycastVehicle {
     const numWheels = wheelInfos.length
     const chassisBody = this.chassisBody
 
-    for (var i = 0; i < numWheels; i++) {
+    for (let i = 0; i < numWheels; i++) {
       this.updateWheelTransform(i)
     }
 
@@ -143,7 +143,7 @@ export class RaycastVehicle {
     }
 
     // simulate suspension
-    for (var i = 0; i < numWheels; i++) {
+    for (let i = 0; i < numWheels; i++) {
       this.castRay(wheelInfos[i])
     }
 
@@ -151,9 +151,9 @@ export class RaycastVehicle {
 
     const impulse = new Vec3()
     const relpos = new Vec3()
-    for (var i = 0; i < numWheels; i++) {
+    for (let i = 0; i < numWheels; i++) {
       //apply suspension force
-      var wheel = wheelInfos[i]
+      const wheel = wheelInfos[i]
       let suspensionForce = wheel.suspensionForce
       if (suspensionForce > wheel.maxSuspensionForce) {
         suspensionForce = wheel.maxSuspensionForce
@@ -169,9 +169,9 @@ export class RaycastVehicle {
     const hitNormalWorldScaledWithProj = new Vec3()
     const fwd = new Vec3()
     const vel = new Vec3()
-    for (i = 0; i < numWheels; i++) {
-      var wheel = wheelInfos[i]
-      //var relpos = new Vec3();
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i]
+      //const relpos = new Vec3();
       //wheel.chassisConnectionPointWorld.vsub(chassisBody.position, relpos);
       chassisBody.getVelocityAtWorldPoint(wheel.chassisConnectionPointWorld, vel)
 
@@ -408,10 +408,10 @@ export class RaycastVehicle {
 
     let numWheelsOnGround = 0
 
-    for (var i = 0; i < numWheels; i++) {
-      var wheel = wheelInfos[i]
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i]
 
-      var groundObject = wheel.raycastResult.body
+      const groundObject = wheel.raycastResult.body
       if (groundObject) {
         numWheelsOnGround++
       }
@@ -426,10 +426,10 @@ export class RaycastVehicle {
       }
     }
 
-    for (var i = 0; i < numWheels; i++) {
-      var wheel = wheelInfos[i]
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i]
 
-      var groundObject = wheel.raycastResult.body
+      const groundObject = wheel.raycastResult.body
 
       if (groundObject) {
         const axlei = axle[i]
@@ -463,8 +463,8 @@ export class RaycastVehicle {
     const fwdFactor = 0.5
 
     this.sliding = false
-    for (var i = 0; i < numWheels; i++) {
-      var wheel = wheelInfos[i]
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i]
       const groundObject = wheel.raycastResult.body
 
       let rollingFriction = 0
@@ -487,7 +487,7 @@ export class RaycastVehicle {
         rollingFriction += wheel.engineForce * timeStep
 
         // rollingFriction = 0;
-        var factor = maxImpulse / rollingFriction
+        const factor = maxImpulse / rollingFriction
         wheel.slipInfo *= factor
       }
 
@@ -516,7 +516,7 @@ export class RaycastVehicle {
           this.sliding = true
           wheel.sliding = true
 
-          var factor = maximp / Math.sqrt(impulseSquared)
+          const factor = maximp / Math.sqrt(impulseSquared)
 
           wheel.skidInfo *= factor
         }
@@ -524,8 +524,8 @@ export class RaycastVehicle {
     }
 
     if (this.sliding) {
-      for (var i = 0; i < numWheels; i++) {
-        var wheel = wheelInfos[i]
+      for (let i = 0; i < numWheels; i++) {
+        const wheel = wheelInfos[i]
         if (wheel.sideImpulse !== 0) {
           if (wheel.skidInfo < 1) {
             wheel.forwardImpulse *= wheel.skidInfo
@@ -536,8 +536,8 @@ export class RaycastVehicle {
     }
 
     // apply the impulses
-    for (var i = 0; i < numWheels; i++) {
-      var wheel = wheelInfos[i]
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i]
 
       const rel_pos = new Vec3()
       wheel.raycastResult.hitPointWorld.vsub(chassisBody.position, rel_pos)
@@ -608,8 +608,8 @@ function calcRollingFriction(
   let j1 = 0
   const contactPosWorld = frictionPosWorld
 
-  // var rel_pos1 = new Vec3();
-  // var rel_pos2 = new Vec3();
+  // const rel_pos1 = new Vec3();
+  // const rel_pos2 = new Vec3();
   const vel1 = calcRollingFriction_vel1
   const vel2 = calcRollingFriction_vel2
   const vel = calcRollingFriction_vel
@@ -668,8 +668,8 @@ function resolveSingleBilateral(body1: Body, pos1: Vec3, body2: Body, pos2: Vec3
   if (normalLenSqr > 1.1) {
     return 0 // no impulse
   }
-  // var rel_pos1 = new Vec3();
-  // var rel_pos2 = new Vec3();
+  // const rel_pos1 = new Vec3();
+  // const rel_pos2 = new Vec3();
   // pos1.vsub(body1.position, rel_pos1);
   // pos2.vsub(body2.position, rel_pos2);
 

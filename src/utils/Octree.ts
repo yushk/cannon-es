@@ -140,7 +140,7 @@ class OctreeNode {
     // @todo unwrap recursion into a queue / loop, that's faster in JS
     const children = this.children
 
-    // for (var i = 0, N = this.children.length; i !== N; i++) {
+    // for (let i = 0, N = this.children.length; i !== N; i++) {
     //     children[i].aabbQuery(aabb, result);
     // }
 

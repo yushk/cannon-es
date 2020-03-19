@@ -139,13 +139,13 @@ export class Box extends Shape {
     worldCornersTemp[6].set(-e.x, e.y, -e.z)
     worldCornersTemp[7].set(e.x, -e.y, e.z)
 
-    var wc = worldCornersTemp[0]
+    const wc = worldCornersTemp[0]
     quat.vmult(wc, wc)
     pos.vadd(wc, wc)
     max.copy(wc)
     min.copy(wc)
     for (let i = 1; i < 8; i++) {
-      var wc = worldCornersTemp[i]
+      const wc = worldCornersTemp[i]
       quat.vmult(wc, wc)
       pos.vadd(wc, wc)
       const x = wc.x

@@ -30,7 +30,7 @@ export class Cylinder extends ConvexPolyhedron {
     vertices.push(new Vec3(radiusTop * cos(0), radiusTop * sin(0), height * 0.5))
     topface.push(1)
 
-    for (var i = 0; i < N; i++) {
+    for (let i = 0; i < N; i++) {
       const theta = ((2 * Math.PI) / N) * (i + 1)
       const thetaN = ((2 * Math.PI) / N) * (i + 0.5)
       if (i < N - 1) {
@@ -57,7 +57,7 @@ export class Cylinder extends ConvexPolyhedron {
 
     // Reorder bottom face
     const temp = []
-    for (var i = 0; i < bottomface.length; i++) {
+    for (let i = 0; i < bottomface.length; i++) {
       temp.push(bottomface[bottomface.length - i - 1])
     }
     faces.push(temp)

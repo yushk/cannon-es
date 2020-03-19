@@ -118,7 +118,7 @@ export class Broadphase {
     const p2 = Broadphase_makePairsUnique_p2
     const N = pairs1.length
 
-    for (var i = 0; i !== N; i++) {
+    for (let i = 0; i !== N; i++) {
       p1[i] = pairs1[i]
       p2[i] = pairs2[i]
     }
@@ -126,7 +126,7 @@ export class Broadphase {
     pairs1.length = 0
     pairs2.length = 0
 
-    for (var i = 0; i !== N; i++) {
+    for (let i = 0; i !== N; i++) {
       const id1 = p1[i].id
       const id2 = p2[i].id
       const key = id1 < id2 ? `${id1},${id2}` : `${id2},${id1}`
@@ -134,7 +134,7 @@ export class Broadphase {
       t.keys.push(key)
     }
 
-    for (var i = 0; i !== t.keys.length; i++) {
+    for (let i = 0; i !== t.keys.length; i++) {
       const key = t.keys.pop()
       const pairIndex = t[key]
       pairs1.push(p1[pairIndex])

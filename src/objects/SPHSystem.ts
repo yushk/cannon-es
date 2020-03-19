@@ -79,19 +79,19 @@ export class SPHSystem {
     const cs = this.speedOfSound
     const eps = this.eps
 
-    for (var i = 0; i !== N; i++) {
+    for (let i = 0; i !== N; i++) {
       const p = this.particles[i] // Current particle
-      var neighbors = this.neighbors[i]
+      const neighbors = this.neighbors[i]
 
       // Get neighbors
       neighbors.length = 0
       this.getNeighbors(p, neighbors)
       neighbors.push(this.particles[i]) // Add current too
-      var numNeighbors = neighbors.length
+      const numNeighbors = neighbors.length
 
       // Accumulate density for the particle
       let sum = 0.0
-      for (var j = 0; j !== numNeighbors; j++) {
+      for (let j = 0; j !== numNeighbors; j++) {
         //printf("Current particle has position %f %f %f\n",objects[id].pos.x(),objects[id].pos.y(),objects[id].pos.z());
         p.position.vsub(neighbors[j].position, dist)
         const len = dist.norm()
@@ -114,7 +114,7 @@ export class SPHSystem {
     const r_vec = SPHSystem_update_r_vec
     const u = SPHSystem_update_u
 
-    for (var i = 0; i !== N; i++) {
+    for (let i = 0; i !== N; i++) {
       const particle = this.particles[i]
 
       a_pressure.set(0, 0, 0)
@@ -126,11 +126,11 @@ export class SPHSystem {
       let Vij
 
       // Sum up for all other neighbors
-      var neighbors = this.neighbors[i]
-      var numNeighbors = neighbors.length
+      const neighbors = this.neighbors[i]
+      const numNeighbors = neighbors.length
 
       //printf("Neighbors: ");
-      for (var j = 0; j !== numNeighbors; j++) {
+      for (let j = 0; j !== numNeighbors; j++) {
         const neighbor = neighbors[j]
         //printf("%d ",nj);
 

@@ -16,17 +16,17 @@ import { Body } from '../objects/Body'
  * @param {Number} maxForce The maximum force that should be applied to constrain the bodies.
  *
  * @example
- *     var bodyA = new Body({ mass: 1 });
- *     var bodyB = new Body({ mass: 1 });
+ *     const bodyA = new Body({ mass: 1 });
+ *     const bodyB = new Body({ mass: 1 });
  *     bodyA.position.set(-1, 0, 0);
  *     bodyB.position.set(1, 0, 0);
  *     bodyA.addShape(shapeA);
  *     bodyB.addShape(shapeB);
  *     world.addBody(bodyA);
  *     world.addBody(bodyB);
- *     var localPivotA = new Vec3(1, 0, 0);
- *     var localPivotB = new Vec3(-1, 0, 0);
- *     var constraint = new PointToPointConstraint(bodyA, localPivotA, bodyB, localPivotB);
+ *     const localPivotA = new Vec3(1, 0, 0);
+ *     const localPivotB = new Vec3(-1, 0, 0);
+ *     const constraint = new PointToPointConstraint(bodyA, localPivotA, bodyB, localPivotB);
  *     world.addConstraint(constraint);
  */
 export class PointToPointConstraint extends Constraint {
