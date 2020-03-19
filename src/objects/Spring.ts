@@ -2,7 +2,7 @@ import { Vec3 } from '../math/Vec3'
 // prettier-ignore
 import { Body } from '../objects/Body'
 
-type SpringOptions = {
+export type SpringOptions = {
   restLength?: number
   stiffness?: number
   damping?: number

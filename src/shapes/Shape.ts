@@ -16,7 +16,7 @@ export const SHAPE_TYPES = {
   TRIMESH: 256 as 256,
 }
 
-type ShapeOptions = {
+export type ShapeOptions = {
   type?: typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES]
   collisionResponse?: boolean
   collisionFilterGroup?: number

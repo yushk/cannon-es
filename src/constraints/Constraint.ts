@@ -4,7 +4,7 @@ import { Body } from '../objects/Body'
 // prettier-ignore
 import { Equation } from '../equations/Equation'
 
-type ConstraintOptions = {
+export type ConstraintOptions = {
   collideConnected?: boolean
   wakeUpBodies?: boolean
 }

@@ -3,7 +3,7 @@ import { Equation } from '../equations/Equation'
 // prettier-ignore
 import { Body } from '../objects/Body'
 
-type ConeEquationOptions = {
+export type ConeEquationOptions = {
   maxForce?: number
   axisA?: Vec3
   axisB?: Vec3

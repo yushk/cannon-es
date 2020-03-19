@@ -13,7 +13,7 @@ import { Heightfield } from '../shapes/Heightfield'
 import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import { Trimesh } from '../shapes/Trimesh'
 
-type RayOptions = {
+export type RayOptions = {
   from?: Vec3
   to?: Vec3
   mode?: number

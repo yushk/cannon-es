@@ -21,7 +21,7 @@ export const BODY_SLEEP_STATES = {
   SLEEPING: 2 as 2,
 }
 
-type BodyOptions = {
+export type BodyOptions = {
   collisionFilterGroup?: number
   collisionFilterMask?: number
   position?: Vec3

@@ -5,7 +5,7 @@ import { Vec3 } from '../math/Vec3'
 // prettier-ignore
 import { Body } from '../objects/Body'
 
-type HingeConstraintOptions = {
+export type HingeConstraintOptions = {
   maxForce?: number
   pivotA?: Vec3
   pivotB?: Vec3

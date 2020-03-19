@@ -33,7 +33,13 @@ export class Trimesh extends Shape {
   tree: Octree // The indexed triangles. Use .updateTree() to update it.
 
   static computeNormal: (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3) => void
-  static createTorus: (radius: number, tube: number, radialSegments: number, tubularSegments: number, arc: number) => Trimesh
+  static createTorus: (
+    radius: number,
+    tube: number,
+    radialSegments: number,
+    tubularSegments: number,
+    arc: number
+  ) => Trimesh
 
   constructor(vertices: number[], indices: number[]) {
     super({ type: Shape.types.TRIMESH })
@@ -121,8 +127,8 @@ export class Trimesh extends Shape {
    * @param {Vec3} scale
    */
   setScale(scale: Vec3): void {
-    const wasUniform = (this.scale.x === this.scale.y) && (this.scale.y === this.scale.z)
-    const isUniform = (scale.x === scale.y) && (scale.y === scale.z)
+    const wasUniform = this.scale.x === this.scale.y && this.scale.y === this.scale.z
+    const isUniform = scale.x === scale.y && scale.y === scale.z
 
     if (!(wasUniform && isUniform)) {
       // Non-uniform scaling. Need to update normals.

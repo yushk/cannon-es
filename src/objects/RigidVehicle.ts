@@ -6,12 +6,12 @@ import { HingeConstraint } from '../constraints/HingeConstraint'
 // prettier-ignore
 import { World } from '../world/World'
 
-type RigidVehicleOptions = {
+export type RigidVehicleOptions = {
   coordinateSystem?: Vec3
   chassisBody?: Body
 }
 
-type RigidVehicleWheelOptions = {
+export type RigidVehicleWheelOptions = {
   body?: Body
   position?: Vec3
   axis?: Vec3

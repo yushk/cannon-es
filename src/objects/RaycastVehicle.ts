@@ -10,7 +10,7 @@ import { Constraint } from '../constraints/Constraint'
 // prettier-ignore
 import { Transform } from '../math/Transform'
 
-type RaycastVehicleOptions = {
+export type RaycastVehicleOptions = {
   chassisBody: Body
   indexRightAxis?: number
   indexForwardAxis?: number

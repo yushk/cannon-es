@@ -1,4 +1,4 @@
-type MaterialOptions = {
+export type MaterialOptions = {
   friction?: number
   restitution?: number
 }
