@@ -17,6 +17,11 @@ import { World } from 'cannon-es'
 - Check for variables that were previously intentionally uninitialized in the constructor, but were updated in the TS conversion
 - Convert to abstract classes where possible (Equation, Solver, etc.?)
 - Resolve `as any` type assertions where possible
+  - Fix type for integer array with key-value pair in ConvexPolyhedron:
+  ```
+  const polyA = hullA.faces[closestFaceA] // polyA: number[]
+  polyA.connectedFaces = [] // key-value pair in array
+  ```
 - Revisit math/Transform.ts types
 - Revisit material/ContactMaterial.ts constructor assertions
 - Consider narrowing types in objects/SPHSystem (Body -> Particle)

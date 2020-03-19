@@ -219,7 +219,7 @@ export class Ray {
     body: Body,
     reportedShape: Shape
   ): void {
-    return this.intersectConvex(convexPolyhedronRepresentation, quat, position, body, reportedShape)
+    return this.intersectConvex(convexPolyhedronRepresentation!, quat, position, body, reportedShape)
   }
 
   /**

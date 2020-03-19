@@ -14,7 +14,7 @@ import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 export class Cylinder extends ConvexPolyhedron {
   constructor(radiusTop: number, radiusBottom: number, height: number, numSegments: number) {
     const N = numSegments
-    const verts = []
+    const vertices = []
     const axes = []
     const faces = []
     const bottomface = []
@@ -23,11 +23,11 @@ export class Cylinder extends ConvexPolyhedron {
     const sin = Math.sin
 
     // First bottom point
-    verts.push(new Vec3(radiusBottom * cos(0), radiusBottom * sin(0), -height * 0.5))
+    vertices.push(new Vec3(radiusBottom * cos(0), radiusBottom * sin(0), -height * 0.5))
     bottomface.push(0)
 
     // First top point
-    verts.push(new Vec3(radiusTop * cos(0), radiusTop * sin(0), height * 0.5))
+    vertices.push(new Vec3(radiusTop * cos(0), radiusTop * sin(0), height * 0.5))
     topface.push(1)
 
     for (var i = 0; i < N; i++) {
@@ -35,10 +35,10 @@ export class Cylinder extends ConvexPolyhedron {
       const thetaN = ((2 * Math.PI) / N) * (i + 0.5)
       if (i < N - 1) {
         // Bottom
-        verts.push(new Vec3(radiusBottom * cos(theta), radiusBottom * sin(theta), -height * 0.5))
+        vertices.push(new Vec3(radiusBottom * cos(theta), radiusBottom * sin(theta), -height * 0.5))
         bottomface.push(2 * i + 2)
         // Top
-        verts.push(new Vec3(radiusTop * cos(theta), radiusTop * sin(theta), height * 0.5))
+        vertices.push(new Vec3(radiusTop * cos(theta), radiusTop * sin(theta), height * 0.5))
         topface.push(2 * i + 3)
 
         // Face
@@ -62,6 +62,6 @@ export class Cylinder extends ConvexPolyhedron {
     }
     faces.push(temp)
 
-    super(verts, faces, axes)
+    super({ vertices, faces, axes })
   }
 }
