@@ -2,6 +2,21 @@ import { Shape } from '../shapes/Shape'
 import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import { Vec3 } from '../math/Vec3'
 import { Utils } from '../utils/Utils'
+// prettier-ignore
+import { AABB } from '../collision/AABB'
+// prettier-ignore
+import { Quaternion } from 'math/Quaternion'
+
+export type HeightfieldOptions = {
+  maxValue?: number | null
+  minValue?: number | null
+  elementSize?: number
+}
+
+type HeightfieldPillar = {
+  convex: any
+  offset: any
+}
 
 /**
  * Heightfield shape class. Height data is given as an array. These data points are spread out evenly with a given distance.
@@ -33,50 +48,39 @@ import { Utils } from '../utils/Utils'
  *     world.addBody(heightfieldBody);
  */
 export class Heightfield extends Shape {
-  constructor(data, options) {
+  data: number[][] // An array of numbers, or height values, that are spread out along the x axis.
+  maxValue: number | null // Max value of the data.
+  minValue: number | null // Max value of the data.
+  elementSize: number // The width of each element. To do: elementSizeX and Y
+  cacheEnabled: boolean
+  pillarConvex: ConvexPolyhedron
+  pillarOffset: Vec3
+
+  private _cachedPillars: { [key: string]: HeightfieldPillar }
+
+  constructor(data: number[][], options: HeightfieldOptions = {}) {
     options = Utils.defaults(options, {
       maxValue: null,
       minValue: null,
       elementSize: 1,
     })
 
-    /**
-     * An array of numbers, or height values, that are spread out along the x axis.
-     * @property {array} data
-     */
+    super({ type: Shape.types.HEIGHTFIELD })
+
     this.data = data
-
-    /**
-     * Max value of the data
-     * @property {number} maxValue
-     */
-    this.maxValue = options.maxValue
-
-    /**
-     * Max value of the data
-     * @property {number} minValue
-     */
-    this.minValue = options.minValue
-
-    /**
-     * The width of each element
-     * @property {number} elementSize
-     * @todo elementSizeX and Y
-     */
-    this.elementSize = options.elementSize
+    this.maxValue = options.maxValue!
+    this.minValue = options.minValue!
+    this.elementSize = options.elementSize!
 
     if (options.minValue === null) {
       this.updateMinValue()
     }
+
     if (options.maxValue === null) {
       this.updateMaxValue()
     }
 
     this.cacheEnabled = true
-
-    super({
-      type: Shape.types.HEIGHTFIELD,
-    })
 
     this.pillarConvex = new ConvexPolyhedron()
     this.pillarOffset = new Vec3()
@@ -93,7 +97,7 @@ export class Heightfield extends Shape {
    * Call whenever you change the data array.
    * @method update
    */
-  update() {
+  update(): void {
     this._cachedPillars = {}
   }
 
@@ -101,7 +105,7 @@ export class Heightfield extends Shape {
    * Update the .minValue property
    * @method updateMinValue
    */
-  updateMinValue() {
+  updateMinValue(): void {
     const data = this.data
     let minValue = data[0][0]
     for (let i = 0; i !== data.length; i++) {
@@ -119,7 +123,7 @@ export class Heightfield extends Shape {
    * Update the .maxValue property
    * @method updateMaxValue
    */
-  updateMaxValue() {
+  updateMaxValue(): void {
     const data = this.data
     let maxValue = data[0][0]
     for (let i = 0; i !== data.length; i++) {
@@ -140,7 +144,7 @@ export class Heightfield extends Shape {
    * @param {integer} yi
    * @param {number} value
    */
-  setHeightValueAtIndex(xi, yi, value) {
+  setHeightValueAtIndex(xi: number, yi: number, value: number): void {
     const data = this.data
     data[xi][yi] = value
 
@@ -169,11 +173,11 @@ export class Heightfield extends Shape {
    * @param  {array} [result] An array to store the results in.
    * @return {array} The result array, if it was passed in. Minimum will be at position 0 and max at 1.
    */
-  getRectMinMax(iMinX, iMinY, iMaxX, iMaxY, result = []) {
+  getRectMinMax(iMinX: number, iMinY: number, iMaxX: number, iMaxY: number, result: number[] = []): void {
     // Get max and min of the data
     const data = this.data // Set first value
 
-    let max = this.minValue
+    let max = this.minValue!
     for (let i = iMinX; i <= iMaxX; i++) {
       for (let j = iMinY; j <= iMaxY; j++) {
         const height = data[i][j]
@@ -183,7 +187,7 @@ export class Heightfield extends Shape {
       }
     }
 
-    result[0] = this.minValue
+    result[0] = this.minValue!
     result[1] = max
   }
 
@@ -196,7 +200,7 @@ export class Heightfield extends Shape {
    * @param  {boolean} clamp If the position should be clamped to the heightfield edge.
    * @return {boolean}
    */
-  getIndexOfPosition(x, y, result, clamp) {
+  getIndexOfPosition(x: number, y: number, result: number[], clamp: boolean): boolean {
     // Get the index of the data points to test against
     const w = this.elementSize
     const data = this.data
@@ -230,7 +234,7 @@ export class Heightfield extends Shape {
     return true
   }
 
-  getTriangleAt(x, y, edgeClamp, a, b, c) {
+  getTriangleAt(x: number, y: number, edgeClamp: boolean, a: Vec3, b: Vec3, c: Vec3): boolean {
     const idx = getHeightAt_idx
     this.getIndexOfPosition(x, y, idx, edgeClamp)
     let xi = idx[0]
@@ -250,7 +254,7 @@ export class Heightfield extends Shape {
     return upper
   }
 
-  getNormalAt(x, y, edgeClamp, result) {
+  getNormalAt(x: number, y: number, edgeClamp: boolean, result: Vec3): void {
     const a = getNormalAt_a
     const b = getNormalAt_b
     const c = getNormalAt_c
@@ -269,7 +273,7 @@ export class Heightfield extends Shape {
    * @param  {number} yi
    * @param  {AABB} result
    */
-  getAabbAtIndex(xi, yi, { lowerBound, upperBound }) {
+  getAabbAtIndex(xi: number, yi: number, { lowerBound, upperBound }: AABB): void {
     const data = this.data
     const elementSize = this.elementSize
 
@@ -284,7 +288,7 @@ export class Heightfield extends Shape {
    * @param  {boolean} edgeClamp
    * @return {number}
    */
-  getHeightAt(x, y, edgeClamp) {
+  getHeightAt(x: number, y: number, edgeClamp: boolean): number {
     const data = this.data
     const a = getHeightAt_a
     const b = getHeightAt_b
@@ -312,22 +316,22 @@ export class Heightfield extends Shape {
     }
   }
 
-  getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle) {
+  getCacheConvexTrianglePillarKey(xi: number, yi: number, getUpperTriangle: boolean): string {
     return `${xi}_${yi}_${getUpperTriangle ? 1 : 0}`
   }
 
-  getCachedConvexTrianglePillar(xi, yi, getUpperTriangle) {
+  getCachedConvexTrianglePillar(xi: number, yi: number, getUpperTriangle: boolean): HeightfieldPillar {
     return this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)]
   }
 
-  setCachedConvexTrianglePillar(xi, yi, getUpperTriangle, convex, offset) {
+  setCachedConvexTrianglePillar(xi: number, yi: number, getUpperTriangle: boolean, convex: ConvexPolyhedron, offset: Vec3): void {
     this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)] = {
       convex,
       offset,
     }
   }
 
-  clearCachedConvexTrianglePillar(xi, yi, getUpperTriangle) {
+  clearCachedConvexTrianglePillar(xi: number, yi: number, getUpperTriangle: boolean): void {
     delete this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)]
   }
 
@@ -340,7 +344,7 @@ export class Heightfield extends Shape {
    * @param  {Vec3} b
    * @param  {Vec3} c
    */
-  getTriangle(xi, yi, upper, a, b, c) {
+  getTriangle(xi: number, yi: number, upper: boolean, a: Vec3, b: Vec3, c: Vec3): void {
     const data = this.data
     const elementSize = this.elementSize
 
@@ -364,12 +368,12 @@ export class Heightfield extends Shape {
    * @param  {integer} j
    * @param  {boolean} getUpperTriangle
    */
-  getConvexTrianglePillar(xi, yi, getUpperTriangle) {
+  getConvexTrianglePillar(xi: number, yi: number, getUpperTriangle: boolean): void {
     let result = this.pillarConvex
     let offsetResult = this.pillarOffset
 
     if (this.cacheEnabled) {
-      var data = this.getCachedConvexTrianglePillar(xi, yi, getUpperTriangle)
+      const data = this.getCachedConvexTrianglePillar(xi, yi, getUpperTriangle)
       if (data) {
         this.pillarConvex = data.convex
         this.pillarOffset = data.offset
@@ -383,7 +387,7 @@ export class Heightfield extends Shape {
       this.pillarOffset = offsetResult
     }
 
-    var data = this.data
+    const data = this.data
     const elementSize = this.elementSize
     const faces = result.faces
 
@@ -406,8 +410,14 @@ export class Heightfield extends Shape {
     const verts = result.vertices
 
     const h =
-      (Math.min(data[xi][yi], data[xi + 1][yi], data[xi][yi + 1], data[xi + 1][yi + 1]) - this.minValue) / 2 +
-      this.minValue
+      (
+        Math.min(
+          data[xi][yi],
+          data[xi + 1][yi],
+          data[xi][yi + 1],
+          data[xi + 1][yi + 1],
+        ) - this.minValue!
+      ) / 2 + this.minValue!
 
     if (!getUpperTriangle) {
       // Center of the triangle pillar - all polygons are given relative to this one
@@ -508,25 +518,25 @@ export class Heightfield extends Shape {
     this.setCachedConvexTrianglePillar(xi, yi, getUpperTriangle, result, offsetResult)
   }
 
-  calculateLocalInertia(mass, target = new Vec3()) {
+  calculateLocalInertia(mass: number, target = new Vec3()): Vec3 {
     target.set(0, 0, 0)
     return target
   }
 
-  volume() {
+  volume(): number {
     return (
       // The terrain is infinite
       Number.MAX_VALUE
     )
   }
 
-  calculateWorldAABB(pos, quat, min, max) {
+  calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3) {
     // TODO: do it properly
     min.set(-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE)
     max.set(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE)
   }
 
-  updateBoundingSphereRadius() {
+  updateBoundingSphereRadius(): void {
     // Use the bounding box of the min/max values
     const data = this.data
 
@@ -534,7 +544,7 @@ export class Heightfield extends Shape {
     this.boundingSphereRadius = new Vec3(
       data.length * s,
       data[0].length * s,
-      Math.max(Math.abs(this.maxValue), Math.abs(this.minValue))
+      Math.max(Math.abs(this.maxValue!), Math.abs(this.minValue!))
     ).norm()
   }
 
@@ -544,11 +554,12 @@ export class Heightfield extends Shape {
    * @param {Image} image
    * @param {Vec3} scale
    */
-  setHeightsFromImage(image, { x, z, y }) {
+  setHeightsFromImage(image: HTMLImageElement, scale: Vec3): void {
+    const { x, z, y } = scale
     const canvas = document.createElement('canvas')
     canvas.width = image.width
     canvas.height = image.height
-    const context = canvas.getContext('2d')
+    const context = canvas.getContext('2d')!
     context.drawImage(image, 0, 0)
     const imageData = context.getImageData(0, 0, image.width, image.height)
 
@@ -580,7 +591,7 @@ export class Heightfield extends Shape {
   }
 }
 
-const getHeightAt_idx = []
+const getHeightAt_idx: number[] = []
 const getHeightAt_weights = new Vec3()
 const getHeightAt_a = new Vec3()
 const getHeightAt_b = new Vec3()
@@ -593,7 +604,7 @@ const getNormalAt_e0 = new Vec3()
 const getNormalAt_e1 = new Vec3()
 
 // from https://en.wikipedia.org/wiki/Barycentric_coordinate_system
-function barycentricWeights(x, y, ax, ay, bx, by, cx, cy, result) {
+function barycentricWeights(x: number, y: number, ax: number, ay: number, bx: number, by: number, cx: number, cy: number, result: Vec3): void {
   result.x = ((by - cy) * (x - cx) + (cx - bx) * (y - cy)) / ((by - cy) * (ax - cx) + (cx - bx) * (ay - cy))
   result.y = ((cy - ay) * (x - cx) + (ax - cx) * (y - cy)) / ((by - cy) * (ax - cx) + (cx - bx) * (ay - cy))
   result.z = 1 - result.x - result.y
