@@ -4,7 +4,7 @@ import { Transform } from '../math/Transform'
 // prettier-ignore
 import { Quaternion } from '../math/Quaternion'
 
-type ContactPoint = {
+type ConvexPolyhedronContactPoint = {
   point: Vec3
   normal: Vec3
   depth: number
@@ -181,7 +181,7 @@ export class ConvexPolyhedron extends Shape {
     separatingNormal: Vec3,
     minDist: number,
     maxDist: number,
-    result: ContactPoint[]
+    result: ConvexPolyhedronContactPoint[]
   ) {
     const WorldNormal = new Vec3()
     let closestFaceB = -1
@@ -438,7 +438,7 @@ export class ConvexPolyhedron extends Shape {
     worldVertsB1: Vec3[],
     minDist: number,
     maxDist: number,
-    result: ContactPoint[]
+    result: ConvexPolyhedronContactPoint[]
   ): void {
     const faceANormalWS = new Vec3()
     const edge0 = new Vec3()
