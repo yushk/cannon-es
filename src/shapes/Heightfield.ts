@@ -324,7 +324,13 @@ export class Heightfield extends Shape {
     return this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)]
   }
 
-  setCachedConvexTrianglePillar(xi: number, yi: number, getUpperTriangle: boolean, convex: ConvexPolyhedron, offset: Vec3): void {
+  setCachedConvexTrianglePillar(
+    xi: number,
+    yi: number,
+    getUpperTriangle: boolean,
+    convex: ConvexPolyhedron,
+    offset: Vec3
+  ): void {
     this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)] = {
       convex,
       offset,
@@ -410,14 +416,8 @@ export class Heightfield extends Shape {
     const verts = result.vertices
 
     const h =
-      (
-        Math.min(
-          data[xi][yi],
-          data[xi + 1][yi],
-          data[xi][yi + 1],
-          data[xi + 1][yi + 1],
-        ) - this.minValue!
-      ) / 2 + this.minValue!
+      (Math.min(data[xi][yi], data[xi + 1][yi], data[xi][yi + 1], data[xi + 1][yi + 1]) - this.minValue!) / 2 +
+      this.minValue!
 
     if (!getUpperTriangle) {
       // Center of the triangle pillar - all polygons are given relative to this one
@@ -604,7 +604,17 @@ const getNormalAt_e0 = new Vec3()
 const getNormalAt_e1 = new Vec3()
 
 // from https://en.wikipedia.org/wiki/Barycentric_coordinate_system
-function barycentricWeights(x: number, y: number, ax: number, ay: number, bx: number, by: number, cx: number, cy: number, result: Vec3): void {
+function barycentricWeights(
+  x: number,
+  y: number,
+  ax: number,
+  ay: number,
+  bx: number,
+  by: number,
+  cx: number,
+  cy: number,
+  result: Vec3
+): void {
   result.x = ((by - cy) * (x - cx) + (cx - bx) * (y - cy)) / ((by - cy) * (ax - cx) + (cx - bx) * (ay - cy))
   result.y = ((cy - ay) * (x - cx) + (ax - cx) * (y - cy)) / ((by - cy) * (ax - cx) + (cx - bx) * (ay - cy))
   result.z = 1 - result.x - result.y
