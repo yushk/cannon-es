@@ -197,7 +197,7 @@ class OctreeNode {
 export class Octree extends OctreeNode {
   maxDepth: number // Maximum subdivision depth
 
-  constructor(aabb: AABB, options: { maxDepth?: number } = {}) {
+  constructor(aabb?: AABB, options: { maxDepth?: number } = {}) {
     super({ root: null, aabb })
     this.maxDepth = typeof options.maxDepth !== 'undefined' ? options.maxDepth : 8
   }

@@ -83,7 +83,7 @@ export class SAPBroadphase extends Broadphase {
    * @param  {Array} p1
    * @param  {Array} p2
    */
-  collisionPairs(world: World, p1: Body[], p2: Body[]) {
+  collisionPairs(world: World, p1: Body[], p2: Body[]): void {
     const bodies = this.axisList
     const N = bodies.length
     const axisIndex = this.axisIndex
@@ -143,7 +143,7 @@ export class SAPBroadphase extends Broadphase {
    * axis to use. Will automatically set property .axisIndex.
    * @method autoDetectAxis
    */
-  autoDetectAxis() {
+  autoDetectAxis(): void {
     let sumX = 0
     let sumX2 = 0
     let sumY = 0
@@ -195,7 +195,7 @@ export class SAPBroadphase extends Broadphase {
    * @param {array} result An array to store resulting bodies in.
    * @return {array}
    */
-  aabbQuery(world: World, aabb: AABB, result: Body[] = []) {
+  aabbQuery(world: World, aabb: AABB, result: Body[] = []): Body[] {
     if (this.dirty) {
       this.sortList()
       this.dirty = false
