@@ -13,7 +13,7 @@ import { Ray } from '../collision/Ray'
 class OctreeNode {
   root: OctreeNode | null // The root node
   aabb: AABB // Boundary of this node
-  data: object[] // Contained data at the current node level
+  data: number[] // Contained data at the current node level
   children: OctreeNode[] // Children to this node
 
   constructor(options: { root?: Octree | null; aabb?: AABB } = {}) {
@@ -34,7 +34,7 @@ class OctreeNode {
    * @param  {object} elementData
    * @return {boolean} True if successful, otherwise false
    */
-  insert(aabb: AABB, elementData: object, level = 0): boolean {
+  insert(aabb: AABB, elementData: number, level = 0): boolean {
     const nodeData = this.data
 
     // Ignore objects that do not belong in this node
@@ -125,7 +125,7 @@ class OctreeNode {
    * @param  {array} result
    * @return {array} The "result" object
    */
-  aabbQuery(aabb: AABB, result: object[]): object[] {
+  aabbQuery(aabb: AABB, result: number[]): number[] {
     const nodeData = this.data
 
     // abort if the range does not intersect this node
@@ -164,7 +164,7 @@ class OctreeNode {
    * @param  {array} result
    * @return {array} The "result" object
    */
-  rayQuery(ray: Ray, treeTransform: Transform, result: object[]): object[] {
+  rayQuery(ray: Ray, treeTransform: Transform, result: number[]): number[] {
     // Use aabb query for now.
     // @todo implement real ray query which needs less lookups
     ray.getAABB(tmpAABB)

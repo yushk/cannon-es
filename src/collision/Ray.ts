@@ -573,7 +573,7 @@ export class Ray {
     const indices = mesh.indices
 
     const vertices = mesh.vertices
-    const normals = mesh.faceNormals
+    // const normals = mesh.faceNormals
 
     const from = this.from
     const to = this.to
