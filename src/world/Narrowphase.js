@@ -285,8 +285,10 @@ const tmpQuat2 = new Quaternion()
 let numWarnings = 0
 const maxWarnings = 10
 
-function warn (msg) {
-  if (numWarnings > maxWarnings) { return }
+function warn(msg) {
+  if (numWarnings > maxWarnings) {
+    return
+  }
   numWarnings++
   console.warn(msg)
 }

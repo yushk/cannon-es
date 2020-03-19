@@ -471,7 +471,7 @@ export class ConvexPolyhedron extends Shape {
     }
 
     // Get the face and construct connected faces
-    const polyA = hullA.faces[closestFaceA] as any
+    const polyA = hullA.faces[closestFaceA] as number[] & { connectedFaces: number[] }
     polyA.connectedFaces = []
     for (let i = 0; i < hullA.faces.length; i++) {
       for (let j = 0; j < hullA.faces[i].length; j++) {
