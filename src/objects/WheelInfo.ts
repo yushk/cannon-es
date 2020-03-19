@@ -35,9 +35,8 @@ export type WheelInfoOptions = {
   customSlidingRotationalSpeed?: number
 }
 
-export type WheelRaycastResult =
-  & RaycastResult
-  & Partial<{
+export type WheelRaycastResult = RaycastResult &
+  Partial<{
     suspensionLength: number
     directionWorld: Vec3
     groundObject: number

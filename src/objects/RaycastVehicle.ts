@@ -561,8 +561,8 @@ export class RaycastVehicle {
 
         // Scale the relative position in the up direction with rollInfluence.
         // If rollInfluence is 1, the impulse will be applied on the hitPoint (easy to roll over), if it is zero it will be applied in the same plane as the center of mass (not easy to roll over).
-        chassisBody.vectorToLocalFrame(rel_pos, rel_pos);
-        (rel_pos as any)['xyz'[this.indexUpAxis]] *= wheel.rollInfluence
+        chassisBody.vectorToLocalFrame(rel_pos, rel_pos)
+        ;(rel_pos as any)['xyz'[this.indexUpAxis]] *= wheel.rollInfluence
         chassisBody.vectorToWorldFrame(rel_pos, rel_pos)
         chassisBody.applyImpulse(sideImp, rel_pos)
 
@@ -598,7 +598,13 @@ const calcRollingFriction_vel1 = new Vec3()
 const calcRollingFriction_vel2 = new Vec3()
 const calcRollingFriction_vel = new Vec3()
 
-function calcRollingFriction(body0: Body, body1: Body, frictionPosWorld: Vec3, frictionDirectionWorld: Vec3, maxImpulse: number) {
+function calcRollingFriction(
+  body0: Body,
+  body1: Body,
+  frictionPosWorld: Vec3,
+  frictionDirectionWorld: Vec3,
+  maxImpulse: number
+) {
   let j1 = 0
   const contactPosWorld = frictionPosWorld
 
