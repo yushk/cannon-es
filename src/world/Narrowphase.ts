@@ -1073,7 +1073,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     si.convexPolyhedronRepresentation.material = si.material
     si.convexPolyhedronRepresentation.collisionResponse = si.collisionResponse
     return this.convexConvex(si.convexPolyhedronRepresentation, sj, xi, xj, qi, qj, bi, bj, si, sj, justTest)
@@ -1091,7 +1091,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     const data = hfShape.data
     const radius = sphereShape.radius
     const w = hfShape.elementSize
@@ -1235,7 +1235,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     si.convexPolyhedronRepresentation.material = si.material
     si.convexPolyhedronRepresentation.collisionResponse = si.collisionResponse
     return this.convexHeightfield(si.convexPolyhedronRepresentation, sj, xi, xj, qi, qj, bi, bj, si, sj, justTest)
@@ -1253,7 +1253,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     const data = hfShape.data
     const w = hfShape.elementSize
     const radius = convexShape.boundingSphereRadius
@@ -1387,7 +1387,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     // The normal is the unit vector from sphere center to particle center
     const normal = particleSphere_normal
     normal.set(0, 0, 1)
@@ -1422,7 +1422,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     const normal = particlePlane_normal
     normal.set(0, 0, 1)
     bj.quaternion.vmult(normal, normal) // Turn normal according to plane orientation
@@ -1464,7 +1464,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     si.convexPolyhedronRepresentation.material = si.material
     si.convexPolyhedronRepresentation.collisionResponse = si.collisionResponse
     return this.convexParticle(si.convexPolyhedronRepresentation, sj, xi, xj, qi, qj, bi, bj, si, sj, justTest)
@@ -1482,7 +1482,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     let penetratedFaceIndex = -1
     const penetratedFaceNormal = convexParticle_penetratedFaceNormal
     const worldPenetrationVec = convexParticle_worldPenetrationVec
@@ -1570,7 +1570,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     const edgeVertexA = sphereTrimesh_edgeVertexA
     const edgeVertexB = sphereTrimesh_edgeVertexB
     const edgeVector = sphereTrimesh_edgeVector
@@ -1748,7 +1748,7 @@ export class Narrowphase {
     rsi?: Shape | null,
     rsj?: Shape | null,
     justTest?: boolean
-  ) {
+  ): true | void {
     // Make contacts!
     const v = new Vec3()
 
