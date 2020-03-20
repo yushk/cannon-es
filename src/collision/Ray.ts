@@ -81,7 +81,7 @@ export class Ray {
     this.mode = Ray.ANY
     this.result = new RaycastResult()
     this.hasHit = false
-    this.callback = result => {}
+    this.callback = (result) => {}
   }
 
   /**

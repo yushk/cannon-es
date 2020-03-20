@@ -875,7 +875,7 @@ World.prototype.emitContactEvents = (() => {
     shapeB: null,
   }
 
-  return function(): void {
+  return function (): void {
     const hasBeginContact = this.hasAnyEventListener('beginContact')
     const hasEndContact = this.hasAnyEventListener('endContact')
 
