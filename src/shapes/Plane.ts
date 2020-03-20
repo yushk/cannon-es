@@ -52,22 +52,19 @@ export class Plane extends Shape {
 
     if (tempNormal.x === 1) {
       max.x = pos.x
-    }
-    else if (tempNormal.x === -1) {
+    } else if (tempNormal.x === -1) {
       min.x = pos.x
     }
 
     if (tempNormal.y === 1) {
       max.y = pos.y
-    }
-    else if (tempNormal.y === -1) {
+    } else if (tempNormal.y === -1) {
       min.y = pos.y
     }
 
     if (tempNormal.z === 1) {
       max.z = pos.z
-    }
-    else if (tempNormal.z === -1) {
+    } else if (tempNormal.z === -1) {
       min.z = pos.z
     }
   }

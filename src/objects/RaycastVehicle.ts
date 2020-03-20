@@ -562,7 +562,7 @@ export class RaycastVehicle {
         // Scale the relative position in the up direction with rollInfluence.
         // If rollInfluence is 1, the impulse will be applied on the hitPoint (easy to roll over), if it is zero it will be applied in the same plane as the center of mass (not easy to roll over).
         chassisBody.vectorToLocalFrame(rel_pos, rel_pos)
-        ;rel_pos[('xyz'[this.indexUpAxis] as 'x' | 'y' | 'z')] *= wheel.rollInfluence
+        rel_pos['xyz'[this.indexUpAxis] as 'x' | 'y' | 'z'] *= wheel.rollInfluence
         chassisBody.vectorToWorldFrame(rel_pos, rel_pos)
         chassisBody.applyImpulse(sideImp, rel_pos)
 

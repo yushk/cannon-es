@@ -415,7 +415,11 @@ export class Vec3 {
    * @return bool
    */
   almostEquals(vector: Vec3, precision = 1e-6): boolean {
-    if (Math.abs(this.x - vector.x) > precision || Math.abs(this.y - vector.y) > precision || Math.abs(this.z - vector.z) > precision) {
+    if (
+      Math.abs(this.x - vector.x) > precision ||
+      Math.abs(this.y - vector.y) > precision ||
+      Math.abs(this.z - vector.z) > precision
+    ) {
       return false
     }
     return true

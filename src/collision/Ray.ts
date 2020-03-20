@@ -190,12 +190,7 @@ export class Ray {
     this.direction.normalize()
   }
 
-  private intersectShape(
-    shape: Shape,
-    quat: Quaternion,
-    position: Vec3,
-    body: Body
-  ): void {
+  private intersectShape(shape: Shape, quat: Quaternion, position: Vec3, body: Body): void {
     const from = this.from
 
     // Checking boundingSphere
@@ -206,7 +201,7 @@ export class Ray {
 
     const intersectMethod = this[shape.type as RayMode]
     if (intersectMethod) {
-      (intersectMethod as any).call(this, shape, quat, position, body, shape)
+      ;(intersectMethod as any).call(this, shape, quat, position, body, shape)
     }
   }
 
