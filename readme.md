@@ -10,8 +10,7 @@ import { World } from 'cannon-es'
 
 #### TO DO:
 
-- Check for any functions missing an explicit return type with regex: `\) \{`
-- Check for any removed `@todo` or `@deprecated` JSDoc comments
+- Check for any removed `@todo` or `@deprecated` JSDoc comments in merged PR file changes
 - Check for variables that were previously intentionally uninitialized in the constructor, but were updated in the TS conversion
 - Convert to static methods where possible? (memory savings)
 - Convert to abstract classes where possible (Equation, Solver, etc.?)
