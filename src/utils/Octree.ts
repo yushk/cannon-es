@@ -43,7 +43,7 @@ class OctreeNode {
     }
 
     const children = this.children
-    const maxDepth = ((this as unknown) as Octree).maxDepth || ((this.root as unknown) as Octree).maxDepth
+    const maxDepth = (this as any).maxDepth || (this.root! as any).maxDepth
 
     if (level < maxDepth) {
       // Subdivide if there are no children yet

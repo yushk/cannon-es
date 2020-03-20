@@ -51,9 +51,9 @@ export class NaiveBroadphase extends Broadphase {
    * @param {array} result An array to store resulting bodies in.
    * @return {array}
    */
-  aabbQuery({ bodies }: World, aabb: AABB, result: Body[] = []): Body[] {
-    for (let i = 0; i < bodies.length; i++) {
-      const b = bodies[i]
+  aabbQuery(world: World, aabb: AABB, result: Body[] = []): Body[] {
+    for (let i = 0; i < world.bodies.length; i++) {
+      const b = world.bodies[i]
 
       if (b.aabbNeedsUpdate) {
         b.computeAABB()

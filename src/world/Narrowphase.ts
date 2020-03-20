@@ -48,6 +48,8 @@ export const COLLISION_TYPES = {
   planeTrimesh: (Shape.types.PLANE | Shape.types.TRIMESH) as 258,
 }
 
+export type CollisionType = typeof COLLISION_TYPES[keyof typeof COLLISION_TYPES]
+
 /**
  * Helper class for the World. Generates ContactEquations.
  * @class Narrowphase
@@ -318,7 +320,7 @@ export class Narrowphase {
           this.currentContactMaterial = shapeContactMaterial || bodyContactMaterial || world.defaultContactMaterial
 
           // Get contacts
-          const resolverIndex = (si.type | sj.type) as typeof COLLISION_TYPES[keyof typeof COLLISION_TYPES]
+          const resolverIndex = (si.type | sj.type) as CollisionType
           const resolver = this[resolverIndex]
           if (resolver) {
             let retval = false
