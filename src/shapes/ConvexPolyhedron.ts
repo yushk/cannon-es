@@ -182,7 +182,7 @@ export class ConvexPolyhedron extends Shape {
     minDist: number,
     maxDist: number,
     result: ConvexPolyhedronContactPoint[]
-  ) {
+  ): void {
     const WorldNormal = new Vec3()
     let closestFaceB = -1
     let dmax = -Number.MAX_VALUE

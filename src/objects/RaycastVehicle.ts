@@ -604,7 +604,7 @@ function calcRollingFriction(
   frictionPosWorld: Vec3,
   frictionDirectionWorld: Vec3,
   maxImpulse: number
-) {
+): number {
   let j1 = 0
   const contactPosWorld = frictionPosWorld
 
