@@ -59,13 +59,13 @@ export class Ray {
   static ANY: typeof RAY_MODES['ANY']
   static ALL: typeof RAY_MODES['ALL']
 
-  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean
+  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
 
-  [Shape.types.SPHERE]: Function
-  [Shape.types.PLANE]: Function
-  [Shape.types.BOX]: Function
-  [Shape.types.CONVEXPOLYHEDRON]: Function
-  [Shape.types.HEIGHTFIELD]: Function
+  [Shape.types.SPHERE]: Function;
+  [Shape.types.PLANE]: Function;
+  [Shape.types.BOX]: Function;
+  [Shape.types.CONVEXPOLYHEDRON]: Function;
+  [Shape.types.HEIGHTFIELD]: Function;
   [Shape.types.TRIMESH]: Function
 
   constructor(from = new Vec3(), to = new Vec3()) {

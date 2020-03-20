@@ -232,7 +232,7 @@ export class ConvexPolyhedron extends Shape {
     quatB: Quaternion,
     target: Vec3,
     faceListA?: number[] | null,
-    faceListB?: number[] | null,
+    faceListB?: number[] | null
   ): boolean {
     const faceANormalWS3 = new Vec3()
     const Worldnormal1 = new Vec3()
