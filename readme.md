@@ -18,8 +18,6 @@ import { World } from 'cannon-es'
 - Ensure no prototypal methods were overwritten due to error:
   - `Property xxxxx has no initializer and is not definitely assigned in the constructor`
 - Resolve `as any` type assertions where possible
-- Consider narrowing types in objects/SPHSystem (Body -> Particle)
 - Remove use of defined assertion (!) where possible (profile performance to ensure no degradation)
-- Should `HingeConstraint` be passing `collideConnected` through `PointToPointConstraint` to `Constraint`? (used in `RigidVehicle` line 81)
 - Correct & standardize JSDoc comments
 - Test possible performance improvements by converting matrices to Maps (instead of Arrays)

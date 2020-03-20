@@ -88,7 +88,7 @@ export class RigidVehicle {
       axisA: axis,
       pivotB: Vec3.ZERO,
       axisB: axis,
-      // collideConnected: false,
+      collideConnected: false,
     })
     this.constraints.push(hingeConstraint)
 
