@@ -25,14 +25,12 @@ export class NaiveBroadphase extends Broadphase {
   collisionPairs(world: World, pairs1: Body[], pairs2: Body[]): void {
     const bodies = world.bodies
     const n = bodies.length
-    let i
-    let j
     let bi
     let bj
 
     // Naive N^2 ftw!
-    for (i = 0; i !== n; i++) {
-      for (j = 0; j !== i; j++) {
+    for (let i = 0; i !== n; i++) {
+      for (let j = 0; j !== i; j++) {
         bi = bodies[i]
         bj = bodies[j]
 

@@ -443,7 +443,7 @@ export class World extends EventTarget {
     const gx = gravity.x
     const gy = gravity.y
     const gz = gravity.z
-    var i = 0
+    let i = 0
 
     if (doProfiling) {
       profilingStart = performance.now()
@@ -451,7 +451,7 @@ export class World extends EventTarget {
 
     // Add gravity to all objects
     for (i = 0; i !== N; i++) {
-      var bi = bodies[i]
+      const bi = bodies[i]
       if (bi.type === DYNAMIC) {
         // Only for dynamic bodies
         const f = bi.force
@@ -480,11 +480,11 @@ export class World extends EventTarget {
     }
 
     // Remove constrained pairs with collideConnected == false
-    var Nconstraints = constraints.length
+    let Nconstraints = constraints.length
     for (i = 0; i !== Nconstraints; i++) {
       const c = constraints[i]
       if (!c.collideConnected) {
-        for (var j = p1.length - 1; j >= 0; j -= 1) {
+        for (let j = p1.length - 1; j >= 0; j -= 1) {
           if ((c.bodyA === p1[j] && c.bodyB === p2[j]) || (c.bodyB === p1[j] && c.bodyA === p2[j])) {
             p1.splice(j, 1)
             p2.splice(j, 1)
@@ -534,7 +534,7 @@ export class World extends EventTarget {
     }
 
     // Add all friction eqs
-    for (var i = 0; i < this.frictionEquations.length; i++) {
+    for (i = 0; i < this.frictionEquations.length; i++) {
       solver.addEquation(this.frictionEquations[i])
     }
 
@@ -586,12 +586,12 @@ export class World extends EventTarget {
       // if(mu > 0){
 
       // 	// Create 2 tangent equations
-      // 	var mug = mu * gnorm;
-      // 	var reducedMass = (bi.invMass + bj.invMass);
+      // 	const mug = mu * gnorm;
+      // 	const reducedMass = (bi.invMass + bj.invMass);
       // 	if(reducedMass > 0){
       // 		reducedMass = 1/reducedMass;
       // 	}
-      // 	var pool = frictionEquationPool;
+      // 	const pool = frictionEquationPool;
       // 	const c1 = pool.length ? pool.pop() : new FrictionEquation(bi,bj,mug*reducedMass);
       // 	const c2 = pool.length ? pool.pop() : new FrictionEquation(bi,bj,mug*reducedMass);
       // 	this.frictionEquations.push(c1, c2);
@@ -676,7 +676,7 @@ export class World extends EventTarget {
 
     // Wake up bodies
     for (i = 0; i !== N; i++) {
-      var bi = bodies[i]
+      const bi = bodies[i]
       if (bi.wakeUpAfterNarrowphase) {
         bi.wakeUp()
         bi.wakeUpAfterNarrowphase = false
@@ -684,7 +684,7 @@ export class World extends EventTarget {
     }
 
     // Add user-added constraints
-    var Nconstraints = constraints.length
+    Nconstraints = constraints.length
     for (i = 0; i !== Nconstraints; i++) {
       const c = constraints[i]
       c.update()
@@ -707,7 +707,7 @@ export class World extends EventTarget {
     // Apply damping, see http://code.google.com/p/bullet/issues/detail?id=74 for details
     const pow = Math.pow
     for (i = 0; i !== N; i++) {
-      var bi = bodies[i]
+      const bi = bodies[i]
       if (bi.type & DYNAMIC) {
         // Only for dynamic bodies
         const ld = pow(1.0 - bi.linearDamping, dt)
@@ -725,7 +725,7 @@ export class World extends EventTarget {
 
     // Invoke pre-step callbacks
     for (i = 0; i !== N; i++) {
-      var bi = bodies[i]
+      const bi = bodies[i]
       if (bi.preStep) {
         bi.preStep.call(bi)
       }
@@ -760,7 +760,7 @@ export class World extends EventTarget {
 
     // Invoke post-step callbacks
     for (i = 0; i !== N; i++) {
-      var bi = bodies[i]
+      const bi = bodies[i]
       const postStep = bi.postStep
       if (postStep) {
         postStep.call(bi)
@@ -884,7 +884,7 @@ World.prototype.emitContactEvents = (() => {
     }
 
     if (hasBeginContact) {
-      for (var i = 0, l = additions.length; i < l; i += 2) {
+      for (let i = 0, l = additions.length; i < l; i += 2) {
         beginContactEvent.bodyA = this.getBodyById(additions[i])
         beginContactEvent.bodyB = this.getBodyById(additions[i + 1])
         this.dispatchEvent(beginContactEvent)
@@ -893,7 +893,7 @@ World.prototype.emitContactEvents = (() => {
     }
 
     if (hasEndContact) {
-      for (var i = 0, l = removals.length; i < l; i += 2) {
+      for (let i = 0, l = removals.length; i < l; i += 2) {
         endContactEvent.bodyA = this.getBodyById(removals[i])
         endContactEvent.bodyB = this.getBodyById(removals[i + 1])
         this.dispatchEvent(endContactEvent)
@@ -911,9 +911,9 @@ World.prototype.emitContactEvents = (() => {
     }
 
     if (hasBeginShapeContact) {
-      for (var i = 0, l = additions.length; i < l; i += 2) {
-        var shapeA = this.getShapeById(additions[i])
-        var shapeB = this.getShapeById(additions[i + 1])
+      for (let i = 0, l = additions.length; i < l; i += 2) {
+        const shapeA = this.getShapeById(additions[i])
+        const shapeB = this.getShapeById(additions[i + 1])
         beginShapeContactEvent.shapeA = shapeA
         beginShapeContactEvent.shapeB = shapeB
         beginShapeContactEvent.bodyA = shapeA.body
@@ -924,9 +924,9 @@ World.prototype.emitContactEvents = (() => {
     }
 
     if (hasEndShapeContact) {
-      for (var i = 0, l = removals.length; i < l; i += 2) {
-        var shapeA = this.getShapeById(removals[i])
-        var shapeB = this.getShapeById(removals[i + 1])
+      for (let i = 0, l = removals.length; i < l; i += 2) {
+        const shapeA = this.getShapeById(removals[i])
+        const shapeB = this.getShapeById(removals[i + 1])
         endShapeContactEvent.shapeA = shapeA
         endShapeContactEvent.shapeB = shapeB
         endShapeContactEvent.bodyA = shapeA.body

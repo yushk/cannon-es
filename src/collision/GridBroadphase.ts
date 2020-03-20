@@ -155,7 +155,7 @@ export class GridBroadphase extends Broadphase {
     // Put all bodies into the bins
     for (let i = 0; i !== N; i++) {
       const bi = bodies[i]
-      let si = bi.shapes[0]
+      const si = bi.shapes[0]
 
       switch (si.type) {
         case SPHERE: {
