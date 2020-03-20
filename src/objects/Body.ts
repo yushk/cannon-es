@@ -10,15 +10,15 @@ import { Box } from '../shapes/Box'
 import { World } from '../world/World'
 
 export const BODY_TYPES = {
-  DYNAMIC: 1 as 1,
-  STATIC: 2 as 2,
-  KINEMATIC: 4 as 4,
+  DYNAMIC: 1 as const,
+  STATIC: 2 as const,
+  KINEMATIC: 4 as const,
 }
 
 export const BODY_SLEEP_STATES = {
-  AWAKE: 0 as 0,
-  SLEEPY: 1 as 1,
-  SLEEPING: 2 as 2,
+  AWAKE: 0 as const,
+  SLEEPY: 1 as const,
+  SLEEPING: 2 as const,
 }
 
 export type BodyOptions = {

@@ -13,7 +13,7 @@ import { Quaternion } from '../math/Quaternion'
  */
 export class Box extends Shape {
   halfExtents: Vec3
-  convexPolyhedronRepresentation: ConvexPolyhedron | null // Used by the contact generator to make contacts with other convex polyhedra for example.
+  convexPolyhedronRepresentation: ConvexPolyhedron // Used by the contact generator to make contacts with other convex polyhedra for example.
 
   static calculateInertia: (halfExtents: Vec3, mass: number, target: Vec3) => void
 
@@ -21,7 +21,7 @@ export class Box extends Shape {
     super({ type: Shape.types.BOX })
 
     this.halfExtents = halfExtents
-    this.convexPolyhedronRepresentation = null
+    this.convexPolyhedronRepresentation = {} as ConvexPolyhedron
     this.updateConvexPolyhedronRepresentation()
     this.updateBoundingSphereRadius()
   }

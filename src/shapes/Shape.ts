@@ -5,15 +5,15 @@ import { Body } from '../objects/Body'
 import { Quaternion } from '../math/Quaternion'
 
 export const SHAPE_TYPES = {
-  SPHERE: 1 as 1,
-  PLANE: 2 as 2,
-  BOX: 4 as 4,
-  COMPOUND: 8 as 8,
-  CONVEXPOLYHEDRON: 16 as 16,
-  HEIGHTFIELD: 32 as 32,
-  PARTICLE: 64 as 64,
-  CYLINDER: 128 as 128,
-  TRIMESH: 256 as 256,
+  SPHERE: 1 as const,
+  PLANE: 2 as const,
+  BOX: 4 as const,
+  COMPOUND: 8 as const,
+  CONVEXPOLYHEDRON: 16 as const,
+  HEIGHTFIELD: 32 as const,
+  PARTICLE: 64 as const,
+  CYLINDER: 128 as const,
+  TRIMESH: 256 as const,
 }
 
 export type ShapeOptions = {

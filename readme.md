@@ -15,7 +15,10 @@ import { World } from 'cannon-es'
 - Check for any functions missing an explicit return type with regex: `\) \{`
 - Check for any removed `@todo` or `@deprecated` JSDoc comments
 - Check for variables that were previously intentionally uninitialized in the constructor, but were updated in the TS conversion
+- Convert to static methods where possible? (memory savings)
 - Convert to abstract classes where possible (Equation, Solver, etc.?)
+- Ensure no prototypal methods were overwritten due to error:
+  - `Property xxxxx has no initializer and is not definitely assigned in the constructor`
 - Resolve `as any` type assertions where possible
   - Fix type for integer array with key-value pair in ConvexPolyhedron:
   ```

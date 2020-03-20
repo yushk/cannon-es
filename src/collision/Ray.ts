@@ -13,10 +13,16 @@ import { Heightfield } from '../shapes/Heightfield'
 import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import { Trimesh } from '../shapes/Trimesh'
 
+export const RAY_MODES = {
+  CLOSEST: 1 as const,
+  ANY: 2 as const,
+  ALL: 4 as const,
+}
+
 export type RayOptions = {
   from?: Vec3
   to?: Vec3
-  mode?: number
+  mode?: typeof RAY_MODES[keyof typeof RAY_MODES]
   result?: RaycastResult
   skipBackfaces?: boolean
   collisionFilterMask?: number
@@ -49,17 +55,17 @@ export class Ray {
   hasHit: boolean // Will be set to true during intersectWorld() if the ray hit anything.
   callback: (result: RaycastResult) => void // User-provided result callback. Will be used if mode is Ray.ALL.
 
-  static ALL: number
-  static CLOSEST: number
-  static ANY: number
+  static CLOSEST: typeof RAY_MODES['CLOSEST']
+  static ANY: typeof RAY_MODES['ANY']
+  static ALL: typeof RAY_MODES['ALL']
 
-  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
+  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean
 
-  [Shape.types.SPHERE]: Function;
-  [Shape.types.PLANE]: Function;
-  [Shape.types.BOX]: Function;
-  [Shape.types.CONVEXPOLYHEDRON]: Function;
-  [Shape.types.HEIGHTFIELD]: Function;
+  [Shape.types.SPHERE]: Function
+  [Shape.types.PLANE]: Function
+  [Shape.types.BOX]: Function
+  [Shape.types.CONVEXPOLYHEDRON]: Function
+  [Shape.types.HEIGHTFIELD]: Function
   [Shape.types.TRIMESH]: Function
 
   constructor(from = new Vec3(), to = new Vec3()) {
@@ -219,7 +225,7 @@ export class Ray {
     body: Body,
     reportedShape: Shape
   ): void {
-    return this.intersectConvex(convexPolyhedronRepresentation!, quat, position, body, reportedShape)
+    return this.intersectConvex(convexPolyhedronRepresentation, quat, position, body, reportedShape)
   }
 
   /**

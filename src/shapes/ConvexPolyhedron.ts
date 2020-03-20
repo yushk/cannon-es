@@ -4,7 +4,7 @@ import { Transform } from '../math/Transform'
 // prettier-ignore
 import { Quaternion } from '../math/Quaternion'
 
-type ConvexPolyhedronContactPoint = {
+export type ConvexPolyhedronContactPoint = {
   point: Vec3
   normal: Vec3
   depth: number
@@ -231,8 +231,8 @@ export class ConvexPolyhedron extends Shape {
     posB: Vec3,
     quatB: Quaternion,
     target: Vec3,
-    faceListA: number[],
-    faceListB: number[]
+    faceListA?: number[] | null,
+    faceListB?: number[] | null,
   ): boolean {
     const faceANormalWS3 = new Vec3()
     const Worldnormal1 = new Vec3()
