@@ -15,6 +15,7 @@ import { World } from 'cannon-es'
 - Fix Octree `as any` assertions
 - Convert to static methods where possible? (memory savings)
 - Convert to abstract classes where possible (Equation, Solver, etc.?)
+- Move prototypal method assignments to be within their class definitions
 - Ensure no prototypal methods were overwritten due to error:
   - `Property xxxxx has no initializer and is not definitely assigned in the constructor`
 - Resolve `as any` type assertions where possible
