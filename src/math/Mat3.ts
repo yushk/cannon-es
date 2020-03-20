@@ -1,5 +1,5 @@
-import { Vec3 } from './Vec3'
-import { Quaternion } from './Quaternion'
+import { Vec3 } from '../math/Vec3'
+import { Quaternion } from '../math/Quaternion'
 
 /**
  * A 3x3 matrix.
@@ -382,7 +382,7 @@ export class Mat3 {
    * @method setRotationFromQuaternion
    * @param {Quaternion} q
    */
-  setRotationFromQuaternion(q: Quaternion) {
+  setRotationFromQuaternion(q: Quaternion): Mat3 {
     const x = q.x
     const y = q.y
     const z = q.z

@@ -1,4 +1,4 @@
-import { Mat3 } from './Mat3'
+import { Mat3 } from '../math/Mat3'
 
 /**
  * 3-dimensional vector
@@ -9,7 +9,7 @@ import { Mat3 } from './Mat3'
  * @param {Number} z
  * @author schteppe
  * @example
- *     var v = new Vec3(1, 2, 3);
+ *     const v = new Vec3(1, 2, 3);
  *     console.log('x=' + v.x); // x=1
  */
 export class Vec3 {

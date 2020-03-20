@@ -8,7 +8,7 @@ export function Utils() {}
  * @param  {object} defaults An object containing default values.
  * @return {object} The modified options object.
  */
-Utils.defaults = (options: any = {}, defaults: { [key: string]: any }): { [key: string]: any } => {
+Utils.defaults = (options: Record<string, any> = {}, defaults: Record<string, any>): Record<string, any> => {
   for (let key in defaults) {
     if (!(key in options)) {
       options[key] = defaults[key]
