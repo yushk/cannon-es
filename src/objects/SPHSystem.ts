@@ -59,7 +59,7 @@ export class SPHSystem {
     }
   }
 
-  getNeighbors(particle: Body, neighbors: Body[]) {
+  getNeighbors(particle: Body, neighbors: Body[]): void {
     const N = this.particles.length
     const id = particle.id
     const R2 = this.smoothingRadius * this.smoothingRadius

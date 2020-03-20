@@ -816,7 +816,7 @@ Ray.prototype[Shape.types.TRIMESH] = Ray.prototype.intersectTrimesh
 
 const v0 = new Vec3()
 const intersect = new Vec3()
-function distanceFromIntersection(from: Vec3, direction: Vec3, position: Vec3) {
+function distanceFromIntersection(from: Vec3, direction: Vec3, position: Vec3): number {
   // v0 is vector from from to position
   position.vsub(from, v0)
   const dot = v0.dot(direction)
