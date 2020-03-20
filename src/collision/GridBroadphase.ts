@@ -3,7 +3,10 @@ import { Vec3 } from '../math/Vec3'
 import { Shape } from '../shapes/Shape'
 import { World } from '../world/World'
 import { Body } from '../objects/Body'
-import { AABB } from '../collision/AABB'
+// prettier-ignore
+import { Sphere } from '../shapes/Sphere'
+// prettier-ignore
+import { Plane } from '../shapes/Plane'
 
 /**
  * Axis aligned uniform grid broadphase.
@@ -152,26 +155,28 @@ export class GridBroadphase extends Broadphase {
     // Put all bodies into the bins
     for (let i = 0; i !== N; i++) {
       const bi = bodies[i]
-      const si = bi.shape
+      let si = bi.shapes[0]
 
       switch (si.type) {
-        case SPHERE:
+        case SPHERE: {
+          const shape = si as Sphere
           // Put in bin
           // check if overlap with other bins
           const x = bi.position.x
-
           const y = bi.position.y
           const z = bi.position.z
-          const r = si.radius
+          const r = shape.radius
 
           addBoxToBins(x - r, y - r, z - r, x + r, y + r, z + r, bi)
           break
+        }
+        case PLANE: {
+          const shape = si as Plane
 
-        case PLANE:
-          if (si.worldNormalNeedsUpdate) {
-            si.computeWorldNormal(bi.quaternion)
+          if (shape.worldNormalNeedsUpdate) {
+            shape.computeWorldNormal(bi.quaternion)
           }
-          const planeNormal = si.worldNormal
+          const planeNormal = shape.worldNormal
 
           //Relative position from origin of plane object to the first bin
           //Incremented as we iterate through the bins
@@ -194,8 +199,8 @@ export class GridBroadphase extends Broadphase {
             }
           }
           break
-
-        default:
+        }
+        default: {
           if (bi.aabbNeedsUpdate) {
             bi.computeAABB()
           }
@@ -210,6 +215,7 @@ export class GridBroadphase extends Broadphase {
             bi
           )
           break
+        }
       }
     }
 

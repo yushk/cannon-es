@@ -21,8 +21,8 @@ export class Equation {
   maxForce: number
   bi: Body
   bj: Body
-  si: Shape | null
-  sj: Shape | null
+  si!: Shape
+  sj!: Shape
   a: number // SPOOK parameter
   b: number // SPOOK parameter
   eps: number // SPOOK parameter
@@ -39,8 +39,6 @@ export class Equation {
     this.maxForce = maxForce
     this.bi = bi
     this.bj = bj
-    this.si = null
-    this.sj = null
     this.a = 0.0 // SPOOK parameter
     this.b = 0.0 // SPOOK parameter
     this.eps = 0.0 // SPOOK parameter

@@ -104,7 +104,7 @@ export class SplitSolver extends Solver {
         subsolver.addEquation(eqs[i])
       }
 
-      const iter = subsolver.solve(dt, dummyWorld)
+      const iter = subsolver.solve(dt, dummyWorld as World)
       subsolver.removeAllEquations()
       n++
     }
@@ -118,9 +118,10 @@ const SplitSolver_solve_nodes: SplitSolverNode[] = [] // All allocated node obje
 const SplitSolver_solve_nodePool: SplitSolverNode[] = [] // All allocated node objects
 const SplitSolver_solve_eqs: Equation[] = [] // Temp array
 const SplitSolver_solve_bds: Body[] = [] // Temp array
-const SplitSolver_solve_dummyWorld = { bodies: [] } // Temp object
+const SplitSolver_solve_dummyWorld: { bodies: Body[] } = { bodies: [] } // Temp object
 
 const STATIC = Body.STATIC
+
 function getUnvisitedNode(nodes: SplitSolverNode[]): SplitSolverNode | false {
   const Nnodes = nodes.length
   for (let i = 0; i !== Nnodes; i++) {
@@ -133,12 +134,13 @@ function getUnvisitedNode(nodes: SplitSolverNode[]): SplitSolverNode | false {
 }
 
 const queue: SplitSolverNode[] = []
+
 function bfs(
   root: SplitSolverNode,
   visitFunc: (node: SplitSolverNode, bds: (Body | null)[], eqs: Equation[]) => void,
   bds: (Body | null)[],
   eqs: Equation[]
-) {
+): void {
   queue.push(root)
   root.visited = true
   visitFunc(root, bds, eqs)
@@ -154,7 +156,7 @@ function bfs(
   }
 }
 
-function visitFunc(node: SplitSolverNode, bds: (Body | null)[], eqs: Equation[]) {
+function visitFunc(node: SplitSolverNode, bds: (Body | null)[], eqs: Equation[]): void {
   bds.push(node.body)
   const Neqs = node.eqs.length
   for (let i = 0; i !== Neqs; i++) {
@@ -165,6 +167,6 @@ function visitFunc(node: SplitSolverNode, bds: (Body | null)[], eqs: Equation[])
   }
 }
 
-function sortById(a: { id: number }, b: { id: number }) {
+function sortById(a: { id: number }, b: { id: number }): number {
   return b.id - a.id
 }

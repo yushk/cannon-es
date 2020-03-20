@@ -28,11 +28,10 @@ export type RayOptions = {
   collisionFilterMask?: number
   collisionFilterGroup?: number
   checkCollisionResponse?: boolean
-  callback?: (result: RaycastResult) => void
+  callback?: RaycastCallback
 }
 
-type RayShapes = Omit<typeof Shape.types, 'COMPOUND' | 'PARTICLE' | 'CYLINDER'>
-type RayShapeTypes = { [K in keyof RayShapes]: RayShapes[K] }[keyof RayShapes]
+export type RaycastCallback = (result: RaycastResult) => void
 
 /**
  * A line in 3D space that intersects bodies and return points.
@@ -53,7 +52,7 @@ export class Ray {
   mode: number // The intersection mode. Should be Ray.ANY, Ray.ALL or Ray.CLOSEST.
   result: RaycastResult // Current result object.
   hasHit: boolean // Will be set to true during intersectWorld() if the ray hit anything.
-  callback: (result: RaycastResult) => void // User-provided result callback. Will be used if mode is Ray.ALL.
+  callback: RaycastCallback // User-provided result callback. Will be used if mode is Ray.ALL.
 
   static CLOSEST: typeof RAY_MODES['CLOSEST']
   static ANY: typeof RAY_MODES['ANY']
@@ -194,7 +193,7 @@ export class Ray {
    * @param {Vec3} position
    * @param {Body} body
    */
-  private intersectShape(shape: Shape & { type: RayShapeTypes }, quat: Quaternion, position: Vec3, body: Body): void {
+  private intersectShape(shape: Shape & { type: typeof RAY_MODES[keyof typeof RAY_MODES] }, quat: Quaternion, position: Vec3, body: Body): void {
     const from = this.from
 
     // Checking boundingSphere

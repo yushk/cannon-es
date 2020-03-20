@@ -101,6 +101,7 @@ export class Body extends EventTarget {
   sleepSpeedLimit: number // If the speed (the norm of the velocity) is smaller than this value, the body is considered sleepy.
   sleepTimeLimit: number // If the body has been sleepy for this sleepTimeLimit seconds, it is considered sleeping.
   timeLastSleepy: number
+  wakeUpAfterNarrowphase: boolean
   torque: Vec3 // World space rotational force on the body, around center of mass.
   quaternion: Quaternion // World space orientation of the body.
   initQuaternion: Quaternion
@@ -125,8 +126,6 @@ export class Body extends EventTarget {
   aabbNeedsUpdate: boolean // Indicates if the AABB needs to be updated before use.
   boundingRadius: number // Total bounding radius of the Body including its shapes, relative to body.position.
   wlambda: Vec3
-
-  private _wakeUpAfterNarrowphase: boolean
 
   static idCounter: number
   static COLLIDE_EVENT_NAME: 'collide'
@@ -190,7 +189,7 @@ export class Body extends EventTarget {
     this.sleepSpeedLimit = typeof options.sleepSpeedLimit !== 'undefined' ? options.sleepSpeedLimit : 0.1
     this.sleepTimeLimit = typeof options.sleepTimeLimit !== 'undefined' ? options.sleepTimeLimit : 1
     this.timeLastSleepy = 0
-    this._wakeUpAfterNarrowphase = false
+    this.wakeUpAfterNarrowphase = false
 
     this.torque = new Vec3()
     this.quaternion = new Quaternion()
@@ -258,7 +257,7 @@ export class Body extends EventTarget {
   wakeUp(): void {
     const s = this.sleepState
     this.sleepState = 0
-    this._wakeUpAfterNarrowphase = false
+    this.wakeUpAfterNarrowphase = false
     if (s === Body.SLEEPING) {
       this.dispatchEvent(Body.wakeupEvent)
     }
@@ -272,7 +271,7 @@ export class Body extends EventTarget {
     this.sleepState = Body.SLEEPING
     this.velocity.set(0, 0, 0)
     this.angularVelocity.set(0, 0, 0)
-    this._wakeUpAfterNarrowphase = false
+    this.wakeUpAfterNarrowphase = false
   }
 
   /**
