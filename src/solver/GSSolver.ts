@@ -1,5 +1,5 @@
 import { Solver } from '../solver/Solver'
-import { World } from '../world/World'
+import type { World } from '../world/World'
 
 /**
  * Constraint equation Gauss-Seidel solver.

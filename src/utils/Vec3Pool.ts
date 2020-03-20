@@ -1,5 +1,5 @@
-import { Vec3 } from '../math/Vec3'
 import { Pool } from '../utils/Pool'
+import { Vec3 } from '../math/Vec3'
 
 /**
  * @class Vec3Pool

@@ -1,7 +1,7 @@
 import { Broadphase } from '../collision/Broadphase'
-import { Body } from '../objects/Body'
-import { World } from '../world/World'
-import { AABB } from '../collision/AABB'
+import type { AABB } from '../collision/AABB'
+import type { Body } from '../objects/Body'
+import type { World } from '../world/World'
 
 /**
  * Naive broadphase implementation, used in lack of better ones.

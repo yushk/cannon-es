@@ -1,4 +1,4 @@
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 /**
  * Records what objects are colliding with each other

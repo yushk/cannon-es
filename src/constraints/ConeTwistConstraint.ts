@@ -2,8 +2,7 @@ import { PointToPointConstraint } from '../constraints/PointToPointConstraint'
 import { ConeEquation } from '../equations/ConeEquation'
 import { RotationalEquation } from '../equations/RotationalEquation'
 import { Vec3 } from '../math/Vec3'
-// prettier-ignore
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 export type ConeTwistConstraintOptions = {
   maxForce?: number

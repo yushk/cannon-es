@@ -1,8 +1,7 @@
-import { Shape } from '../shapes/Shape'
 import { Broadphase } from '../collision/Broadphase'
-import { World } from '../world/World'
-import { Body } from '../objects/Body'
-import { AABB } from '../collision/AABB'
+import type { AABB } from '../collision/AABB'
+import type { Body } from '../objects/Body'
+import type { World } from '../world/World'
 
 /**
  * Sweep and prune broadphase along one axis.

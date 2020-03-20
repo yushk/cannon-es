@@ -1,7 +1,6 @@
-import { Vec3 } from '../math/Vec3'
 import { Equation } from '../equations/Equation'
-// prettier-ignore
-import { Body } from '../objects/Body'
+import { Vec3 } from '../math/Vec3'
+import type { Body } from '../objects/Body'
 
 export type RotationalEquationOptions = {
   maxForce?: number

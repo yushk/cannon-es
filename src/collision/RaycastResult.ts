@@ -1,6 +1,6 @@
 import { Vec3 } from '../math/Vec3'
-import { Shape } from '../shapes/Shape'
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
+import type { Shape } from '../shapes/Shape'
 
 /**
  * Storage for Ray casting data.

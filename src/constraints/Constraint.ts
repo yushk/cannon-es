@@ -1,8 +1,6 @@
 import { Utils } from '../utils/Utils'
-// prettier-ignore
-import { Body } from '../objects/Body'
-// prettier-ignore
-import { Equation } from '../equations/Equation'
+import type { Body } from '../objects/Body'
+import type { Equation } from '../equations/Equation'
 
 export type ConstraintOptions = {
   collideConnected?: boolean

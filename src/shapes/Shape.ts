@@ -1,8 +1,7 @@
-import { Vec3 } from '../math/Vec3'
-import { Material } from '../material/Material'
-import { Body } from '../objects/Body'
-// prettier-ignore
-import { Quaternion } from '../math/Quaternion'
+import type { Vec3 } from '../math/Vec3'
+import type { Quaternion } from '../math/Quaternion'
+import type { Body } from '../objects/Body'
+import type { Material } from '../material/Material'
 
 export const SHAPE_TYPES = {
   SPHERE: 1 as const,

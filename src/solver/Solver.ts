@@ -1,5 +1,5 @@
-import { World } from '../world/World'
-import { Equation } from '../equations/Equation'
+import type { Equation } from '../equations/Equation'
+import type { World } from '../world/World'
 
 /**
  * Constraint equation solver base class.

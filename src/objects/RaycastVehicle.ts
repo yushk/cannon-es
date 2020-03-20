@@ -1,14 +1,12 @@
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
 import { Ray } from '../collision/Ray'
-import { WheelInfo, WheelInfoOptions } from '../objects/WheelInfo'
-// prettier-ignore
-import { World } from '../world/World'
-// prettier-ignore
-import { Constraint } from '../constraints/Constraint'
-// prettier-ignore
-import { Transform } from '../math/Transform'
+import { WheelInfo } from '../objects/WheelInfo'
+import type { WheelInfoOptions } from '../objects/WheelInfo'
+import type { Transform } from '../math/Transform'
+import type { Constraint } from '../constraints/Constraint'
+import type { World } from '../world/World'
 
 export type RaycastVehicleOptions = {
   chassisBody: Body

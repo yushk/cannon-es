@@ -2,7 +2,7 @@ import { Vec3 } from '../math/Vec3'
 import { Transform } from '../math/Transform'
 import { RaycastResult } from '../collision/RaycastResult'
 import { Utils } from '../utils/Utils'
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 export type WheelInfoOptions = {
   chassisConnectionPointLocal?: Vec3

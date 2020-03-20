@@ -1,31 +1,22 @@
-import { AABB } from '../collision/AABB'
-import { Body } from '../objects/Body'
 import { Shape } from '../shapes/Shape'
-import { Ray } from '../collision/Ray'
 import { Vec3 } from '../math/Vec3'
 import { Transform } from '../math/Transform'
 import { Quaternion } from '../math/Quaternion'
+import { Body } from '../objects/Body'
+import { AABB } from '../collision/AABB'
+import { Ray } from '../collision/Ray'
 import { Vec3Pool } from '../utils/Vec3Pool'
 import { ContactEquation } from '../equations/ContactEquation'
 import { FrictionEquation } from '../equations/FrictionEquation'
-// prettier-ignore
-import { World } from '../world/World'
-// prettier-ignore
-import { ContactMaterial } from '../material/ContactMaterial'
-// prettier-ignore
-import { Box } from '../shapes/Box'
-// prettier-ignore
-import { Sphere } from 'shapes/Sphere'
-// prettier-ignore
-import { ConvexPolyhedron, ConvexPolyhedronContactPoint } from 'shapes/ConvexPolyhedron'
-// prettier-ignore
-import { Particle } from 'shapes/Particle'
-// prettier-ignore
-import { Plane } from 'shapes/Plane'
-// prettier-ignore
-import { Trimesh } from 'shapes/Trimesh'
-// prettier-ignore
-import { Heightfield } from 'shapes/Heightfield'
+import type { Box } from '../shapes/Box'
+import type { Sphere } from '../shapes/Sphere'
+import type { ConvexPolyhedron, ConvexPolyhedronContactPoint } from '../shapes/ConvexPolyhedron'
+import type { Particle } from '../shapes/Particle'
+import type { Plane } from '../shapes/Plane'
+import type { Trimesh } from '../shapes/Trimesh'
+import type { Heightfield } from '../shapes/Heightfield'
+import type { ContactMaterial } from '../material/ContactMaterial'
+import type { World } from '../world/World'
 
 export const COLLISION_TYPES = {
   sphereSphere: Shape.types.SPHERE as 1,

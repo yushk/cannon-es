@@ -1,5 +1,5 @@
-import { Material } from '../material/Material'
 import { Utils } from '../utils/Utils'
+import type { Material } from '../material/Material'
 
 export type ContactMaterialOptions = {
   friction?: number
