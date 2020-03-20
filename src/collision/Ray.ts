@@ -193,7 +193,12 @@ export class Ray {
    * @param {Vec3} position
    * @param {Body} body
    */
-  private intersectShape(shape: Shape & { type: typeof RAY_MODES[keyof typeof RAY_MODES] }, quat: Quaternion, position: Vec3, body: Body): void {
+  private intersectShape(
+    shape: Shape & { type: typeof RAY_MODES[keyof typeof RAY_MODES] },
+    quat: Quaternion,
+    position: Vec3,
+    body: Body
+  ): void {
     const from = this.from
 
     // Checking boundingSphere

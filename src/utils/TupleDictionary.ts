@@ -3,7 +3,7 @@
  * @constructor
  */
 export class TupleDictionary {
-  data: { [id: string]: any, keys: string[] }
+  data: { [id: string]: any; keys: string[] }
 
   constructor() {
     this.data = { keys: [] }
