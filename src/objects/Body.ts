@@ -607,7 +607,7 @@ export class Body extends EventTarget {
    * @param {boolean} quatNormalize Set to true to normalize the body quaternion
    * @param {boolean} quatNormalizeFast If the quaternion should be normalized using "fast" quaternion normalization
    */
-  integrate(dt: number, quatNormalize: boolean, quatNormalizeFast: boolean) {
+  integrate(dt: number, quatNormalize: boolean, quatNormalizeFast: boolean): void {
     // Save previous position
     this.previousPosition.copy(this.position)
     this.previousQuaternion.copy(this.quaternion)

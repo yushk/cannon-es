@@ -155,7 +155,7 @@ export class AABB {
   }
 
   // Mostly for debugging
-  volume() {
+  volume(): number {
     const l = this.lowerBound
     const u = this.upperBound
     return (u.x - l.x) * (u.y - l.y) * (u.z - l.z)

@@ -530,7 +530,7 @@ export class Heightfield extends Shape {
     )
   }
 
-  calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3) {
+  calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
     // TODO: do it properly
     min.set(-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE)
     max.set(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE)

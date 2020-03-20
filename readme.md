@@ -10,7 +10,6 @@ import { World } from 'cannon-es'
 
 #### TO DO:
 
-- Finish TS conversion
 - Check for any functions missing an explicit return type with regex: `\) \{`
 - Check for any removed `@todo` or `@deprecated` JSDoc comments
 - Check for variables that were previously intentionally uninitialized in the constructor, but were updated in the TS conversion

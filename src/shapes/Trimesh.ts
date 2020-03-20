@@ -62,7 +62,7 @@ export class Trimesh extends Shape {
   /**
    * @method updateTree
    */
-  updateTree() {
+  updateTree(): void {
     const tree = this.tree
 
     tree.reset()
@@ -102,7 +102,7 @@ export class Trimesh extends Shape {
    * @param  {AABB} aabb
    * @param  {array} result An array of integers, referencing the queried triangles.
    */
-  getTrianglesInAABB(aabb: AABB, result: number[]) {
+  getTrianglesInAABB(aabb: AABB, result: number[]): number[] {
     unscaledAABB.copy(aabb)
 
     // Scale it to local

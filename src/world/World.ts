@@ -779,7 +779,7 @@ export class World extends EventTarget {
    * Sets all body forces in the world to zero.
    * @method clearForces
    */
-  clearForces() {
+  clearForces(): void {
     const bodies = this.bodies
     const N = bodies.length
     for (let i = 0; i !== N; i++) {
@@ -875,7 +875,7 @@ World.prototype.emitContactEvents = (() => {
     shapeB: null,
   }
 
-  return function() {
+  return function(): void {
     const hasBeginContact = this.hasAnyEventListener('beginContact')
     const hasEndContact = this.hasAnyEventListener('endContact')
 

@@ -23,7 +23,7 @@ class OctreeNode {
     this.children = []
   }
 
-  reset() {
+  reset(): void {
     this.children.length = this.data.length = 0
   }
 
