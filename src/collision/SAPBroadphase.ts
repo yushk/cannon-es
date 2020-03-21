@@ -1,8 +1,7 @@
-import { Shape } from '../shapes/Shape'
 import { Broadphase } from '../collision/Broadphase'
-import { World } from '../world/World'
-import { Body } from '../objects/Body'
-import { AABB } from '../collision/AABB'
+import type { AABB } from '../collision/AABB'
+import type { Body } from '../objects/Body'
+import type { World } from '../world/World'
 
 /**
  * Sweep and prune broadphase along one axis.
@@ -34,12 +33,12 @@ export class SAPBroadphase extends Broadphase {
 
     const axisList = this.axisList
 
-    this._addBodyHandler = ({ body }: { body: Body }) => {
-      axisList.push(body)
+    this._addBodyHandler = (event: { body: Body }) => {
+      axisList.push(event.body)
     }
 
-    this._removeBodyHandler = ({ body }: { body: Body }) => {
-      const idx = axisList.indexOf(body)
+    this._removeBodyHandler = (event: { body: Body }) => {
+      const idx = axisList.indexOf(event.body)
       if (idx !== -1) {
         axisList.splice(idx, 1)
       }

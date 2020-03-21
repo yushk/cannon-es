@@ -1,7 +1,6 @@
 import { Constraint } from '../constraints/Constraint'
 import { ContactEquation } from '../equations/ContactEquation'
-// prettier-ignore
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 /**
  * Constrains two bodies to be at a constant distance from each others center of mass.

@@ -1,6 +1,6 @@
 import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
-import { Quaternion } from '../math/Quaternion'
+import type { Quaternion } from '../math/Quaternion'
 
 /**
  * A plane, facing in the Z direction. The plane has its surface at z=0 and everything below z=0 is assumed to be solid plane. To make the plane face in some other direction than z, you must put it inside a Body and rotate that body. See the demos.
@@ -42,7 +42,7 @@ export class Plane extends Shape {
     )
   }
 
-  calculateWorldAABB({ x, y, z }: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
+  calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
     // The plane AABB is infinite, except if the normal is pointing along any axis
     tempNormal.set(0, 0, 1) // Default plane normal is z
     quat.vmult(tempNormal, tempNormal)
@@ -51,23 +51,21 @@ export class Plane extends Shape {
     max.set(maxVal, maxVal, maxVal)
 
     if (tempNormal.x === 1) {
-      max.x = x
-    }
-    if (tempNormal.y === 1) {
-      max.y = y
-    }
-    if (tempNormal.z === 1) {
-      max.z = z
+      max.x = pos.x
+    } else if (tempNormal.x === -1) {
+      min.x = pos.x
     }
 
-    if (tempNormal.x === -1) {
-      min.x = x
+    if (tempNormal.y === 1) {
+      max.y = pos.y
+    } else if (tempNormal.y === -1) {
+      min.y = pos.y
     }
-    if (tempNormal.y === -1) {
-      min.y = y
-    }
-    if (tempNormal.z === -1) {
-      min.z = z
+
+    if (tempNormal.z === 1) {
+      max.z = pos.z
+    } else if (tempNormal.z === -1) {
+      min.z = pos.z
     }
   }
 

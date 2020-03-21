@@ -2,10 +2,8 @@ import { Shape } from '../shapes/Shape'
 import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import { Vec3 } from '../math/Vec3'
 import { Utils } from '../utils/Utils'
-// prettier-ignore
-import { AABB } from '../collision/AABB'
-// prettier-ignore
-import { Quaternion } from 'math/Quaternion'
+import type { AABB } from '../collision/AABB'
+import type { Quaternion } from '../math/Quaternion'
 
 export type HeightfieldOptions = {
   maxValue?: number | null

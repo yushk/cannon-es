@@ -1,5 +1,5 @@
 import { Vec3 } from '../math/Vec3'
-import { Quaternion } from '../math/Quaternion'
+import type { Quaternion } from '../math/Quaternion'
 
 /**
  * A 3x3 matrix.
@@ -58,11 +58,11 @@ export class Mat3 {
    * @method setTrace
    * @param {Vec3} vec3
    */
-  setTrace({ x, y, z }: Vec3): void {
+  setTrace(vector: Vec3): void {
     const e = this.elements
-    e[0] = x
-    e[4] = y
-    e[8] = z
+    e[0] = vector.x
+    e[4] = vector.y
+    e[8] = vector.z
   }
 
   /**
@@ -109,10 +109,11 @@ export class Mat3 {
   /**
    * Matrix multiplication
    * @method mmult
-   * @param {Mat3} m Matrix to multiply with from left side.
+   * @param {Mat3} matrix Matrix to multiply with from left side.
    * @return {Mat3} The result.
    */
-  mmult({ elements }: Mat3, target = new Mat3()): Mat3 {
+  mmult(matrix: Mat3, target = new Mat3()): Mat3 {
+    const { elements } = matrix
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         let sum = 0.0
@@ -131,13 +132,13 @@ export class Mat3 {
    * @param {Vec3} v
    * @return {Mat3} The result.
    */
-  scale({ x, y, z }: Vec3, target = new Mat3()): Mat3 {
+  scale(vector: Vec3, target = new Mat3()): Mat3 {
     const e = this.elements
     const t = target.elements
     for (let i = 0; i !== 3; i++) {
-      t[3 * i + 0] = x * e[3 * i + 0]
-      t[3 * i + 1] = y * e[3 * i + 1]
-      t[3 * i + 2] = z * e[3 * i + 2]
+      t[3 * i + 0] = vector.x * e[3 * i + 0]
+      t[3 * i + 1] = vector.y * e[3 * i + 1]
+      t[3 * i + 2] = vector.z * e[3 * i + 2]
     }
     return target
   }
@@ -249,9 +250,9 @@ export class Mat3 {
    * @param {Mat3} source
    * @return {Mat3} this
    */
-  copy({ elements }: Mat3): Mat3 {
-    for (let i = 0; i < elements.length; i++) {
-      this.elements[i] = elements[i]
+  copy(matrix: Mat3): Mat3 {
+    for (let i = 0; i < matrix.elements.length; i++) {
+      this.elements[i] = matrix.elements[i]
     }
     return this
   }

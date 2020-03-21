@@ -2,8 +2,7 @@ import { PointToPointConstraint } from '../constraints/PointToPointConstraint'
 import { RotationalEquation } from '../equations/RotationalEquation'
 import { RotationalMotorEquation } from '../equations/RotationalMotorEquation'
 import { Vec3 } from '../math/Vec3'
-// prettier-ignore
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 export type HingeConstraintOptions = {
   maxForce?: number
@@ -11,6 +10,7 @@ export type HingeConstraintOptions = {
   pivotB?: Vec3
   axisA?: Vec3
   axisB?: Vec3
+  collideConnected?: boolean
 }
 
 /**
@@ -47,6 +47,8 @@ export class HingeConstraint extends PointToPointConstraint {
 
     const axisB = (this.axisB = options.axisB ? options.axisB.clone() : new Vec3(1, 0, 0))
     axisB.normalize()
+
+    this.collideConnected = !!options.collideConnected
 
     const rotational1 = (this.rotationalEquation1 = new RotationalEquation(bodyA, bodyB, options))
     const rotational2 = (this.rotationalEquation2 = new RotationalEquation(bodyA, bodyB, options))

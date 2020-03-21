@@ -1,7 +1,7 @@
 import { AABB } from '../collision/AABB'
 import { Vec3 } from '../math/Vec3'
-import { Transform } from '../math/Transform'
-import { Ray } from '../collision/Ray'
+import type { Transform } from '../math/Transform'
+import type { Ray } from '../collision/Ray'
 
 /**
  * @class OctreeNode
@@ -43,7 +43,7 @@ class OctreeNode {
     }
 
     const children = this.children
-    const maxDepth = ((this as unknown) as Octree).maxDepth || ((this.root as unknown) as Octree).maxDepth
+    const maxDepth = (this as any).maxDepth || (this.root! as any).maxDepth
 
     if (level < maxDepth) {
       // Subdivide if there are no children yet

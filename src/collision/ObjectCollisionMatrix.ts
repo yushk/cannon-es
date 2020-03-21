@@ -1,4 +1,4 @@
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 /**
  * Records what objects are colliding with each other
@@ -18,7 +18,9 @@ export class ObjectCollisionMatrix {
    * @param  {Body} j
    * @return {boolean}
    */
-  get({ id: i }: Body, { id: j }: Body): boolean {
+  get(bi: Body, bj: Body): boolean {
+    let { id: i } = bi
+    let { id: j } = bj
     if (j > i) {
       const temp = j
       j = i
@@ -33,7 +35,9 @@ export class ObjectCollisionMatrix {
    * @param  {Body} j
    * @param {boolean} value
    */
-  set({ id: i }: Body, { id: j }: Body, value: boolean): void {
+  set(bi: Body, bj: Body, value: boolean): void {
+    let { id: i } = bi
+    let { id: j } = bj
     if (j > i) {
       const temp = j
       j = i

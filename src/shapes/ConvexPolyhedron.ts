@@ -1,8 +1,7 @@
 import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
 import { Transform } from '../math/Transform'
-// prettier-ignore
-import { Quaternion } from '../math/Quaternion'
+import type { Quaternion } from '../math/Quaternion'
 
 export type ConvexPolyhedronContactPoint = {
   point: Vec3
@@ -41,7 +40,7 @@ export class ConvexPolyhedron extends Shape {
   uniqueEdges: Vec3[]
 
   static computeNormal: (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3) => void
-  static project: ({ vertices }: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]) => void
+  static project: (shape: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]) => void
 
   constructor(
     props: {
@@ -882,18 +881,18 @@ const maxminB: number[] = []
  * @param {array} result result[0] and result[1] will be set to maximum and minimum, respectively.
  */
 ConvexPolyhedron.project = (
-  { vertices }: ConvexPolyhedron,
+  shape: ConvexPolyhedron,
   axis: Vec3,
   pos: Vec3,
   quat: Quaternion,
   result: number[]
 ): void => {
-  const n = vertices.length
+  const n = shape.vertices.length
   const localAxis = new Vec3()
   let max = 0
   let min = 0
   const localOrigin = new Vec3()
-  const vs = vertices
+  const vs = shape.vertices
 
   localOrigin.setZero()
 

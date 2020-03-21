@@ -1,7 +1,7 @@
+import { EventTarget } from '../utils/EventTarget'
 import { Vec3 } from '../math/Vec3'
 import { GSSolver } from '../solver/GSSolver'
 import { Narrowphase } from '../world/Narrowphase'
-import { EventTarget } from '../utils/EventTarget'
 import { ArrayCollisionMatrix } from '../collision/ArrayCollisionMatrix'
 import { OverlapKeeper } from '../collision/OverlapKeeper'
 import { Material } from '../material/Material'
@@ -875,7 +875,7 @@ World.prototype.emitContactEvents = (() => {
     shapeB: null,
   }
 
-  return function(): void {
+  return function (): void {
     const hasBeginContact = this.hasAnyEventListener('beginContact')
     const hasEndContact = this.hasAnyEventListener('endContact')
 

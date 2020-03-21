@@ -1,8 +1,7 @@
 import { Vec3 } from '../math/Vec3'
-import { Quaternion } from '../math/Quaternion'
-import { Transform } from '../math/Transform'
-import { Ray } from '../collision/Ray'
-import { Utils } from '../utils/Utils'
+import type { Ray } from '../collision/Ray'
+import type { Transform } from '../math/Transform'
+import type { Quaternion } from '../math/Quaternion'
 
 /**
  * Axis aligned bounding box class.
@@ -102,9 +101,9 @@ export class AABB {
    * @param  {AABB} aabb Source to copy from
    * @return {AABB} The this object, for chainability
    */
-  copy({ lowerBound, upperBound }: AABB): AABB {
-    this.lowerBound.copy(lowerBound)
-    this.upperBound.copy(upperBound)
+  copy(aabb: AABB): AABB {
+    this.lowerBound.copy(aabb.lowerBound)
+    this.upperBound.copy(aabb.upperBound)
     return this
   }
 
@@ -121,13 +120,13 @@ export class AABB {
    * @method extend
    * @param  {AABB} aabb
    */
-  extend({ lowerBound, upperBound }: AABB): void {
-    this.lowerBound.x = Math.min(this.lowerBound.x, lowerBound.x)
-    this.upperBound.x = Math.max(this.upperBound.x, upperBound.x)
-    this.lowerBound.y = Math.min(this.lowerBound.y, lowerBound.y)
-    this.upperBound.y = Math.max(this.upperBound.y, upperBound.y)
-    this.lowerBound.z = Math.min(this.lowerBound.z, lowerBound.z)
-    this.upperBound.z = Math.max(this.upperBound.z, upperBound.z)
+  extend(aabb: AABB): void {
+    this.lowerBound.x = Math.min(this.lowerBound.x, aabb.lowerBound.x)
+    this.upperBound.x = Math.max(this.upperBound.x, aabb.upperBound.x)
+    this.lowerBound.y = Math.min(this.lowerBound.y, aabb.lowerBound.y)
+    this.upperBound.y = Math.max(this.upperBound.y, aabb.upperBound.y)
+    this.lowerBound.z = Math.min(this.lowerBound.z, aabb.lowerBound.z)
+    this.upperBound.z = Math.max(this.upperBound.z, aabb.upperBound.z)
   }
 
   /**
@@ -136,11 +135,11 @@ export class AABB {
    * @param  {AABB} aabb
    * @return {Boolean}
    */
-  overlaps({ lowerBound, upperBound }: AABB): boolean {
+  overlaps(aabb: AABB): boolean {
     const l1 = this.lowerBound
     const u1 = this.upperBound
-    const l2 = lowerBound
-    const u2 = upperBound
+    const l2 = aabb.lowerBound
+    const u2 = aabb.upperBound
 
     //      l2        u2
     //      |---------|
@@ -167,11 +166,11 @@ export class AABB {
    * @param {AABB} aabb
    * @return {Boolean}
    */
-  contains({ lowerBound, upperBound }: AABB): boolean {
+  contains(aabb: AABB): boolean {
     const l1 = this.lowerBound
     const u1 = this.upperBound
-    const l2 = lowerBound
-    const u2 = upperBound
+    const l2 = aabb.lowerBound
+    const u2 = aabb.upperBound
 
     //      l2        u2
     //      |---------|
@@ -271,7 +270,8 @@ export class AABB {
    * @param  {Ray} ray
    * @return {Boolean}
    */
-  overlapsRay({ direction, from }: Ray): boolean {
+  overlapsRay(ray: Ray): boolean {
+    const { direction, from } = ray
     const t = 0
 
     // ray.direction is unit direction vector of ray

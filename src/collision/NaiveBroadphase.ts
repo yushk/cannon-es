@@ -1,7 +1,7 @@
 import { Broadphase } from '../collision/Broadphase'
-import { Body } from '../objects/Body'
-import { World } from '../world/World'
-import { AABB } from '../collision/AABB'
+import type { AABB } from '../collision/AABB'
+import type { Body } from '../objects/Body'
+import type { World } from '../world/World'
 
 /**
  * Naive broadphase implementation, used in lack of better ones.
@@ -51,9 +51,9 @@ export class NaiveBroadphase extends Broadphase {
    * @param {array} result An array to store resulting bodies in.
    * @return {array}
    */
-  aabbQuery({ bodies }: World, aabb: AABB, result: Body[] = []): Body[] {
-    for (let i = 0; i < bodies.length; i++) {
-      const b = bodies[i]
+  aabbQuery(world: World, aabb: AABB, result: Body[] = []): Body[] {
+    for (let i = 0; i < world.bodies.length; i++) {
+      const b = world.bodies[i]
 
       if (b.aabbNeedsUpdate) {
         b.computeAABB()

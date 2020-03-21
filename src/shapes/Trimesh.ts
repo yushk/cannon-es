@@ -1,9 +1,9 @@
 import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
-import { Quaternion } from '../math/Quaternion'
 import { Transform } from '../math/Transform'
 import { AABB } from '../collision/AABB'
 import { Octree } from '../utils/Octree'
+import type { Quaternion } from '../math/Quaternion'
 
 /**
  * @class Trimesh
@@ -318,9 +318,9 @@ export class Trimesh extends Shape {
    * @method computeLocalAABB
    * @param  {AABB} aabb
    */
-  computeLocalAABB({ lowerBound, upperBound }: AABB): void {
-    const l = lowerBound
-    const u = upperBound
+  computeLocalAABB(aabb: AABB): void {
+    const l = aabb.lowerBound
+    const u = aabb.upperBound
     const n = this.vertices.length
     const vertices = this.vertices
     const v = computeLocalAABB_worldVert

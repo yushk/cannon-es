@@ -1,6 +1,5 @@
 import { Vec3 } from '../math/Vec3'
-// prettier-ignore
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 export type SpringOptions = {
   restLength?: number

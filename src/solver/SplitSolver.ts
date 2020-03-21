@@ -1,7 +1,7 @@
 import { Solver } from '../solver/Solver'
-import { World } from '../world/World'
 import { Body } from '../objects/Body'
-import { Equation } from '../equations/Equation'
+import type { Equation } from '../equations/Equation'
+import type { World } from '../world/World'
 
 type SplitSolverNode = { body: Body | null; children: SplitSolverNode[]; eqs: Equation[]; visited: boolean }
 

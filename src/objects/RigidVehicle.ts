@@ -1,10 +1,9 @@
+import { Vec3 } from '../math/Vec3'
 import { Body } from '../objects/Body'
 import { Sphere } from '../shapes/Sphere'
 import { Box } from '../shapes/Box'
-import { Vec3 } from '../math/Vec3'
 import { HingeConstraint } from '../constraints/HingeConstraint'
-// prettier-ignore
-import { World } from '../world/World'
+import type { World } from '../world/World'
 
 export type RigidVehicleOptions = {
   coordinateSystem?: Vec3
@@ -89,7 +88,7 @@ export class RigidVehicle {
       axisA: axis,
       pivotB: Vec3.ZERO,
       axisB: axis,
-      // collideConnected: false,
+      collideConnected: false,
     })
     this.constraints.push(hingeConstraint)
 

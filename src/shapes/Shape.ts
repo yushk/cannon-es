@@ -1,8 +1,7 @@
-import { Vec3 } from '../math/Vec3'
-import { Material } from '../material/Material'
-import { Body } from '../objects/Body'
-// prettier-ignore
-import { Quaternion } from '../math/Quaternion'
+import type { Vec3 } from '../math/Vec3'
+import type { Quaternion } from '../math/Quaternion'
+import type { Body } from '../objects/Body'
+import type { Material } from '../material/Material'
 
 export const SHAPE_TYPES = {
   SPHERE: 1 as const,
@@ -16,8 +15,10 @@ export const SHAPE_TYPES = {
   TRIMESH: 256 as const,
 }
 
+export type ShapeType = typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES]
+
 export type ShapeOptions = {
-  type?: typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES]
+  type?: ShapeType
   collisionResponse?: boolean
   collisionFilterGroup?: number
   collisionFilterMask?: number
@@ -37,7 +38,7 @@ export type ShapeOptions = {
  */
 export class Shape {
   id: number // Identifyer of the Shape.
-  type: number // The type of this shape. Must be set to an int > 0 by subclasses.
+  type: ShapeType | 0 // The type of this shape. Must be set to an int > 0 by subclasses.
   boundingSphereRadius: number // The local bounding sphere radius of this shape.
   collisionResponse: boolean // Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled.
   collisionFilterGroup: number

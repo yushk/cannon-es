@@ -1,13 +1,12 @@
 import { EventTarget } from '../utils/EventTarget'
-import { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
 import { Mat3 } from '../math/Mat3'
 import { Quaternion } from '../math/Quaternion'
-import { Material } from '../material/Material'
 import { AABB } from '../collision/AABB'
 import { Box } from '../shapes/Box'
-// prettier-ignore
-import { World } from '../world/World'
+import type { Shape } from '../shapes/Shape'
+import type { Material } from '../material/Material'
+import type { World } from '../world/World'
 
 export const BODY_TYPES = {
   DYNAMIC: 1 as const,
@@ -15,11 +14,15 @@ export const BODY_TYPES = {
   KINEMATIC: 4 as const,
 }
 
+export type BodyType = typeof BODY_TYPES[keyof typeof BODY_TYPES]
+
 export const BODY_SLEEP_STATES = {
   AWAKE: 0 as const,
   SLEEPY: 1 as const,
   SLEEPING: 2 as const,
 }
+
+export type BodySleepState = typeof BODY_SLEEP_STATES[keyof typeof BODY_SLEEP_STATES]
 
 export type BodyOptions = {
   collisionFilterGroup?: number
@@ -29,7 +32,7 @@ export type BodyOptions = {
   mass?: number
   material?: Material
   linearDamping?: number
-  type?: typeof BODY_TYPES[keyof typeof BODY_TYPES]
+  type?: BodyType
   allowSleep?: boolean
   sleepSpeedLimit?: number
   sleepTimeLimit?: number
@@ -78,8 +81,8 @@ export class Body extends EventTarget {
   id: number
   index: number // Position of body in World.bodies. Updated by World and used in ArrayCollisionMatrix.
   world: World | null // Reference to the world the body is living in.
-  preStep: Function | null // Callback function that is used BEFORE stepping the system. Use it to apply forces, for example. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
-  postStep: Function | null // Callback function that is used AFTER stepping the system. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
+  preStep: (() => void) | null // Callback function that is used BEFORE stepping the system. Use it to apply forces, for example. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
+  postStep: (() => void) | null // Callback function that is used AFTER stepping the system. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
   vlambda: Vec3
   collisionFilterGroup: number
   collisionFilterMask: number
@@ -95,9 +98,9 @@ export class Body extends EventTarget {
   invMass: number
   material: Material | null
   linearDamping: number
-  type: typeof BODY_TYPES[keyof typeof BODY_TYPES] // One of: Body.DYNAMIC, Body.STATIC and Body.KINEMATIC.
+  type: BodyType // One of: Body.DYNAMIC, Body.STATIC and Body.KINEMATIC.
   allowSleep: boolean // If true, the body will automatically fall to sleep.
-  sleepState: typeof BODY_SLEEP_STATES[keyof typeof BODY_SLEEP_STATES] // Current sleep state.
+  sleepState: BodySleepState // Current sleep state.
   sleepSpeedLimit: number // If the speed (the norm of the velocity) is smaller than this value, the body is considered sleepy.
   sleepTimeLimit: number // If the body has been sleepy for this sleepTimeLimit seconds, it is considered sleeping.
   timeLastSleepy: number

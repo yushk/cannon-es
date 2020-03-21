@@ -1,12 +1,10 @@
 import { Broadphase } from '../collision/Broadphase'
 import { Vec3 } from '../math/Vec3'
 import { Shape } from '../shapes/Shape'
-import { World } from '../world/World'
-import { Body } from '../objects/Body'
-// prettier-ignore
-import { Sphere } from '../shapes/Sphere'
-// prettier-ignore
-import { Plane } from '../shapes/Plane'
+import type { Body } from '../objects/Body'
+import type { Sphere } from '../shapes/Sphere'
+import type { Plane } from '../shapes/Plane'
+import type { World } from '../world/World'
 
 /**
  * Axis aligned uniform grid broadphase.

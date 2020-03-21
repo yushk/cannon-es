@@ -1,14 +1,12 @@
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
 import { Ray } from '../collision/Ray'
-import { WheelInfo, WheelInfoOptions } from '../objects/WheelInfo'
-// prettier-ignore
-import { World } from '../world/World'
-// prettier-ignore
-import { Constraint } from '../constraints/Constraint'
-// prettier-ignore
-import { Transform } from '../math/Transform'
+import { WheelInfo } from '../objects/WheelInfo'
+import type { WheelInfoOptions } from '../objects/WheelInfo'
+import type { Transform } from '../math/Transform'
+import type { Constraint } from '../constraints/Constraint'
+import type { World } from '../world/World'
 
 export type RaycastVehicleOptions = {
   chassisBody: Body
@@ -562,7 +560,7 @@ export class RaycastVehicle {
         // Scale the relative position in the up direction with rollInfluence.
         // If rollInfluence is 1, the impulse will be applied on the hitPoint (easy to roll over), if it is zero it will be applied in the same plane as the center of mass (not easy to roll over).
         chassisBody.vectorToLocalFrame(rel_pos, rel_pos)
-        ;(rel_pos as any)['xyz'[this.indexUpAxis]] *= wheel.rollInfluence
+        rel_pos['xyz'[this.indexUpAxis] as 'x' | 'y' | 'z'] *= wheel.rollInfluence
         chassisBody.vectorToWorldFrame(rel_pos, rel_pos)
         chassisBody.applyImpulse(sideImp, rel_pos)
 
@@ -644,18 +642,18 @@ const computeImpulseDenominator_r0 = new Vec3()
 const computeImpulseDenominator_c0 = new Vec3()
 const computeImpulseDenominator_vec = new Vec3()
 const computeImpulseDenominator_m = new Vec3()
-function computeImpulseDenominator({ position, invInertiaWorld, invMass }: Body, pos: Vec3, normal: Vec3): number {
+function computeImpulseDenominator(body: Body, pos: Vec3, normal: Vec3): number {
   const r0 = computeImpulseDenominator_r0
   const c0 = computeImpulseDenominator_c0
   const vec = computeImpulseDenominator_vec
   const m = computeImpulseDenominator_m
 
-  pos.vsub(position, r0)
+  pos.vsub(body.position, r0)
   r0.cross(normal, c0)
-  invInertiaWorld.vmult(c0, m)
+  body.invInertiaWorld.vmult(c0, m)
   m.cross(r0, vec)
 
-  return invMass + normal.dot(vec)
+  return body.invMass + normal.dot(vec)
 }
 
 const resolveSingleBilateral_vel1 = new Vec3()

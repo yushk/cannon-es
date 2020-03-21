@@ -35,10 +35,10 @@ export class Vec3 {
    * @param {Vec3} target Optional. Target to save in.
    * @return {Vec3}
    */
-  cross(v: Vec3, target = new Vec3()): Vec3 {
-    const vx = v.x
-    const vy = v.y
-    const vz = v.z
+  cross(vector: Vec3, target = new Vec3()): Vec3 {
+    const vx = vector.x
+    const vy = vector.y
+    const vz = vector.z
     const x = this.x
     const y = this.y
     const z = this.z
@@ -80,15 +80,15 @@ export class Vec3 {
    * @param {Vec3} target Optional.
    * @return {Vec3}
    */
-  vadd({ x, y, z }: Vec3): Vec3
-  vadd({ x, y, z }: Vec3, target: Vec3): void
-  vadd({ x, y, z }: Vec3, target?: Vec3): Vec3 | void {
+  vadd(vector: Vec3): Vec3
+  vadd(vector: Vec3, target: Vec3): void
+  vadd(vector: Vec3, target?: Vec3): Vec3 | void {
     if (target) {
-      target.x = x + this.x
-      target.y = y + this.y
-      target.z = z + this.z
+      target.x = vector.x + this.x
+      target.y = vector.y + this.y
+      target.z = vector.z + this.z
     } else {
-      return new Vec3(this.x + x, this.y + y, this.z + z)
+      return new Vec3(this.x + vector.x, this.y + vector.y, this.z + vector.z)
     }
   }
 
@@ -99,15 +99,15 @@ export class Vec3 {
    * @param {Vec3} target Optional. Target to save in.
    * @return {Vec3}
    */
-  vsub({ x, y, z }: Vec3): Vec3
-  vsub({ x, y, z }: Vec3, target: Vec3): void
-  vsub({ x, y, z }: Vec3, target?: Vec3): Vec3 | void {
+  vsub(vector: Vec3): Vec3
+  vsub(vector: Vec3, target: Vec3): void
+  vsub(vector: Vec3, target?: Vec3): Vec3 | void {
     if (target) {
-      target.x = this.x - x
-      target.y = this.y - y
-      target.z = this.z - z
+      target.x = this.x - vector.x
+      target.y = this.y - vector.y
+      target.z = this.z - vector.z
     } else {
-      return new Vec3(this.x - x, this.y - y, this.z - z)
+      return new Vec3(this.x - vector.x, this.y - vector.y, this.z - vector.z)
     }
   }
 
@@ -279,10 +279,10 @@ export class Vec3 {
    * @param {Vec3} target The vector to save the result in.
    * @return {Vec3}
    */
-  vmul({ x, y, z }: Vec3, target = new Vec3()): Vec3 {
-    target.x = x * this.x
-    target.y = y * this.y
-    target.z = z * this.z
+  vmul(vector: Vec3, target = new Vec3()): Vec3 {
+    target.x = vector.x * this.x
+    target.y = vector.y * this.y
+    target.z = vector.z * this.z
     return target
   }
 
@@ -294,10 +294,10 @@ export class Vec3 {
    * @param {Vec3} target The vector to save the result in.
    * @return {Vec3}
    */
-  addScaledVector(scalar: number, { x, y, z }: Vec3, target = new Vec3()): Vec3 {
-    target.x = this.x + scalar * x
-    target.y = this.y + scalar * y
-    target.z = this.z + scalar * z
+  addScaledVector(scalar: number, vector: Vec3, target = new Vec3()): Vec3 {
+    target.x = this.x + scalar * vector.x
+    target.y = this.y + scalar * vector.y
+    target.z = this.z + scalar * vector.z
     return target
   }
 
@@ -307,8 +307,8 @@ export class Vec3 {
    * @param {Vec3} v
    * @return {Number}
    */
-  dot({ x, y, z }: Vec3): number {
-    return this.x * x + this.y * y + this.z * z
+  dot(vector: Vec3): number {
+    return this.x * vector.x + this.y * vector.y + this.z * vector.z
   }
 
   /**
@@ -384,10 +384,10 @@ export class Vec3 {
    * @param {Vec3} source
    * @return {Vec3} this
    */
-  copy({ x, y, z }: Vec3): Vec3 {
-    this.x = x
-    this.y = y
-    this.z = z
+  copy(vector: Vec3): Vec3 {
+    this.x = vector.x
+    this.y = vector.y
+    this.z = vector.z
     return this
   }
 
@@ -398,13 +398,13 @@ export class Vec3 {
    * @param {Number} t A number between 0 and 1. 0 will make this function return u, and 1 will make it return v. Numbers in between will generate a vector in between them.
    * @param {Vec3} target
    */
-  lerp(v: Vec3, t: number, target: Vec3): void {
+  lerp(vector: Vec3, t: number, target: Vec3): void {
     const x = this.x
     const y = this.y
     const z = this.z
-    target.x = x + (v.x - x) * t
-    target.y = y + (v.y - y) * t
-    target.z = z + (v.z - z) * t
+    target.x = x + (vector.x - x) * t
+    target.y = y + (vector.y - y) * t
+    target.z = z + (vector.z - z) * t
   }
 
   /**
@@ -414,8 +414,12 @@ export class Vec3 {
    * @param {Number} precision
    * @return bool
    */
-  almostEquals({ x, y, z }: Vec3, precision = 1e-6): boolean {
-    if (Math.abs(this.x - x) > precision || Math.abs(this.y - y) > precision || Math.abs(this.z - z) > precision) {
+  almostEquals(vector: Vec3, precision = 1e-6): boolean {
+    if (
+      Math.abs(this.x - vector.x) > precision ||
+      Math.abs(this.y - vector.y) > precision ||
+      Math.abs(this.z - vector.z) > precision
+    ) {
       return false
     }
     return true
@@ -440,9 +444,9 @@ export class Vec3 {
    * @param  {Number}  precision Set to zero for exact comparisons
    * @return {Boolean}
    */
-  isAntiparallelTo(v: Vec3, precision?: number): boolean {
+  isAntiparallelTo(vector: Vec3, precision?: number): boolean {
     this.negate(antip_neg)
-    return antip_neg.almostEquals(v, precision)
+    return antip_neg.almostEquals(vector, precision)
   }
 
   /**

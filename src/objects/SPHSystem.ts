@@ -1,6 +1,5 @@
 import { Vec3 } from '../math/Vec3'
-// prettier-ignore
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 /**
  * Smoothed-particle hydrodynamics system

@@ -1,8 +1,8 @@
 import { Body } from '../objects/Body'
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
-import { World } from '../world/World'
-import { AABB } from '../collision/AABB'
+import type { AABB } from '../collision/AABB'
+import type { World } from '../world/World'
 
 /**
  * Base class for broadphase implementations

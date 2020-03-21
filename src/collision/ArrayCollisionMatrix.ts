@@ -1,4 +1,4 @@
-import { Body } from '../objects/Body'
+import type { Body } from '../objects/Body'
 
 /**
  * Collision "matrix". It's actually a triangular-shaped array of whether two bodies are touching this step, for reference next step
@@ -19,7 +19,9 @@ export class ArrayCollisionMatrix {
    * @param  {Body} j
    * @return {Number}
    */
-  get({ index: i }: Body, { index: j }: Body): number {
+  get(bi: Body, bj: Body): number {
+    let { index: i } = bi
+    let { index: j } = bj
     if (j > i) {
       const temp = j
       j = i
@@ -35,7 +37,9 @@ export class ArrayCollisionMatrix {
    * @param {Body} j
    * @param {boolean} value
    */
-  set({ index: i }: Body, { index: j }: Body, value: boolean): void {
+  set(bi: Body, bj: Body, value: boolean): void {
+    let { index: i } = bi
+    let { index: j } = bj
     if (j > i) {
       const temp = j
       j = i

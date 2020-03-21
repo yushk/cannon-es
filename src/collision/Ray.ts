@@ -4,25 +4,27 @@ import { Transform } from '../math/Transform'
 import { RaycastResult } from '../collision/RaycastResult'
 import { Shape } from '../shapes/Shape'
 import { AABB } from '../collision/AABB'
-import { World } from '../world/World'
-import { Body } from '../objects/Body'
-import { Sphere } from '../shapes/Sphere'
-import { Box } from '../shapes/Box'
-import { Plane } from '../shapes/Plane'
-import { Heightfield } from '../shapes/Heightfield'
-import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
-import { Trimesh } from '../shapes/Trimesh'
+import type { Body } from '../objects/Body'
+import type { Sphere } from '../shapes/Sphere'
+import type { Box } from '../shapes/Box'
+import type { Plane } from '../shapes/Plane'
+import type { Heightfield } from '../shapes/Heightfield'
+import type { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
+import type { Trimesh } from '../shapes/Trimesh'
+import type { World } from '../world/World'
 
 export const RAY_MODES = {
-  CLOSEST: 1 as const,
-  ANY: 2 as const,
-  ALL: 4 as const,
+  CLOSEST: 1 as typeof Body.DYNAMIC,
+  ANY: 2 as typeof Body.STATIC,
+  ALL: 4 as typeof Body.KINEMATIC,
 }
+
+export type RayMode = typeof RAY_MODES[keyof typeof RAY_MODES]
 
 export type RayOptions = {
   from?: Vec3
   to?: Vec3
-  mode?: typeof RAY_MODES[keyof typeof RAY_MODES]
+  mode?: RayMode
   result?: RaycastResult
   skipBackfaces?: boolean
   collisionFilterMask?: number
@@ -60,12 +62,12 @@ export class Ray {
 
   static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
 
-  [Shape.types.SPHERE]: Function;
-  [Shape.types.PLANE]: Function;
-  [Shape.types.BOX]: Function;
-  [Shape.types.CONVEXPOLYHEDRON]: Function;
-  [Shape.types.HEIGHTFIELD]: Function;
-  [Shape.types.TRIMESH]: Function
+  [Shape.types.SPHERE]: typeof Ray.prototype._intersectSphere;
+  [Shape.types.PLANE]: typeof Ray.prototype._intersectPlane;
+  [Shape.types.BOX]: typeof Ray.prototype._intersectBox;
+  [Shape.types.CONVEXPOLYHEDRON]: typeof Ray.prototype._intersectConvex;
+  [Shape.types.HEIGHTFIELD]: typeof Ray.prototype._intersectHeightfield;
+  [Shape.types.TRIMESH]: typeof Ray.prototype._intersectTrimesh
 
   constructor(from = new Vec3(), to = new Vec3()) {
     this.from = from.clone()
@@ -79,7 +81,7 @@ export class Ray {
     this.mode = Ray.ANY
     this.result = new RaycastResult()
     this.hasHit = false
-    this.callback = result => {}
+    this.callback = (result) => {}
   }
 
   /**
@@ -109,7 +111,7 @@ export class Ray {
     this.hasHit = false
 
     this.result.reset()
-    this._updateDirection()
+    this.updateDirection()
 
     this.getAABB(tmpAABB)
     tmpArray.length = 0
@@ -119,10 +121,15 @@ export class Ray {
     return this.hasHit
   }
 
+  /**
+   * Shoot a ray at a body, get back information about the hit.
+   * @param {Body} body
+   * @param {RaycastResult} [result] Deprecated - set the result property of the Ray instead.
+   */
   intersectBody(body: Body, result?: RaycastResult): void {
     if (result) {
       this.result = result
-      this._updateDirection()
+      this.updateDirection()
     }
     const checkCollisionResponse = this.checkCollisionResponse
 
@@ -151,7 +158,7 @@ export class Ray {
       body.quaternion.vmult(body.shapeOffsets[i], xi)
       xi.vadd(body.position, xi)
 
-      this.intersectShape(shape as any, qi, xi, body)
+      this.intersectShape(shape, qi, xi, body)
 
       if (this.result.shouldStop) {
         break
@@ -167,7 +174,7 @@ export class Ray {
   intersectBodies(bodies: Body[], result?: RaycastResult): void {
     if (result) {
       this.result = result
-      this._updateDirection()
+      this.updateDirection()
     }
 
     for (let i = 0, l = bodies.length; !this.result.shouldStop && i < l; i++) {
@@ -177,28 +184,13 @@ export class Ray {
 
   /**
    * Updates the direction vector.
-   * @private
-   * @method _updateDirection
    */
-  private _updateDirection(): void {
+  private updateDirection(): void {
     this.to.vsub(this.from, this.direction)
     this.direction.normalize()
   }
 
-  /**
-   * @method intersectShape
-   * @private
-   * @param {Shape} shape
-   * @param {Quaternion} quat
-   * @param {Vec3} position
-   * @param {Body} body
-   */
-  private intersectShape(
-    shape: Shape & { type: typeof RAY_MODES[keyof typeof RAY_MODES] },
-    quat: Quaternion,
-    position: Vec3,
-    body: Body
-  ): void {
+  private intersectShape(shape: Shape, quat: Quaternion, position: Vec3, body: Body): void {
     const from = this.from
 
     // Checking boundingSphere
@@ -207,41 +199,17 @@ export class Ray {
       return
     }
 
-    const intersectMethod = this[shape.type]
+    const intersectMethod = this[shape.type as RayMode]
     if (intersectMethod) {
-      intersectMethod.call(this, shape, quat, position, body, shape)
+      ;(intersectMethod as any).call(this, shape, quat, position, body, shape)
     }
   }
 
-  /**
-   * @method intersectBox
-   * @private
-   * @param  {Shape} shape
-   * @param  {Quaternion} quat
-   * @param  {Vec3} position
-   * @param  {Body} body
-   * @param  {Shape} reportedShape
-   */
-  intersectBox(
-    { convexPolyhedronRepresentation }: Box,
-    quat: Quaternion,
-    position: Vec3,
-    body: Body,
-    reportedShape: Shape
-  ): void {
-    return this.intersectConvex(convexPolyhedronRepresentation, quat, position, body, reportedShape)
+  _intersectBox(box: Box, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+    return this._intersectConvex(box.convexPolyhedronRepresentation, quat, position, body, reportedShape)
   }
 
-  /**
-   * @method intersectPlane
-   * @private
-   * @param  {Shape} shape
-   * @param  {Quaternion} quat
-   * @param  {Vec3} position
-   * @param  {Body} body
-   * @param  {Shape} reportedShape
-   */
-  intersectPlane(shape: Plane, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  _intersectPlane(shape: Plane, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const from = this.from
     const to = this.to
     const direction = this.direction
@@ -286,10 +254,9 @@ export class Ray {
 
   /**
    * Get the world AABB of the ray.
-   * @method getAABB
-   * @param  {AABB} aabb
    */
-  getAABB({ lowerBound, upperBound }: AABB): void {
+  getAABB(aabb: AABB): void {
+    const { lowerBound, upperBound } = aabb
     const to = this.to
     const from = this.from
     lowerBound.x = Math.min(to.x, from.x)
@@ -300,16 +267,7 @@ export class Ray {
     upperBound.z = Math.max(to.z, from.z)
   }
 
-  /**
-   * @method intersectHeightfield
-   * @private
-   * @param  {Shape} shape
-   * @param  {Quaternion} quat
-   * @param  {Vec3} position
-   * @param  {Body} body
-   * @param  {Shape} reportedShape
-   */
-  intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  _intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const data = shape.data
     const w = shape.elementSize
 
@@ -319,7 +277,7 @@ export class Ray {
     localRay.to.copy(this.to)
     Transform.pointToLocalFrame(position, quat, localRay.from, localRay.from)
     Transform.pointToLocalFrame(position, quat, localRay.to, localRay.to)
-    localRay._updateDirection()
+    localRay.updateDirection()
 
     // Get the index of the data points to test against
     const index = intersectHeightfield_index
@@ -356,7 +314,7 @@ export class Ray {
         // Lower triangle
         shape.getConvexTrianglePillar(i, j, false)
         Transform.pointToWorldFrame(position, quat, shape.pillarOffset, worldPillarOffset)
-        this.intersectConvex(shape.pillarConvex, quat, worldPillarOffset, body, reportedShape, intersectConvexOptions)
+        this._intersectConvex(shape.pillarConvex, quat, worldPillarOffset, body, reportedShape, intersectConvexOptions)
 
         if (this.result.shouldStop) {
           return
@@ -365,24 +323,15 @@ export class Ray {
         // Upper triangle
         shape.getConvexTrianglePillar(i, j, true)
         Transform.pointToWorldFrame(position, quat, shape.pillarOffset, worldPillarOffset)
-        this.intersectConvex(shape.pillarConvex, quat, worldPillarOffset, body, reportedShape, intersectConvexOptions)
+        this._intersectConvex(shape.pillarConvex, quat, worldPillarOffset, body, reportedShape, intersectConvexOptions)
       }
     }
   }
 
-  /**
-   * @method intersectSphere
-   * @private
-   * @param  {Shape} shape
-   * @param  {Quaternion} quat
-   * @param  {Vec3} position
-   * @param  {Body} body
-   * @param  {Shape} reportedShape
-   */
-  intersectSphere({ radius }: Sphere, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+  _intersectSphere(sphere: Sphere, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
     const from = this.from
     const to = this.to
-    const r = radius
+    const r = sphere.radius
 
     const a = (to.x - from.x) ** 2 + (to.y - from.y) ** 2 + (to.z - from.z) ** 2
     const b =
@@ -432,24 +381,13 @@ export class Ray {
     }
   }
 
-  /**
-   * @method intersectConvex
-   * @private
-   * @param  {Shape} shape
-   * @param  {Quaternion} quat
-   * @param  {Vec3} position
-   * @param  {Body} body
-   * @param  {Shape} reportedShape
-   * @param {object} [options]
-   * @param {array} [options.faceList]
-   */
-  intersectConvex(
+  _intersectConvex(
     shape: ConvexPolyhedron,
     quat: Quaternion,
     position: Vec3,
     body: Body,
     reportedShape: Shape,
-    options?: { faceList: any[] }
+    options?: { faceList: number[] }
   ): void {
     const minDistNormal = intersectConvex_minDistNormal
     const normal = intersectConvex_normal
@@ -546,18 +484,10 @@ export class Ray {
   }
 
   /**
-   * @method intersectTrimesh
-   * @private
-   * @param  {Shape} shape
-   * @param  {Quaternion} quat
-   * @param  {Vec3} position
-   * @param  {Body} body
-   * @param  {Shape} reportedShape
-   * @param {object} [options]
    * @todo Optimize by transforming the world to local space first.
    * @todo Use Octree lookup
    */
-  intersectTrimesh(
+  _intersectTrimesh(
     mesh: Trimesh,
     quat: Quaternion,
     position: Vec3,
@@ -668,13 +598,6 @@ export class Ray {
   }
 
   /**
-   * @method reportIntersection
-   * @private
-   * @param  {Vec3} normal
-   * @param  {Vec3} hitPointWorld
-   * @param  {Shape} shape
-   * @param  {Body} body
-   * @param  {number} hitFaceIndex
    * @return {boolean} True if the intersections should continue
    */
   private reportIntersection(normal: Vec3, hitPointWorld: Vec3, shape: Shape, body: Body, hitFaceIndex: number): void {
@@ -755,13 +678,6 @@ function pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
   )
 }
 
-/**
- * Shoot a ray at a body, get back information about the hit.
- * @method intersectBody
- * @private
- * @param {Body} body
- * @param {RaycastResult} [result] Deprecated - set the result property of the Ray instead.
- */
 const intersectBody_xi = new Vec3()
 const intersectBody_qi = new Quaternion()
 
@@ -776,9 +692,9 @@ const d = new Vec3()
 
 const tmpRaycastResult = new RaycastResult()
 
-Ray.prototype[Shape.types.BOX] = Ray.prototype.intersectBox
+Ray.prototype[Shape.types.BOX] = Ray.prototype._intersectBox
 
-Ray.prototype[Shape.types.PLANE] = Ray.prototype.intersectPlane
+Ray.prototype[Shape.types.PLANE] = Ray.prototype._intersectPlane
 
 const intersectConvexOptions = {
   faceList: [0],
@@ -788,19 +704,19 @@ const intersectHeightfield_localRay = new Ray()
 const intersectHeightfield_index: number[] = []
 const intersectHeightfield_minMax = []
 
-Ray.prototype[Shape.types.HEIGHTFIELD] = Ray.prototype.intersectHeightfield
+Ray.prototype[Shape.types.HEIGHTFIELD] = Ray.prototype._intersectHeightfield
 
 const Ray_intersectSphere_intersectionPoint = new Vec3()
 const Ray_intersectSphere_normal = new Vec3()
 
-Ray.prototype[Shape.types.SPHERE] = Ray.prototype.intersectSphere
+Ray.prototype[Shape.types.SPHERE] = Ray.prototype._intersectSphere
 
 const intersectConvex_normal = new Vec3()
 const intersectConvex_minDistNormal = new Vec3()
 const intersectConvex_minDistIntersect = new Vec3()
 const intersectConvex_vector = new Vec3()
 
-Ray.prototype[Shape.types.CONVEXPOLYHEDRON] = Ray.prototype.intersectConvex
+Ray.prototype[Shape.types.CONVEXPOLYHEDRON] = Ray.prototype._intersectConvex
 
 const intersectTrimesh_normal = new Vec3()
 const intersectTrimesh_localDirection = new Vec3()
@@ -812,7 +728,7 @@ const intersectTrimesh_localAABB = new AABB()
 const intersectTrimesh_triangles: number[] = []
 const intersectTrimesh_treeTransform = new Transform()
 
-Ray.prototype[Shape.types.TRIMESH] = Ray.prototype.intersectTrimesh
+Ray.prototype[Shape.types.TRIMESH] = Ray.prototype._intersectTrimesh
 
 const v0 = new Vec3()
 const intersect = new Vec3()

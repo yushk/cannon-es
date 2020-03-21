@@ -1,7 +1,6 @@
-import { Vec3 } from '../math/Vec3'
 import { Equation } from '../equations/Equation'
-// prettier-ignore
-import { Body } from '../objects/Body'
+import { Vec3 } from '../math/Vec3'
+import type { Body } from '../objects/Body'
 
 /**
  * Rotational motor constraint. Tries to keep the relative angular velocity of the bodies to a given value.
