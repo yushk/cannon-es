@@ -1,29 +1,24 @@
 import { EventTarget } from '../utils/EventTarget'
-import { Vec3 } from '../math/Vec3'
 import { GSSolver } from '../solver/GSSolver'
+import { NaiveBroadphase } from '../collision/NaiveBroadphase'
 import { Narrowphase } from '../world/Narrowphase'
-import { ArrayCollisionMatrix } from '../collision/ArrayCollisionMatrix'
-import { OverlapKeeper } from '../collision/OverlapKeeper'
+import { Vec3 } from '../math/Vec3'
 import { Material } from '../material/Material'
 import { ContactMaterial } from '../material/ContactMaterial'
-import { Body } from '../objects/Body'
+import { ArrayCollisionMatrix } from '../collision/ArrayCollisionMatrix'
+import { OverlapKeeper } from '../collision/OverlapKeeper'
 import { TupleDictionary } from '../utils/TupleDictionary'
 import { RaycastResult } from '../collision/RaycastResult'
+import { Ray } from '../collision/Ray'
 import { AABB } from '../collision/AABB'
-import { Ray, RayOptions, RaycastCallback } from '../collision/Ray'
-import { NaiveBroadphase } from '../collision/NaiveBroadphase'
-// prettier-ignore
-import { Broadphase } from '../collision/Broadphase'
-// prettier-ignore
-import { Solver } from '../solver/Solver'
-// prettier-ignore
-import { ContactEquation } from '../equations/ContactEquation'
-// prettier-ignore
-import { FrictionEquation } from '../equations/FrictionEquation'
-// prettier-ignore
-import { Constraint } from '../constraints/Constraint'
-// prettier-ignore
-import { Shape } from '../shapes/Shape'
+import { Body } from '../objects/Body'
+import type { Broadphase } from '../collision/Broadphase'
+import type { Solver } from '../solver/Solver'
+import type { ContactEquation } from '../equations/ContactEquation'
+import type { FrictionEquation } from '../equations/FrictionEquation'
+import type { RayOptions, RaycastCallback } from '../collision/Ray'
+import type { Constraint } from '../constraints/Constraint'
+import type { Shape } from '../shapes/Shape'
 
 type WorldOptions = {
   gravity?: Vec3
