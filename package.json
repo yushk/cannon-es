@@ -1,6 +1,6 @@
 {
   "name": "cannon-es",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A lightweight 3D physics engine written in JavaScript.",
   "homepage": "https://github.com/schteppe/cannon.js",
   "author": "Stefan Hedman <schteppe@gmail.com> (http://steffe.se)",
@@ -13,12 +13,14 @@
   ],
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npm run typecheck && rollup -c",
+    "build": "npm run typegen && rollup -c",
     "prepare": "npm run build",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false --strict"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false --strict",
+    "typegen": "tsc"
   },
   "husky": {
     "hooks": {
