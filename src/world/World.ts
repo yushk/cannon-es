@@ -20,7 +20,7 @@ import type { RayOptions, RaycastCallback } from '../collision/Ray'
 import type { Constraint } from '../constraints/Constraint'
 import type { Shape } from '../shapes/Shape'
 
-type WorldOptions = {
+export type WorldOptions = {
   gravity?: Vec3
   allowSleep?: boolean
   broadphase?: Broadphase
