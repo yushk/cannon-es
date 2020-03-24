@@ -4,6 +4,9 @@
   "description": "A lightweight 3D physics engine written in JavaScript.",
   "homepage": "https://github.com/schteppe/cannon.js",
   "author": "Stefan Hedman <schteppe@gmail.com> (http://steffe.se)",
+  "contributors": [
+    "Cody Persinger <codypersinger@gmail.com> (https://github.com/codynova)"
+  ],
   "keywords": [
     "cannon.js",
     "cannon",
