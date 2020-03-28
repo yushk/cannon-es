@@ -146,7 +146,7 @@ export class Body extends EventTarget {
     super()
 
     this.id = Body.idCounter++
-    this.index = 0
+    this.index = -1
     this.world = null
     this.preStep = null
     this.postStep = null
@@ -258,10 +258,11 @@ export class Body extends EventTarget {
    * @method wakeUp
    */
   wakeUp(): void {
-    const s = this.sleepState
+    const prevState = this.sleepState
     this.sleepState = 0
     this.wakeUpAfterNarrowphase = false
-    if (s === Body.SLEEPING) {
+    this.world!.activateBody(this)
+    if (prevState === Body.SLEEPING) {
       this.dispatchEvent(Body.wakeupEvent)
     }
   }
@@ -275,6 +276,7 @@ export class Body extends EventTarget {
     this.velocity.set(0, 0, 0)
     this.angularVelocity.set(0, 0, 0)
     this.wakeUpAfterNarrowphase = false
+    this.world!.deactivateBody(this)
   }
 
   /**
