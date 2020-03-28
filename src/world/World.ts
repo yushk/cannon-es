@@ -292,7 +292,7 @@ export class World extends EventTarget {
     }
     body.index = this.bodies.length
     this.bodies.push(body)
-    this.activateBody(body)
+    this.addActiveBody(body)
     body.world = this
     body.initPosition.copy(body.position)
     body.initVelocity.copy(body.velocity)
@@ -326,7 +326,7 @@ export class World extends EventTarget {
         bodies[i].index = i
       }
 
-      this.deactivateBody(body)
+      this.removeActiveBody(body)
       this.collisionMatrix.setNumObjects(n)
       this.removeBodyEvent.body = body
       delete this.idToBodyMap[body.id]
@@ -335,14 +335,14 @@ export class World extends EventTarget {
   }
 
   // Add non-sleeping body to the list of activeBodies
-  activateBody(body: Body): void {
-    if (body.sleepState !== Body.SLEEPING) {
+  addActiveBody(body: Body): void {
+    if (!this.activeBodies.includes(body) && body.sleepState !== Body.SLEEPING) {
       this.activeBodies.push(body)
     }
   }
 
   // Remove sleeping body from the list of activeBodies
-  deactivateBody(body: Body): void {
+  removeActiveBody(body: Body): void {
     const activeIndex = this.activeBodies.indexOf(body)
     if (activeIndex !== -1) {
       this.activeBodies.splice(activeIndex, 1)
