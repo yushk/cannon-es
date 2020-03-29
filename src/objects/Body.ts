@@ -261,7 +261,6 @@ export class Body extends EventTarget {
     const prevState = this.sleepState
     this.sleepState = 0
     this.wakeUpAfterNarrowphase = false
-    this.world!.addActiveBody(this)
     if (prevState === Body.SLEEPING) {
       this.dispatchEvent(Body.wakeupEvent)
     }
@@ -276,7 +275,6 @@ export class Body extends EventTarget {
     this.velocity.set(0, 0, 0)
     this.angularVelocity.set(0, 0, 0)
     this.wakeUpAfterNarrowphase = false
-    this.world!.removeActiveBody(this)
   }
 
   /**

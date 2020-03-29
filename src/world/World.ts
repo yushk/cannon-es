@@ -56,7 +56,7 @@ export class World extends EventTarget {
   gravity: Vec3
   broadphase: Broadphase // The broadphase algorithm to use. Default is NaiveBroadphase.
   bodies: Body[] // All bodies in this world
-  activeBodies: Body[] // All bodies in this world who are not sleeping (sleepState !== Body.SLEEPING)
+  hasActiveBodies: boolean // True if any bodies are not sleeping, false if every body is sleeping.
   solver: Solver // The solver algorithm to use. Default is GSSolver.
   constraints: Constraint[]
   narrowphase: Narrowphase
@@ -108,7 +108,7 @@ export class World extends EventTarget {
 
     this.broadphase = options.broadphase !== undefined ? options.broadphase : new NaiveBroadphase()
     this.bodies = []
-    this.activeBodies = []
+    this.hasActiveBodies = false
     this.solver = options.solver !== undefined ? options.solver : new GSSolver()
     this.constraints = []
     this.narrowphase = new Narrowphase(this)
@@ -292,7 +292,6 @@ export class World extends EventTarget {
     }
     body.index = this.bodies.length
     this.bodies.push(body)
-    this.addActiveBody(body)
     body.world = this
     body.initPosition.copy(body.position)
     body.initVelocity.copy(body.velocity)
@@ -326,32 +325,11 @@ export class World extends EventTarget {
         bodies[i].index = i
       }
 
-      this.removeActiveBody(body)
       this.collisionMatrix.setNumObjects(n)
       this.removeBodyEvent.body = body
       delete this.idToBodyMap[body.id]
       this.dispatchEvent(this.removeBodyEvent)
     }
-  }
-
-  // Add non-sleeping body to the list of activeBodies
-  addActiveBody(body: Body): void {
-    if (!this.activeBodies.includes(body) && body.sleepState !== Body.SLEEPING) {
-      this.activeBodies.push(body)
-    }
-  }
-
-  // Remove sleeping body from the list of activeBodies
-  removeActiveBody(body: Body): void {
-    const activeIndex = this.activeBodies.indexOf(body)
-    if (activeIndex !== -1) {
-      this.activeBodies.splice(activeIndex, 1)
-    }
-  }
-
-  // True if any bodies are not sleeping, false if every body is sleeping
-  get hasActiveBodies(): boolean {
-    return this.activeBodies.length > 0
   }
 
   getBodyById(id: number): Body {
@@ -787,11 +765,19 @@ export class World extends EventTarget {
     }
 
     // Sleeping update
+    let hasActiveBodies = true
     if (this.allowSleep) {
+      hasActiveBodies = false
       for (i = 0; i !== N; i++) {
-        bodies[i].sleepTick(this.time)
+        const bi = bodies[i]
+        bi.sleepTick(this.time)
+
+        if (bi.sleepState !== Body.SLEEPING) {
+          hasActiveBodies = true
+        }
       }
     }
+    this.hasActiveBodies = hasActiveBodies
   }
 
   /**
