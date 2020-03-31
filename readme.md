@@ -22,3 +22,4 @@ import { World } from 'cannon-es'
 - Remove use of defined assertion (!) where possible (profile performance to ensure no degradation)
 - Correct & standardize JSDoc comments
 - Test possible performance improvements by converting matrices to Maps (instead of Arrays)
+- V-HACD support (https://github.com/react-spring/use-cannon/issues/35#issuecomment-600188994)
