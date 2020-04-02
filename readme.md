@@ -1,4 +1,4 @@
-This is a fork of https://github.com/schteppe/cannon.js made by Stefan Hedman [@schteppe](https://github.com/schteppe). It's a type-safe flatbundle (esm and cjs) for easier handling in module environments and tree shaking. Visit the original project for full documentation and examples.
+This is a fork of https://github.com/schteppe/cannon.js made by Stefan Hedman [@schteppe](https://github.com/schteppe). It's a type-safe flatbundle (esm and cjs) for easier handling in module environments and tree shaking. Visit the original project for [full documentation](http://schteppe.github.io/cannon.js/docs/) and examples ([1](http://schteppe.github.io/cannon.js/), [2](http://github.com/schteppe/cannon.js/tree/master/examples), [3](http://github.com/schteppe/cannon.js/tree/master/demos)).
 
     yarn add cannon-es
 
