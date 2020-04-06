@@ -27,6 +27,7 @@ export type BodySleepState = typeof BODY_SLEEP_STATES[keyof typeof BODY_SLEEP_ST
 export type BodyOptions = {
   collisionFilterGroup?: number
   collisionFilterMask?: number
+  collisionResponse?: boolean
   position?: Vec3
   velocity?: Vec3
   mass?: number
@@ -86,7 +87,7 @@ export class Body extends EventTarget {
   vlambda: Vec3
   collisionFilterGroup: number
   collisionFilterMask: number
-  collisionResponse: boolean // Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled.
+  collisionResponse: boolean // Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled - i.e. "collide" events will be raised, but forces will not be altered.
   position: Vec3 // World space position of the body.
   previousPosition: Vec3
   interpolatedPosition: Vec3 // Interpolated position of the body.
@@ -154,7 +155,7 @@ export class Body extends EventTarget {
 
     this.collisionFilterGroup = typeof options.collisionFilterGroup === 'number' ? options.collisionFilterGroup : 1
     this.collisionFilterMask = typeof options.collisionFilterMask === 'number' ? options.collisionFilterMask : -1
-    this.collisionResponse = true
+    this.collisionResponse = typeof options.collisionResponse === 'boolean' ? options.collisionResponse : true
     this.position = new Vec3()
     this.previousPosition = new Vec3()
     this.interpolatedPosition = new Vec3()
