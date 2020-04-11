@@ -506,22 +506,12 @@ export class ConvexPolyhedron extends Shape {
       quatA.vmult(worldA1, worldA1)
       posA.vadd(worldA1, worldA1)
 
-      let planeEqWS1 = -worldA1.dot(planeNormalWS1)
-      let planeEqWS
-      let otherFace = polyA.connectedFaces[i]
-
-      if (otherFace != null) {
-        localPlaneNormal.copy(this.faceNormals[otherFace])
-        const localPlaneEq = this.getPlaneConstantOfFace(otherFace)
-
-        planeNormalWS.copy(localPlaneNormal)
-        quatA.vmult(planeNormalWS, planeNormalWS)
-        posA.vadd(planeNormalWS, planeNormalWS)
-        planeEqWS = localPlaneEq - planeNormalWS.dot(posA)
-      } else {
-        planeNormalWS.copy(planeNormalWS1)
-        planeEqWS = planeEqWS1
-      }
+      const otherFace = polyA.connectedFaces[i]
+      localPlaneNormal.copy(this.faceNormals[otherFace])
+      const localPlaneEq = this.getPlaneConstantOfFace(otherFace)
+      planeNormalWS.copy(localPlaneNormal)
+      quatA.vmult(planeNormalWS, planeNormalWS)
+      const planeEqWS = localPlaneEq - planeNormalWS.dot(posA)
 
       // Clip face against our constructed plane
       this.clipFaceAgainstPlane(pVtxIn, pVtxOut, planeNormalWS, planeEqWS)
