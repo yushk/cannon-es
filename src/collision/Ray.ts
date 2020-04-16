@@ -641,8 +641,6 @@ export class Ray {
   }
 }
 
-Ray.prototype.constructor = Ray
-
 Ray.CLOSEST = 1
 Ray.ANY = 2
 Ray.ALL = 4

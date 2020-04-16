@@ -21,7 +21,7 @@ export class Box extends Shape {
     super({ type: Shape.types.BOX })
 
     this.halfExtents = halfExtents
-    this.convexPolyhedronRepresentation = null as unknown as ConvexPolyhedron
+    this.convexPolyhedronRepresentation = (null as unknown) as ConvexPolyhedron
     this.updateConvexPolyhedronRepresentation()
     this.updateBoundingSphereRadius()
   }
