@@ -131,7 +131,7 @@ export class RaycastVehicle {
       this.updateWheelTransform(i)
     }
 
-    this.currentVehicleSpeedKmHour = 3.6 * chassisBody.velocity.norm()
+    this.currentVehicleSpeedKmHour = 3.6 * chassisBody.velocity.length()
 
     const forwardWorld = new Vec3()
     this.getVehicleAxisWorld(this.indexForwardAxis, forwardWorld)
@@ -253,7 +253,7 @@ export class RaycastVehicle {
    */
   removeFromWorld(world: World): void {
     const constraints = this.constraints
-    world.remove(this.chassisBody)
+    world.removeBody(this.chassisBody)
     world.removeEventListener('preStep', this.preStepCallback)
     this.world = null
   }
@@ -662,7 +662,7 @@ const resolveSingleBilateral_vel = new Vec3()
 
 //bilateral constraint between two dynamic objects
 function resolveSingleBilateral(body1: Body, pos1: Vec3, body2: Body, pos2: Vec3, normal: Vec3): number {
-  const normalLenSqr = normal.norm2()
+  const normalLenSqr = normal.lengthSquared()
   if (normalLenSqr > 1.1) {
     return 0 // no impulse
   }

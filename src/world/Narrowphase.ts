@@ -363,8 +363,8 @@ export class Narrowphase {
     // Contact point locations
     r.ri.copy(r.ni)
     r.rj.copy(r.ni)
-    r.ri.mult(si.radius, r.ri)
-    r.rj.mult(-sj.radius, r.rj)
+    r.ri.scale(si.radius, r.ri)
+    r.rj.scale(-sj.radius, r.rj)
 
     r.ri.vadd(xi, r.ri)
     r.ri.vsub(bi.position, r.ri)
@@ -400,11 +400,11 @@ export class Narrowphase {
     r.ni.normalize() // Needed?
 
     // Vector from sphere center to contact point
-    r.ni.mult(si.radius, r.ri)
+    r.ni.scale(si.radius, r.ri)
 
     // Project down sphere on plane
     xi.vsub(xj, point_on_plane_to_sphere)
-    r.ni.mult(r.ni.dot(point_on_plane_to_sphere), plane_to_sphere_ortho)
+    r.ni.scale(r.ni.dot(point_on_plane_to_sphere), plane_to_sphere_ortho)
     point_on_plane_to_sphere.vsub(plane_to_sphere_ortho, r.rj) // The sphere position projected to plane
 
     if (-point_on_plane_to_sphere.dot(r.ni) <= si.radius) {
@@ -496,7 +496,7 @@ export class Narrowphase {
       const ns = sphereBox_ns
       ns.copy(sides[idx])
 
-      const h = ns.norm()
+      const h = ns.length()
       ns.normalize()
 
       // The normal/distance dot product tells which side of the plane we are
@@ -508,8 +508,8 @@ export class Narrowphase {
         const ns2 = sphereBox_ns2
         ns1.copy(sides[(idx + 1) % 3])
         ns2.copy(sides[(idx + 2) % 3])
-        const h1 = ns1.norm()
-        const h2 = ns2.norm()
+        const h1 = ns1.length()
+        const h2 = ns2.length()
         ns1.normalize()
         ns2.normalize()
         const dot1 = box_to_sphere.dot(ns1)
@@ -536,13 +536,13 @@ export class Narrowphase {
     if (side_penetrations) {
       found = true
       const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj)
-      side_ns.mult(-R, r.ri) // Sphere r
+      side_ns.scale(-R, r.ri) // Sphere r
       r.ni.copy(side_ns)
       r.ni.negate(r.ni) // Normal should be out of sphere
-      side_ns.mult(side_h!, side_ns)
-      side_ns1.mult(side_dot1, side_ns1)
+      side_ns.scale(side_h!, side_ns)
+      side_ns1.scale(side_dot1, side_ns1)
       side_ns.vadd(side_ns1, side_ns)
-      side_ns2.mult(side_dot2, side_ns2)
+      side_ns2.scale(side_dot2, side_ns2)
       side_ns.vadd(side_ns2, r.rj)
 
       // Make relative to bodies
@@ -582,7 +582,7 @@ export class Narrowphase {
           xj.vadd(rj, sphere_to_corner)
           sphere_to_corner.vsub(xi, sphere_to_corner)
 
-          if (sphere_to_corner.norm2() < R * R) {
+          if (sphere_to_corner.lengthSquared() < R * R) {
             if (justTest) {
               return true
             }
@@ -591,7 +591,7 @@ export class Narrowphase {
             r.ri.copy(sphere_to_corner)
             r.ri.normalize()
             r.ni.copy(r.ri)
-            r.ri.mult(R, r.ri)
+            r.ri.scale(R, r.ri)
             r.rj.copy(rj)
 
             // Make relative to bodies
@@ -643,9 +643,9 @@ export class Narrowphase {
 
           // Distances in tangent direction and distance in the plane orthogonal to it
           const tdist = Math.abs(orthonorm)
-          const ndist = dist.norm()
+          const ndist = dist.length()
 
-          if (tdist < sides[l].norm() && ndist < R) {
+          if (tdist < sides[l].length() && ndist < R) {
             if (justTest) {
               return true
             }
@@ -660,7 +660,7 @@ export class Narrowphase {
             res.ri.vadd(xj, res.ri)
             res.ri.vsub(xi, res.ri)
             res.ri.normalize()
-            res.ri.mult(R, res.ri)
+            res.ri.scale(R, res.ri)
 
             // Make relative to bodies
             res.ri.vadd(xi, res.ri)
@@ -731,7 +731,7 @@ export class Narrowphase {
         const rj = r.rj
         sepAxis.negate(r.ni)
         res[j].normal.negate(q)
-        q.mult(res[j].depth, q)
+        q.scale(res[j].depth, q)
         res[j].point.vadd(q, ri)
         rj.copy(res[j].point)
 
@@ -778,7 +778,7 @@ export class Narrowphase {
     const R = si.radius
     const penetrating_sides = []
 
-    // if(convex_to_sphere.norm2() > si.boundingSphereRadius + sj.boundingSphereRadius){
+    // if(convex_to_sphere.lengthSquared() > si.boundingSphereRadius + sj.boundingSphereRadius){
     //     return;
     // }
     let found = false
@@ -793,7 +793,7 @@ export class Narrowphase {
       xj.vadd(worldCorner, worldCorner)
       const sphere_to_corner = sphereConvex_sphereToCorner
       worldCorner.vsub(xi, sphere_to_corner)
-      if (sphere_to_corner.norm2() < R * R) {
+      if (sphere_to_corner.lengthSquared() < R * R) {
         if (justTest) {
           return true
         }
@@ -802,7 +802,7 @@ export class Narrowphase {
         r.ri.copy(sphere_to_corner)
         r.ri.normalize()
         r.ni.copy(r.ri)
-        r.ri.mult(R, r.ri)
+        r.ri.scale(R, r.ri)
         worldCorner.vsub(xj, r.rj)
 
         // Should be relative to the body.
@@ -835,7 +835,7 @@ export class Narrowphase {
 
       // Get a point on the sphere, closest to the face normal
       const worldSpherePointClosestToPlane = sphereConvex_worldSpherePointClosestToPlane
-      worldNormal.mult(-R, worldSpherePointClosestToPlane)
+      worldNormal.scale(-R, worldSpherePointClosestToPlane)
       xi.vadd(worldSpherePointClosestToPlane, worldSpherePointClosestToPlane)
 
       // Vector from a face point to the closest point on the sphere
@@ -866,13 +866,13 @@ export class Narrowphase {
           found = true
           const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj)
 
-          worldNormal.mult(-R, r.ri) // Contact offset, from sphere center to contact
+          worldNormal.scale(-R, r.ri) // Contact offset, from sphere center to contact
           worldNormal.negate(r.ni) // Normal pointing out of sphere
 
           const penetrationVec2 = v3pool.get()
-          worldNormal.mult(-penetration, penetrationVec2)
+          worldNormal.scale(-penetration, penetrationVec2)
           const penetrationSpherePoint = v3pool.get()
-          worldNormal.mult(-R, penetrationSpherePoint)
+          worldNormal.scale(-R, penetrationSpherePoint)
 
           //xi.vsub(xj).vadd(penetrationSpherePoint).vadd(penetrationVec2 , r.rj);
           xi.vsub(xj, r.rj)
@@ -923,7 +923,7 @@ export class Narrowphase {
             const v1_to_xi = v3pool.get()
             xi.vsub(v1, v1_to_xi)
             const dot = v1_to_xi.dot(edgeUnit)
-            edgeUnit.mult(dot, p)
+            edgeUnit.scale(dot, p)
             p.vadd(v1, p)
 
             // Compute a vector from p to the center of the sphere
@@ -932,7 +932,7 @@ export class Narrowphase {
 
             // Collision if the edge-sphere distance is less than the radius
             // AND if p is in between v1 and v2
-            if (dot > 0 && dot * dot < edge.norm2() && xi_to_p.norm2() < R * R) {
+            if (dot > 0 && dot * dot < edge.lengthSquared() && xi_to_p.lengthSquared() < R * R) {
               // Collision if the edge-sphere distance is less than the radius
               // Edge contact!
               if (justTest) {
@@ -944,7 +944,7 @@ export class Narrowphase {
               p.vsub(xi, r.ni)
               r.ni.normalize()
 
-              r.ni.mult(R, r.ri)
+              r.ni.scale(R, r.ri)
 
               // Should be relative to the body.
               r.rj.vadd(xj, r.rj)
@@ -1026,7 +1026,7 @@ export class Narrowphase {
 
         // Get vertex position projected on plane
         const projected = planeConvex_projected
-        worldNormal.mult(worldNormal.dot(relpos), projected)
+        worldNormal.scale(worldNormal.dot(relpos), projected)
         worldVertex.vsub(projected, projected)
         projected.vsub(planePosition, r.ri) // From plane to vertex projected on plane
 
@@ -1385,7 +1385,7 @@ export class Narrowphase {
     const normal = particleSphere_normal
     normal.set(0, 0, 1)
     xi.vsub(xj, normal)
-    const lengthSquared = normal.norm2()
+    const lengthSquared = normal.lengthSquared()
 
     if (lengthSquared <= sj.radius * sj.radius) {
       if (justTest) {
@@ -1394,7 +1394,7 @@ export class Narrowphase {
       const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj)
       normal.normalize()
       r.rj.copy(normal)
-      r.rj.mult(sj.radius, r.rj)
+      r.rj.scale(sj.radius, r.rj)
       r.ni.copy(normal) // Contact normal
       r.ni.negate(r.ni)
       r.ri.set(0, 0, 0) // Center of particle
@@ -1434,7 +1434,7 @@ export class Narrowphase {
 
       // Get particle position projected on plane
       const projected = particlePlane_projected
-      normal.mult(normal.dot(xi), projected)
+      normal.scale(normal.dot(xi), projected)
       xi.vsub(projected, projected)
       //projected.vadd(bj.position,projected);
 
@@ -1521,7 +1521,7 @@ export class Narrowphase {
       if (penetratedFaceIndex !== -1) {
         // Setup contact
         const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj)
-        penetratedFaceNormal.mult(minPenetration!, worldPenetrationVec)
+        penetratedFaceNormal.scale(minPenetration!, worldPenetrationVec)
 
         // rj is the particle position projected to the face
         worldPenetrationVec.vadd(xi, worldPenetrationVec)
@@ -1604,7 +1604,7 @@ export class Narrowphase {
         // Check vertex overlap in sphere
         v.vsub(localSpherePos, relpos)
 
-        if (relpos.norm2() <= radiusSquared) {
+        if (relpos.lengthSquared() <= radiusSquared) {
           // Safe up
           v2.copy(v)
           Transform.pointToWorldFrame(trimeshPos, trimeshQuat, v2, v)

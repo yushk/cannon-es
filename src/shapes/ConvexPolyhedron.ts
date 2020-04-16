@@ -677,7 +677,7 @@ export class ConvexPolyhedron extends Shape {
     let max2 = 0
     const verts = this.vertices
     for (let i = 0; i !== verts.length; i++) {
-      const norm2 = verts[i].norm2()
+      const norm2 = verts[i].lengthSquared()
       if (norm2 > max2) {
         max2 = norm2
       }
@@ -754,7 +754,7 @@ export class ConvexPolyhedron extends Shape {
     for (let i = 0; i < verts.length; i++) {
       target.vadd(verts[i], target)
     }
-    target.mult(1 / verts.length, target)
+    target.scale(1 / verts.length, target)
     return target
   }
 

@@ -66,7 +66,7 @@ export class SPHSystem {
     for (let i = 0; i !== N; i++) {
       const p = this.particles[i]
       p.position.vsub(particle.position, dist)
-      if (id !== p.id && dist.norm2() < R2) {
+      if (id !== p.id && dist.lengthSquared() < R2) {
         neighbors.push(p)
       }
     }
@@ -93,7 +93,7 @@ export class SPHSystem {
       for (let j = 0; j !== numNeighbors; j++) {
         //printf("Current particle has position %f %f %f\n",objects[id].pos.x(),objects[id].pos.y(),objects[id].pos.z());
         p.position.vsub(neighbors[j].position, dist)
-        const len = dist.norm()
+        const len = dist.length()
 
         const weight = this.w(len)
         sum += neighbors[j].mass * weight
@@ -135,7 +135,7 @@ export class SPHSystem {
 
         // Get r once for all..
         particle.position.vsub(neighbor.position, r_vec)
-        const r = r_vec.norm()
+        const r = r_vec.length()
 
         // Pressure contribution
         Pij =
@@ -144,21 +144,21 @@ export class SPHSystem {
             this.pressures[j] / (this.densities[j] * this.densities[j] + eps))
         this.gradw(r_vec, gradW)
         // Add to pressure acceleration
-        gradW.mult(Pij, gradW)
+        gradW.scale(Pij, gradW)
         a_pressure.vadd(gradW, a_pressure)
 
         // Viscosity contribution
         neighbor.velocity.vsub(particle.velocity, u)
-        u.mult((1.0 / (0.0001 + this.densities[i] * this.densities[j])) * this.viscosity * neighbor.mass, u)
+        u.scale((1.0 / (0.0001 + this.densities[i] * this.densities[j])) * this.viscosity * neighbor.mass, u)
         nabla = this.nablaw(r)
-        u.mult(nabla, u)
+        u.scale(nabla, u)
         // Add to viscosity acceleration
         a_visc.vadd(u, a_visc)
       }
 
       // Calculate force
-      a_visc.mult(particle.mass, a_visc)
-      a_pressure.mult(particle.mass, a_pressure)
+      a_visc.scale(particle.mass, a_visc)
+      a_pressure.scale(particle.mass, a_pressure)
 
       // Add force to particles
       particle.force.vadd(a_visc, particle.force)
@@ -175,9 +175,9 @@ export class SPHSystem {
 
   // calculate gradient of the weight function
   gradw(rVec: Vec3, resultVec: Vec3): void {
-    const r = rVec.norm()
+    const r = rVec.length()
     const h = this.smoothingRadius
-    rVec.mult((945.0 / (32.0 * Math.PI * h ** 9)) * (h * h - r * r) ** 2, resultVec)
+    rVec.scale((945.0 / (32.0 * Math.PI * h ** 9)) * (h * h - r * r) ** 2, resultVec)
   }
 
   // Calculate nabla(W)

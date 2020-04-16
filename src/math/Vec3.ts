@@ -171,34 +171,14 @@ export class Vec3 {
 
   /**
    * Get the length of the vector
-   * @method norm
-   * @return {Number}
-   * @deprecated Use .length() instead
-   */
-  norm(): number {
-    const x = this.x
-    const y = this.y
-    const z = this.z
-    return Math.sqrt(x * x + y * y + z * z)
-  }
-
-  /**
-   * Get the length of the vector
    * @method length
    * @return {Number}
    */
   length(): number {
-    return this.norm()
-  }
-
-  /**
-   * Get the squared length of the vector
-   * @method norm2
-   * @return {Number}
-   * @deprecated Use .lengthSquared() instead.
-   */
-  norm2(): number {
-    return this.dot(this)
+    const x = this.x
+    const y = this.y
+    const z = this.z
+    return Math.sqrt(x * x + y * y + z * z)
   }
 
   /**
@@ -244,14 +224,12 @@ export class Vec3 {
 
   /**
    * Multiply all the components of the vector with a scalar.
-   * @deprecated Use .scale instead
-   * @method mult
+   * @method scale
    * @param {Number} scalar
    * @param {Vec3} target The vector to save the result in.
    * @return {Vec3}
-   * @deprecated Use .scale() instead
    */
-  mult(scalar: number, target = new Vec3()): Vec3 {
+  scale(scalar: number, target = new Vec3()): Vec3 {
     const x = this.x
     const y = this.y
     const z = this.z
@@ -259,17 +237,6 @@ export class Vec3 {
     target.y = scalar * y
     target.z = scalar * z
     return target
-  }
-
-  /**
-   * Multiply the vector with a scalar.
-   * @method scale
-   * @param {Number} scalar
-   * @param {Vec3} target
-   * @return {Vec3}
-   */
-  scale(scalar: number, target = new Vec3()): Vec3 {
-    return this.mult(scalar, target)
   }
 
   /**
@@ -339,7 +306,7 @@ export class Vec3 {
    * @param {Vec3} t2 Vector object to save the second tangent in
    */
   tangents(t1: Vec3, t2: Vec3): void {
-    const norm = this.norm()
+    const norm = this.length()
     if (norm > 0.0) {
       const n = Vec3_tangents_n
       const inorm = 1 / norm

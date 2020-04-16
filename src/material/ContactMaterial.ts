@@ -23,6 +23,7 @@ export type ContactMaterialOptions = {
  * @param {number} [options.contactEquationRelaxation=3]
  * @param {number} [options.frictionEquationStiffness=1e7]
  * @param {Number} [options.frictionEquationRelaxation=3]
+ * @todo Refactor materials to materialA and materialB
  */
 export class ContactMaterial {
   id: number // Identifier of this material.

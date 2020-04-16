@@ -28,6 +28,7 @@ type HeightfieldPillar = {
  * @param {Number} [options.elementSize=0.1] World spacing between the data points in X direction.
  * @todo Should be possible to use along all axes, not just y
  * @todo should be possible to scale along all axes
+ * @todo Refactor elementSize to elementSizeX and elementSizeY
  *
  * @example
  *     // Generate some height data (y-values).
@@ -543,7 +544,7 @@ export class Heightfield extends Shape {
       data.length * s,
       data[0].length * s,
       Math.max(Math.abs(this.maxValue!), Math.abs(this.minValue!))
-    ).norm()
+    ).length()
   }
 
   /**

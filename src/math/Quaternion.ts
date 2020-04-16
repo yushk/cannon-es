@@ -98,7 +98,7 @@ export class Quaternion {
       this.x = a.x
       this.y = a.y
       this.z = a.z
-      this.w = Math.sqrt(u.norm() ** 2 * v.norm() ** 2) + u.dot(v)
+      this.w = Math.sqrt(u.length() ** 2 * v.length() ** 2) + u.dot(v)
       this.normalize()
     }
     return this

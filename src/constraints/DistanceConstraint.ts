@@ -42,7 +42,7 @@ export class DistanceConstraint extends Constraint {
 
     bodyB.position.vsub(bodyA.position, normal)
     normal.normalize()
-    normal.mult(halfDist, eq.ri)
-    normal.mult(-halfDist, eq.rj)
+    normal.scale(halfDist, eq.ri)
+    normal.scale(-halfDist, eq.rj)
   }
 }

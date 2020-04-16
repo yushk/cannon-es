@@ -93,8 +93,6 @@ export class Shape {
   }
 }
 
-Shape.prototype.constructor = Shape
-
 Shape.idCounter = 0
 
 /**

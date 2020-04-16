@@ -21,7 +21,7 @@ export class Box extends Shape {
     super({ type: Shape.types.BOX })
 
     this.halfExtents = halfExtents
-    this.convexPolyhedronRepresentation = {} as ConvexPolyhedron
+    this.convexPolyhedronRepresentation = (null as unknown) as ConvexPolyhedron
     this.updateConvexPolyhedronRepresentation()
     this.updateBoundingSphereRadius()
   }
@@ -105,7 +105,7 @@ export class Box extends Shape {
   }
 
   updateBoundingSphereRadius(): void {
-    this.boundingSphereRadius = this.halfExtents.norm()
+    this.boundingSphereRadius = this.halfExtents.length()
   }
 
   forEachWorldCorner(pos: Vec3, quat: Quaternion, callback: (x: number, y: number, z: number) => void): void {

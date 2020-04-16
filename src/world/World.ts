@@ -83,8 +83,6 @@ export class World extends EventTarget {
   removeBodyEvent: { type: 'removeBody'; body: Body | null } // Dispatched after a body has been removed from the world.
   idToBodyMap: { [id: number]: Body }
 
-  addBody!: typeof World.prototype.add
-  removeBody!: typeof World.prototype.remove
   emitContactEvents!: () => void
 
   constructor(options: WorldOptions = {}) {
@@ -284,9 +282,8 @@ export class World extends EventTarget {
    * @param {Body} body
    * @todo If the simulation has not yet started, why recrete and copy arrays for each body? Accumulate in dynamic arrays in this case.
    * @todo Adding an array of bodies should be possible. This would save some loops too
-   * @deprecated Use .addBody instead
    */
-  add(body: Body): void {
+  addBody(body: Body): void {
     if (this.bodies.includes(body)) {
       return
     }
@@ -310,9 +307,8 @@ export class World extends EventTarget {
    * Remove a rigid body from the simulation.
    * @method remove
    * @param {Body} body
-   * @deprecated Use .removeBody instead
    */
-  remove(body: Body): void {
+  removeBody(body: Body): void {
     body.world = null
     const n = this.bodies.length - 1
     const bodies = this.bodies
@@ -436,7 +432,7 @@ export class World extends EventTarget {
     let profilingStart = -Infinity
     const constraints = this.constraints
     const frictionEquationPool = World_step_frictionEquationPool
-    const gnorm = gravity.norm()
+    const gnorm = gravity.length()
     const gx = gravity.x
     const gy = gravity.y
     const gz = gravity.z
@@ -625,7 +621,7 @@ export class World extends EventTarget {
         bj.sleepState === Body.AWAKE &&
         bj.type !== Body.STATIC
       ) {
-        const speedSquaredB = bj.velocity.norm2() + bj.angularVelocity.norm2()
+        const speedSquaredB = bj.velocity.lengthSquared() + bj.angularVelocity.lengthSquared()
         const speedLimitSquaredB = bj.sleepSpeedLimit ** 2
         if (speedSquaredB >= speedLimitSquaredB * 2) {
           bi.wakeUpAfterNarrowphase = true
@@ -639,7 +635,7 @@ export class World extends EventTarget {
         bi.sleepState === Body.AWAKE &&
         bi.type !== Body.STATIC
       ) {
-        const speedSquaredA = bi.velocity.norm2() + bi.angularVelocity.norm2()
+        const speedSquaredA = bi.velocity.lengthSquared() + bi.angularVelocity.lengthSquared()
         const speedLimitSquaredA = bi.sleepSpeedLimit ** 2
         if (speedSquaredA >= speedLimitSquaredA * 2) {
           bj.wakeUpAfterNarrowphase = true
@@ -709,11 +705,11 @@ export class World extends EventTarget {
         // Only for dynamic bodies
         const ld = pow(1.0 - bi.linearDamping, dt)
         const v = bi.velocity
-        v.mult(ld, v)
+        v.scale(ld, v)
         const av = bi.angularVelocity
         if (av) {
           const ad = pow(1.0 - bi.angularDamping, dt)
-          av.mult(ad, av)
+          av.scale(ad, av)
         }
       }
     }
@@ -802,20 +798,6 @@ export class World extends EventTarget {
 const tmpAABB1 = new AABB()
 const tmpArray1 = []
 const tmpRay = new Ray()
-
-/**
- * Add a rigid body to the simulation.
- * @method add
- * @param {Body} body
- */
-World.prototype.addBody = World.prototype.add
-
-/**
- * Remove a rigid body from the simulation.
- * @method removeBody
- * @param {Body} body
- */
-World.prototype.removeBody = World.prototype.remove
 
 // performance.now()
 if (typeof performance === 'undefined') {

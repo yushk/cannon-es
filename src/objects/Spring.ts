@@ -127,7 +127,7 @@ export class Spring {
 
     // Compute distance vector between world anchor points
     worldAnchorB.vsub(worldAnchorA, r)
-    const rlen = r.norm()
+    const rlen = r.length()
     r_unit.copy(r)
     r_unit.normalize()
 
@@ -141,7 +141,7 @@ export class Spring {
     u.vsub(tmp, u)
 
     // F = - k * ( x - L ) - D * ( u )
-    r_unit.mult(-k * (rlen - l) - d * u.dot(r_unit), f)
+    r_unit.scale(-k * (rlen - l) - d * u.dot(r_unit), f)
 
     // Add forces to bodies
     bodyA.force.vsub(f, bodyA.force)
