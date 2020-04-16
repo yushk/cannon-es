@@ -286,7 +286,7 @@ export class Body extends EventTarget {
   sleepTick(time: number): void {
     if (this.allowSleep) {
       const sleepState = this.sleepState
-      const speedSquared = this.velocity.norm2() + this.angularVelocity.norm2()
+      const speedSquared = this.velocity.lengthSquared() + this.angularVelocity.lengthSquared()
       const speedLimitSquared = this.sleepSpeedLimit ** 2
       if (sleepState === Body.AWAKE && speedSquared < speedLimitSquared) {
         this.sleepState = Body.SLEEPY // Sleepy

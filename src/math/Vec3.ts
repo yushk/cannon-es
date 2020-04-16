@@ -182,16 +182,6 @@ export class Vec3 {
   }
 
   /**
-   * Get the squared length of the vector
-   * @method norm2
-   * @return {Number}
-   * @deprecated Use .lengthSquared() instead.
-   */
-  norm2(): number {
-    return this.dot(this)
-  }
-
-  /**
    * Get the squared length of the vector.
    * @method lengthSquared
    * @return {Number}

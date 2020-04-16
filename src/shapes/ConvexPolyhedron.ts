@@ -677,7 +677,7 @@ export class ConvexPolyhedron extends Shape {
     let max2 = 0
     const verts = this.vertices
     for (let i = 0; i !== verts.length; i++) {
-      const norm2 = verts[i].norm2()
+      const norm2 = verts[i].lengthSquared()
       if (norm2 > max2) {
         max2 = norm2
       }

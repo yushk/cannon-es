@@ -82,7 +82,7 @@ export class Broadphase {
     const r = Broadphase_collisionPairs_r
     bodyB.position.vsub(bodyA.position, r)
     const boundingRadiusSum2 = (bodyA.boundingRadius + bodyB.boundingRadius) ** 2
-    const norm2 = r.norm2()
+    const norm2 = r.lengthSquared()
     if (norm2 < boundingRadiusSum2) {
       pairs1.push(bodyA)
       pairs2.push(bodyB)
@@ -203,5 +203,5 @@ Broadphase.boundingSphereCheck = (bodyA, bodyB) => {
   bodyA.position.vsub(bodyB.position, dist)
   const sa = bodyA.shapes[0]
   const sb = bodyB.shapes[0]
-  return Math.pow(sa.boundingSphereRadius + sb.boundingSphereRadius, 2) > dist.norm2()
+  return Math.pow(sa.boundingSphereRadius + sb.boundingSphereRadius, 2) > dist.lengthSquared()
 }

@@ -66,7 +66,7 @@ export class SPHSystem {
     for (let i = 0; i !== N; i++) {
       const p = this.particles[i]
       p.position.vsub(particle.position, dist)
-      if (id !== p.id && dist.norm2() < R2) {
+      if (id !== p.id && dist.lengthSquared() < R2) {
         neighbors.push(p)
       }
     }

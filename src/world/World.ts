@@ -621,7 +621,7 @@ export class World extends EventTarget {
         bj.sleepState === Body.AWAKE &&
         bj.type !== Body.STATIC
       ) {
-        const speedSquaredB = bj.velocity.norm2() + bj.angularVelocity.norm2()
+        const speedSquaredB = bj.velocity.lengthSquared() + bj.angularVelocity.lengthSquared()
         const speedLimitSquaredB = bj.sleepSpeedLimit ** 2
         if (speedSquaredB >= speedLimitSquaredB * 2) {
           bi.wakeUpAfterNarrowphase = true
@@ -635,7 +635,7 @@ export class World extends EventTarget {
         bi.sleepState === Body.AWAKE &&
         bi.type !== Body.STATIC
       ) {
-        const speedSquaredA = bi.velocity.norm2() + bi.angularVelocity.norm2()
+        const speedSquaredA = bi.velocity.lengthSquared() + bi.angularVelocity.lengthSquared()
         const speedLimitSquaredA = bi.sleepSpeedLimit ** 2
         if (speedSquaredA >= speedLimitSquaredA * 2) {
           bj.wakeUpAfterNarrowphase = true

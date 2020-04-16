@@ -662,7 +662,7 @@ const resolveSingleBilateral_vel = new Vec3()
 
 //bilateral constraint between two dynamic objects
 function resolveSingleBilateral(body1: Body, pos1: Vec3, body2: Body, pos2: Vec3, normal: Vec3): number {
-  const normalLenSqr = normal.norm2()
+  const normalLenSqr = normal.lengthSquared()
   if (normalLenSqr > 1.1) {
     return 0 // no impulse
   }

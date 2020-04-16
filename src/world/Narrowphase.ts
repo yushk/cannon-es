@@ -582,7 +582,7 @@ export class Narrowphase {
           xj.vadd(rj, sphere_to_corner)
           sphere_to_corner.vsub(xi, sphere_to_corner)
 
-          if (sphere_to_corner.norm2() < R * R) {
+          if (sphere_to_corner.lengthSquared() < R * R) {
             if (justTest) {
               return true
             }
@@ -778,7 +778,7 @@ export class Narrowphase {
     const R = si.radius
     const penetrating_sides = []
 
-    // if(convex_to_sphere.norm2() > si.boundingSphereRadius + sj.boundingSphereRadius){
+    // if(convex_to_sphere.lengthSquared() > si.boundingSphereRadius + sj.boundingSphereRadius){
     //     return;
     // }
     let found = false
@@ -793,7 +793,7 @@ export class Narrowphase {
       xj.vadd(worldCorner, worldCorner)
       const sphere_to_corner = sphereConvex_sphereToCorner
       worldCorner.vsub(xi, sphere_to_corner)
-      if (sphere_to_corner.norm2() < R * R) {
+      if (sphere_to_corner.lengthSquared() < R * R) {
         if (justTest) {
           return true
         }
@@ -932,7 +932,7 @@ export class Narrowphase {
 
             // Collision if the edge-sphere distance is less than the radius
             // AND if p is in between v1 and v2
-            if (dot > 0 && dot * dot < edge.norm2() && xi_to_p.norm2() < R * R) {
+            if (dot > 0 && dot * dot < edge.lengthSquared() && xi_to_p.lengthSquared() < R * R) {
               // Collision if the edge-sphere distance is less than the radius
               // Edge contact!
               if (justTest) {
@@ -1385,7 +1385,7 @@ export class Narrowphase {
     const normal = particleSphere_normal
     normal.set(0, 0, 1)
     xi.vsub(xj, normal)
-    const lengthSquared = normal.norm2()
+    const lengthSquared = normal.lengthSquared()
 
     if (lengthSquared <= sj.radius * sj.radius) {
       if (justTest) {
@@ -1604,7 +1604,7 @@ export class Narrowphase {
         // Check vertex overlap in sphere
         v.vsub(localSpherePos, relpos)
 
-        if (relpos.norm2() <= radiusSquared) {
+        if (relpos.lengthSquared() <= radiusSquared) {
           // Safe up
           v2.copy(v)
           Transform.pointToWorldFrame(trimeshPos, trimeshQuat, v2, v)

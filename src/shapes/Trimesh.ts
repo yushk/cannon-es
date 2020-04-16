@@ -371,7 +371,7 @@ export class Trimesh extends Shape {
     const v = new Vec3()
     for (let i = 0, N = vertices.length / 3; i !== N; i++) {
       this.getVertex(i, v)
-      const norm2 = v.norm2()
+      const norm2 = v.lengthSquared()
       if (norm2 > max2) {
         max2 = norm2
       }
