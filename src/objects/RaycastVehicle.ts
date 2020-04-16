@@ -253,7 +253,7 @@ export class RaycastVehicle {
    */
   removeFromWorld(world: World): void {
     const constraints = this.constraints
-    world.remove(this.chassisBody)
+    world.removeBody(this.chassisBody)
     world.removeEventListener('preStep', this.preStepCallback)
     this.world = null
   }

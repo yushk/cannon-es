@@ -199,7 +199,7 @@ export class RigidVehicle {
     const bodies = this.wheelBodies.concat([this.chassisBody])
 
     for (let i = 0; i < bodies.length; i++) {
-      world.remove(bodies[i])
+      world.removeBody(bodies[i])
     }
 
     for (let i = 0; i < constraints.length; i++) {

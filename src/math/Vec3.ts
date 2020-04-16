@@ -224,14 +224,12 @@ export class Vec3 {
 
   /**
    * Multiply all the components of the vector with a scalar.
-   * @deprecated Use .scale instead
-   * @method mult
+   * @method scale
    * @param {Number} scalar
    * @param {Vec3} target The vector to save the result in.
    * @return {Vec3}
-   * @deprecated Use .scale() instead
    */
-  mult(scalar: number, target = new Vec3()): Vec3 {
+  scale(scalar: number, target = new Vec3()): Vec3 {
     const x = this.x
     const y = this.y
     const z = this.z
@@ -239,17 +237,6 @@ export class Vec3 {
     target.y = scalar * y
     target.z = scalar * z
     return target
-  }
-
-  /**
-   * Multiply the vector with a scalar.
-   * @method scale
-   * @param {Number} scalar
-   * @param {Vec3} target
-   * @return {Vec3}
-   */
-  scale(scalar: number, target = new Vec3()): Vec3 {
-    return this.mult(scalar, target)
   }
 
   /**

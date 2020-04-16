@@ -144,21 +144,21 @@ export class SPHSystem {
             this.pressures[j] / (this.densities[j] * this.densities[j] + eps))
         this.gradw(r_vec, gradW)
         // Add to pressure acceleration
-        gradW.mult(Pij, gradW)
+        gradW.scale(Pij, gradW)
         a_pressure.vadd(gradW, a_pressure)
 
         // Viscosity contribution
         neighbor.velocity.vsub(particle.velocity, u)
-        u.mult((1.0 / (0.0001 + this.densities[i] * this.densities[j])) * this.viscosity * neighbor.mass, u)
+        u.scale((1.0 / (0.0001 + this.densities[i] * this.densities[j])) * this.viscosity * neighbor.mass, u)
         nabla = this.nablaw(r)
-        u.mult(nabla, u)
+        u.scale(nabla, u)
         // Add to viscosity acceleration
         a_visc.vadd(u, a_visc)
       }
 
       // Calculate force
-      a_visc.mult(particle.mass, a_visc)
-      a_pressure.mult(particle.mass, a_pressure)
+      a_visc.scale(particle.mass, a_visc)
+      a_pressure.scale(particle.mass, a_pressure)
 
       // Add force to particles
       particle.force.vadd(a_visc, particle.force)
@@ -177,7 +177,7 @@ export class SPHSystem {
   gradw(rVec: Vec3, resultVec: Vec3): void {
     const r = rVec.length()
     const h = this.smoothingRadius
-    rVec.mult((945.0 / (32.0 * Math.PI * h ** 9)) * (h * h - r * r) ** 2, resultVec)
+    rVec.scale((945.0 / (32.0 * Math.PI * h ** 9)) * (h * h - r * r) ** 2, resultVec)
   }
 
   // Calculate nabla(W)

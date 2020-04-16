@@ -527,7 +527,7 @@ export class Body extends EventTarget {
     // Compute produced central impulse velocity
     const velo = Body_applyImpulse_velo
     velo.copy(impulse)
-    velo.mult(this.invMass, velo)
+    velo.scale(this.invMass, velo)
 
     // Add linear impulse
     this.velocity.vadd(velo, this.velocity)

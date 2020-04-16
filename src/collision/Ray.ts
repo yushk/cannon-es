@@ -451,7 +451,7 @@ export class Ray {
       // if (dot < 0) {
 
       // Intersection point is from + direction * scalar
-      direction.mult(scalar, intersectPoint)
+      direction.scale(scalar, intersectPoint)
       intersectPoint.vadd(from, intersectPoint)
 
       // a is the point we compare points b and c with.
@@ -736,7 +736,7 @@ function distanceFromIntersection(from: Vec3, direction: Vec3, position: Vec3): 
   const dot = v0.dot(direction)
 
   // intersect = direction*dot + from
-  direction.mult(dot, intersect)
+  direction.scale(dot, intersect)
   intersect.vadd(from, intersect)
 
   const distance = position.distanceTo(intersect)

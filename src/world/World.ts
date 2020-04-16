@@ -705,11 +705,11 @@ export class World extends EventTarget {
         // Only for dynamic bodies
         const ld = pow(1.0 - bi.linearDamping, dt)
         const v = bi.velocity
-        v.mult(ld, v)
+        v.scale(ld, v)
         const av = bi.angularVelocity
         if (av) {
           const ad = pow(1.0 - bi.angularDamping, dt)
-          av.mult(ad, av)
+          av.scale(ad, av)
         }
       }
     }

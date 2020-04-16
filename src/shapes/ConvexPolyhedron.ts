@@ -754,7 +754,7 @@ export class ConvexPolyhedron extends Shape {
     for (let i = 0; i < verts.length; i++) {
       target.vadd(verts[i], target)
     }
-    target.mult(1 / verts.length, target)
+    target.scale(1 / verts.length, target)
     return target
   }
 
