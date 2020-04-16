@@ -83,8 +83,6 @@ export class World extends EventTarget {
   removeBodyEvent: { type: 'removeBody'; body: Body | null } // Dispatched after a body has been removed from the world.
   idToBodyMap: { [id: number]: Body }
 
-  addBody!: typeof World.prototype.add
-  removeBody!: typeof World.prototype.remove
   emitContactEvents!: () => void
 
   constructor(options: WorldOptions = {}) {
@@ -284,9 +282,8 @@ export class World extends EventTarget {
    * @param {Body} body
    * @todo If the simulation has not yet started, why recrete and copy arrays for each body? Accumulate in dynamic arrays in this case.
    * @todo Adding an array of bodies should be possible. This would save some loops too
-   * @deprecated Use .addBody instead
    */
-  add(body: Body): void {
+  addBody(body: Body): void {
     if (this.bodies.includes(body)) {
       return
     }
@@ -310,9 +307,8 @@ export class World extends EventTarget {
    * Remove a rigid body from the simulation.
    * @method remove
    * @param {Body} body
-   * @deprecated Use .removeBody instead
    */
-  remove(body: Body): void {
+  removeBody(body: Body): void {
     body.world = null
     const n = this.bodies.length - 1
     const bodies = this.bodies
@@ -802,20 +798,6 @@ export class World extends EventTarget {
 const tmpAABB1 = new AABB()
 const tmpArray1 = []
 const tmpRay = new Ray()
-
-/**
- * Add a rigid body to the simulation.
- * @method add
- * @param {Body} body
- */
-World.prototype.addBody = World.prototype.add
-
-/**
- * Remove a rigid body from the simulation.
- * @method removeBody
- * @param {Body} body
- */
-World.prototype.removeBody = World.prototype.remove
 
 // performance.now()
 if (typeof performance === 'undefined') {
