@@ -432,7 +432,7 @@ export class World extends EventTarget {
     let profilingStart = -Infinity
     const constraints = this.constraints
     const frictionEquationPool = World_step_frictionEquationPool
-    const gnorm = gravity.norm()
+    const gnorm = gravity.length()
     const gx = gravity.x
     const gy = gravity.y
     const gz = gravity.z

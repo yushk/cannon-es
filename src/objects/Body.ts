@@ -412,7 +412,7 @@ export class Body extends EventTarget {
     for (let i = 0; i !== N; i++) {
       const shape = shapes[i]
       shape.updateBoundingSphereRadius()
-      const offset = shapeOffsets[i].norm()
+      const offset = shapeOffsets[i].length()
       const r = shape.boundingSphereRadius
       if (offset + r > radius) {
         radius = offset + r

@@ -93,7 +93,7 @@ export class SPHSystem {
       for (let j = 0; j !== numNeighbors; j++) {
         //printf("Current particle has position %f %f %f\n",objects[id].pos.x(),objects[id].pos.y(),objects[id].pos.z());
         p.position.vsub(neighbors[j].position, dist)
-        const len = dist.norm()
+        const len = dist.length()
 
         const weight = this.w(len)
         sum += neighbors[j].mass * weight
@@ -135,7 +135,7 @@ export class SPHSystem {
 
         // Get r once for all..
         particle.position.vsub(neighbor.position, r_vec)
-        const r = r_vec.norm()
+        const r = r_vec.length()
 
         // Pressure contribution
         Pij =
@@ -175,7 +175,7 @@ export class SPHSystem {
 
   // calculate gradient of the weight function
   gradw(rVec: Vec3, resultVec: Vec3): void {
-    const r = rVec.norm()
+    const r = rVec.length()
     const h = this.smoothingRadius
     rVec.mult((945.0 / (32.0 * Math.PI * h ** 9)) * (h * h - r * r) ** 2, resultVec)
   }

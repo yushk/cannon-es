@@ -496,7 +496,7 @@ export class Narrowphase {
       const ns = sphereBox_ns
       ns.copy(sides[idx])
 
-      const h = ns.norm()
+      const h = ns.length()
       ns.normalize()
 
       // The normal/distance dot product tells which side of the plane we are
@@ -508,8 +508,8 @@ export class Narrowphase {
         const ns2 = sphereBox_ns2
         ns1.copy(sides[(idx + 1) % 3])
         ns2.copy(sides[(idx + 2) % 3])
-        const h1 = ns1.norm()
-        const h2 = ns2.norm()
+        const h1 = ns1.length()
+        const h2 = ns2.length()
         ns1.normalize()
         ns2.normalize()
         const dot1 = box_to_sphere.dot(ns1)
@@ -643,9 +643,9 @@ export class Narrowphase {
 
           // Distances in tangent direction and distance in the plane orthogonal to it
           const tdist = Math.abs(orthonorm)
-          const ndist = dist.norm()
+          const ndist = dist.length()
 
-          if (tdist < sides[l].norm() && ndist < R) {
+          if (tdist < sides[l].length() && ndist < R) {
             if (justTest) {
               return true
             }

@@ -544,7 +544,7 @@ export class Heightfield extends Shape {
       data.length * s,
       data[0].length * s,
       Math.max(Math.abs(this.maxValue!), Math.abs(this.minValue!))
-    ).norm()
+    ).length()
   }
 
   /**

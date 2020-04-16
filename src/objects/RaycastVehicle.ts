@@ -131,7 +131,7 @@ export class RaycastVehicle {
       this.updateWheelTransform(i)
     }
 
-    this.currentVehicleSpeedKmHour = 3.6 * chassisBody.velocity.norm()
+    this.currentVehicleSpeedKmHour = 3.6 * chassisBody.velocity.length()
 
     const forwardWorld = new Vec3()
     this.getVehicleAxisWorld(this.indexForwardAxis, forwardWorld)

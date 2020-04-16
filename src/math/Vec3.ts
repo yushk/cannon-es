@@ -171,24 +171,14 @@ export class Vec3 {
 
   /**
    * Get the length of the vector
-   * @method norm
-   * @return {Number}
-   * @deprecated Use .length() instead
-   */
-  norm(): number {
-    const x = this.x
-    const y = this.y
-    const z = this.z
-    return Math.sqrt(x * x + y * y + z * z)
-  }
-
-  /**
-   * Get the length of the vector
    * @method length
    * @return {Number}
    */
   length(): number {
-    return this.norm()
+    const x = this.x
+    const y = this.y
+    const z = this.z
+    return Math.sqrt(x * x + y * y + z * z)
   }
 
   /**
@@ -339,7 +329,7 @@ export class Vec3 {
    * @param {Vec3} t2 Vector object to save the second tangent in
    */
   tangents(t1: Vec3, t2: Vec3): void {
-    const norm = this.norm()
+    const norm = this.length()
     if (norm > 0.0) {
       const n = Vec3_tangents_n
       const inorm = 1 / norm

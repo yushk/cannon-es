@@ -105,7 +105,7 @@ export class Box extends Shape {
   }
 
   updateBoundingSphereRadius(): void {
-    this.boundingSphereRadius = this.halfExtents.norm()
+    this.boundingSphereRadius = this.halfExtents.length()
   }
 
   forEachWorldCorner(pos: Vec3, quat: Quaternion, callback: (x: number, y: number, z: number) => void): void {
