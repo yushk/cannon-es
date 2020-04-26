@@ -2,13 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-require('@babel/runtime/helpers/possibleConstructorReturn');
-require('@babel/runtime/helpers/getPrototypeOf');
-var _inheritsLoose = _interopDefault(require('@babel/runtime/helpers/inheritsLoose'));
-var _assertThisInitialized = _interopDefault(require('@babel/runtime/helpers/assertThisInitialized'));
-
 /**
  * Records what objects are colliding with each other
  * @class ObjectCollisionMatrix
@@ -1495,6 +1488,20 @@ var ArrayCollisionMatrix = /*#__PURE__*/function () {
 
   return ArrayCollisionMatrix;
 }();
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
 
 /**
  * Base class for objects that dispatches events.
