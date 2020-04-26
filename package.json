@@ -14,29 +14,21 @@
     "engine",
     "3d"
   ],
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cannon-es.cjs.js",
+  "module": "./dist/cannon-es.js",
+  "types": "./dist/cannon-es.d.ts",
   "sideEffects": false,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npm run typegen && rollup -c",
     "prepare": "npm run build",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false --strict",
-    "typegen": "tsc"
+    "typegen": "tsc --outFile dist/cannon-es.d.ts"
   },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick"
     }
-  },
-  "prettier": {
-    "semi": false,
-    "trailingComma": "es5",
-    "singleQuote": true,
-    "jsxBracketSameLine": true,
-    "tabWidth": 2,
-    "printWidth": 120
   },
   "repository": {
     "type": "git",

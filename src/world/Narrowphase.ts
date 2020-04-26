@@ -627,7 +627,7 @@ export class Narrowphase {
           r.vsub(edgeCenter, r)
           r.vsub(xj, r)
           const orthonorm = r.dot(edgeTangent) // distance from edge center to sphere center in the tangent direction
-          edgeTangent.mult(orthonorm, orthogonal) // Vector from edge center to sphere center in the tangent direction
+          edgeTangent.scale(orthonorm, orthogonal) // Vector from edge center to sphere center in the tangent direction
 
           // Find the third side orthogonal to this one
           let l = 0

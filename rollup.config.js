@@ -5,7 +5,7 @@ import json from 'rollup-plugin-json'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 
 const root = process.platform === 'win32' ? path.resolve('/') : '/'
-const external = id => !id.startsWith('.') && !id.startsWith(root)
+const external = (id) => !id.startsWith('.') && !id.startsWith(root)
 const extensions = ['.ts']
 
 const getBabelOptions = ({ useESModules }, targets) => ({
@@ -19,8 +19,8 @@ const getBabelOptions = ({ useESModules }, targets) => ({
 
 export default [
   {
-    input: `./src/index`,
-    output: { file: `dist/index.js`, format: 'esm' },
+    input: `./src/cannon-es`,
+    output: { file: `dist/cannon-es.js`, format: 'esm' },
     external,
     plugins: [
       json(),
@@ -30,8 +30,8 @@ export default [
     ],
   },
   {
-    input: `./src/index`,
-    output: { file: `dist/index.cjs.js`, format: 'cjs' },
+    input: `./src/cannon-es`,
+    output: { file: `dist/cannon-es.cjs.js`, format: 'cjs' },
     external,
     plugins: [json(), babel(getBabelOptions({ useESModules: false })), sizeSnapshot(), resolve({ extensions })],
   },
