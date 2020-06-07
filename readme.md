@@ -4,8 +4,8 @@ It's a type-safe flatbundle (esm and cjs) which allows for **tree shaking** and 
 
 These minor changes and improvements were also made:
 
-- These PRs from the original repo were merged: https://github.com/schteppe/cannon.js/pull/433, https://github.com/schteppe/cannon.js/pull/430, https://github.com/schteppe/cannon.js/pull/418, https://github.com/schteppe/cannon.js/pull/360, https://github.com/schteppe/cannon.js/pull/265
-- The `ConvexPolyhedron` constructor now accepts an object instead of a list of arguments https://github.com/react-spring/cannon-es/pull/6
+- These PRs from the original repo were merged: [schteppe/cannon.js#433](https://github.com/schteppe/cannon.js/pull/433), [schteppe/cannon.js#430](https://github.com/schteppe/cannon.js/pull/430), [schteppe/cannon.js#418](https://github.com/schteppe/cannon.js/pull/418), [schteppe/cannon.js#360](https://github.com/schteppe/cannon.js/pull/360), [schteppe/cannon.js#265](https://github.com/schteppe/cannon.js/pull/265)
+- The `ConvexPolyhedron` constructor now accepts an object instead of a list of arguments [#6](https://github.com/react-spring/cannon-es/pull/6)
 - `World.activeBodies: Body[]` has been replaced with `World.hasActiveBodies: boolean`
 - Deprecated properties and methods have been removed
 
