@@ -9,6 +9,8 @@ These minor changes and improvements were also made:
 - `World.activeBodies: Body[]` has been replaced with `World.hasActiveBodies: boolean`
 - Deprecated properties and methods have been removed
 
+If instead you're using Three.js in a **React** environment with [react-three-fiber](https://github.com/react-spring/react-three-fiber), check out [use-cannon](https://github.com/react-spring/use-cannon)! It's a wrapper around cannon-es.
+
 ## Installation
 
 ```
