@@ -6,7 +6,7 @@ These minor changes and improvements were also made:
 
 - These PRs from the original repo were merged: [schteppe/cannon.js#433](https://github.com/schteppe/cannon.js/pull/433), [schteppe/cannon.js#430](https://github.com/schteppe/cannon.js/pull/430), [schteppe/cannon.js#418](https://github.com/schteppe/cannon.js/pull/418), [schteppe/cannon.js#360](https://github.com/schteppe/cannon.js/pull/360), [schteppe/cannon.js#265](https://github.com/schteppe/cannon.js/pull/265)
 - The `ConvexPolyhedron` constructor now accepts an object instead of a list of arguments [#6](https://github.com/react-spring/cannon-es/pull/6)
-- `World.activeBodies: Body[]` has been replaced with `World.hasActiveBodies: boolean`
+- Added a property `World.hasActiveBodies: boolean` which will be false when all physics bodies are sleeping. This allows for invalidating frames when physics aren't active for increased performance.
 - Deprecated properties and methods have been removed
 
 If instead you're using Three.js in a **React** environment with [react-three-fiber](https://github.com/react-spring/react-three-fiber), check out [use-cannon](https://github.com/react-spring/use-cannon)! It's a wrapper around cannon-es.
