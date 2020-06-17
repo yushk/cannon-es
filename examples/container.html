@@ -20,22 +20,22 @@
         ny = 4
 
       // Test scalability - add scenes for different number of spheres
-      demo.addScene(nx * ny * 4 + ' spheres', function () {
+      demo.addScene(nx * ny * 4 + ' spheres', () => {
         createContainer(demo, nx, ny, 4)
       })
-      demo.addScene(nx * ny * 8 + ' spheres', function () {
+      demo.addScene(nx * ny * 8 + ' spheres', () => {
         createContainer(demo, nx, ny, 8)
       })
-      demo.addScene(nx * ny * 15 + ' spheres', function () {
+      demo.addScene(nx * ny * 15 + ' spheres', () => {
         createContainer(demo, nx, ny, 15)
       })
-      demo.addScene(nx * ny * 20 + ' spheres', function () {
+      demo.addScene(nx * ny * 20 + ' spheres', () => {
         createContainer(demo, nx, ny, 20)
       })
-      demo.addScene(nx * ny * 25 + ' spheres', function () {
+      demo.addScene(nx * ny * 25 + ' spheres', () => {
         createContainer(demo, nx, ny, 25)
       })
-      demo.addScene(nx * ny * 30 + ' spheres', function () {
+      demo.addScene(nx * ny * 30 + ' spheres', () => {
         createContainer(demo, nx, ny, 30)
       })
 

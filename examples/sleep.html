@@ -20,7 +20,7 @@
       var size = 1
 
       // Sleep demo
-      demo.addScene('Sleep', function () {
+      demo.addScene('Sleep', () => {
         // Create world and collision detection
         var world = demo.getWorld()
         world.gravity.set(0, 0, -10)
@@ -67,7 +67,7 @@
       })
 
       // Wake up demo
-      demo.addScene('Wake up', function () {
+      demo.addScene('Wake up', () => {
         // Create world and collision detection
         var world = demo.getWorld()
         world.gravity.set(0, 0, -10)

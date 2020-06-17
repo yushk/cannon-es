@@ -15,7 +15,7 @@
       var mass = 150
       var vehicle
 
-      demo.addScene('car', function () {
+      demo.addScene('car', () => {
         var world = demo.getWorld()
         world.broadphase = new CANNON.SAPBroadphase(world)
         world.gravity.set(0, 0, -10)
@@ -98,7 +98,7 @@
         }
 
         // Update wheels
-        world.addEventListener('postStep', function () {
+        world.addEventListener('postStep', () => {
           for (var i = 0; i < vehicle.wheelInfos.length; i++) {
             vehicle.updateWheelTransform(i)
             var t = vehicle.wheelInfos[i].worldTransform

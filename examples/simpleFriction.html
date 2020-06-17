@@ -18,7 +18,7 @@
       var demo = new Demo(),
         size = 1.0
 
-      demo.addScene('Friction', function () {
+      demo.addScene('Friction', () => {
         var shape = new CANNON.Box(new CANNON.Vec3(size, size, size))
 
         // Create world
@@ -59,7 +59,7 @@
         world.gravity.set(-3, 0, -60)
       })
 
-      demo.addScene('PerShape', function () {
+      demo.addScene('PerShape', () => {
         // Create world
         var world = demo.getWorld()
         world.broadphase = new CANNON.NaiveBroadphase()

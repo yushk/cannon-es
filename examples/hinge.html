@@ -19,7 +19,7 @@
       var demo = new Demo()
       var mass = 1
 
-      demo.addScene('car', function () {
+      demo.addScene('car', () => {
         var world = demo.getWorld()
         world.gravity.set(0, 0, -20)
 
@@ -126,7 +126,7 @@
         frontRightHinge.setMotorSpeed(-v)
       })
 
-      demo.addScene('hinge', function () {
+      demo.addScene('hinge', () => {
         var world = demo.getWorld()
         world.gravity.set(0, 5, -20)
 

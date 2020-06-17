@@ -48,7 +48,7 @@
       }
 
       // Various shapes
-      demo.addScene('various', function () {
+      demo.addScene('various', () => {
         var world = setupWorld(demo)
         // ConvexPolyhedron box shape
         var size = 0.5
@@ -87,7 +87,7 @@
       })
 
       // Box on box tilting over
-      demo.addScene('convex on convex', function () {
+      demo.addScene('convex on convex', () => {
         var world = setupWorld(demo)
         // ConvexPolyhedron box shape
         var size = 2
@@ -106,7 +106,7 @@
       })
 
       // Pile of boxes
-      demo.addScene('convex wall', function () {
+      demo.addScene('convex wall', () => {
         var world = setupWorld(demo)
         // ConvexPolyhedron box shape
         var size = 1

@@ -16,39 +16,39 @@
        * This will act like a force field.
        */
 
-      var demo = new Demo()
+      const demo = new Demo()
 
-      demo.addScene('Moon', function () {
-        var world = demo.getWorld()
+      demo.addScene('Moon', () => {
+        const world = demo.getWorld()
 
-        var mass = 5
-        var moonShape = new CANNON.Sphere(0.5)
-        var planetShape = new CANNON.Sphere(3.5)
-        var moon = new CANNON.Body({
-          mass: mass,
-          position: new CANNON.Vec3(5, 0, 0),
+        const moonShape = new CANNON.Sphere(0.5)
+        const moon = new CANNON.Body({
+          mass: 5,
+          position: new CANNON.Vec3(-5, 0, 0),
         })
         moon.addShape(moonShape)
-        var planet = new CANNON.Body({ mass: 0 })
-        planet.addShape(planetShape)
 
-        moon.velocity.set(0, 0, 8)
+        moon.velocity.set(0, 8, 0)
         moon.linearDamping = 0.0
+
+        const planetShape = new CANNON.Sphere(3.5)
+        const planet = new CANNON.Body({ mass: 0 })
+        planet.addShape(planetShape)
 
         // Use the preStep callback to apply the gravity force on the moon.
         // This callback is evoked each timestep.
-        moon.preStep = function () {
+        moon.preStep = () => {
           // Get the vector pointing from the moon to the planet center
-          var moon_to_planet = new CANNON.Vec3()
-          this.position.negate(moon_to_planet)
+          const moon_to_planet = new CANNON.Vec3()
+          moon.position.negate(moon_to_planet)
 
           // Get distance from planet to moon
-          var distance = moon_to_planet.length()
+          const distance = moon_to_planet.length()
 
           // Now apply force on moon
           // Fore is pointing in the moon-planet direction
           moon_to_planet.normalize()
-          moon_to_planet.scale(1500 / Math.pow(distance, 2), this.force)
+          moon_to_planet.scale(1500 / Math.pow(distance, 2), moon.force)
         }
 
         // We add the objects to the world to simulate them

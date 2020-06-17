@@ -14,7 +14,7 @@
       var demo = new Demo(),
         size = 1.0
 
-      demo.addScene('Fixed rotation', function () {
+      demo.addScene('Fixed rotation', () => {
         // Create world
         var world = demo.getWorld()
         world.broadphase = new CANNON.NaiveBroadphase()

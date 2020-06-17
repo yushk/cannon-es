@@ -14,12 +14,12 @@
       var demo = new Demo()
       var size = 2
 
-      demo.addScene('Sphere', function () {
+      demo.addScene('Sphere', () => {
         var sphereShape = new CANNON.Sphere(size)
         createBodyOnPlane(demo, sphereShape)
       })
 
-      demo.addScene('Box', function () {
+      demo.addScene('Box', () => {
         var boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
         createBodyOnPlane(demo, boxShape)
       })

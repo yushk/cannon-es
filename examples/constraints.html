@@ -19,7 +19,7 @@
 
       var demo = new Demo()
 
-      demo.addScene('lock', function () {
+      demo.addScene('lock', () => {
         var world = setupWorld(demo)
         world.solver.iterations = 20
         world.gravity.set(0, 0, -10)
@@ -69,7 +69,7 @@
       })
 
       // We link together boxes in a chain
-      demo.addScene('links', function () {
+      demo.addScene('links', () => {
         var world = setupWorld(demo)
         world.gravity.set(0, -1, -20)
         var size = 1
@@ -117,7 +117,7 @@
       })
 
       // Particle cloth on sphere
-      demo.addScene('cloth on sphere', function () {
+      demo.addScene('cloth on sphere', () => {
         var world = setupWorld(demo)
         world.solver.iterations = 10
 
@@ -160,7 +160,7 @@
       })
 
       // A pendulum made out of two spheres using a PointToPointConstraint
-      demo.addScene('Sphere pendulum', function () {
+      demo.addScene('Sphere pendulum', () => {
         var world = setupWorld(demo)
         var size = 1
         var sphereShape = new CANNON.Sphere(size)
@@ -192,7 +192,7 @@
       })
 
       // Sphere chain
-      demo.addScene('Sphere chain', function () {
+      demo.addScene('Sphere chain', () => {
         var size = 0.5
         var dist = size * 2 + 0.12
         var world = setupWorld(demo)
@@ -223,7 +223,7 @@
       })
 
       // Particle cloth. Same as the previous cloth but here we make the first row of particles static, nailing the cloth it in space
-      demo.addScene('Particle cloth', function () {
+      demo.addScene('Particle cloth', () => {
         var world = setupWorld(demo)
         //world.solver.setSpookParams(1e20,3);
         world.solver.iterations = 18
@@ -257,7 +257,7 @@
 
       // Particle 3d object
       // Distance constraints can be used to construct even cooler things, like this 3d block.
-      demo.addScene('3D cloth structure', function () {
+      demo.addScene('3D cloth structure', () => {
         var world = setupWorld(demo)
         world.solver.iterations = 10
         var dist = 1

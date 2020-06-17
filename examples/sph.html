@@ -21,7 +21,7 @@
       var walls = true
 
       // Test scalability - add scenes for different number of particles
-      demo.addScene(nx * ny * nz + ' particles', function () {
+      demo.addScene(nx * ny * nz + ' particles', () => {
         // Create world
         var world = demo.getWorld()
         var sph = new CANNON.SPHSystem()
