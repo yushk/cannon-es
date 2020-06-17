@@ -2,7 +2,7 @@ import * as CANNON from '../../dist/cannon-es.js'
 import * as THREE from 'https://unpkg.com/three@0.115.0/build/three.module.js'
 import Stats from 'https://unpkg.com/three@0.115.0/examples/jsm/libs/stats.module.js'
 import * as dat from 'https://unpkg.com/dat.gui@0.7.7/build/dat.gui.module.js'
-import { TrackballControls } from 'https://unpkg.com/three@0.115.0/examples/jsm/controls/TrackballControls.js'
+import { OrbitControls } from 'https://unpkg.com/three@0.115.0/examples/jsm/controls/OrbitControls.js'
 import { SmoothieChart, TimeSeries } from './smoothie.js'
 
 /**
@@ -487,8 +487,8 @@ var Demo = function (options) {
     // Camera
     camera = new THREE.PerspectiveCamera(24, SCREEN_WIDTH / SCREEN_HEIGHT, NEAR, FAR)
 
-    camera.up.set(0, 0, 1)
-    camera.position.set(0, 30, 20)
+    camera.position.set(0, 20, 30)
+    camera.lookAt(0, 0, 0)
 
     // SCENE
     scene = that.scene = new THREE.Scene()
@@ -499,7 +499,7 @@ var Demo = function (options) {
     scene.add(ambient)
 
     light = new THREE.SpotLight(0xffffff, 1, 0, Math.PI / 8, 1)
-    light.position.set(30, 30, 40)
+    light.position.set(-30, 40, 30)
     light.target.position.set(0, 0, 0)
 
     light.castShadow = true
@@ -725,21 +725,15 @@ var Demo = function (options) {
     sceneFolder.open()
     // }
 
-    // Trackball controls
-    controls = new TrackballControls(camera, renderer.domElement)
+    // Orbit controls
+    controls = new OrbitControls(camera, renderer.domElement)
     controls.rotateSpeed = 1.0
     controls.zoomSpeed = 1.2
     controls.panSpeed = 0.2
-    controls.noZoom = false
-    controls.noPan = false
-    controls.staticMoving = false
-    controls.dynamicDampingFactor = 0.3
-    var radius = 100
-    controls.minDistance = 0.0
-    controls.maxDistance = radius * 1000
-    //controls.keys = [ 65, 83, 68 ]; // [ rotateKey, zoomKey, panKey ]
-    controls.screen.width = SCREEN_WIDTH
-    controls.screen.height = SCREEN_HEIGHT
+    controls.enableDamping = true
+    controls.dampingFactor = 0.2
+    controls.minDistance = 10
+    controls.maxDistance = 500
   }
 
   var t = 0,
@@ -795,9 +789,6 @@ var Demo = function (options) {
 
     camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT
     camera.updateProjectionMatrix()
-
-    controls.screen.width = SCREEN_WIDTH
-    controls.screen.height = SCREEN_HEIGHT
 
     camera.radius = (SCREEN_WIDTH + SCREEN_HEIGHT) / 4
   }
@@ -989,7 +980,6 @@ Demo.prototype.addVisual = function (body) {
     this.visuals.push(mesh)
     body.visualref = mesh
     body.visualref.visualId = this.bodies.length - 1
-    //mesh.useQuaternion = true;
     this.scene.add(mesh)
   }
 }
