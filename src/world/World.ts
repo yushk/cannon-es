@@ -799,15 +799,13 @@ const tmpAABB1 = new AABB()
 const tmpArray1 = []
 const tmpRay = new Ray()
 
-
 // performance.now()
-let performance = {} as Performance;
+let performance = {} as Performance
 
 if (typeof window !== 'undefined') {
-  performance = window.performance;
-}
-else {
-  performance = require('perf_hooks').performance;
+  performance = window.performance
+} else {
+  performance = require('perf_hooks').performance
 }
 
 if (!performance.now) {
