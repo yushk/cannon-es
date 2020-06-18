@@ -800,9 +800,14 @@ const tmpArray1 = []
 const tmpRay = new Ray()
 
 // performance.now()
-if (typeof performance === 'undefined') {
-  ;(performance as any) = {}
+let performance = {} as Performance
+
+if (typeof window !== 'undefined') {
+  performance = window.performance
+} else {
+  performance = require('perf_hooks').performance
 }
+
 if (!performance.now) {
   let nowOffset = Date.now()
   if (performance.timing && performance.timing.navigationStart) {

@@ -13026,8 +13026,12 @@ var World = /*#__PURE__*/function (_EventTarget) {
 var tmpAABB1 = new AABB();
 var tmpRay$1 = new Ray(); // performance.now()
 
-if (typeof performance === 'undefined') {
-  performance = {};
+var performance = {};
+
+if (typeof window !== 'undefined') {
+  performance = window.performance;
+} else {
+  performance = require('perf_hooks').performance;
 }
 
 if (!performance.now) {

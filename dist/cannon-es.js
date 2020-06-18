@@ -12194,8 +12194,12 @@ class World extends EventTarget {
 const tmpAABB1 = new AABB();
 const tmpRay$1 = new Ray(); // performance.now()
 
-if (typeof performance === 'undefined') {
-  performance = {};
+let performance = {};
+
+if (typeof window !== 'undefined') {
+  performance = window.performance;
+} else {
+  performance = require('perf_hooks').performance;
 }
 
 if (!performance.now) {
