@@ -14,26 +14,26 @@
       /**
        * For debugging different kinds of stacks
        */
-      var demo = new Demo()
-      var size = 2,
+      const demo = new Demo()
+      const size = 2,
         mass = 5
 
       function createTetra() {
-        var verts = [
+        const vertices = [
           new CANNON.Vec3(0, 0, 0),
           new CANNON.Vec3(2, 0, 0),
           new CANNON.Vec3(0, 2, 0),
           new CANNON.Vec3(0, 0, 2),
         ]
-        var offset = -0.35
-        for (var i = 0; i < verts.length; i++) {
-          var v = verts[i]
+        const offset = -0.35
+        for (let i = 0; i < vertices.length; i++) {
+          const v = vertices[i]
           v.x += offset
           v.y += offset
           v.z += offset
         }
         return new CANNON.ConvexPolyhedron({
-          vertices: verts,
+          vertices: vertices,
           faces: [
             [0, 3, 2], // -x
             [0, 1, 3], // -y
@@ -44,14 +44,14 @@
       }
       function createBoxPolyhedron(size) {
         size = size || 1
-        var box = new CANNON.Box(new CANNON.Vec3(size, size, size))
+        const box = new CANNON.Box(new CANNON.Vec3(size, size, size))
         return box.convexPolyhedronRepresentation
       }
 
       function createCompound(mass) {
-        var compoundBody = new CANNON.Body({ mass: mass })
-        var s = size
-        var shape = new CANNON.Box(new CANNON.Vec3(0.5 * s, 0.5 * s, 0.5 * s))
+        const compoundBody = new CANNON.Body({ mass: mass })
+        const s = size
+        const shape = new CANNON.Box(new CANNON.Vec3(0.5 * s, 0.5 * s, 0.5 * s))
         compoundBody.addShape(shape, new CANNON.Vec3(0, 0, s))
         compoundBody.addShape(shape, new CANNON.Vec3(0, 0, 0))
         compoundBody.addShape(shape, new CANNON.Vec3(0, 0, -s))
@@ -61,18 +61,18 @@
 
       // Spheres
       demo.addScene('sphere/sphere', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
         // Sphere 1
-        var sphereShape = new CANNON.Sphere(size)
-        var b1 = new CANNON.Body({ mass: 5 })
+        const sphereShape = new CANNON.Sphere(size)
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(sphereShape)
         b1.position.set(0, 0, 3 * size)
         world.addBody(b1)
         demo.addVisual(b1)
 
         // Sphere 2
-        var b2 = new CANNON.Body({ mass: 5 })
+        const b2 = new CANNON.Body({ mass: 5 })
         b2.addShape(sphereShape)
         b2.position.set(0, 0, 1 * size)
         world.addBody(b2)
@@ -81,11 +81,11 @@
 
       // Sphere/plane
       demo.addScene('sphere/plane', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
         // Sphere 1
-        var sphereShape = new CANNON.Sphere(size)
-        var b1 = new CANNON.Body({ mass: 5 })
+        const sphereShape = new CANNON.Sphere(size)
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(sphereShape)
         b1.position.set(0, 0, 3 * size)
         world.addBody(b1)
@@ -94,20 +94,20 @@
 
       // Sphere / box side
       demo.addScene('sphere/box', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
-        var sphereShape = new CANNON.Sphere(size)
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
+        const sphereShape = new CANNON.Sphere(size)
 
         // Box
-        var b1 = new CANNON.Body({ mass: 5 })
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(boxShape)
         b1.position.set(0, 0, 1 * size)
         world.addBody(b1)
         demo.addVisual(b1)
 
         // Sphere
-        var b2 = new CANNON.Body({ mass: 5 })
+        const b2 = new CANNON.Body({ mass: 5 })
         b2.addShape(sphereShape)
         b2.position.set(0, 0, 3 * size)
         world.addBody(b2)
@@ -115,35 +115,35 @@
       })
 
       demo.addScene('sphere/compound', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
         // Sphere
-        var sphereShape = new CANNON.Sphere(size * 0.5)
-        var b = new CANNON.Body({ mass: 5 })
+        const sphereShape = new CANNON.Sphere(size * 0.5)
+        const b = new CANNON.Body({ mass: 5 })
         b.addShape(sphereShape)
         b.position.set(-size, 0, 6 * size)
         world.addBody(b)
         demo.addVisual(b)
 
-        var compoundBody = createCompound(mass)
+        const compoundBody = createCompound(mass)
         compoundBody.position.set(0, 0, size * 3)
         world.addBody(compoundBody)
         demo.addVisual(compoundBody)
       })
 
       demo.addScene('sphere/convex', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
         // Sphere
-        var sphereShape = new CANNON.Sphere(size * 0.5)
-        var b = new CANNON.Body({ mass: 5 })
+        const sphereShape = new CANNON.Sphere(size * 0.5)
+        const b = new CANNON.Body({ mass: 5 })
         b.addShape(sphereShape)
         b.position.set(0, 0, 6 * size)
         world.addBody(b)
         demo.addVisual(b)
 
-        var shape = createTetra() //createBoxPolyhedron(size);
-        var b1 = new CANNON.Body({ mass: 5 })
+        const shape = createTetra() //createBoxPolyhedron(size);
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(shape)
         b1.position.set(0, 0, 1 * size)
         world.addBody(b1)
@@ -151,18 +151,18 @@
       })
 
       demo.addScene('sphere/particle', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
         // Sphere
-        var sphereShape = new CANNON.Sphere(size * 0.5)
-        var b = new CANNON.Body({ mass: 5 })
+        const sphereShape = new CANNON.Sphere(size * 0.5)
+        const b = new CANNON.Body({ mass: 5 })
         b.addShape(sphereShape)
         b.position.set(0, 0, size)
         world.addBody(b)
         demo.addVisual(b)
 
         // Particle
-        var p = new CANNON.Body({ mass: 1 })
+        const p = new CANNON.Body({ mass: 1 })
         p.addShape(new CANNON.Particle())
         p.position.set(0.02, 0, 3 * size)
 
@@ -171,9 +171,9 @@
       })
 
       demo.addScene('plane/box', () => {
-        var world = setupWorld(demo)
-        var boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
-        var b1 = new CANNON.Body({ mass: 5 })
+        const world = setupWorld(demo)
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(boxShape)
         b1.position.set(0, 0, 1 * size)
         world.addBody(b1)
@@ -181,17 +181,17 @@
       })
 
       demo.addScene('plane/compound', () => {
-        var world = setupWorld(demo)
-        var b1 = createCompound(5)
+        const world = setupWorld(demo)
+        const b1 = createCompound(5)
         b1.position.set(0, 0, 4 * size)
         world.addBody(b1)
         demo.addVisual(b1)
       })
 
       demo.addScene('plane/convex', () => {
-        var world = setupWorld(demo)
-        var shape = createTetra()
-        var b1 = new CANNON.Body({ mass: 5 })
+        const world = setupWorld(demo)
+        const shape = createTetra()
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(shape)
         b1.position.set(0, 0, 1 * size)
         world.addBody(b1)
@@ -199,9 +199,9 @@
       })
 
       demo.addScene('plane/particle', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
         // Particle
-        var p = new CANNON.Body({ mass: 1 })
+        const p = new CANNON.Body({ mass: 1 })
         p.addShape(new CANNON.Particle())
         p.position.set(0.02, 0, 3 * size)
         world.addBody(p)
@@ -210,18 +210,18 @@
 
       // Boxes
       demo.addScene('box/box', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
         // Box 1
-        var boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
-        var b1 = new CANNON.Body({ mass: 5 })
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(boxShape)
         b1.position.set(0, 0, 1 * size)
         world.addBody(b1)
         demo.addVisual(b1)
 
         // Box 2
-        var b2 = new CANNON.Body({ mass: 5 })
+        const b2 = new CANNON.Body({ mass: 5 })
         b2.addShape(boxShape)
         b2.position.set(size * 0.5, 0, 3 * size)
         world.addBody(b2)
@@ -229,15 +229,15 @@
       })
 
       demo.addScene('box/compound', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var b2 = createCompound(5)
+        const b2 = createCompound(5)
         b2.position.set(size * 0.5, 0, 2 * size)
         world.addBody(b2)
         demo.addVisual(b2)
 
-        var boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
-        var b1 = new CANNON.Body({ mass: 5 })
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(boxShape)
         b1.position.set(0, 0, 7 * size)
         world.addBody(b1)
@@ -245,17 +245,17 @@
       })
 
       demo.addScene('box/convex', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var shape = createTetra(size)
-        var b2 = new CANNON.Body({ mass: 5 })
+        const shape = createTetra(size)
+        const b2 = new CANNON.Body({ mass: 5 })
         b2.addShape(shape)
         b2.position.set(0, 0, 5 * size)
         world.addBody(b2)
         demo.addVisual(b2)
 
-        var boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
-        var b1 = new CANNON.Body({ mass: 5 })
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(boxShape)
         b1.position.set(0, 0, 2 * size)
         world.addBody(b1)
@@ -263,17 +263,17 @@
       })
 
       demo.addScene('box/particle', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
-        var b1 = new CANNON.Body({ mass: 5 })
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(boxShape)
         b1.position.set(0, 0, 1 * size)
         world.addBody(b1)
         demo.addVisual(b1)
 
         // Particle
-        var p = new CANNON.Body({ mass: 1 })
+        const p = new CANNON.Body({ mass: 1 })
         p.addShape(new CANNON.Particle())
         p.position.set(0, 0, 3 * size)
         world.addBody(p)
@@ -281,33 +281,33 @@
       })
 
       demo.addScene('compound/compound', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var b2 = createCompound(5)
+        const b2 = createCompound(5)
         b2.position.set(size * 0.5, 0, 6 * size)
         world.addBody(b2)
         demo.addVisual(b2)
 
-        var b2 = createCompound(5)
+        const b2 = createCompound(5)
         b2.position.set(size * 0.5, 0, 2 * size)
         world.addBody(b2)
         demo.addVisual(b2)
       })
 
       demo.addScene('compound/convex', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var tetraShape = createTetra()
+        const tetraShape = createTetra()
 
-        var b1 = new CANNON.Body({ mass: 5 })
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(tetraShape)
         b1.position.set(0, 0, 3 * size)
         world.addBody(b1)
         demo.addVisual(b1)
 
         // Box 2
-        var boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
-        var b2 = new CANNON.Body({ mass: 5 })
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
+        const b2 = new CANNON.Body({ mass: 5 })
         b2.addShape(boxShape)
         b2.position.set(0, 0, 1 * size)
         world.addBody(b2)
@@ -315,13 +315,13 @@
       })
 
       demo.addScene('compound/particle', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var t = createCompound(5)
+        const t = createCompound(5)
         t.position.set(0, 0, 4 * size)
 
         // Particle
-        var p = new CANNON.Body({ mass: 1 })
+        const p = new CANNON.Body({ mass: 1 })
         p.addShape(new CANNON.Particle())
         p.position.set(0, 0, 7 * size)
         world.addBody(t)
@@ -332,17 +332,17 @@
 
       // ConvexPolyhedron and box
       demo.addScene('convex/convex', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var tetraShape = createTetra()
-        var b1 = new CANNON.Body({ mass: 5 })
+        const tetraShape = createTetra()
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(tetraShape)
         b1.position.set(0.1, 0.1, 5 * size)
         world.addBody(b1)
         demo.addVisual(b1)
 
-        var tetraShape = createTetra()
-        var b1 = new CANNON.Body({ mass: 5 })
+        const tetraShape = createTetra()
+        const b1 = new CANNON.Body({ mass: 5 })
         b1.addShape(tetraShape)
         b1.position.set(0, 0, 3 * size)
         world.addBody(b1)
@@ -351,16 +351,16 @@
 
       // ConvexPolyhedron and particle
       demo.addScene('convex/particle', () => {
-        var world = setupWorld(demo)
+        const world = setupWorld(demo)
 
-        var tetraShape = createBoxPolyhedron(size)
-        var t = new CANNON.Body({ mass: 5 })
+        const tetraShape = createBoxPolyhedron(size)
+        const t = new CANNON.Body({ mass: 5 })
         t.addShape(tetraShape)
         t.position.set(0, 0, 1 * size)
         t.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
 
         // Particle
-        var p = new CANNON.Body({ mass: 1 })
+        const p = new CANNON.Body({ mass: 1 })
         p.addShape(new CANNON.Particle())
         p.position.set(0, 0, 3 * size)
 
@@ -373,7 +373,7 @@
       demo.start()
 
       function setupWorld(demo) {
-        var world = demo.getWorld()
+        const world = demo.getWorld()
         world.gravity.set(0, 0, -10)
         world.broadphase = new CANNON.NaiveBroadphase()
         world.solver.iterations = 20
@@ -382,8 +382,8 @@
         world.defaultContactMaterial.contactEquationRelaxation = 5
 
         // ground plane
-        var groundShape = new CANNON.Plane()
-        var groundBody = new CANNON.Body({ mass: 0 })
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({ mass: 0 })
         groundBody.addShape(groundShape)
         groundBody.position.set(0, 0, -1)
         //groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0),0.2);

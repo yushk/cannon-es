@@ -34,7 +34,7 @@
       window.workerScript = `
         import * as CANNON from '${document.location.href.replace(/\/[^/]*$/, '/') + '../dist/cannon-es.js'}'
 
-        var world
+        const world
 
         self.onmessage = function (e) {
           if (!world) {
@@ -45,16 +45,16 @@
             world.solver.tolerance = 0.001
 
             // Ground plane
-            var plane = new CANNON.Plane()
-            var groundBody = new CANNON.Body({ mass: 0 })
+            const plane = new CANNON.Plane()
+            const groundBody = new CANNON.Body({ mass: 0 })
             groundBody.addShape(plane)
             groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
             world.addBody(groundBody)
 
             // Create N cubes
-            var shape = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5))
-            for (var i = 0; i !== e.data.N; i++) {
-              var body = new CANNON.Body({ mass: 1 })
+            const shape = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5))
+            for (let i = 0; i !== e.data.N; i++) {
+              const body = new CANNON.Body({ mass: 1 })
               body.addShape(shape)
               body.position.set(Math.random() - 0.5, 2.5 * i + 0.5, Math.random() - 0.5)
               world.addBody(body)
@@ -65,10 +65,10 @@
           world.step(e.data.dt)
 
           // Copy over the data to the buffers
-          var positions = e.data.positions
-          var quaternions = e.data.quaternions
-          for (var i = 0; i !== world.bodies.length; i++) {
-            var b = world.bodies[i],
+          const positions = e.data.positions
+          const quaternions = e.data.quaternions
+          for (let i = 0; i !== world.bodies.length; i++) {
+            const b = world.bodies[i],
               p = b.position,
               q = b.quaternion
             positions[3 * i + 0] = p.x
@@ -98,27 +98,27 @@
       import { TrackballControls } from 'https://unpkg.com/three@0.115.0/examples/jsm/controls/TrackballControls.js'
 
       // Parameters
-      var dt = 1 / 60,
+      const dt = 1 / 60,
         N = 40
 
       // Data arrays. Contains all our kinematic data we need for rendering.
-      var positions = new Float32Array(N * 3)
-      var quaternions = new Float32Array(N * 4)
+      const positions = new Float32Array(N * 3)
+      const quaternions = new Float32Array(N * 4)
 
       // Create a blob for the inline worker code
-      var blob = new Blob([window.workerScript], { type: 'text/javascript' })
+      const blob = new Blob([window.workerScript], { type: 'text/javascript' })
 
       // Create worker
-      var worker = new Worker(window.URL.createObjectURL(blob), { type: 'module' })
+      const worker = new Worker(window.URL.createObjectURL(blob), { type: 'module' })
 
-      var sendTime // Time when we sent last message
+      const sendTime // Time when we sent last message
       worker.onmessage = function (e) {
         // Get fresh data from the worker
         positions = e.data.positions
         quaternions = e.data.quaternions
 
         // Update rendering meshes
-        for (var i = 0; i !== meshes.length; i++) {
+        for (let i = 0; i !== meshes.length; i++) {
           meshes[i].position.set(positions[3 * i + 0], positions[3 * i + 1], positions[3 * i + 2])
           meshes[i].quaternion.set(
             quaternions[4 * i + 0],
@@ -129,7 +129,7 @@
         }
 
         // If the worker was faster than the time step (dt seconds), we want to delay the next timestep
-        var delay = dt * 1000 - (Date.now() - sendTime)
+        const delay = dt * 1000 - (Date.now() - sendTime)
         if (delay < 0) {
           delay = 0
         }
@@ -150,9 +150,9 @@
       }
 
       // Initialize Three.js
-      var container, camera, scene, renderer
-      var controls, geometry, material, mesh, cubeMesh
-      var meshes = []
+      const container, camera, scene, renderer
+      const controls, geometry, material, mesh, cubeMesh
+      const meshes = []
 
       init()
       animate()
@@ -193,11 +193,11 @@
         controls.keys = [65, 83, 68]
 
         // lights
-        var light, materials
+        const light, materials
         scene.add(new THREE.AmbientLight(0x666666))
 
         light = new THREE.DirectionalLight(0xffffff, 1.75)
-        var d = 20
+        const d = 20
 
         light.position.set(d, d, d)
 
@@ -229,9 +229,9 @@
         scene.add(mesh)
 
         // cubes
-        var cubeGeo = new THREE.BoxGeometry(1, 1, 1, 10, 10)
-        var cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 })
-        for (var i = 0; i < N; i++) {
+        const cubeGeo = new THREE.BoxGeometry(1, 1, 1, 10, 10)
+        const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 })
+        for (let i = 0; i < N; i++) {
           cubeMesh = new THREE.Mesh(cubeGeo, cubeMaterial)
           cubeMesh.castShadow = true
           meshes.push(cubeMesh)

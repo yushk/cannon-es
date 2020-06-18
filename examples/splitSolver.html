@@ -29,11 +29,11 @@
        * profiling plot and enjoy!
        */
 
-      var demo = new Demo()
-      var size = 0.5
+      const demo = new Demo()
+      const size = 0.5
 
-      var shape = new CANNON.Sphere(size)
-      var shape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
+      const shape = new CANNON.Sphere(size)
+      const shape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
       demo.addScene('with split', () => {
         createScene(demo, shape, true)
       })
@@ -45,11 +45,11 @@
 
       function createScene(demo, shape, split) {
         // Create world
-        var world = demo.getWorld()
+        const world = demo.getWorld()
         world.gravity.set(0, 0, -10)
         world.broadphase = new CANNON.NaiveBroadphase()
 
-        var solver = new CANNON.GSSolver()
+        const solver = new CANNON.GSSolver()
         solver.iterations = 50
         world.defaultContactMaterial.contactEquationStiffness = 1e7
         world.defaultContactMaterial.contactEquationRelaxation = 5
@@ -58,17 +58,17 @@
         else world.solver = solver
 
         // ground plane
-        var groundShape = new CANNON.Plane()
-        var groundBody = new CANNON.Body({ mass: 0 })
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({ mass: 0 })
         groundBody.addShape(groundShape)
         world.addBody(groundBody)
         demo.addVisual(groundBody)
 
         // Shape on plane
-        var N = 5
-        for (var i = 0; i < N; i++) {
-          for (var j = 0; j < N; j++) {
-            var shapeBody = new CANNON.Body({ mass: 1 })
+        const N = 5
+        for (let i = 0; i < N; i++) {
+          for (let j = 0; j < N; j++) {
+            const shapeBody = new CANNON.Body({ mass: 1 })
             shapeBody.addShape(shape)
             shapeBody.position.set((i - N * 0.5) * size * 2 * 1.1, (j - N * 0.5) * size * 2 * 1.1, size * 1.05)
             world.addBody(shapeBody)
@@ -76,7 +76,7 @@
           }
         }
 
-        var shapeBody = new CANNON.Body({ mass: 1 })
+        const shapeBody = new CANNON.Body({ mass: 1 })
         shapeBody.addShape(shape)
         shapeBody.position.set(size, size, size * 5)
         world.addBody(shapeBody)

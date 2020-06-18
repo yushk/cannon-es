@@ -15,43 +15,48 @@
        * For demonstrating events.
        */
 
-      var demo = new Demo()
-      var size = 1
+      const demo = new Demo()
 
       demo.addScene("'collide' event", function () {
-        // Create world
-        var world = demo.getWorld()
+        const world = setupWorld(demo)
 
-        world.defaultContactMaterial.contactEquationStiffness = 5e7
-        world.defaultContactMaterial.contactEquationRelaxation = 4
-
-        world.gravity.set(0, 0, -20)
-
-        // ground plane
-        var groundShape = new CANNON.Plane()
-        var groundBody = new CANNON.Body({ mass: 0 })
-        groundBody.addShape(groundShape)
-        world.addBody(groundBody)
-        demo.addVisual(groundBody)
+        const size = 1
 
         // Sphere
-        var sphere = new CANNON.Sphere(size)
-        var sphereBody = new CANNON.Body({ mass: 30 })
+        const sphere = new CANNON.Sphere(size)
+        const sphereBody = new CANNON.Body({ mass: 30 })
         sphereBody.addShape(sphere)
-        var pos = new CANNON.Vec3(0, 0, size)
-        sphereBody.position.set(0, 0, size * 6)
+        sphereBody.position.set(0, size * 6, 0)
         world.addBody(sphereBody)
         demo.addVisual(sphereBody)
 
         // When a body collides with another body, they both dispatch the "collide" event.
-        sphereBody.addEventListener('collide', function (e) {
+        sphereBody.addEventListener('collide', (event) => {
           console.log('The sphere just collided with the ground!')
-          console.log('Collided with body:', e.body)
-          console.log('Contact between bodies:', e.contact)
+          console.log('Collided with body:', event.body)
+          console.log('Contact between bodies:', event.contact)
         })
       })
 
       demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -20, 0)
+
+        world.defaultContactMaterial.contactEquationStiffness = 5e7
+        world.defaultContactMaterial.contactEquationRelaxation = 4
+
+        // Static ground plane
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({ mass: 0 })
+        groundBody.addShape(groundShape)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        world.addBody(groundBody)
+        demo.addVisual(groundBody)
+
+        return world
+      }
     </script>
   </body>
 </html>

@@ -14,8 +14,7 @@
       const demo = new Demo()
 
       demo.addScene('Bounce', () => {
-        const world = demo.getWorld()
-        world.gravity.set(0, -10, 0)
+        const world = setupWorld(demo)
 
         // Static ground plane
         const groundMaterial = new CANNON.Material('ground')
@@ -78,6 +77,13 @@
       })
 
       demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -10, 0)
+
+        return world
+      }
     </script>
   </body>
 </html>

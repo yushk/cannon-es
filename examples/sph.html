@@ -11,20 +11,20 @@
       import * as CANNON from '../dist/cannon-es.js'
       import { Demo } from './js/Demo.js'
 
-      var demo = new Demo()
-      var nx = 4,
+      const demo = new Demo()
+      const nx = 4,
         ny = 4,
         nz = 15,
         w = 10,
         h = 5,
         mass = 0.01
-      var walls = true
+      const walls = true
 
       // Test scalability - add scenes for different number of particles
       demo.addScene(nx * ny * nz + ' particles', () => {
         // Create world
-        var world = demo.getWorld()
-        var sph = new CANNON.SPHSystem()
+        const world = demo.getWorld()
+        const sph = new CANNON.SPHSystem()
         sph.density = 1
         sph.viscosity = 0.03
         sph.smoothingRadius = 1.0
@@ -40,16 +40,16 @@
         world.gravity.set(0, 0, -10)
 
         // Materials
-        var material = new CANNON.Material()
-        var material_material = new CANNON.ContactMaterial(material, material, {
+        const material = new CANNON.Material()
+        const material_material = new CANNON.ContactMaterial(material, material, {
           friction: 0.06,
           restitution: 0.0,
         })
         world.addContactMaterial(material_material)
 
         // ground plane
-        var groundShape = new CANNON.Plane()
-        var groundBody = new CANNON.Body({
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({
           mass: 0,
           material: material,
         })
@@ -59,8 +59,8 @@
 
         if (walls) {
           // plane -x
-          var planeShapeXmin = new CANNON.Plane()
-          var planeXmin = new CANNON.Body({
+          const planeShapeXmin = new CANNON.Plane()
+          const planeXmin = new CANNON.Body({
             mass: 0,
             material: material,
           })
@@ -70,24 +70,24 @@
           world.addBody(planeXmin)
 
           // Plane +x
-          var planeShapeXmax = new CANNON.Plane()
-          var planeXmax = new CANNON.Body({ mass: 0, material: material })
+          const planeShapeXmax = new CANNON.Plane()
+          const planeXmax = new CANNON.Body({ mass: 0, material: material })
           planeXmax.addShape(planeShapeXmax)
           planeXmax.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI / 2)
           planeXmax.position.set(w * 0.5, 0, 0)
           world.addBody(planeXmax)
 
           // Plane -y
-          var planeShapeYmin = new CANNON.Plane()
-          var planeYmin = new CANNON.Body({ mass: 0, material: material })
+          const planeShapeYmin = new CANNON.Plane()
+          const planeYmin = new CANNON.Body({ mass: 0, material: material })
           planeYmin.addShape(planeShapeYmin)
           planeYmin.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
           planeYmin.position.set(0, -h * 0.5, 0)
           world.addBody(planeYmin)
 
           // Plane +y
-          var planeShapeYmax = new CANNON.Plane()
-          var planeYmax = new CANNON.Body({ mass: 0, material: material })
+          const planeShapeYmax = new CANNON.Plane()
+          const planeYmax = new CANNON.Body({ mass: 0, material: material })
           planeYmax.addShape(planeShapeYmax)
           planeYmax.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
           planeYmax.position.set(0, h * 0.5, 0)
@@ -95,11 +95,11 @@
         }
 
         // Create particles
-        var rand = 0.1
-        for (var i = 0; i !== nx; i++) {
-          for (var j = 0; j !== ny; j++) {
-            for (var k = 0; k !== nz; k++) {
-              var particle = new CANNON.Body({
+        const rand = 0.1
+        for (let i = 0; i !== nx; i++) {
+          for (let j = 0; j !== ny; j++) {
+            for (let k = 0; k !== nz; k++) {
+              const particle = new CANNON.Body({
                 mass: mass,
                 material: material,
               })

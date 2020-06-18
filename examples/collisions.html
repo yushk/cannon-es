@@ -130,9 +130,8 @@
       function setupWorld(demo) {
         const world = demo.getWorld()
         world.gravity.set(0, 0, 0) // no gravity
-        world.broadphase = new CANNON.NaiveBroadphase()
-        world.solver.iterations = 5
 
+        world.solver.iterations = 5
         world.defaultContactMaterial.contactEquationStiffness = 1e6
         world.defaultContactMaterial.contactEquationRelaxation = 10
 

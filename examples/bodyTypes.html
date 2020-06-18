@@ -61,7 +61,6 @@
       function setupWorld(demo) {
         const world = demo.getWorld()
         world.gravity.set(0, -40, 0)
-        world.solver.iterations = 10
 
         world.defaultContactMaterial.contactEquationStiffness = 1e8
         world.defaultContactMaterial.contactEquationRelaxation = 10

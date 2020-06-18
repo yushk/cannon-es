@@ -11,19 +11,19 @@
       import * as CANNON from '../dist/cannon-es.js'
       import { Demo } from './js/Demo.js'
 
-      var demo = new Demo()
-      var mass = 1
-      var vehicle
+      const demo = new Demo()
+      const mass = 1
+      const vehicle
 
       demo.addScene('car', () => {
-        var world = demo.getWorld()
+        const world = demo.getWorld()
         world.gravity.set(0, 0, -30)
         world.broadphase = new CANNON.SAPBroadphase(world)
         world.defaultContactMaterial.friction = 0.2
 
-        var groundMaterial = new CANNON.Material('groundMaterial')
-        var wheelMaterial = new CANNON.Material('wheelMaterial')
-        var wheelGroundContactMaterial = (window.wheelGroundContactMaterial = new CANNON.ContactMaterial(
+        const groundMaterial = new CANNON.Material('groundMaterial')
+        const wheelMaterial = new CANNON.Material('wheelMaterial')
+        const wheelGroundContactMaterial = (window.wheelGroundContactMaterial = new CANNON.ContactMaterial(
           wheelMaterial,
           groundMaterial,
           {
@@ -36,10 +36,10 @@
         // We must add the contact materials to the world
         world.addContactMaterial(wheelGroundContactMaterial)
 
-        var chassisShape
-        var centerOfMassAdjust = new CANNON.Vec3(0, 0, -1)
+        const chassisShape
+        const centerOfMassAdjust = new CANNON.Vec3(0, 0, -1)
         chassisShape = new CANNON.Box(new CANNON.Vec3(5, 2, 0.5))
-        var chassisBody = new CANNON.Body({ mass: 1 })
+        const chassisBody = new CANNON.Body({ mass: 1 })
         chassisBody.addShape(chassisShape, centerOfMassAdjust)
         chassisBody.position.set(0, 0, 0)
 
@@ -48,11 +48,11 @@
           chassisBody: chassisBody,
         })
 
-        var axisWidth = 7
-        var wheelShape = new CANNON.Sphere(1.5)
-        var down = new CANNON.Vec3(0, 0, -1)
+        const axisWidth = 7
+        const wheelShape = new CANNON.Sphere(1.5)
+        const down = new CANNON.Vec3(0, 0, -1)
 
-        var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
+        const wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
         wheelBody.addShape(wheelShape)
         vehicle.addWheel({
           body: wheelBody,
@@ -61,7 +61,7 @@
           direction: down,
         })
 
-        var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
+        const wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
         wheelBody.addShape(wheelShape)
         vehicle.addWheel({
           body: wheelBody,
@@ -70,7 +70,7 @@
           direction: down,
         })
 
-        var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
+        const wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
         wheelBody.addShape(wheelShape)
         vehicle.addWheel({
           body: wheelBody,
@@ -79,7 +79,7 @@
           direction: down,
         })
 
-        var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
+        const wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial })
         wheelBody.addShape(wheelShape)
         vehicle.addWheel({
           body: wheelBody,
@@ -89,16 +89,16 @@
         })
 
         // Some damping to not spin wheels too fast
-        for (var i = 0; i < vehicle.wheelBodies.length; i++) {
+        for (let i = 0; i < vehicle.wheelBodies.length; i++) {
           vehicle.wheelBodies[i].angularDamping = 0.4
         }
 
         // Constrain wheels
-        var constraints = []
+        const constraints = []
 
         // Add visuals
         demo.addVisual(vehicle.chassisBody)
-        for (var i = 0; i < vehicle.wheelBodies.length; i++) {
+        for (let i = 0; i < vehicle.wheelBodies.length; i++) {
           demo.addVisual(vehicle.wheelBodies[i])
         }
 
@@ -106,35 +106,35 @@
 
         if (false) {
           // Ground
-          var groundShape = new CANNON.Plane()
-          var ground = new CANNON.Body({ mass: 0, material: groundMaterial })
+          const groundShape = new CANNON.Plane()
+          const ground = new CANNON.Body({ mass: 0, material: groundMaterial })
           ground.addShape(groundShape)
           ground.position.z = -3
           world.addBody(ground)
           demo.addVisual(ground)
         } else {
-          var mock = false
-          var matrix = []
-          var sizeX = 64,
+          const mock = false
+          const matrix = []
+          const sizeX = 64,
             sizeY = sizeX
 
-          for (var i = 0; i < sizeX; i++) {
+          for (let i = 0; i < sizeX; i++) {
             matrix.push([])
-            for (var j = 0; j < sizeY; j++) {
-              var height = Math.sin((i / sizeX) * Math.PI * 8) * Math.sin((j / sizeY) * Math.PI * 8) * 8 + 8
+            for (let j = 0; j < sizeY; j++) {
+              const height = Math.sin((i / sizeX) * Math.PI * 8) * Math.sin((j / sizeY) * Math.PI * 8) * 8 + 8
               if (i === 0 || i === sizeX - 1 || j === 0 || j === sizeY - 1) height = 10
 
               matrix[i].push(height)
             }
           }
 
-          var hfShape = new CANNON.Heightfield(matrix, {
+          const hfShape = new CANNON.Heightfield(matrix, {
             elementSize: 300 / sizeX,
           })
-          var hfBody
+          const hfBody
 
-          var quat = new CANNON.Quaternion()
-          var pos = new CANNON.Vec3((-sizeX * hfShape.elementSize) / 2, -20, -20)
+          const quat = new CANNON.Quaternion()
+          const pos = new CANNON.Vec3((-sizeX * hfShape.elementSize) / 2, -20, -20)
 
           // Use normal
           hfBody = new CANNON.Body({ mass: 0, material: groundMaterial })
@@ -148,11 +148,11 @@
           }
 
           if (mock) {
-            for (var i = 0; i < sizeX - 1; i++) {
-              for (var j = 0; j < sizeY - 1; j++) {
-                for (var k = 0; k < 2; k++) {
+            for (let i = 0; i < sizeX - 1; i++) {
+              for (let j = 0; j < sizeY - 1; j++) {
+                for (let k = 0; k < 2; k++) {
                   hfShape.getConvexTrianglePillar(i, j, !!k)
-                  var convexBody = new CANNON.Body({ mass: 0, material: groundMaterial })
+                  const convexBody = new CANNON.Body({ mass: 0, material: groundMaterial })
                   convexBody.addShape(hfShape.pillarConvex)
                   hfBody.pointToWorldFrame(hfShape.pillarOffset, convexBody.position)
                   world.addBody(convexBody)
@@ -169,11 +169,11 @@
       document.onkeydown = handler
       document.onkeyup = handler
 
-      var maxSteerVal = Math.PI / 8
-      var maxSpeed = 10
-      var maxForce = 100
+      const maxSteerVal = Math.PI / 8
+      const maxSpeed = 10
+      const maxForce = 100
       function handler(event) {
-        var up = event.type == 'keyup'
+        const up = event.type == 'keyup'
 
         if (!up && event.type !== 'keydown') return
 
