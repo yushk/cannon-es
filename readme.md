@@ -2,7 +2,7 @@
 
 This is a maintained fork of [cannon.js](https://github.com/schteppe/cannon.js), originally created by Stefan Hedman [@schteppe](https://github.com/schteppe).
 
-It's a type-safe flatbundle (esm and cjs) which allows for **tree shaking** and usage in **typescript** environments.
+It's a type-safe flatbundle (esm and cjs) which allows for **tree shaking** and usage in modern environments.
 
 These minor changes and improvements were also made:
 
