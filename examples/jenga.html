@@ -14,47 +14,36 @@
       const demo = new Demo()
 
       demo.addScene('jenga', () => {
-        const world = demo.getWorld()
-        //world.allowSleep = true;
-        world.gravity.set(0, 0, -5)
-        world.broadphase = new CANNON.NaiveBroadphase()
-        world.solver.iterations = 50
-
-        world.defaultContactMaterial.contactEquationStiffness = 5e6
-        world.defaultContactMaterial.contactEquationRelaxation = 3
-
-        // ground plane
-        const groundShape = new CANNON.Plane()
-        const groundBody = new CANNON.Body({
-          mass: 0,
-        })
-        groundBody.addShape(groundShape)
-        groundBody.position.set(-10, 0, 0)
-        world.addBody(groundBody)
-        demo.addVisual(groundBody)
+        const world = setupWorld(demo)
 
         const size = 0.5
         const mass = 1
         const gap = 0.02
-        for (let i = 0; i < 10; i++) {
-          // Layers
-          for (let j = 0; j < 3; j++) {
-            const body = new CANNON.Body({ mass: mass })
 
-            const he = new CANNON.Vec3(size * 3, size, size)
-            const dx = 0
-            const dy = 1
+        // Layers
+        for (let i = 0; i < 10; i++) {
+          for (let j = 0; j < 3; j++) {
+            const body = new CANNON.Body({ mass })
+
+            let halfExtents
+            let dx
+            let dz
             if (i % 2 === 0) {
-              he.set(size, size * 3, size)
+              halfExtents = new CANNON.Vec3(size, size, size * 3)
               dx = 1
-              dy = 0
+              dz = 0
+            } else {
+              halfExtents = new CANNON.Vec3(size * 3, size, size)
+              dx = 0
+              dz = 1
             }
-            const shape = new CANNON.Box(he)
+
+            const shape = new CANNON.Box(halfExtents)
             body.addShape(shape)
             body.position.set(
               2 * (size + gap) * (j - 1) * dx,
-              2 * (size + gap) * (j - 1) * dy,
-              2 * (size + gap) * (i + 1)
+              2 * (size + gap) * (i + 1),
+              2 * (size + gap) * (j - 1) * dz
             )
 
             world.addBody(body)
@@ -64,6 +53,27 @@
       })
 
       demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -5, 0)
+
+        world.solver.iterations = 50
+
+        // world.allowSleep = true
+        world.defaultContactMaterial.contactEquationStiffness = 5e6
+        world.defaultContactMaterial.contactEquationRelaxation = 3
+
+        // Static ground plane
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({ mass: 0 })
+        groundBody.addShape(groundShape)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        world.addBody(groundBody)
+        demo.addVisual(groundBody)
+
+        return world
+      }
     </script>
   </body>
 </html>

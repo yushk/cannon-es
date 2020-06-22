@@ -12,17 +12,75 @@
       import { Demo } from './js/Demo.js'
 
       const demo = new Demo()
-      const size = 1
-      const interval
+      let interval
 
       // Spheres
       demo.addScene('Pile', () => {
+        const world = setupWorld(demo)
+
+        // Plane -x
+        const planeShapeXmin = new CANNON.Plane()
+        const planeXmin = new CANNON.Body({ mass: 0 })
+        planeXmin.addShape(planeShapeXmin)
+        planeXmin.quaternion.setFromEuler(0, Math.PI / 2, 0)
+        planeXmin.position.set(-5, 0, 0)
+        world.addBody(planeXmin)
+
+        // Plane +x
+        const planeShapeXmax = new CANNON.Plane()
+        const planeXmax = new CANNON.Body({ mass: 0 })
+        planeXmax.addShape(planeShapeXmax)
+        planeXmax.quaternion.setFromEuler(0, -Math.PI / 2, 0)
+        planeXmax.position.set(5, 0, 0)
+        world.addBody(planeXmax)
+
+        // Plane -z
+        const planeShapeZmin = new CANNON.Plane()
+        const planeZmin = new CANNON.Body({ mass: 0 })
+        planeZmin.addShape(planeShapeZmin)
+        planeZmin.quaternion.setFromEuler(0, 0, 0)
+        planeZmin.position.set(0, 0, -5)
+        world.addBody(planeZmin)
+
+        // Plane +z
+        const planeShapeZmax = new CANNON.Plane()
+        const planeZmax = new CANNON.Body({ mass: 0 })
+        planeZmax.addShape(planeShapeZmax)
+        planeZmax.quaternion.setFromEuler(0, Math.PI, 0)
+        planeZmax.position.set(0, 0, 5)
+        world.addBody(planeZmax)
+
+        const size = 1
+        const bodies = []
+        let i = 0
         if (interval) clearInterval(interval)
+        interval = setInterval(() => {
+          // Sphere
+          i++
+          const sphereShape = new CANNON.Sphere(size)
+          const sphereBody = new CANNON.Body({
+            mass: 5,
+            position: new CANNON.Vec3(-size * 2 * Math.sin(i), size * 2 * 7, size * 2 * Math.cos(i)),
+          })
+          sphereBody.addShape(sphereShape)
+          world.addBody(sphereBody)
+          demo.addVisual(sphereBody)
+          bodies.push(sphereBody)
 
+          if (bodies.length > 80) {
+            const bodyToKill = bodies.shift()
+            demo.removeVisual(bodyToKill)
+            world.removeBody(bodyToKill)
+          }
+        }, 100)
+      })
+
+      demo.start()
+
+      function setupWorld(demo) {
         const world = demo.getWorld()
+        world.gravity.set(0, -50, 0)
 
-        world.gravity.set(0, 0, -50)
-        world.broadphase = new CANNON.NaiveBroadphase()
         world.solver.iterations = 5
 
         world.defaultContactMaterial.contactEquationStiffness = 5e6
@@ -32,70 +90,16 @@
         world.quatNormalizeFast = true
         world.quatNormalizeSkip = 3 // ...and we do not have to normalize every step.
 
-        // ground plane
-        const groundShape = new CANNON.Plane(new CANNON.Vec3(0, 0, 1))
+        // Static ground plane
+        const groundShape = new CANNON.Plane()
         const groundBody = new CANNON.Body({ mass: 0 })
         groundBody.addShape(groundShape)
-        groundBody.position.set(0, 0, 0)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
         world.addBody(groundBody)
         demo.addVisual(groundBody)
 
-        // plane -x
-        const planeShapeXmin = new CANNON.Plane()
-        const planeXmin = new CANNON.Body({ mass: 0 })
-        planeXmin.addShape(planeShapeXmin)
-        planeXmin.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2)
-        planeXmin.position.set(-5, 0, 0)
-        world.addBody(planeXmin)
-
-        // Plane +x
-        const planeShapeXmax = new CANNON.Plane()
-        const planeXmax = new CANNON.Body({ mass: 0 })
-        planeXmax.addShape(planeShapeXmax)
-        planeXmax.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI / 2)
-        planeXmax.position.set(5, 0, 0)
-        world.addBody(planeXmax)
-
-        // Plane -y
-        const planeShapeYmin = new CANNON.Plane()
-        const planeYmin = new CANNON.Body({ mass: 0 })
-        planeYmin.addShape(planeShapeYmin)
-        planeYmin.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
-        planeYmin.position.set(0, -5, 0)
-        world.addBody(planeYmin)
-
-        // Plane +y
-        const planeShapeYmax = new CANNON.Plane()
-        const planeYmax = new CANNON.Body({ mass: 0 })
-        planeYmax.addShape(planeShapeYmax)
-        planeYmax.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
-        planeYmax.position.set(0, 5, 0)
-        world.addBody(planeYmax)
-
-        const bodies = []
-        const i = 0
-        interval = setInterval(function () {
-          // Sphere
-          i++
-          const sphereShape = new CANNON.Sphere(size)
-          const b1 = new CANNON.Body({
-            mass: 5,
-            position: new CANNON.Vec3(2 * size * Math.sin(i), 2 * size * Math.cos(i), 7 * 2 * size),
-          })
-          b1.addShape(sphereShape)
-          world.addBody(b1)
-          demo.addVisual(b1)
-          bodies.push(b1)
-
-          if (bodies.length > 80) {
-            const b = bodies.shift()
-            demo.removeVisual(b)
-            world.removeBody(b)
-          }
-        }, 100)
-      })
-
-      demo.start()
+        return world
+      }
     </script>
   </body>
 </html>
