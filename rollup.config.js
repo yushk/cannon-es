@@ -8,29 +8,34 @@ const root = process.platform === 'win32' ? path.resolve('/') : '/'
 const external = (id) => !id.startsWith('.') && !id.startsWith(root)
 const extensions = ['.ts']
 
-const getBabelOptions = ({ useESModules }, targets) => ({
+const babelOptions = {
   babelrc: false,
   extensions,
   exclude: '**/node_modules/**',
-  presets: [['@babel/preset-env', { loose: true, modules: false, targets }], '@babel/preset-typescript'],
-})
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        loose: true,
+        modules: false,
+        targets: '>1%, not dead, not ie 11, not op_mini all',
+      },
+    ],
+    '@babel/preset-typescript',
+  ],
+}
 
 export default [
   {
     input: `./src/cannon-es`,
     output: { file: `dist/cannon-es.js`, format: 'esm' },
     external,
-    plugins: [
-      json(),
-      babel(getBabelOptions({ useESModules: true }, '>1%, not dead, not ie 11, not op_mini all')),
-      sizeSnapshot(),
-      resolve({ extensions }),
-    ],
+    plugins: [json(), resolve({ extensions }), babel(babelOptions), sizeSnapshot()],
   },
   {
     input: `./src/cannon-es`,
     output: { file: `dist/cannon-es.cjs.js`, format: 'cjs' },
     external,
-    plugins: [json(), babel(getBabelOptions({ useESModules: false })), sizeSnapshot(), resolve({ extensions })],
+    plugins: [json(), resolve({ extensions }), babel(babelOptions), sizeSnapshot()],
   },
 ]
