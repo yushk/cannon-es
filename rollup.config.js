@@ -1,17 +1,15 @@
-import path from 'path'
-import babel from 'rollup-plugin-babel'
-import resolve from 'rollup-plugin-node-resolve'
-import json from 'rollup-plugin-json'
+import babel from '@rollup/plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
+import json from '@rollup/plugin-json'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 
-const root = process.platform === 'win32' ? path.resolve('/') : '/'
-const external = (id) => !id.startsWith('.') && !id.startsWith(root)
 const extensions = ['.ts']
 
 const babelOptions = {
   babelrc: false,
   extensions,
   exclude: '**/node_modules/**',
+  babelHelpers: 'bundled',
   presets: [
     [
       '@babel/preset-env',
@@ -29,13 +27,11 @@ export default [
   {
     input: `./src/cannon-es`,
     output: { file: `dist/cannon-es.js`, format: 'esm' },
-    external,
     plugins: [json(), resolve({ extensions }), babel(babelOptions), sizeSnapshot()],
   },
   {
     input: `./src/cannon-es`,
     output: { file: `dist/cannon-es.cjs.js`, format: 'cjs' },
-    external,
     plugins: [json(), resolve({ extensions }), babel(babelOptions), sizeSnapshot()],
   },
 ]

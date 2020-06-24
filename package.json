@@ -1,11 +1,13 @@
 {
   "name": "cannon-es",
   "version": "0.11.0",
+  "license": "MIT",
   "description": "A lightweight 3D physics engine written in JavaScript.",
   "homepage": "https://github.com/schteppe/cannon.js",
   "author": "Stefan Hedman <schteppe@gmail.com> (http://steffe.se)",
   "contributors": [
-    "Cody Persinger <codypersinger@gmail.com> (https://github.com/codynova)"
+    "Cody Persinger <codypersinger@gmail.com> (https://github.com/codynova)",
+    "Marco Fugaro <marco.fugaro@gmail.com> (https://github.com/marcofugaro)"
   ],
   "keywords": [
     "cannon.js",
@@ -38,25 +40,19 @@
   "bugs": {
     "url": "https://github.com/schteppe/cannon.js/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ],
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
     "@babel/preset-typescript": "^7.10.1",
-    "gh-pages": "^2.2.0",
+    "@rollup/plugin-babel": "^5.0.4",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "gh-pages": "^3.1.0",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.15.0",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup": "^2.18.0",
     "rollup-plugin-size-snapshot": "^0.12.0",
     "typescript": "^3.9.5"
   }
