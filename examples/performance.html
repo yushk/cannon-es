@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>cannon.js - performance tests</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  </head>
+  <body>
+    <script type="module">
+      import * as CANNON from '../dist/cannon-es.js'
+      import { Demo } from './js/Demo.js'
+
+      /**
+       * Test the performance limits
+       */
+      const demo = new Demo()
+
+      demo.addScene('Falling boxes', () => {
+        const world = setupWorld(demo)
+
+        const size = 0.25
+        const mass = 1
+        const BOXES_NUMBER = 200
+
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
+
+        const boxes = []
+        for (let i = 0; i < BOXES_NUMBER; i++) {
+          const position = new CANNON.Vec3(
+            (Math.random() * 2 - 1) * 2.5,
+            Math.random() * 10,
+            (Math.random() * 2 - 1) * 2.5
+          )
+
+          const boxBody = new CANNON.Body({
+            position,
+            mass,
+          })
+          boxBody.addShape(boxShape)
+          world.addBody(boxBody)
+          // demo.addVisual(boxBody)
+          boxes.push(boxBody)
+        }
+
+        // Use instancing so three.js doesn't get in the way
+        // of performance measuring
+        demo.addVisualInstanced(boxes)
+
+        function animate() {
+          requestAnimationFrame(animate)
+
+          const index = Math.floor(Math.random() * BOXES_NUMBER)
+
+          boxes[index].position.set(0, Math.random() * 10, 0)
+        }
+        animate()
+      })
+
+      demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -50, 0)
+        // world.broadphase = new CANNON.SAPBroadphase(world)
+
+        // world.solver.iterations = 20;
+        // world.solver.tolerance = 0.001;
+        // world.allowSleep = true;
+
+        // Static ground plane
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({ mass: 0 })
+        groundBody.addShape(groundShape)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        world.addBody(groundBody)
+        demo.addVisual(groundBody)
+
+        return world
+      }
+    </script>
+  </body>
+</html>
