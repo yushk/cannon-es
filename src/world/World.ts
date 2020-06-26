@@ -396,11 +396,18 @@ export class World extends EventTarget {
     } else {
       this.accumulator += timeSinceLastCalled
       let substeps = 0
+
+      const t0 = performance.now()
       while (this.accumulator >= dt && substeps < maxSubSteps) {
         // Do fixed steps to catch up
         this.internalStep(dt)
         this.accumulator -= dt
         substeps++
+
+        if (performance.now() - t0 > dt * 1000) {
+          // We are slower than real-time. Better bail out.
+          break
+        }
       }
 
       const t = (this.accumulator % dt) / dt
