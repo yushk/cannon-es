@@ -385,8 +385,8 @@ export class World extends EventTarget {
    *
    * @see http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World
    */
-  step(dt: number, timeSinceLastCalled = 0, maxSubSteps = 10): void {
-    if (timeSinceLastCalled === 0) {
+  step(dt: number, timeSinceLastCalled?: number, maxSubSteps = 10): void {
+    if (timeSinceLastCalled === undefined) {
       // Fixed, simple stepping
 
       this.internalStep(dt)
@@ -410,7 +410,9 @@ export class World extends EventTarget {
         }
       }
 
-      const t = (this.accumulator % dt) / dt
+      this.accumulator = this.accumulator % dt
+
+      const t = this.accumulator / dt
       for (let j = 0; j !== this.bodies.length; j++) {
         const b = this.bodies[j]
         b.previousPosition.lerp(b.position, t, b.interpolatedPosition)
