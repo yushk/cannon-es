@@ -12,21 +12,54 @@
       import { Demo } from './js/Demo.js'
 
       /**
-       * Test the performance limits
+       * Test the performance limits with a lot of stuff happening all at the same time.
+       * When there is jank, the speed at which the rotation appens should not slow down.
        */
       const demo = new Demo()
 
-      demo.addScene('Falling boxes', () => {
+      let rafId
+
+      demo.addScene('200 boxes', () => {
+        setupFallingBoxes({ N: 200 })
+      })
+
+      demo.addScene('500 boxes', () => {
+        setupFallingBoxes({ N: 500 })
+      })
+
+      demo.addScene('200 boxes + 16ms jank', () => {
+        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 16 })
+      })
+
+      demo.addScene('200 boxes + 32ms jank', () => {
+        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 32 })
+      })
+
+      demo.addScene('200 boxes + 48ms jank', () => {
+        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 48 })
+      })
+
+      demo.addScene('200 boxes + 64ms jank', () => {
+        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 64 })
+      })
+
+      demo.addScene('200 boxes + 128ms jank', () => {
+        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 128 })
+      })
+
+      function setupFallingBoxes({ N, MOTION_RADIUS = 0, JANK }) {
+        if (rafId) cancelAnimationFrame(rafId)
+
         const world = setupWorld(demo)
 
         const size = 0.25
         const mass = 1
-        const BOXES_NUMBER = 200
 
         const boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
 
         const boxes = []
-        for (let i = 0; i < BOXES_NUMBER; i++) {
+        for (let i = 0; i < N; i++) {
+          // start with random positions
           const position = new CANNON.Vec3(
             (Math.random() * 2 - 1) * 2.5,
             Math.random() * 10,
@@ -47,15 +80,21 @@
         // of performance measuring
         demo.addVisualInstanced(boxes)
 
-        function animate() {
-          requestAnimationFrame(animate)
+        function animate(ms) {
+          rafId = requestAnimationFrame(animate)
 
-          const index = Math.floor(Math.random() * BOXES_NUMBER)
+          const time = ms / 1000
 
-          boxes[index].position.set(0, Math.random() * 10, 0)
+          const index = Math.floor(Math.random() * N)
+
+          boxes[index].position.set(MOTION_RADIUS * Math.cos(time), Math.random() * 10, MOTION_RADIUS * Math.sin(time))
+
+          if (JANK) {
+            blockThread(JANK)
+          }
         }
-        animate()
-      })
+        rafId = requestAnimationFrame(animate)
+      }
 
       demo.start()
 
@@ -77,6 +116,12 @@
         demo.addVisual(groundBody)
 
         return world
+      }
+
+      // Block the javascript thread for N milliseconds
+      function blockThread(milliseconds = 0) {
+        const start = performance.now()
+        while (performance.now() < start + milliseconds) {}
       }
     </script>
   </body>
