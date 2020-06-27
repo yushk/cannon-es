@@ -9127,7 +9127,7 @@ class Trimesh extends Shape {
         const n = this.vertices.length / 3,
             verts = this.vertices;
         const minx,miny,minz,maxx,maxy,maxz;
-          const v = tempWorldVertex;
+         const v = tempWorldVertex;
         for(let i=0; i<n; i++){
             this.getVertex(i, v);
             quat.vmult(v, v);
@@ -9137,12 +9137,12 @@ class Trimesh extends Shape {
             } else if(v.x > maxx || maxx===undefined){
                 maxx = v.x;
             }
-              if (v.y < miny || miny===undefined){
+             if (v.y < miny || miny===undefined){
                 miny = v.y;
             } else if(v.y > maxy || maxy===undefined){
                 maxy = v.y;
             }
-              if (v.z < minz || minz===undefined){
+             if (v.z < minz || minz===undefined){
                 minz = v.z;
             } else if(v.z > maxz || maxz===undefined){
                 maxz = v.z;
@@ -11803,14 +11803,15 @@ class World extends EventTarget {
    */
 
 
-  step(dt, timeSinceLastCalled = 0, maxSubSteps = 10) {
-    if (timeSinceLastCalled === 0) {
+  step(dt, timeSinceLastCalled, maxSubSteps = 10) {
+    if (timeSinceLastCalled === undefined) {
       // Fixed, simple stepping
       this.internalStep(dt); // Increment time
 
       this.time += dt;
     } else {
       this.accumulator += timeSinceLastCalled;
+      const t0 = performance.now();
       let substeps = 0;
 
       while (this.accumulator >= dt && substeps < maxSubSteps) {
@@ -11818,9 +11819,19 @@ class World extends EventTarget {
         this.internalStep(dt);
         this.accumulator -= dt;
         substeps++;
-      }
 
-      const t = this.accumulator % dt / dt;
+        if (performance.now() - t0 > dt * 6 * 1000) {
+          // The framerate is not interactive anymore.
+          // We are at 1/6th of the target framerate.
+          // Better bail out.
+          break;
+        }
+      } // Remove the excess accumulator, since we may not
+      // have had enough substeps available to catch up
+
+
+      this.accumulator = this.accumulator % dt;
+      const t = this.accumulator / dt;
 
       for (let j = 0; j !== this.bodies.length; j++) {
         const b = this.bodies[j];
