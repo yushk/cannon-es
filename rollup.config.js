@@ -40,7 +40,7 @@ export default [
       sizeSnapshot(),
       replace({
         // Use node built-in performance.now in commonjs environments
-        'window.performance': `require('perf_hooks').performance`,
+        'globalThis.performance': `require('perf_hooks').performance`,
       }),
     ],
   },
