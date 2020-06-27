@@ -395,21 +395,25 @@ export class World extends EventTarget {
       this.time += dt
     } else {
       this.accumulator += timeSinceLastCalled
-      let substeps = 0
 
       const t0 = performance.now()
+      let substeps = 0
       while (this.accumulator >= dt && substeps < maxSubSteps) {
         // Do fixed steps to catch up
         this.internalStep(dt)
         this.accumulator -= dt
         substeps++
 
-        if (performance.now() - t0 > dt * 1000) {
-          // We are slower than real-time. Better bail out.
+        if (performance.now() - t0 > dt * 6 * 1000) {
+          // The framerate is not interactive anymore.
+          // We are at 1/6th of the target framerate.
+          // Better bail out.
           break
         }
       }
 
+      // Remove the excess accumulator, since we may not
+      // have had enough substeps available to catch up
       this.accumulator = this.accumulator % dt
 
       const t = this.accumulator / dt

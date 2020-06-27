@@ -13,7 +13,7 @@
 
       /**
        * Test the performance limits with a lot of stuff happening all at the same time.
-       * When there is jank, the speed at which the rotation appens should not slow down.
+       * The simulation should not slow down but rather skip ahead when introducing jank.
        */
       const demo = new Demo()
 
@@ -27,27 +27,23 @@
         setupFallingBoxes({ N: 500 })
       })
 
-      demo.addScene('200 boxes + 16ms jank', () => {
-        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 16 })
-      })
-
       demo.addScene('200 boxes + 32ms jank', () => {
-        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 32 })
+        setupFallingBoxes({ N: 200, JANK: 32 })
       })
 
       demo.addScene('200 boxes + 48ms jank', () => {
-        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 48 })
+        setupFallingBoxes({ N: 200, JANK: 48 })
       })
 
       demo.addScene('200 boxes + 64ms jank', () => {
-        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 64 })
+        setupFallingBoxes({ N: 200, JANK: 64 })
       })
 
       demo.addScene('200 boxes + 128ms jank', () => {
-        setupFallingBoxes({ N: 200, MOTION_RADIUS: 5, JANK: 128 })
+        setupFallingBoxes({ N: 200, JANK: 128 })
       })
 
-      function setupFallingBoxes({ N, MOTION_RADIUS = 0, JANK }) {
+      function setupFallingBoxes({ N, JANK }) {
         if (rafId) cancelAnimationFrame(rafId)
 
         const world = setupWorld(demo)
@@ -87,7 +83,7 @@
 
           const index = Math.floor(Math.random() * N)
 
-          boxes[index].position.set(MOTION_RADIUS * Math.cos(time), Math.random() * 10, MOTION_RADIUS * Math.sin(time))
+          boxes[index].position.set(0, Math.random() * 10, 0)
 
           if (JANK) {
             blockThread(JANK)
