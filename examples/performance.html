@@ -14,6 +14,7 @@
       /**
        * Test the performance limits with a lot of stuff happening all at the same time.
        * The simulation should not slow down but rather skip ahead when introducing jank.
+       * When there are too many object to simulate, the simulation will slow down but still run at a stable framerate.
        */
       const demo = new Demo()
 
@@ -27,20 +28,20 @@
         setupFallingBoxes({ N: 500 })
       })
 
-      demo.addScene('200 boxes + 32ms jank', () => {
-        setupFallingBoxes({ N: 200, JANK: 32 })
+      demo.addScene('100 boxes + 32ms jank', () => {
+        setupFallingBoxes({ N: 100, JANK: 32 })
       })
 
-      demo.addScene('200 boxes + 48ms jank', () => {
-        setupFallingBoxes({ N: 200, JANK: 48 })
+      demo.addScene('100 boxes + 48ms jank', () => {
+        setupFallingBoxes({ N: 100, JANK: 48 })
       })
 
-      demo.addScene('200 boxes + 64ms jank', () => {
-        setupFallingBoxes({ N: 200, JANK: 64 })
+      demo.addScene('100 boxes + 64ms jank', () => {
+        setupFallingBoxes({ N: 100, JANK: 64 })
       })
 
-      demo.addScene('200 boxes + 128ms jank', () => {
-        setupFallingBoxes({ N: 200, JANK: 128 })
+      demo.addScene('100 boxes + 128ms jank', () => {
+        setupFallingBoxes({ N: 100, JANK: 128 })
       })
 
       function setupFallingBoxes({ N, JANK }) {

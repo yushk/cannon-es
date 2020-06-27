@@ -403,10 +403,9 @@ export class World extends EventTarget {
         this.internalStep(dt)
         this.accumulator -= dt
         substeps++
-
-        if (performance.now() - t0 > dt * 6 * 1000) {
+        if (performance.now() - t0 > dt * 2 * 1000) {
           // The framerate is not interactive anymore.
-          // We are at 1/6th of the target framerate.
+          // We are at half of the target framerate.
           // Better bail out.
           break
         }
