@@ -6719,9 +6719,9 @@ class RaycastVehicle {
     this.wheelInfos = [];
     this.sliding = false;
     this.world = null;
-    this.indexRightAxis = typeof options.indexRightAxis !== 'undefined' ? options.indexRightAxis : 1;
+    this.indexRightAxis = typeof options.indexRightAxis !== 'undefined' ? options.indexRightAxis : 2;
     this.indexForwardAxis = typeof options.indexForwardAxis !== 'undefined' ? options.indexForwardAxis : 0;
-    this.indexUpAxis = typeof options.indexUpAxis !== 'undefined' ? options.indexUpAxis : 2;
+    this.indexUpAxis = typeof options.indexUpAxis !== 'undefined' ? options.indexUpAxis : 1;
     this.constraints = [];
 
     this.preStepCallback = () => {};
