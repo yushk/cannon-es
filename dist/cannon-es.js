@@ -7362,7 +7362,7 @@ class RigidVehicle {
       // No chassis body given. Create it!
       this.chassisBody = new Body({
         mass: 1,
-        shape: new Box(new Vec3(5, 2, 0.5))
+        shape: new Box(new Vec3(5, 0.5, 2))
       });
     }
 
@@ -7403,7 +7403,7 @@ class RigidVehicle {
     this.chassisBody.pointToWorldFrame(position, worldPosition);
     wheelBody.position.set(worldPosition.x, worldPosition.y, worldPosition.z); // Constrain wheel
 
-    const axis = typeof options.axis !== 'undefined' ? options.axis.clone() : new Vec3(0, 1, 0);
+    const axis = typeof options.axis !== 'undefined' ? options.axis.clone() : new Vec3(0, 0, 1);
     this.wheelAxes.push(axis);
     const hingeConstraint = new HingeConstraint(this.chassisBody, wheelBody, {
       pivotA: position,
@@ -7430,8 +7430,8 @@ class RigidVehicle {
     const c = Math.cos(value);
     const s = Math.sin(value);
     const x = axis.x;
-    const y = axis.y;
-    this.constraints[wheelIndex].axisA.set(c * x - s * y, s * x + c * y, 0);
+    const z = axis.z;
+    this.constraints[wheelIndex].axisA.set(-c * x + s * z, 0, s * x + c * z);
   }
   /**
    * Set the target rotational speed of the hinge constraint.
@@ -9123,7 +9123,7 @@ class Trimesh extends Shape {
         const n = this.vertices.length / 3,
             verts = this.vertices;
         const minx,miny,minz,maxx,maxy,maxz;
-          const v = tempWorldVertex;
+         const v = tempWorldVertex;
         for(let i=0; i<n; i++){
             this.getVertex(i, v);
             quat.vmult(v, v);
@@ -9133,12 +9133,12 @@ class Trimesh extends Shape {
             } else if(v.x > maxx || maxx===undefined){
                 maxx = v.x;
             }
-              if (v.y < miny || miny===undefined){
+             if (v.y < miny || miny===undefined){
                 miny = v.y;
             } else if(v.y > maxy || maxy===undefined){
                 maxy = v.y;
             }
-              if (v.z < minz || minz===undefined){
+             if (v.z < minz || minz===undefined){
                 minz = v.z;
             } else if(v.z > maxz || maxz===undefined){
                 maxz = v.z;

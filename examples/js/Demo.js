@@ -498,7 +498,7 @@ var Demo = function (options) {
     ambient = new THREE.AmbientLight(0xffffff, 0.1)
     scene.add(ambient)
 
-    light = new THREE.SpotLight(0xffffff, 1, 0, Math.PI / 8, 1)
+    light = new THREE.SpotLight(0xffffff, 0.9, 0, Math.PI / 8, 1)
     light.position.set(-30, 40, 30)
     light.target.position.set(0, 0, 0)
 
@@ -516,6 +516,12 @@ var Demo = function (options) {
 
     scene.add(light)
     scene.add(camera)
+
+    light = new THREE.DirectionalLight(0xffffff, 0.15)
+    light.position.set(-30, 40, 30)
+    light.target.position.set(0, 0, 0)
+    light.castShadow = false
+    scene.add(light)
 
     // RENDERER
     renderer = new THREE.WebGLRenderer({ antialias: true })
