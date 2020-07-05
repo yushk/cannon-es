@@ -536,11 +536,30 @@ var Demo = function (options) {
     info.style.top = '10px'
     info.style.width = '100%'
     info.style.textAlign = 'center'
-    info.innerHTML = '<a href="http://github.com/schteppe/cannon.js">cannon.js</a> - javascript 3d physics'
+    info.innerHTML = document.title
     container.appendChild(info)
 
     document.addEventListener('mousemove', onDocumentMouseMove)
     window.addEventListener('resize', onWindowResize)
+
+    // generate the view-source button
+    const exampleName = document.location.pathname.slice(document.location.pathname.lastIndexOf('/') + 1)
+    const sourceUrl = `https://github.com/react-spring/cannon-es/blob/master/examples/${exampleName}.html`
+
+    const viewSourceButton = `
+      <a class="view-source-button" href="${sourceUrl}" target="_blank" title="View source code on GitHub">
+        <img src="icons/code.svg">
+      </a>
+    `
+
+    const buttonNode = createElementFromHTML(viewSourceButton)
+    document.body.appendChild(buttonNode)
+
+    function createElementFromHTML(htmlString) {
+      const div = document.createElement('div')
+      div.innerHTML = htmlString.trim()
+      return div.firstChild
+    }
 
     renderer.setClearColor(scene.fog.color, 1)
     renderer.autoClear = false
