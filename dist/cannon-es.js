@@ -12205,7 +12205,7 @@ class World extends EventTarget {
 const tmpAABB1 = new AABB();
 const tmpRay$1 = new Ray(); // performance.now() fallback on Date.now()
 
-const performance = window.performance || {};
+const performance = globalThis.performance || {};
 
 if (!performance.now) {
   let nowOffset = Date.now();

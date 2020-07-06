@@ -812,7 +812,7 @@ const tmpArray1 = []
 const tmpRay = new Ray()
 
 // performance.now() fallback on Date.now()
-const performance = (window.performance || {}) as Performance
+const performance = (globalThis.performance || {}) as Performance
 
 if (!performance.now) {
   let nowOffset = Date.now()
