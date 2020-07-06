@@ -385,8 +385,8 @@ export class World extends EventTarget {
    *
    * @see http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World
    */
-  step(dt: number, timeSinceLastCalled = 0, maxSubSteps = 10): void {
-    if (timeSinceLastCalled === 0) {
+  step(dt: number, timeSinceLastCalled?: number, maxSubSteps = 10): void {
+    if (timeSinceLastCalled === undefined) {
       // Fixed, simple stepping
 
       this.internalStep(dt)
@@ -395,15 +395,27 @@ export class World extends EventTarget {
       this.time += dt
     } else {
       this.accumulator += timeSinceLastCalled
+
+      const t0 = performance.now()
       let substeps = 0
       while (this.accumulator >= dt && substeps < maxSubSteps) {
         // Do fixed steps to catch up
         this.internalStep(dt)
         this.accumulator -= dt
         substeps++
+        if (performance.now() - t0 > dt * 2 * 1000) {
+          // The framerate is not interactive anymore.
+          // We are at half of the target framerate.
+          // Better bail out.
+          break
+        }
       }
 
-      const t = (this.accumulator % dt) / dt
+      // Remove the excess accumulator, since we may not
+      // have had enough substeps available to catch up
+      this.accumulator = this.accumulator % dt
+
+      const t = this.accumulator / dt
       for (let j = 0; j !== this.bodies.length; j++) {
         const b = this.bodies[j]
         b.previousPosition.lerp(b.position, t, b.interpolatedPosition)

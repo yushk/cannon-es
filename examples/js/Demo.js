@@ -49,6 +49,8 @@ var Demo = function (options) {
     maxSubSteps: 20,
   })
 
+  var dummy = new THREE.Object3D()
+
   // Extend settings with options
   options = options || {}
   for (var key in options) {
@@ -274,9 +276,21 @@ var Demo = function (options) {
         bodyQuat = b.quaternion
       }
 
-      visual.position.copy(bodyPos)
-      if (b.quaternion) {
-        visual.quaternion.copy(bodyQuat)
+      if (visual.isInstancedMesh) {
+        dummy.position.copy(bodyPos)
+        if (b.quaternion) {
+          dummy.quaternion.copy(bodyQuat)
+        }
+
+        dummy.updateMatrix()
+
+        visual.setMatrixAt(b.instanceIndex, dummy.matrix)
+        visual.instanceMatrix.needsUpdate = true
+      } else {
+        visual.position.copy(bodyPos)
+        if (b.quaternion) {
+          visual.quaternion.copy(bodyQuat)
+        }
       }
     }
 
@@ -978,6 +992,32 @@ Demo.prototype.addVisual = function (body) {
     //mesh.useQuaternion = true;
     this.scene.add(mesh)
   }
+}
+
+Demo.prototype.addVisualInstanced = function (bodies) {
+  if (!Array.isArray(bodies) || !bodies.every((body) => body instanceof CANNON.Body)) {
+    throw new Error('The argument passed to addVisualInstanced() is not an array of bodies')
+  }
+
+  // What geometry should be used?
+  const mesh = this.shape2mesh(bodies[0]).children[0]
+
+  const instancedMesh = new THREE.InstancedMesh(mesh.geometry.clone(), mesh.material.clone(), bodies.length)
+  instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage) // will be updated every frame
+  // Add bodies
+
+  instancedMesh.receiveShadow = true
+  instancedMesh.castShadow = true
+
+  bodies.forEach((body, i) => {
+    this.bodies.push(body)
+    this.visuals.push(instancedMesh)
+    body.instanceIndex = i
+    body.visualref = instancedMesh
+    body.visualref.visualId = this.bodies.length - 1
+  })
+
+  this.scene.add(instancedMesh)
 }
 
 Demo.prototype.addVisuals = function (bodies) {

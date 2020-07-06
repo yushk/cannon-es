@@ -6,3 +6,8 @@ body {
   overflow: hidden;
   font-family: Monospace;
 }
+
+/* more space for the Stats.js button name */
+.dg .property-name {
+  width: 80% !important;
+}
