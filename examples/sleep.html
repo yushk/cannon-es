@@ -17,29 +17,19 @@
        */
 
       const demo = new Demo()
-      const size = 1
 
       // Sleep demo
       demo.addScene('Sleep', () => {
-        // Create world and collision detection
-        const world = demo.getWorld()
-        world.gravity.set(0, 0, -10)
-        world.broadphase = new CANNON.NaiveBroadphase()
-
-        world.defaultContactMaterial.contactEquationStiffness = 1e7
-        world.defaultContactMaterial.contactEquationRelaxation = 5
-
-        // Create ground plane
-        const groundShape = new CANNON.Plane()
-        const groundBody = new CANNON.Body({ mass: 0 })
-        groundBody.addShape(groundShape)
+        const world = setupWorld(demo)
 
         // Create sphere
+        const size = 1
         const sphere = new CANNON.Sphere(size)
         const sphereBody = new CANNON.Body({ mass: 1 })
         sphereBody.addShape(sphere)
-        const pos = new CANNON.Vec3(0, 0, size)
-        sphereBody.position.set(0, 0, size * 6)
+        sphereBody.position.set(0, size * 6, 0)
+        world.addBody(sphereBody)
+        demo.addVisual(sphereBody)
 
         // Allow sleeping
         world.allowSleep = true
@@ -49,75 +39,75 @@
         sphereBody.sleepSpeedLimit = 0.1 // Body will feel sleepy if speed<1 (speed == norm of velocity)
         sphereBody.sleepTimeLimit = 1 // Body falls asleep after 1s of sleepiness
 
-        sphereBody.addEventListener('sleepy', function (event) {
+        sphereBody.addEventListener('sleepy', (event) => {
           console.log('The sphere is feeling sleepy...')
         })
 
-        sphereBody.addEventListener('sleep', function (event) {
+        sphereBody.addEventListener('sleep', (event) => {
           console.log('The sphere fell asleep!')
         })
-
-        // Add bodies to the world
-        world.addBody(sphereBody)
-        world.addBody(groundBody)
-
-        // Add visuals
-        demo.addVisual(sphereBody)
-        demo.addVisual(groundBody)
       })
 
       // Wake up demo
       demo.addScene('Wake up', () => {
-        // Create world and collision detection
-        const world = demo.getWorld()
-        world.gravity.set(0, 0, -10)
-        world.broadphase = new CANNON.NaiveBroadphase()
-
-        // Create ground plane
-        const groundShape = new CANNON.Plane()
-        const groundBody = new CANNON.Body({ mass: 0 })
-        groundBody.addShape(groundShape)
+        const world = setupWorld(demo)
 
         // Create sphere
         const size = 2
         const sphere = new CANNON.Sphere(size)
-        const sphereBody = new CANNON.Body({ mass: 1 })
-        sphereBody.addShape(sphere)
-        sphereBody.position.set(0, 0, size)
-        sphereBody.sleep()
+        const sphereBody1 = new CANNON.Body({ mass: 1 })
+        sphereBody1.addShape(sphere)
+        sphereBody1.position.set(0, size, 0)
+        world.addBody(sphereBody1)
+        demo.addVisual(sphereBody1)
+
+        // Force it to sleep
+        sphereBody1.sleep()
 
         // Create sphere that will wake up the first one
         const sphereBody2 = new CANNON.Body({ mass: 1 })
         sphereBody2.addShape(sphere)
-        sphereBody2.position.set(size * 10, 0, size)
-        sphereBody2.velocity.set(-10, 0, 0)
+        sphereBody2.position.set(-size * 10, size, 0)
+        sphereBody2.velocity.set(10, 0, 0)
         sphereBody2.angularDamping = 0.0
         sphereBody2.linearDamping = 0.0
+        world.addBody(sphereBody2)
+        demo.addVisual(sphereBody2)
 
+        // Allow sleeping
         world.allowSleep = true
-        sphereBody.allowSleep = true
+        sphereBody1.allowSleep = true
         sphereBody2.allowSleep = true
 
-        sphereBody.sleepSpeedLimit = 0.5
-        sphereBody.sleepTimeLimit = 1
+        // Sleep parameters
+        sphereBody1.sleepSpeedLimit = 0.5
+        sphereBody1.sleepTimeLimit = 1
 
         // The body wakes up when it gets a new contact
-        sphereBody.addEventListener('wakeup', function (event) {
+        sphereBody1.addEventListener('wakeup', (event) => {
           console.log('The sphere woke up!')
         })
-
-        // Add bodies to the world
-        world.addBody(sphereBody)
-        world.addBody(sphereBody2)
-        world.addBody(groundBody)
-
-        // Add visuals
-        demo.addVisual(sphereBody)
-        demo.addVisual(sphereBody2)
-        demo.addVisual(groundBody)
       })
 
       demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -10, 0)
+
+        world.defaultContactMaterial.contactEquationStiffness = 1e7
+        world.defaultContactMaterial.contactEquationRelaxation = 5
+
+        // Static ground plane
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({ mass: 0 })
+        groundBody.addShape(groundShape)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        world.addBody(groundBody)
+        demo.addVisual(groundBody)
+
+        return world
+      }
     </script>
   </body>
 </html>

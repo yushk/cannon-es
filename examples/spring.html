@@ -12,32 +12,29 @@
       import { Demo } from './js/Demo.js'
 
       const demo = new Demo()
-      const size = 1
 
-      demo.addScene('Box', () => {
-        // Create world
-        const world = demo.getWorld()
-        world.gravity.set(0, 0, -10)
-        world.broadphase = new CANNON.NaiveBroadphase()
+      demo.addScene('Flat box', () => {
+        const world = setupWorld(demo)
+
+        const size = 1
 
         // Create a static sphere
-        const sphereShape = new CANNON.Sphere(0.1),
-          sphereBody = new CANNON.Body({ mass: 0 })
+        const sphereShape = new CANNON.Sphere(0.1)
+        const sphereBody = new CANNON.Body({ mass: 0 })
         sphereBody.addShape(sphereShape)
         world.addBody(sphereBody)
         demo.addVisual(sphereBody)
 
         // Create a box body
-        const halfExtents = new CANNON.Vec3(size, size * 0.3, size),
-          boxShape = new CANNON.Box(halfExtents)
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size * 0.3))
         const boxBody = new CANNON.Body({ mass: 5 })
         boxBody.addShape(boxShape)
-        boxBody.position.set(-size, 0, -size)
+        boxBody.position.set(size, -size, 0)
         world.addBody(boxBody)
         demo.addVisual(boxBody)
 
         const spring = new CANNON.Spring(boxBody, sphereBody, {
-          localAnchorA: new CANNON.Vec3(size, 0, size),
+          localAnchorA: new CANNON.Vec3(-size, size, 0),
           localAnchorB: new CANNON.Vec3(0, 0, 0),
           restLength: 0,
           stiffness: 50,
@@ -45,12 +42,19 @@
         })
 
         // Compute the force after each step
-        world.addEventListener('postStep', function (event) {
+        world.addEventListener('postStep', (event) => {
           spring.applyForce()
         })
       })
 
       demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -10, 0)
+
+        return world
+      }
     </script>
   </body>
 </html>

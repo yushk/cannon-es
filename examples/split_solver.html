@@ -30,39 +30,40 @@
        */
 
       const demo = new Demo()
-      const size = 0.5
 
-      const shape = new CANNON.Sphere(size)
-      const shape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
-      demo.addScene('with split', () => {
-        createScene(demo, shape, true)
+      demo.addScene('With SplitSolver', () => {
+        createScene({ split: true })
       })
-      demo.addScene('without split', () => {
-        createScene(demo, shape, false)
+      demo.addScene('Without SplitSolver', () => {
+        createScene({ split: false })
       })
 
       demo.start()
 
-      function createScene(demo, shape, split) {
-        // Create world
-        const world = demo.getWorld()
-        world.gravity.set(0, 0, -10)
-        world.broadphase = new CANNON.NaiveBroadphase()
+      function createScene(options) {
+        const world = setupWorld(demo)
 
         const solver = new CANNON.GSSolver()
         solver.iterations = 50
-        world.defaultContactMaterial.contactEquationStiffness = 1e7
-        world.defaultContactMaterial.contactEquationRelaxation = 5
         solver.tolerance = 0.0001
-        if (split) world.solver = new CANNON.SplitSolver(solver)
-        else world.solver = solver
+        if (options.split) {
+          world.solver = new CANNON.SplitSolver(solver)
+        } else {
+          world.solver = solver
+        }
 
-        // ground plane
+        // Static ground plane
         const groundShape = new CANNON.Plane()
         const groundBody = new CANNON.Body({ mass: 0 })
         groundBody.addShape(groundShape)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
         world.addBody(groundBody)
         demo.addVisual(groundBody)
+
+        // Shape
+        const size = 0.5
+        // const shape = new CANNON.Sphere(size)
+        const shape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
 
         // Shape on plane
         const N = 5
@@ -70,17 +71,29 @@
           for (let j = 0; j < N; j++) {
             const shapeBody = new CANNON.Body({ mass: 1 })
             shapeBody.addShape(shape)
-            shapeBody.position.set((i - N * 0.5) * size * 2 * 1.1, (j - N * 0.5) * size * 2 * 1.1, size * 1.05)
+            shapeBody.position.set((i - N * 0.5) * size * 2 * 1.1, size * 1.05, (j - N * 0.5) * size * 2 * 1.1)
             world.addBody(shapeBody)
             demo.addVisual(shapeBody)
           }
         }
 
+        // Shape on top
         const shapeBody = new CANNON.Body({ mass: 1 })
         shapeBody.addShape(shape)
-        shapeBody.position.set(size, size, size * 5)
+        shapeBody.position.set(-size, size * 5, size)
         world.addBody(shapeBody)
         demo.addVisual(shapeBody)
+      }
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -10, 0)
+
+        // Tweak contact properties.
+        world.defaultContactMaterial.contactEquationStiffness = 1e7 // Contact stiffness - use to make softer/harder contacts
+        world.defaultContactMaterial.contactEquationRelaxation = 5 // Stabilization time in number of timesteps
+
+        return world
       }
     </script>
   </body>

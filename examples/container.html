@@ -93,8 +93,8 @@
         world.addBody(planeZmax)
 
         // Create spheres
-        const rand = 0.1
-        const h = 0
+        const randRange = 0.1
+        const heightOffset = 0
         const sphereShape = new CANNON.Sphere(1) // Sharing shape saves memory
 
         world.allowSleep = true
@@ -104,9 +104,9 @@
               const sphereBody = new CANNON.Body({ mass: 5, material: stone })
               sphereBody.addShape(sphereShape)
               sphereBody.position.set(
-                -(i * 2 - nx * 0.5 + (Math.random() - 0.5) * rand),
-                1 + k * 2.1 + h + (i + j) * 0.0,
-                j * 2 - ny * 0.5 + (Math.random() - 0.5) * rand
+                -(i * 2 - nx * 0.5 + (Math.random() - 0.5) * randRange),
+                1 + k * 2.1 + heightOffset,
+                j * 2 - ny * 0.5 + (Math.random() - 0.5) * randRange
               )
               sphereBody.allowSleep = true
               sphereBody.sleepSpeedLimit = 1

@@ -12,46 +12,53 @@
       import { Demo } from './js/Demo.js'
 
       const demo = new Demo()
-      const size = 2
 
       demo.addScene('Sphere', () => {
+        const world = setupWorld(demo)
+
+        const size = 2
+
         const sphereShape = new CANNON.Sphere(size)
-        createBodyOnPlane(demo, sphereShape)
+
+        const body = new CANNON.Body({ mass: 30 })
+        body.addShape(sphereShape)
+        body.position.set(0, size * 2, size)
+        world.addBody(body)
+        demo.addVisual(body)
       })
 
       demo.addScene('Box', () => {
+        const world = setupWorld(demo)
+
+        const size = 2
+
         const boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
-        createBodyOnPlane(demo, boxShape)
+
+        const body = new CANNON.Body({ mass: 30 })
+        body.addShape(boxShape)
+        body.position.set(0, size * 2, size)
+        world.addBody(body)
+        demo.addVisual(body)
       })
 
       demo.start()
 
-      function createBodyOnPlane(demo, shape) {
-        // Create world
+      function setupWorld(demo) {
         const world = demo.getWorld()
-        world.gravity.set(0, 0, -10)
-        world.broadphase = new CANNON.NaiveBroadphase()
-        world.solver.iterations = 10
+        world.gravity.set(0, -10, 0)
 
         world.defaultContactMaterial.contactEquationStiffness = 1e7
         world.defaultContactMaterial.contactEquationRelaxation = 4
 
-        // ground plane
+        // Static ground plane
         const groundShape = new CANNON.Plane()
         const groundBody = new CANNON.Body({ mass: 0 })
         groundBody.addShape(groundShape)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
         world.addBody(groundBody)
         demo.addVisual(groundBody)
 
-        // Shape on plane
-        const shapeBody = new CANNON.Body({ mass: 30 })
-        shapeBody.addShape(shape)
-        const pos = new CANNON.Vec3(0, 0, size)
-        shapeBody.position.set(0, size, size * 2)
-        shapeBody.velocity.set(0, 0, 0)
-        shapeBody.angularVelocity.set(0, 0, 0)
-        world.addBody(shapeBody)
-        demo.addVisual(shapeBody)
+        return world
       }
     </script>
   </body>
