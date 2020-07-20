@@ -13,28 +13,23 @@
 
       const demo = new Demo()
 
-      const postStepHandler
-
       demo.addScene('Tween box', () => {
         const world = demo.getWorld()
 
         // Inputs
-        const startPosition = new CANNON.Vec3(5, 0, 2)
-        const endPosition = new CANNON.Vec3(-5, 0, 2)
+        const startPosition = new CANNON.Vec3(-5, 2, 0)
+        const endPosition = new CANNON.Vec3(5, 2, 0)
         const tweenTime = 3 // seconds
 
+        const boxShape = new CANNON.Box(new CANNON.Vec3(1, 1, 1))
         const body = new CANNON.Body({
           mass: 0,
           type: CANNON.Body.KINEMATIC,
           position: startPosition,
         })
-        body.addShape(new CANNON.Box(new CANNON.Vec3(1, 1, 1)))
+        body.addShape(boxShape)
         world.addBody(body)
         demo.addVisual(body)
-
-        if (postStepHandler) {
-          world.removeEventListener('postStep', postStepHandler)
-        }
 
         // Compute direction vector and get total length of the path
         const direction = new CANNON.Vec3()
@@ -50,7 +45,7 @@
 
         const offset = new CANNON.Vec3()
 
-        postStepHandler = function () {
+        function postStepListener() {
           // Progress is a number where 0 is at start position and 1 is at end position
           const progress = (world.time - startTime) / tweenTime
 
@@ -60,12 +55,19 @@
           } else {
             body.velocity.set(0, 0, 0)
             body.position.copy(endPosition)
-            world.removeEventListener('postStep', postStepHandler)
-            postStepHandler = null
+            world.removeEventListener('postStep', postStepListener)
           }
         }
 
-        world.addEventListener('postStep', postStepHandler)
+        world.addEventListener('postStep', postStepListener)
+
+        // Remove listener when we change demo
+        // TODO find a way to do this in Demo.js
+        function destroyer() {
+          world.removeEventListener('postStep', postStepListener)
+          demo.removeEventListener('destroy', destroyer)
+        }
+        demo.addEventListener('destroy', destroyer)
       })
 
       demo.start()

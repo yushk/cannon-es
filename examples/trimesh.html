@@ -12,19 +12,13 @@
       import { Demo } from './js/Demo.js'
 
       const demo = new Demo()
-      const size = 2
 
       demo.addScene('Raycasting', () => {
-        const shape = CANNON.Trimesh.createTorus(4, 3.5, 16, 16)
-
-        // Create world
         const world = demo.getWorld()
         world.gravity.set(0, 0, 0)
 
-        // particle as marker for the raycast hit
-        // TODO on the online example is 10, but if we put 10 here it lags
-        // view-source:https://schteppe.github.io/cannon.js/demos/trimesh.html
-        const N = 5
+        // Particle as marker for the raycast hit
+        const N = 10
         const particleShape = new CANNON.Particle()
         const particleBodies = []
         for (let i = 0; i < N * N; i++) {
@@ -38,77 +32,87 @@
           particleBodies.push(particleBody)
         }
 
-        // Shape on plane
-        const shapeBody = new CANNON.Body({ mass: 1, position: new CANNON.Vec3(0.01, 0.01, 0.01) })
-        shapeBody.addShape(shape)
-        shapeBody.angularVelocity.set(0, 1, 0)
-        world.addBody(shapeBody)
-        demo.addVisual(shapeBody)
+        // Torus
+        const torusShape = CANNON.Trimesh.createTorus(4, 3.5, 16, 16)
+        const torusBody = new CANNON.Body({ mass: 1 })
+        torusBody.addShape(torusShape)
+        torusBody.position.set(0.01, 0.01, 0.01)
+        torusBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        torusBody.angularVelocity.set(0, 0, 1)
+        world.addBody(torusBody)
+        demo.addVisual(torusBody)
 
-        const from = new CANNON.Vec3(10, 1, 0)
-        const to = new CANNON.Vec3(-10, 1, 0)
+        // Do the raycasting
+        const from = new CANNON.Vec3(-10, 0, 1)
+        const to = new CANNON.Vec3(10, 0, 1)
         const result = new CANNON.RaycastResult()
         const raycastOptions = {}
-        const listener = function (evt) {
+        function postStepListener(event) {
           for (let i = 0; i < N; i++) {
             for (let j = 0; j < N; j++) {
-              from.set(10, i * 0.1, j * 0.1)
-              to.set(-10, i * 0.1, j * 0.1)
+              from.set(-10, i * 0.1, j * 0.1)
+              to.set(10, i * 0.1, j * 0.1)
               result.reset()
               world.raycastClosest(from, to, raycastOptions, result)
               particleBodies[i * N + j].position.copy(result.hitPointWorld)
             }
           }
         }
-        world.addEventListener('postStep', listener)
-        const destroyer = function () {
-          world.removeEventListener('postStep', listener)
+
+        world.addEventListener('postStep', postStepListener)
+
+        // Remove listener when we change demo
+        // TODO find a way to do this in Demo.js
+        function destroyer() {
+          world.removeEventListener('postStep', postStepListener)
           demo.removeEventListener('destroy', destroyer)
         }
         demo.addEventListener('destroy', destroyer)
       })
 
       demo.addScene('Trimesh', () => {
-        const shape = CANNON.Trimesh.createTorus(4, 3.5, 16, 16)
+        const world = setupWorld(demo)
 
-        // Create world
-        const world = demo.getWorld()
-        world.gravity.set(0, 0, -10)
-        world.broadphase = new CANNON.NaiveBroadphase()
-        world.solver.iterations = 10
-
-        world.defaultContactMaterial.contactEquationStiffness = 1e7
-        world.defaultContactMaterial.contactEquationRelaxation = 4
-
-        // ground plane
-        const groundShape = new CANNON.Plane()
-        const groundBody = new CANNON.Body({ mass: 0 })
-        groundBody.addShape(groundShape)
-        world.addBody(groundBody)
-        demo.addVisual(groundBody)
-
-        // sphere
+        // Sphere
         const sphereShape = new CANNON.Sphere(1)
         const sphereBody = new CANNON.Body({
           mass: 1,
           shape: sphereShape,
-          position: new CANNON.Vec3(3, 3, 11),
+          position: new CANNON.Vec3(-3, 11, 3),
         })
         world.addBody(sphereBody)
         demo.addVisual(sphereBody)
 
-        // Shape on plane
-        const shapeBody = new CANNON.Body({ mass: 1 })
-        shapeBody.addShape(shape)
-        const pos = new CANNON.Vec3(0, 0, size)
-        shapeBody.position.set(0, 0, size * 2)
-        shapeBody.velocity.set(0, 1, 1)
-        shapeBody.angularVelocity.set(0, 0, 0)
-        world.addBody(shapeBody)
-        demo.addVisual(shapeBody)
+        // Torus
+        const torusShape = CANNON.Trimesh.createTorus(4, 3.5, 16, 16)
+        const torusBody = new CANNON.Body({ mass: 1 })
+        torusBody.addShape(torusShape)
+        torusBody.position.set(0, 4, 0)
+        torusBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        torusBody.velocity.set(0, 1, 1)
+        world.addBody(torusBody)
+        demo.addVisual(torusBody)
       })
 
       demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, -10, 0)
+
+        world.defaultContactMaterial.contactEquationStiffness = 1e7
+        world.defaultContactMaterial.contactEquationRelaxation = 4
+
+        // Static ground plane
+        const groundShape = new CANNON.Plane()
+        const groundBody = new CANNON.Body({ mass: 0 })
+        groundBody.addShape(groundShape)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        world.addBody(groundBody)
+        demo.addVisual(groundBody)
+
+        return world
+      }
     </script>
   </body>
 </html>
