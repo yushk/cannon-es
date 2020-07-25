@@ -8347,9 +8347,9 @@ class Heightfield extends Shape {
       verts[1].set(0.75 * elementSize, -0.25 * elementSize, data[xi + 1][yi] - h);
       verts[2].set(-0.25 * elementSize, 0.75 * elementSize, data[xi][yi + 1] - h); // bottom triangle verts
 
-      verts[3].set(-0.25 * elementSize, -0.25 * elementSize, -h - 1);
-      verts[4].set(0.75 * elementSize, -0.25 * elementSize, -h - 1);
-      verts[5].set(-0.25 * elementSize, 0.75 * elementSize, -h - 1); // top triangle
+      verts[3].set(-0.25 * elementSize, -0.25 * elementSize, -Math.abs(h) - 1);
+      verts[4].set(0.75 * elementSize, -0.25 * elementSize, -Math.abs(h) - 1);
+      verts[5].set(-0.25 * elementSize, 0.75 * elementSize, -Math.abs(h) - 1); // top triangle
 
       faces[0][0] = 0;
       faces[0][1] = 1;
@@ -8383,9 +8383,9 @@ class Heightfield extends Shape {
       verts[1].set(-0.75 * elementSize, 0.25 * elementSize, data[xi][yi + 1] - h);
       verts[2].set(0.25 * elementSize, -0.75 * elementSize, data[xi + 1][yi] - h); // bottom triangle verts
 
-      verts[3].set(0.25 * elementSize, 0.25 * elementSize, -h - 1);
-      verts[4].set(-0.75 * elementSize, 0.25 * elementSize, -h - 1);
-      verts[5].set(0.25 * elementSize, -0.75 * elementSize, -h - 1); // Top triangle
+      verts[3].set(0.25 * elementSize, 0.25 * elementSize, -Math.abs(h) - 1);
+      verts[4].set(-0.75 * elementSize, 0.25 * elementSize, -Math.abs(h) - 1);
+      verts[5].set(0.25 * elementSize, -0.75 * elementSize, -Math.abs(h) - 1); // Top triangle
 
       faces[0][0] = 0;
       faces[0][1] = 1;
