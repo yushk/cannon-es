@@ -3,103 +3,107 @@
   <head>
     <title>cannon.js cloth simulation</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
 
   <body>
     <script type="module">
       import * as CANNON from '../dist/cannon-es.js'
-      import * as THREE from 'https://unpkg.com/three@0.115.0/build/three.module.js'
-      import { TrackballControls } from 'https://unpkg.com/three@0.115.0/examples/jsm/controls/TrackballControls.js'
+      import * as THREE from 'https://unpkg.com/three@0.119.0/build/three.module.js'
+      import { OrbitControls } from 'https://unpkg.com/three@0.119.0/examples/jsm/controls/OrbitControls.js'
 
-      const dt = 1 / 60,
-        R = 0.2
+      // Specify the simulation constants
+      const dt = 1 / 60
 
       const clothMass = 1 // 1 kg in total
       const clothSize = 1 // 1 meter
-      const Nx = 12
-      const Ny = 12
+      const Nx = 12 // number of horizontal particles in the cloth
+      const Ny = 12 // number of vertical particles in the cloth
       const mass = (clothMass / Nx) * Ny
-
       const restDistance = clothSize / Nx
 
-      const ballSize = 0.1
+      const sphereSize = 0.1
+      const movementRadius = 0.2
 
-      const clothFunction = plane(restDistance * Nx, restDistance * Ny)
+      // Parametric function
+      // https://threejs.org/docs/index.html#api/en/geometries/ParametricGeometry
+      function clothFunction(u, v, target) {
+        const x = (u - 0.5) * restDistance * Nx
+        const y = (v + 0.5) * restDistance * Ny
+        const z = 0
 
-      function plane(width, height) {
-        return function (u, v, target) {
-          const x = (u - 0.5) * width
-          const y = (v + 0.5) * height
-          const z = 0
+        target.set(x, y, z)
 
-          target.set(x, y, z)
-
-          return target
-        }
+        return target
       }
 
-      const container, stats
-      const camera, scene, renderer
+      // Three.js variables
+      let camera, scene, renderer
+      let controls
+      let clothGeometry
+      let sphereMesh
 
-      const controls
-      const clothGeometry
-      const sphereMesh, sphereBody
-      const object
+      // Cannon.js variables
+      let world
+      let sphereBody
       const particles = []
-      const world
 
       initCannon()
-      init()
+      initThree()
       animate()
 
       function initCannon() {
         world = new CANNON.World()
-        world.broadphase = new CANNON.NaiveBroadphase()
-        world.gravity.set(0, -9.82, 0)
+        world.gravity.set(0, -9.81, 0)
         world.solver.iterations = 20
 
         // Materials
-        const clothMaterial = new CANNON.Material()
-        const sphereMaterial = new CANNON.Material()
-        const clothSphereContactMaterial = new CANNON.ContactMaterial(clothMaterial, sphereMaterial, {
+        const clothMaterial = new CANNON.Material('cloth')
+        const sphereMaterial = new CANNON.Material('sphere')
+        const cloth_sphere = new CANNON.ContactMaterial(clothMaterial, sphereMaterial, {
           friction: 0,
           restitution: 0,
         })
-        // Adjust constraint equation parameters for ground/ground contact
-        clothSphereContactMaterial.contactEquationStiffness = 1e9
-        clothSphereContactMaterial.contactEquationRelaxation = 3
+        // Adjust constraint equation parameters
+        cloth_sphere.contactEquationStiffness = 1e9
+        cloth_sphere.contactEquationRelaxation = 3
 
         // Add contact material to the world
-        world.addContactMaterial(clothSphereContactMaterial)
+        world.addContactMaterial(cloth_sphere)
 
         // Create sphere
-        const sphereShape = new CANNON.Sphere(ballSize * 1.3)
+        // Make it a little bigger than the three.js sphere
+        // so the cloth doesn't clip thruogh
+        const sphereShape = new CANNON.Sphere(sphereSize * 1.3)
         sphereBody = new CANNON.Body({
-          mass: 0,
+          type: CANNON.Body.KINEMATIC,
         })
         sphereBody.addShape(sphereShape)
-        sphereBody.position.set(0, 0, 0)
         world.addBody(sphereBody)
 
         // Create cannon particles
-        for (let i = 0, il = Nx + 1; i !== il; i++) {
+        for (let i = 0; i < Nx + 1; i++) {
           particles.push([])
-          for (let j = 0, jl = Ny + 1; j !== jl; j++) {
-            const idx = j * (Nx + 1) + i
-            const p = clothFunction(i / (Nx + 1), j / (Ny + 1), new THREE.Vector3())
+          for (let j = 0; j < Ny + 1; j++) {
+            const index = j * (Nx + 1) + i
+
+            const point = clothFunction(i / (Nx + 1), j / (Ny + 1), new THREE.Vector3())
             const particle = new CANNON.Body({
-              mass: j == Ny ? 0 : mass,
+              // Fix in place the first row
+              mass: j === Ny ? 0 : mass,
             })
             particle.addShape(new CANNON.Particle())
             particle.linearDamping = 0.5
-            particle.position.set(p.x, p.y - Ny * 0.9 * restDistance, p.z)
+            particle.position.set(point.x, point.y - Ny * 0.9 * restDistance, point.z)
+            particle.velocity.set(0, 0, -0.1 * (Ny - j))
+
             particles[i].push(particle)
             world.addBody(particle)
-            particle.velocity.set(0, 0, -0.1 * (Ny - j))
           }
         }
+
+        // Connect the particles with distance constraints
         function connect(i1, j1, i2, j2) {
           world.addConstraint(new CANNON.DistanceConstraint(particles[i1][j1], particles[i2][j2], restDistance))
         }
@@ -111,15 +115,15 @@
         }
       }
 
-      function init() {
-        container = document.createElement('div')
+      function initThree() {
+        const container = document.createElement('div')
         document.body.appendChild(container)
 
-        // scene
+        // Scene
         scene = new THREE.Scene()
         scene.fog = new THREE.Fog(0x000000, 500, 10000)
 
-        // renderer
+        // Renderer
         renderer = new THREE.WebGLRenderer({ antialias: true })
         renderer.setSize(window.innerWidth, window.innerHeight)
         renderer.setClearColor(scene.fog.color)
@@ -128,112 +132,59 @@
 
         renderer.outputEncoding = THREE.sRGBEncoding
 
-        renderer.shadowMap.enabled = true
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
-        // camera
-
+        // Camera
         camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.5, 10000)
-
         camera.position.set(Math.cos(Math.PI / 4) * 3, 0, Math.sin(Math.PI / 4) * 3)
-
         scene.add(camera)
 
-        // Controls
-        controls = new TrackballControls(camera, renderer.domElement)
+        // Orbit controls
+        controls = new OrbitControls(camera, renderer.domElement)
+        controls.enableDamping = true
+        controls.enablePan = false
+        controls.dampingFactor = 0.3
+        controls.minDistance = 1
+        controls.maxDistance = 5
 
-        controls.rotateSpeed = 1.0
-        controls.zoomSpeed = 1.2
-        controls.panSpeed = 0.8
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
+        scene.add(ambientLight)
 
-        controls.noZoom = false
-        controls.noPan = false
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.75)
+        directionalLight.position.set(5, 5, 5)
+        scene.add(directionalLight)
 
-        controls.staticMoving = true
-        controls.dynamicDampingFactor = 0.3
-
-        controls.keys = [65, 83, 68]
-
-        // lights
-        const light, materials
-        scene.add(new THREE.AmbientLight(0x666666))
-
-        light = new THREE.DirectionalLight(0xffffff, 1.75)
-        const d = 5
-
-        light.position.set(d, d, d)
-
-        light.castShadow = true
-        //light.shadowCameraVisible = true;
-
-        light.shadow.mapSize.width = 1024 * 2
-        light.shadow.mapSize.height = 1024 * 2
-
-        light.shadow.camera.left = -d
-        light.shadow.camera.right = d
-        light.shadow.camera.top = d
-        light.shadow.camera.bottom = -d
-
-        light.shadow.camera.far = 3 * d
-        light.shadow.camera.near = d
-
-        scene.add(light)
-
-        /*
-        light = new THREE.DirectionalLight( 0xffffff, 0.35 );
-        light.position.set( 0, -1, 0 );
-
-        scene.add( light );
-        */
-
-        // cloth material
-
-        const clothTexture = new THREE.TextureLoader().load('sunflower.jpg') // circuit_pattern.png
-        clothTexture.wrapS = clothTexture.wrapT = THREE.RepeatWrapping
+        // Cloth material
+        const clothTexture = new THREE.TextureLoader().load('images/sunflower.jpg')
+        clothTexture.wrapS = THREE.RepeatWrapping
+        clothTexture.wrapT = THREE.RepeatWrapping
         clothTexture.anisotropy = 16
         clothTexture.encoding = THREE.sRGBEncoding
 
         const clothMaterial = new THREE.MeshPhongMaterial({
-          alphaTest: 0.5,
-          color: 0xffffff,
-          emissive: 0x000000,
-          //shininess: 5,
           map: clothTexture,
           side: THREE.DoubleSide,
         })
 
-        // cloth geometry
+        // Cloth geometry
         clothGeometry = new THREE.ParametricGeometry(clothFunction, Nx, Ny)
-        clothGeometry.computeFaceNormals()
 
-        // cloth mesh
-        object = new THREE.Mesh(clothGeometry, clothMaterial)
-        object.position.set(0, 0, 0)
-        object.castShadow = true
-        //object.receiveShadow = true;
-        scene.add(object)
+        // Cloth mesh
+        const clothMesh = new THREE.Mesh(clothGeometry, clothMaterial)
+        scene.add(clothMesh)
 
-        // sphere
-        const ballGeo = new THREE.SphereGeometry(ballSize, 20, 20)
-        const ballMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 })
+        // Sphere
+        const sphereGeometry = new THREE.SphereGeometry(sphereSize, 20, 20)
+        const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 })
 
-        sphereMesh = new THREE.Mesh(ballGeo, ballMaterial)
-        sphereMesh.castShadow = true
-        //sphereMesh.receiveShadow = true;
+        sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
         scene.add(sphereMesh)
 
-        camera.lookAt(sphereMesh.position)
-
-        window.addEventListener('resize', onWindowResize, false)
+        window.addEventListener('resize', onWindowResize)
       }
-
-      //
 
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight
         camera.updateProjectionMatrix()
-        controls.handleResize()
-
         renderer.setSize(window.innerWidth, window.innerHeight)
       }
 
@@ -241,25 +192,27 @@
         requestAnimationFrame(animate)
         controls.update()
         world.step(dt)
-        const t = world.time
-        sphereBody.position.set(R * Math.sin(t), 0, R * Math.cos(t))
         render()
       }
 
       function render() {
-        for (let i = 0, il = Nx + 1; i !== il; i++) {
-          for (let j = 0, jl = Ny + 1; j !== jl; j++) {
-            const idx = j * (Nx + 1) + i
-            clothGeometry.vertices[idx].copy(particles[i][j].position)
+        // Make the three.js cloth follow the cannon.js particles
+        for (let i = 0; i < Nx + 1; i++) {
+          for (let j = 0; j < Ny + 1; j++) {
+            const index = j * (Nx + 1) + i
+            clothGeometry.vertices[index].copy(particles[i][j].position)
           }
         }
-
-        clothGeometry.computeFaceNormals()
-        clothGeometry.computeVertexNormals()
 
         clothGeometry.normalsNeedUpdate = true
         clothGeometry.verticesNeedUpdate = true
 
+        // Move the ball in a circular motion
+        const { time } = world
+        sphereBody.position.set(movementRadius * Math.sin(time), 0, movementRadius * Math.cos(time))
+
+        // Make the three.js ball follow the cannon.js one
+        // Copying quaternion is not needed since it's a sphere
         sphereMesh.position.copy(sphereBody.position)
 
         renderer.render(scene, camera)
