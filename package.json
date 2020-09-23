@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-spring/cannon-es.git"
+    "url": "https://github.com/pmndrs/cannon-es.git"
   },
   "bugs": {
     "url": "https://github.com/schteppe/cannon.js/issues"
