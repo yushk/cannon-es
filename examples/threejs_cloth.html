@@ -116,8 +116,9 @@
       }
 
       function initThree() {
-        const container = document.createElement('div')
-        document.body.appendChild(container)
+        // Camera
+        camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.5, 10000)
+        camera.position.set(Math.cos(Math.PI / 4) * 3, 0, Math.sin(Math.PI / 4) * 3)
 
         // Scene
         scene = new THREE.Scene()
@@ -128,14 +129,9 @@
         renderer.setSize(window.innerWidth, window.innerHeight)
         renderer.setClearColor(scene.fog.color)
 
-        container.appendChild(renderer.domElement)
-
         renderer.outputEncoding = THREE.sRGBEncoding
 
-        // Camera
-        camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.5, 10000)
-        camera.position.set(Math.cos(Math.PI / 4) * 3, 0, Math.sin(Math.PI / 4) * 3)
-        scene.add(camera)
+        document.body.appendChild(renderer.domElement)
 
         // Orbit controls
         controls = new OrbitControls(camera, renderer.domElement)
