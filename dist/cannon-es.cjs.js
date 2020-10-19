@@ -5731,9 +5731,20 @@ const addToWlambda_temp = new Vec3();
  */
 class ContactEquation extends Equation {
   // "bounciness": u1 = -e*u0
-  // World-oriented vector that goes from the center of bi to the contact point.
-  // World-oriented vector that starts in body j position and goes to the contact point.
-  // Contact normal, pointing out of body i.
+
+  /**
+  * World-oriented vector that goes from the center of bi to the contact
+  * point.
+  */
+
+  /**
+  * World-oriented vector that starts in body j position and goes to the
+  * contact point.
+  */
+
+  /**
+  * Contact normal, pointing out of body i.
+  */
   constructor(bodyA, bodyB, maxForce = 1e6) {
     super(bodyA, bodyB, 0, maxForce);
     this.restitution = 0.0;
@@ -9127,7 +9138,7 @@ class Trimesh extends Shape {
         const n = this.vertices.length / 3,
             verts = this.vertices;
         const minx,miny,minz,maxx,maxy,maxz;
-          const v = tempWorldVertex;
+         const v = tempWorldVertex;
         for(let i=0; i<n; i++){
             this.getVertex(i, v);
             quat.vmult(v, v);
@@ -9137,12 +9148,12 @@ class Trimesh extends Shape {
             } else if(v.x > maxx || maxx===undefined){
                 maxx = v.x;
             }
-              if (v.y < miny || miny===undefined){
+             if (v.y < miny || miny===undefined){
                 miny = v.y;
             } else if(v.y > maxy || maxy===undefined){
                 maxy = v.y;
             }
-              if (v.z < minz || minz===undefined){
+             if (v.z < minz || minz===undefined){
                 minz = v.z;
             } else if(v.z > maxz || maxz===undefined){
                 maxz = v.z;
@@ -9973,27 +9984,27 @@ class Narrowphase {
     }
   }
 
-  sphereSphere(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+  sphereSphere(si, sj, xi, xj, _, __, bi, bj, rsi, rsj, justTest) {
     if (justTest) {
       return xi.distanceSquared(xj) < (si.radius + sj.radius) ** 2;
     } // We will have only one contact in this case
 
 
-    const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj); // Contact normal
+    const contactEq = this.createContactEquation(bi, bj, si, sj, rsi, rsj); // Contact normal
 
-    xj.vsub(xi, r.ni);
-    r.ni.normalize(); // Contact point locations
+    xj.vsub(xi, contactEq.ni);
+    contactEq.ni.normalize(); // Contact point locations
 
-    r.ri.copy(r.ni);
-    r.rj.copy(r.ni);
-    r.ri.scale(si.radius, r.ri);
-    r.rj.scale(-sj.radius, r.rj);
-    r.ri.vadd(xi, r.ri);
-    r.ri.vsub(bi.position, r.ri);
-    r.rj.vadd(xj, r.rj);
-    r.rj.vsub(bj.position, r.rj);
-    this.result.push(r);
-    this.createFrictionEquationsFromContact(r, this.frictionResult);
+    contactEq.ri.copy(contactEq.ni);
+    contactEq.rj.copy(contactEq.ni);
+    contactEq.ri.scale(si.radius, contactEq.ri);
+    contactEq.rj.scale(-sj.radius, contactEq.rj);
+    contactEq.ri.vadd(xi, contactEq.ri);
+    contactEq.ri.vsub(bi.position, contactEq.ri);
+    contactEq.rj.vadd(xj, contactEq.rj);
+    contactEq.rj.vsub(bj.position, contactEq.rj);
+    this.result.push(contactEq);
+    this.createFrictionEquationsFromContact(contactEq, this.frictionResult);
   }
 
   spherePlane(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {

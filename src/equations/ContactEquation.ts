@@ -13,9 +13,20 @@ import type { Body } from '../objects/Body'
  */
 export class ContactEquation extends Equation {
   restitution: number // "bounciness": u1 = -e*u0
-  ri: Vec3 // World-oriented vector that goes from the center of bi to the contact point.
-  rj: Vec3 // World-oriented vector that starts in body j position and goes to the contact point.
-  ni: Vec3 // Contact normal, pointing out of body i.
+  /**
+   * World-oriented vector that goes from the center of bi to the contact
+   * point.
+   */
+  ri: Vec3
+  /**
+   * World-oriented vector that starts in body j position and goes to the
+   * contact point.
+   */
+  rj: Vec3
+  /**
+   * Contact normal, pointing out of body i.
+   */
+  ni: Vec3
 
   constructor(bodyA: Body, bodyB: Body, maxForce = 1e6) {
     super(bodyA, bodyB, 0, maxForce)
