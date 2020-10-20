@@ -10,7 +10,7 @@ import { ContactEquation } from 'equations/ContactEquation'
 describe('Narrowphase', () => {
   test('sphere + sphere contact', () => {
     const world = new World()
-    const cg = new Narrowphase(world)
+    const narrowPhase = new Narrowphase(world)
     const result: ContactEquation[] = []
     const sphereShape = new Sphere(1)
 
@@ -20,10 +20,10 @@ describe('Narrowphase', () => {
     bodyB.addShape(sphereShape)
 
     // Assumption: using World.defaultContactMaterial will be the same
-    // as using `new ContactMaterial()` for cg.currentContactMaterial.
+    // as using `new ContactMaterial()` for narrowPhase.currentContactMaterial.
 
-    cg.result = result
-    cg.sphereSphere(
+    narrowPhase.result = result
+    narrowPhase.sphereSphere(
       sphereShape,
       sphereShape,
       new Vec3(0.5, 0, 0),
@@ -39,7 +39,7 @@ describe('Narrowphase', () => {
 
   test('sphere + heightfield contact', () => {
     const world = new World()
-    const cg = new Narrowphase(world)
+    const narrowPhase = new Narrowphase(world)
     const result: ContactEquation[] = []
     const hfShape = createHeightfield()
     const sphereShape = new Sphere(0.1)
@@ -49,8 +49,8 @@ describe('Narrowphase', () => {
     bodyA.addShape(hfShape)
     bodyB.addShape(sphereShape)
 
-    cg.result = result
-    cg.sphereHeightfield(
+    narrowPhase.result = result
+    narrowPhase.sphereHeightfield(
       sphereShape,
       hfShape,
       new Vec3(0.25, 0.25, 0.05), // hit the first triangle in the field
