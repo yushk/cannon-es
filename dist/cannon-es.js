@@ -9969,7 +9969,7 @@ class Narrowphase {
     }
   }
 
-  sphereSphere(si, sj, xi, xj, _, __, bi, bj, rsi, rsj, justTest) {
+  sphereSphere(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
     if (justTest) {
       return xi.distanceSquared(xj) < (si.radius + sj.radius) ** 2;
     } // We will have only one contact in this case
