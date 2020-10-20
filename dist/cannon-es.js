@@ -5727,20 +5727,9 @@ const addToWlambda_temp = new Vec3();
  */
 class ContactEquation extends Equation {
   // "bounciness": u1 = -e*u0
-
-  /**
-  * World-oriented vector that goes from the center of bi to the contact
-  * point.
-  */
-
-  /**
-  * World-oriented vector that starts in body j position and goes to the
-  * contact point.
-  */
-
-  /**
-  * Contact normal, pointing out of body i.
-  */
+  // World-oriented vector that goes from the center of bi to the contact point.
+  // World-oriented vector that starts in body j position and goes to the contact point.
+  // Contact normal, pointing out of body i.
   constructor(bodyA, bodyB, maxForce = 1e6) {
     super(bodyA, bodyB, 0, maxForce);
     this.restitution = 0.0;
