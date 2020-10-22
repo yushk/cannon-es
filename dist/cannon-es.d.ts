@@ -1557,3 +1557,4 @@ declare module "cannon-es" {
     export * from "world/Narrowphase";
     export * from "world/World";
 }
+declare module "world/Narrowphase.test" { }

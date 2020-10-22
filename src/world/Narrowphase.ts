@@ -354,27 +354,27 @@ export class Narrowphase {
     }
 
     // We will have only one contact in this case
-    const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj)
+    const contactEq = this.createContactEquation(bi, bj, si, sj, rsi, rsj)
 
     // Contact normal
-    xj.vsub(xi, r.ni)
-    r.ni.normalize()
+    xj.vsub(xi, contactEq.ni)
+    contactEq.ni.normalize()
 
     // Contact point locations
-    r.ri.copy(r.ni)
-    r.rj.copy(r.ni)
-    r.ri.scale(si.radius, r.ri)
-    r.rj.scale(-sj.radius, r.rj)
+    contactEq.ri.copy(contactEq.ni)
+    contactEq.rj.copy(contactEq.ni)
+    contactEq.ri.scale(si.radius, contactEq.ri)
+    contactEq.rj.scale(-sj.radius, contactEq.rj)
 
-    r.ri.vadd(xi, r.ri)
-    r.ri.vsub(bi.position, r.ri)
+    contactEq.ri.vadd(xi, contactEq.ri)
+    contactEq.ri.vsub(bi.position, contactEq.ri)
 
-    r.rj.vadd(xj, r.rj)
-    r.rj.vsub(bj.position, r.rj)
+    contactEq.rj.vadd(xj, contactEq.rj)
+    contactEq.rj.vsub(bj.position, contactEq.rj)
 
-    this.result.push(r)
+    this.result.push(contactEq)
 
-    this.createFrictionEquationsFromContact(r, this.frictionResult)
+    this.createFrictionEquationsFromContact(contactEq, this.frictionResult)
   }
 
   spherePlane(
