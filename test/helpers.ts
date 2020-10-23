@@ -3,7 +3,17 @@ import { NaiveBroadphase } from '../src/collision/NaiveBroadphase'
 import { Sphere } from '../src/shapes/Sphere'
 import { World } from '../src/world/World'
 
-const test_configs = [
+export type TestConfig = { positions: Array<[number, number, number]>; colliding: { [tupleKey: string]: boolean } }
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeColliding(testConfig: TestConfig): R
+    }
+  }
+}
+
+const collisionMatrixConfigs: TestConfig[] = [
   {
     positions: [
       [0, 0, 0],
@@ -53,8 +63,8 @@ const test_configs = [
 ]
 
 export function testCollisionMatrix(CollisionMatrix: any) {
-  for (let config_idx = 0; config_idx < test_configs.length; config_idx++) {
-    const test_config = test_configs[config_idx]
+  for (let config_idx = 0; config_idx < collisionMatrixConfigs.length; config_idx++) {
+    const test_config = collisionMatrixConfigs[config_idx]
 
     const world = new World()
     world.broadphase = new NaiveBroadphase()
@@ -74,9 +84,7 @@ export function testCollisionMatrix(CollisionMatrix: any) {
 
       for (let coll_i = 0; coll_i < world.bodies.length; coll_i++) {
         for (let coll_j = coll_i + 1; coll_j < world.bodies.length; coll_j++) {
-          const is_colliding_pair = test_config.colliding[coll_i + '-' + coll_j] === true
-          const expected = is_colliding_pair
-          expect([world, coll_i, coll_j, is_first_step]).toBeColliding(expected)
+          expect([world, coll_i, coll_j, is_first_step]).toBeColliding(test_config)
         }
       }
     }
