@@ -3,7 +3,12 @@ import { NaiveBroadphase } from '../src/collision/NaiveBroadphase'
 import { Sphere } from '../src/shapes/Sphere'
 import { World } from '../src/world/World'
 
-export type TestConfig = { positions: Array<[number, number, number]>; colliding: { [tupleKey: string]: boolean } }
+export type TestConfig = {
+  positions: Array<[number, number, number]>;
+  colliding: {
+    [tupleKey: string]: boolean
+  }
+}
 
 declare global {
   namespace jest {

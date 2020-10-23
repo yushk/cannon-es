@@ -1,9 +1,16 @@
 import type { World } from '../src/world/World'
 import type { TestConfig } from './helpers'
 
+type ToBeCollidingRecieved = [
+  World,
+  number,
+  number,
+  boolean
+];
+
 expect.extend({
   toBeColliding(
-    [world, bodyAIndex, bodyBIndex, isFirstStep]: [World, number, number, boolean],
+    [world, bodyAIndex, bodyBIndex, isFirstStep]: ToBeCollidingRecieved,
     testConfig: TestConfig
   ) {
     const bodyA = world.bodies[bodyAIndex]
