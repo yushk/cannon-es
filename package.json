@@ -36,7 +36,7 @@
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "./addCustomMatchersToJest.ts"
+      "./test/customMatchers.ts"
     ]
   },
   "repository": {
