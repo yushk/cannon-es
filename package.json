@@ -23,7 +23,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npm run typegen && rollup -c",
-    "prepare": "npm run test && npm run build",
+    "prepare": "npm run build && npm run test",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false --strict",
     "typegen": "tsc --outFile dist/cannon-es.d.ts",
     "test": "jest",
