@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>cannon.js cloth simulation</title>
     <meta charset="utf-8" />
+    <title>cannon.js + three.js - cloth simulation</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
@@ -11,7 +11,9 @@
     <script type="module">
       import * as CANNON from '../dist/cannon-es.js'
       import * as THREE from 'https://unpkg.com/three@0.119.0/build/three.module.js'
+      import Stats from 'https://unpkg.com/three@0.119.0/examples/jsm/libs/stats.module.js'
       import { OrbitControls } from 'https://unpkg.com/three@0.119.0/examples/jsm/controls/OrbitControls.js'
+      import { addTitle, addSourceButton } from './js/dom-utils.js'
 
       // Specify the simulation constants
       const dt = 1 / 60
@@ -39,7 +41,7 @@
       }
 
       // Three.js variables
-      let camera, scene, renderer
+      let camera, scene, renderer, stats
       let controls
       let clothGeometry
       let sphereMesh
@@ -48,6 +50,9 @@
       let world
       let sphereBody
       const particles = []
+
+      addTitle()
+      addSourceButton()
 
       initCannon()
       initThree()
@@ -133,6 +138,10 @@
 
         document.body.appendChild(renderer.domElement)
 
+        // Stats.js
+        stats = new Stats()
+        document.body.appendChild(stats.dom)
+
         // Orbit controls
         controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
@@ -189,6 +198,7 @@
         controls.update()
         world.step(dt)
         render()
+        stats.update()
       }
 
       function render() {

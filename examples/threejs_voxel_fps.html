@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>cannon.js + three.js physics shooter</title>
+    <title>cannon.js + three.js - voxel shooter</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <style>
@@ -43,6 +43,7 @@
       import Stats from 'https://unpkg.com/three@0.119.0/examples/jsm/libs/stats.module.js'
       import { PointerLockControlsCannon } from './js/PointerLockControlsCannon.js'
       import { VoxelLandscape } from './js/VoxelLandscape.js'
+      import { addTitle, addSourceButton } from './js/dom-utils.js'
 
       // Three.js variables
       let camera, scene, renderer, stats
@@ -73,6 +74,9 @@
       const sx = 0.5
       const sy = 0.5
       const sz = 0.5
+
+      addTitle()
+      addSourceButton()
 
       initThree()
       initCannon()

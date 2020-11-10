@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>cannon.js mouse pick demo</title>
+    <title>cannon.js + three.js - mouse pick</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
@@ -11,6 +11,7 @@
       import * as CANNON from '../dist/cannon-es.js'
       import * as THREE from 'https://unpkg.com/three@0.115.0/build/three.module.js'
       import Stats from 'https://unpkg.com/three@0.115.0/examples/jsm/libs/stats.module.js'
+      import { addTitle, addSourceButton } from './js/dom-utils.js'
 
       // Three.js variables
       let camera, scene, renderer, stats
@@ -31,6 +32,9 @@
       // To be synced
       const meshes = []
       const bodies = []
+
+      addTitle()
+      addSourceButton()
 
       initThree()
       initCannon()

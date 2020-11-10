@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>cannon.js - callbacks demo</title>
     <meta charset="utf-8" />
+    <title>cannon.js - callbacks demo</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
@@ -10,11 +10,6 @@
     <script type="module">
       import * as CANNON from '../dist/cannon-es.js'
       import { Demo } from './js/Demo.js'
-
-      /**
-       * A demo showing how to use the preStep callback to add a force to a body.
-       * This will act like a force field.
-       */
 
       const demo = new Demo()
 
@@ -35,27 +30,19 @@
         const planet = new CANNON.Body({ mass: 0 })
         planet.addShape(planetShape)
 
-        // Use the preStep callback to apply the gravity force on the moon.
-        // This callback is evoked each timestep.
         moon.preStep = () => {
-          // Get the vector pointing from the moon to the planet center
           const moon_to_planet = new CANNON.Vec3()
           moon.position.negate(moon_to_planet)
 
-          // Get distance from planet to moon
           const distance = moon_to_planet.length()
 
-          // Now apply force on moon
-          // Fore is pointing in the moon-planet direction
           moon_to_planet.normalize()
           moon_to_planet.scale(1500 / Math.pow(distance, 2), moon.force)
         }
 
-        // We add the objects to the world to simulate them
         world.addBody(moon)
         world.addBody(planet)
 
-        // And we add them to the demo to make them visible
         demo.addVisual(moon)
         demo.addVisual(planet)
       })

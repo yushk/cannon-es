@@ -1,15 +1,29 @@
-* {
+body {
   margin: 0;
   padding: 0;
-}
-body {
   overflow: hidden;
   font-family: Monospace;
 }
 
+canvas {
+  outline: none;
+}
+
 /* more space for the Stats.js button name */
-.dg .property-name {
-  width: 80% !important;
+.dg .cr.function .property-name {
+  width: 100% !important;
+}
+
+.page-title {
+  position: fixed;
+  top: 0.75rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+}
+.page-title span {
+  color: #99ff4e;
 }
 
 .view-source-button {

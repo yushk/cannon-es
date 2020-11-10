@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>cannon.js worker example</title>
     <meta charset="utf-8" />
+    <title>cannon.js - worker example</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
@@ -14,6 +14,9 @@
       // Number of objects, could be also sent via a
       // first init message, to avoid duplicatoin
       const N = 40
+
+      // The bodies shared with three.js
+      const bodies = []
 
       // Setup world
       const world = new CANNON.World()
@@ -33,6 +36,7 @@
         const body = new CANNON.Body({ mass: 1 })
         body.addShape(boxShape)
         body.position.set(Math.random() - 0.5, i * 2.5 + 0.5, Math.random() - 0.5)
+        bodies.push(body)
         world.addBody(body)
       }
 
@@ -42,9 +46,9 @@
         // Step the world
         world.step(dt)
 
-        // Copy the Cannon data into the buffers
-        for (let i = 0; i < world.bodies.length; i++) {
-          const body = world.bodies[i]
+        // Copy the cannon.js data into the buffers
+        for (let i = 0; i < bodies.length; i++) {
+          const body = bodies[i]
 
           positions[i * 3 + 0] = body.position.x
           positions[i * 3 + 1] = body.position.y
@@ -61,6 +65,7 @@
             positions,
             quaternions,
           },
+          // Specify that we want actually transfer the memory, not copy it over. This is faster.
           [positions.buffer, quaternions.buffer]
         )
       })
@@ -71,18 +76,22 @@
       import * as THREE from 'https://unpkg.com/three@0.115.0/build/three.module.js'
       import Stats from 'https://unpkg.com/three@0.115.0/examples/jsm/libs/stats.module.js'
       import { OrbitControls } from 'https://unpkg.com/three@0.115.0/examples/jsm/controls/OrbitControls.js'
+      import { addTitle, addSourceButton } from './js/dom-utils.js'
 
       // Parameters
       const dt = 1 / 60
       const N = 40 // number of objects
 
       // Data arrays. Contains all our kinematic data we need for rendering.
+      // These will be replaced with the new arrays the worker will send us.
       let positions = new Float32Array(N * 3)
       let quaternions = new Float32Array(N * 4)
 
       // Get the worker code
-      // BUG Somehow relative urls don't work in a module worker
-      const workerScript = document.querySelector('#worker1').textContent.replace('..', window.location.origin)
+      const workerScript = document
+        .querySelector('#worker1')
+        // BUG Somehow relative urls don't work in a module worker
+        .textContent.replace('..', window.location.origin)
 
       // Create a blob for the inline worker code
       const blob = new Blob([workerScript], { type: 'text/javascript' })
@@ -94,7 +103,7 @@
       let sendTime
 
       // Send the array buffers that will be populated in the
-      // worker with Cannon's data
+      // worker with cannon.js' data
       function requestDataFromWorker() {
         sendTime = performance.now()
         worker.postMessage(
@@ -103,10 +112,13 @@
             positions,
             quaternions,
           },
+          // Specify that we want actually transfer the memory, not copy it over. This is faster.
           [positions.buffer, quaternions.buffer]
         )
       }
 
+      // The mutated position and quaternion data we
+      // get back from the worker
       worker.addEventListener('message', (event) => {
         // Get fresh data from the worker
         positions = event.data.positions
@@ -128,6 +140,7 @@
         const delay = dt * 1000 - (performance.now() - sendTime)
         setTimeout(requestDataFromWorker, Math.max(delay, 0))
       })
+
       worker.addEventListener('error', (event) => {
         console.error(event.message)
       })
@@ -135,7 +148,12 @@
       // Initialize Three.js
       let camera, scene, renderer, stats
       let controls
+
+      // The meshes that will be passed to cannon.js
       const meshes = []
+
+      addTitle()
+      addSourceButton()
 
       initThree()
       animate()
@@ -201,11 +219,10 @@
 
         // Floor
         const floorGeometry = new THREE.PlaneGeometry(100, 100, 1, 1)
-        // floorGeometry.rotateX(-Math.PI / 2)
+        floorGeometry.rotateX(-Math.PI / 2)
         const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x777777 })
         const floor = new THREE.Mesh(floorGeometry, floorMaterial)
         floor.receiveShadow = true
-        meshes.push(floor)
         scene.add(floor)
 
         // Cubes

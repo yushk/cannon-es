@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>three.js / cannon.js example</title>
     <meta charset="utf-8" />
+    <title>cannon.js + three.js - basic integration example</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
@@ -10,6 +10,7 @@
     <script type="module">
       import * as CANNON from '../dist/cannon-es.js'
       import * as THREE from 'https://unpkg.com/three@0.115.0/build/three.module.js'
+      import { addTitle, addSourceButton } from './js/dom-utils.js'
 
       // Three.js variables
       let camera, scene, renderer
@@ -19,6 +20,9 @@
       let world
       let body
       const timeStep = 1 / 60
+
+      addTitle()
+      addSourceButton()
 
       initThree()
       initCannon()
