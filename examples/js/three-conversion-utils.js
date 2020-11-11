@@ -169,28 +169,33 @@ export function bodyToMesh(body, material) {
 export function geometryToShape(geometry) {
   switch (geometry.type) {
     case 'BoxGeometry':
-    case 'BoxBufferGeometry':
+    case 'BoxBufferGeometry': {
       const { width = 1, height = 1, depth = 1 } = geometry.parameters
 
       const halfExtents = new CANNON.Vec3(width / 2, height / 2, depth / 2)
       return new CANNON.Box(halfExtents)
+    }
 
     case 'PlaneGeometry':
-    case 'PlaneBufferGeometry':
+    case 'PlaneBufferGeometry': {
       return new CANNON.Plane()
+    }
 
     case 'SphereGeometry':
-    case 'SphereBufferGeometry':
+    case 'SphereBufferGeometry': {
       const { radius } = geometry.parameters
       return new CANNON.Sphere(radius)
+    }
 
     case 'CylinderGeometry':
-    case 'CylinderBufferGeometry':
+    case 'CylinderBufferGeometry': {
       const { radiusTop, radiusBottom, height, radialSegments } = geometry.parameters
 
       return new CANNON.Cylinder(radiusTop, radiusBottom, height, radialSegments)
+    }
 
-    default:
+    default: {
       throw new Error(`Geometry not recognized: "${geometry.type}"`)
+    }
   }
 }
