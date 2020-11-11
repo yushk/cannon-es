@@ -5,24 +5,27 @@ import * as dat from 'https://unpkg.com/dat.gui@0.7.7/build/dat.gui.module.js'
 import { OrbitControls } from 'https://unpkg.com/three@0.115.0/examples/jsm/controls/OrbitControls.js'
 import { SmoothieChart, TimeSeries } from './smoothie.js'
 import { addTitle, addSourceButton } from './dom-utils.js'
+import { bodyToMesh } from './three-conversion-utils.js'
 
 /**
  * Demo utility class. If you want to learn how to connect Cannon.js with Three.js, please look at the examples/threejs_* instead.
  */
 class Demo extends CANNON.EventTarget {
-  dummy = new THREE.Object3D()
-
   sceneFolder
+  scenes = []
 
+  // array used to keep in sync the visuals with the bodies
+  // they will have always the same length
   bodies = []
   visuals = []
-  scenes = []
+
   gui
   smoothie
   smoothieCanvas
-  scenePicker = {}
 
   renderModes = ['solid', 'wireframe']
+
+  dummy = new THREE.Object3D()
 
   constructor(options) {
     super(options)
@@ -47,7 +50,6 @@ class Demo extends CANNON.EventTarget {
       cm2contact: false, // center of mass to contact points
       normals: false, // contact normals
       axes: false, // "local" frame axes
-      particleSize: 0.1,
       shadows: false,
       aabbs: false,
       profiling: false,
@@ -106,17 +108,6 @@ class Demo extends CANNON.EventTarget {
     renderFolder.add(this.settings, 'normals')
     renderFolder.add(this.settings, 'constraints')
     renderFolder.add(this.settings, 'axes')
-    renderFolder.add(this.settings, 'particleSize', 0, 1).onChange((size) => {
-      this.bodies.forEach((body, i) => {
-        if (!body.shapes[0] instanceof CANNON.Particle) {
-          return
-        }
-
-        this.visuals[i].traverse((child) => {
-          if (child.isMesh) child.scale.setScalar(size)
-        })
-      })
-    })
     renderFolder
       .add(this.settings, 'shadows')
       .onChange((shadows) => {
@@ -282,9 +273,8 @@ class Demo extends CANNON.EventTarget {
 
     this.scenes.push(initfunc)
     const index = this.scenes.length - 1
-    this.scenePicker[title] = () => this.changeScene(index)
 
-    this.sceneFolder.add(this.scenePicker, title)
+    this.sceneFolder.add({ [title]: () => this.changeScene(index) }, title)
   }
 
   /**
@@ -309,26 +299,24 @@ class Demo extends CANNON.EventTarget {
       const visual = this.visuals[i]
 
       // Interpolated or not?
-      let bodyPos = body.interpolatedPosition
-      let bodyQuat = body.interpolatedQuaternion
+      let position = body.interpolatedPosition
+      let quaternion = body.interpolatedQuaternion
       if (this.settings.paused) {
-        bodyPos = body.position
-        bodyQuat = body.quaternion
+        position = body.position
+        quaternion = body.quaternion
       }
 
       if (visual.isInstancedMesh) {
-        this.dummy.position.copy(bodyPos)
-        if (body.quaternion) {
-          this.dummy.quaternion.copy(bodyQuat)
-        }
+        this.dummy.position.copy(position)
+        this.dummy.quaternion.copy(quaternion)
 
         this.dummy.updateMatrix()
 
         visual.setMatrixAt(body.instanceIndex, this.dummy.matrix)
         visual.instanceMatrix.needsUpdate = true
       } else {
-        visual.position.copy(bodyPos)
-        visual.quaternion.copy(bodyQuat)
+        visual.position.copy(position)
+        visual.quaternion.copy(quaternion)
       }
     }
 
@@ -511,16 +499,17 @@ class Demo extends CANNON.EventTarget {
   }
 
   buildScene = (n) => {
-    // Remove current bodies and visuals
+    // Remove current bodies
     this.bodies.forEach((body) => this.world.removeBody(body))
-    this.bodies.length = 0
-    this.visuals.forEach((visual) => this.scene.remove(visual))
-    this.visuals.length = 0
+
+    // Remove all visuals
+    this.removeAllVisuals()
 
     // Remove all constraints
     while (this.world.constraints.length) {
       this.world.removeConstraint(this.world.constraints[0])
     }
+
     // Run the user defined "build scene" function
     this.scenes[n]()
 
@@ -888,30 +877,63 @@ class Demo extends CANNON.EventTarget {
   }
 
   addVisual(body) {
-    if (!body instanceof CANNON.Body) {
+    if (!(body instanceof CANNON.Body)) {
       throw new Error('The argument passed to addVisual() is not a body')
     }
 
-    // What geometry should be used?
-    const mesh = this.shape2mesh(body)
+    // if it's a particle paint it red, otherwise just gray
+    const material = body.shapes.every((s) => s instanceof CANNON.Particle)
+      ? this.particleMaterial
+      : this.currentMaterial
 
-    // Add body
+    // get the correspondant three.js mesh
+    const mesh = bodyToMesh(body, material)
+
+    // enable shadows on every object
+    mesh.traverse((child) => {
+      child.castShadow = true
+      child.receiveShadow = true
+    })
+
     this.bodies.push(body)
     this.visuals.push(mesh)
 
-    body.visualref = mesh
-    body.visualref.visualId = this.bodies.length - 1
     this.scene.add(mesh)
   }
 
-  addVisualInstanced(bodies) {
-    if (!Array.isArray(bodies) || !bodies.every((body) => body instanceof CANNON.Body)) {
-      throw new Error('The argument passed to addVisualInstanced() is not an array of bodies')
+  addVisuals(bodies) {
+    bodies.forEach((body) => {
+      this.addVisual(body)
+    })
+  }
+
+  addVisualsInstanced(bodies) {
+    if (
+      !Array.isArray(bodies) ||
+      !bodies.every((body) => body instanceof CANNON.Body && body.type === bodies[0].type)
+    ) {
+      throw new Error('The argument passed to addVisualsInstanced() is not an array of bodies of the same type')
     }
 
-    // What geometry should be used?
-    const mesh = this.shape2mesh(bodies[0]).children[0]
+    // all bodies are the same, so pick the first
+    const body = bodies[0]
 
+    // if it's a particle paint it red, otherwise just gray
+    const material = body.shapes.every((s) => s instanceof CANNON.Particle)
+      ? this.particleMaterial
+      : this.currentMaterial
+
+    // get the three.js mesh correspondant of the first body since they're of the same type
+    const meshGroup = bodyToMesh(body, material)
+
+    // extract the mesh from the group
+    let mesh
+    meshGroup.traverse((child) => {
+      if (child.isMesh) mesh = child
+    })
+
+    // the clone is there because of this issue
+    // https://github.com/mrdoob/three.js/issues/17701
     const instancedMesh = new THREE.InstancedMesh(mesh.geometry.clone(), mesh.material.clone(), bodies.length)
     instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage) // will be updated every frame
 
@@ -923,204 +945,30 @@ class Demo extends CANNON.EventTarget {
       this.bodies.push(body)
       this.visuals.push(instancedMesh)
       body.instanceIndex = i
-      body.visualref = instancedMesh
-      body.visualref.visualId = this.bodies.length - 1
     })
 
     this.scene.add(instancedMesh)
   }
 
-  addVisuals(bodies) {
-    bodies.forEach((body) => {
-      this.addVisual(body)
-    })
-  }
-
   removeVisual(body) {
-    if (!body.visualref) {
+    const index = this.bodies.findIndex((b) => b.id === body.id)
+
+    if (index === -1) {
       return
     }
 
-    const oldBodies = []
-    const oldVisuals = []
+    const visual = this.visuals[index]
 
-    for (let i = 0; i < this.bodies.length; i++) {
-      oldBodies.unshift(bodies.pop())
-      oldVisuals.unshift(visuals.pop())
-    }
+    this.bodies.splice(index, 1)
+    this.visuals.splice(index, 1)
 
-    const id = body.visualref.visualId
-    for (let j = 0; j < oldBodies.length; j++) {
-      if (j !== id) {
-        const i = j > id ? j - 1 : j
-        bodies[i] = oldBodies[j]
-        visuals[i] = oldVisuals[j]
-        bodies[i].visualref = oldBodies[j].visualref
-        bodies[i].visualref.visualId = i
-      }
-    }
-    body.visualref.visualId = undefined
-    this.scene.remove(body.visualref)
-    body.visualref = undefined
+    this.scene.remove(visual)
   }
 
   removeAllVisuals() {
     while (this.bodies.length) {
       this.removeVisual(this.bodies[0])
     }
-  }
-
-  shape2mesh(body) {
-    const meshes = body.shapes.map((shape) => {
-      switch (shape.type) {
-        case CANNON.Shape.types.SPHERE: {
-          const sphereGeometry = new THREE.SphereGeometry(shape.radius, 8, 8)
-          return new THREE.Mesh(sphereGeometry, this.currentMaterial)
-        }
-
-        case CANNON.Shape.types.PARTICLE:
-          const sphereGeometry = new THREE.SphereGeometry(1, 16, 8)
-          const mesh = new THREE.Mesh(sphereGeometry, this.particleMaterial)
-          mesh.scale.setScalar(this.settings.particleSize)
-
-          return mesh
-
-        case CANNON.Shape.types.PLANE: {
-          const planeGeometry = new THREE.PlaneGeometry(10, 10, 4, 4)
-
-          const mesh = new THREE.Object3D()
-          const submesh = new THREE.Object3D()
-          const ground = new THREE.Mesh(planeGeometry, this.currentMaterial)
-          ground.scale.setScalar(100)
-          submesh.add(ground)
-
-          ground.castShadow = true
-          ground.receiveShadow = true
-
-          mesh.add(submesh)
-
-          return ground
-        }
-
-        case CANNON.Shape.types.BOX: {
-          const boxGeometry = new THREE.BoxGeometry(
-            shape.halfExtents.x * 2,
-            shape.halfExtents.y * 2,
-            shape.halfExtents.z * 2
-          )
-          const mesh = new THREE.Mesh(boxGeometry, this.currentMaterial)
-
-          return mesh
-        }
-
-        case CANNON.Shape.types.CONVEXPOLYHEDRON: {
-          const geometry = new THREE.Geometry()
-
-          // Add vertices
-          for (let i = 0; i < shape.vertices.length; i++) {
-            const vertex = shape.vertices[i]
-            geometry.vertices.push(new THREE.Vector3(vertex.x, vertex.y, vertex.z))
-          }
-
-          for (let i = 0; i < shape.faces.length; i++) {
-            const face = shape.faces[i]
-
-            // add triangles
-            const a = face[0]
-            for (let j = 1; j < face.length - 1; j++) {
-              const b = face[j]
-              const c = face[j + 1]
-              geometry.faces.push(new THREE.Face3(a, b, c))
-            }
-          }
-
-          geometry.computeBoundingSphere()
-          geometry.computeFaceNormals()
-
-          return new THREE.Mesh(geometry, this.currentMaterial)
-        }
-
-        case CANNON.Shape.types.HEIGHTFIELD: {
-          const geometry = new THREE.Geometry()
-
-          const v0 = new CANNON.Vec3()
-          const v1 = new CANNON.Vec3()
-          const v2 = new CANNON.Vec3()
-          for (let xi = 0; xi < shape.data.length - 1; xi++) {
-            for (let yi = 0; yi < shape.data[xi].length - 1; yi++) {
-              for (let k = 0; k < 2; k++) {
-                shape.getConvexTrianglePillar(xi, yi, k === 0)
-                v0.copy(shape.pillarConvex.vertices[0])
-                v1.copy(shape.pillarConvex.vertices[1])
-                v2.copy(shape.pillarConvex.vertices[2])
-                v0.vadd(shape.pillarOffset, v0)
-                v1.vadd(shape.pillarOffset, v1)
-                v2.vadd(shape.pillarOffset, v2)
-                geometry.vertices.push(
-                  new THREE.Vector3(v0.x, v0.y, v0.z),
-                  new THREE.Vector3(v1.x, v1.y, v1.z),
-                  new THREE.Vector3(v2.x, v2.y, v2.z)
-                )
-                const i = geometry.vertices.length - 3
-                geometry.faces.push(new THREE.Face3(i, i + 1, i + 2))
-              }
-            }
-          }
-
-          geometry.computeBoundingSphere()
-          geometry.computeFaceNormals()
-
-          return new THREE.Mesh(geometry, this.currentMaterial)
-        }
-
-        case CANNON.Shape.types.TRIMESH: {
-          const geometry = new THREE.Geometry()
-
-          const v0 = new CANNON.Vec3()
-          const v1 = new CANNON.Vec3()
-          const v2 = new CANNON.Vec3()
-          for (let i = 0; i < shape.indices.length / 3; i++) {
-            shape.getTriangleVertices(i, v0, v1, v2)
-            geometry.vertices.push(
-              new THREE.Vector3(v0.x, v0.y, v0.z),
-              new THREE.Vector3(v1.x, v1.y, v1.z),
-              new THREE.Vector3(v2.x, v2.y, v2.z)
-            )
-            const j = geometry.vertices.length - 3
-            geometry.faces.push(new THREE.Face3(j, j + 1, j + 2))
-          }
-
-          geometry.computeBoundingSphere()
-          geometry.computeFaceNormals()
-
-          return new THREE.Mesh(geometry, this.currentMaterial)
-        }
-        default: {
-          throw `Visual type not recognized: ${shape.type}`
-        }
-      }
-    })
-
-    const group = new THREE.Group()
-
-    group.position.copy(body.position)
-    group.quaternion.copy(body.quaternion)
-
-    meshes.forEach((mesh, i) => {
-      const offset = body.shapeOffsets[i]
-      const quaternion = body.shapeOrientations[i]
-      mesh.position.copy(offset)
-      mesh.quaternion.copy(quaternion)
-
-      group.add(mesh)
-    })
-
-    group.traverse((child) => {
-      child.castShadow = true
-      child.receiveShadow = true
-    })
-
-    return group
   }
 }
 
