@@ -109,23 +109,15 @@ describe('World', () => {
     const from = new Vec3(-10, 0, 0)
     const to = new Vec3(10, 0, 0)
 
-    let hasHit: boolean
     let numResults = 0
-    let resultBody: Body
-    let resultShape: Shape
-
     const returnVal = world.raycastAll(from, to, {}, function (result) {
-      hasHit = result.hasHit
-      resultShape = result.shape
-      resultBody = result.body
+      expect(result.hasHit).toBe(true)
+      expect(result.body).toBe(body)
+      expect(result.shape).toBe(result.body?.shapes[0])
       numResults++
     })
-
-    expect(returnVal).toBe(true)
-    expect(hasHit).toBe(true)
-    expect(resultBody).toBe(body)
     expect(numResults).toBe(2)
-    expect(resultShape).toBe(resultBody.shapes[0])
+    expect(returnVal).toBe(true)
   })
 
   test('raycastAll: two spheres', () => {
@@ -156,22 +148,15 @@ describe('World', () => {
     const body = new Body({ shape: new Sphere(1) })
     world.addBody(body)
 
-    let hasHit = false
     let numResults = 0
-    let resultBody: Body
-    let resultShape: Shape
-
     world.raycastAll(new Vec3(-10, 0, 0), new Vec3(10, 0, 0), { skipBackfaces: true }, function (result) {
-      hasHit = result.hasHit
-      resultShape = result.shape
-      resultBody = result.body
+      expect(result.hasHit).toBe(true)
+      expect(result.body).toBe(body)
+      expect(result.shape).toBe(result.body?.shapes[0])
       numResults++
     })
 
-    expect(hasHit).toBe(true)
-    expect(resultBody).toBe(body)
     expect(numResults).toBe(1)
-    expect(resultShape).toBe(resultBody.shapes[0])
   })
 
   test('raycastAll: collisionFilters', () => {
