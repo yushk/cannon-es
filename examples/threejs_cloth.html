@@ -15,6 +15,9 @@
       import { OrbitControls } from 'https://unpkg.com/three@0.119.0/examples/jsm/controls/OrbitControls.js'
       import { addTitle, addSourceButton } from './js/dom-utils.js'
 
+      addTitle()
+      addSourceButton()
+
       // Specify the simulation constants
       const dt = 1 / 60
 
@@ -50,9 +53,6 @@
       let world
       let sphereBody
       const particles = []
-
-      addTitle()
-      addSourceButton()
 
       initCannon()
       initThree()

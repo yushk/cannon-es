@@ -45,6 +45,9 @@
       import { VoxelLandscape } from './js/VoxelLandscape.js'
       import { addTitle, addSourceButton } from './js/dom-utils.js'
 
+      addTitle()
+      addSourceButton()
+
       // Three.js variables
       let camera, scene, renderer, stats
       let material
@@ -74,9 +77,6 @@
       const sx = 0.5
       const sy = 0.5
       const sz = 0.5
-
-      addTitle()
-      addSourceButton()
 
       initThree()
       initCannon()

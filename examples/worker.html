@@ -78,6 +78,9 @@
       import { OrbitControls } from 'https://unpkg.com/three@0.115.0/examples/jsm/controls/OrbitControls.js'
       import { addTitle, addSourceButton } from './js/dom-utils.js'
 
+      addTitle()
+      addSourceButton()
+
       // Parameters
       const dt = 1 / 60
       const N = 40 // number of objects
@@ -151,9 +154,6 @@
 
       // The meshes that will be passed to cannon.js
       const meshes = []
-
-      addTitle()
-      addSourceButton()
 
       initThree()
       animate()

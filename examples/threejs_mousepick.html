@@ -13,6 +13,9 @@
       import Stats from 'https://unpkg.com/three@0.115.0/examples/jsm/libs/stats.module.js'
       import { addTitle, addSourceButton } from './js/dom-utils.js'
 
+      addTitle()
+      addSourceButton()
+
       // Three.js variables
       let camera, scene, renderer, stats
       let movementPlane
@@ -32,9 +35,6 @@
       // To be synced
       const meshes = []
       const bodies = []
-
-      addTitle()
-      addSourceButton()
 
       initThree()
       initCannon()
