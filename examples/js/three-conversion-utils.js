@@ -1,5 +1,5 @@
 import * as CANNON from '../../dist/cannon-es.js'
-import * as THREE from 'https://unpkg.com/three@0.115.0/build/three.module.js'
+import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js'
 
 /**
  * Converts a cannon.js shape to a three.js geometry
