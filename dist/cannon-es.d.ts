@@ -1,4 +1,4 @@
-declare module "utils/EventTarget" {
+declare module "src/utils/EventTarget" {
     export class EventTarget {
         private _listeners;
         constructor();
@@ -9,8 +9,8 @@ declare module "utils/EventTarget" {
         dispatchEvent(event: any): EventTarget;
     }
 }
-declare module "math/Quaternion" {
-    import { Vec3 } from "math/Vec3";
+declare module "src/math/Quaternion" {
+    import { Vec3 } from "src/math/Vec3";
     export class Quaternion {
         x: number;
         y: number;
@@ -37,9 +37,9 @@ declare module "math/Quaternion" {
         integrate(angularVelocity: Vec3, dt: number, angularFactor: Vec3, target?: Quaternion): Quaternion;
     }
 }
-declare module "math/Mat3" {
-    import { Vec3 } from "math/Vec3";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/math/Mat3" {
+    import { Vec3 } from "src/math/Vec3";
+    import type { Quaternion } from "src/math/Quaternion";
     export class Mat3 {
         elements: number[];
         constructor(elements?: number[]);
@@ -61,8 +61,8 @@ declare module "math/Mat3" {
         transpose(target?: Mat3): Mat3;
     }
 }
-declare module "math/Vec3" {
-    import { Mat3 } from "math/Mat3";
+declare module "src/math/Vec3" {
+    import { Mat3 } from "src/math/Mat3";
     export class Vec3 {
         x: number;
         y: number;
@@ -103,9 +103,9 @@ declare module "math/Vec3" {
         clone(): Vec3;
     }
 }
-declare module "math/Transform" {
-    import { Vec3 } from "math/Vec3";
-    import { Quaternion } from "math/Quaternion";
+declare module "src/math/Transform" {
+    import { Vec3 } from "src/math/Vec3";
+    import { Quaternion } from "src/math/Quaternion";
     export type TransformOptions = {
         position?: Vec3;
         quaternion?: Quaternion;
@@ -123,7 +123,7 @@ declare module "math/Transform" {
         static vectorToLocalFrame(position: Vec3, quaternion: Quaternion, worldVector: Vec3, result?: Vec3): Vec3;
     }
 }
-declare module "material/Material" {
+declare module "src/material/Material" {
     export type MaterialOptions = {
         friction?: number;
         restitution?: number;
@@ -137,11 +137,11 @@ declare module "material/Material" {
         constructor(options?: MaterialOptions | string);
     }
 }
-declare module "shapes/Shape" {
-    import type { Vec3 } from "math/Vec3";
-    import type { Quaternion } from "math/Quaternion";
-    import type { Body } from "objects/Body";
-    import type { Material } from "material/Material";
+declare module "src/shapes/Shape" {
+    import type { Vec3 } from "src/math/Vec3";
+    import type { Quaternion } from "src/math/Quaternion";
+    import type { Body } from "src/objects/Body";
+    import type { Material } from "src/material/Material";
     export const SHAPE_TYPES: {
         SPHERE: 1;
         PLANE: 2;
@@ -179,10 +179,10 @@ declare module "shapes/Shape" {
         calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void;
     }
 }
-declare module "collision/RaycastResult" {
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
-    import type { Shape } from "shapes/Shape";
+declare module "src/collision/RaycastResult" {
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
+    import type { Shape } from "src/shapes/Shape";
     export class RaycastResult {
         rayFromWorld: Vec3;
         rayToWorld: Vec3;
@@ -200,10 +200,10 @@ declare module "collision/RaycastResult" {
         set(rayFromWorld: Vec3, rayToWorld: Vec3, hitNormalWorld: Vec3, hitPointWorld: Vec3, shape: Shape, body: Body, distance: number): void;
     }
 }
-declare module "shapes/Sphere" {
-    import { Shape } from "shapes/Shape";
-    import { Vec3 } from "math/Vec3";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/shapes/Sphere" {
+    import { Shape } from "src/shapes/Shape";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Quaternion } from "src/math/Quaternion";
     export class Sphere extends Shape {
         radius: number;
         constructor(radius: number);
@@ -213,10 +213,10 @@ declare module "shapes/Sphere" {
         calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void;
     }
 }
-declare module "shapes/ConvexPolyhedron" {
-    import { Shape } from "shapes/Shape";
-    import { Vec3 } from "math/Vec3";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/shapes/ConvexPolyhedron" {
+    import { Shape } from "src/shapes/Shape";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Quaternion } from "src/math/Quaternion";
     export type ConvexPolyhedronContactPoint = {
         point: Vec3;
         normal: Vec3;
@@ -262,11 +262,11 @@ declare module "shapes/ConvexPolyhedron" {
         pointIsInside(p: Vec3): 1 | -1 | false;
     }
 }
-declare module "shapes/Box" {
-    import { Shape } from "shapes/Shape";
-    import { Vec3 } from "math/Vec3";
-    import { ConvexPolyhedron } from "shapes/ConvexPolyhedron";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/shapes/Box" {
+    import { Shape } from "src/shapes/Shape";
+    import { Vec3 } from "src/math/Vec3";
+    import { ConvexPolyhedron } from "src/shapes/ConvexPolyhedron";
+    import type { Quaternion } from "src/math/Quaternion";
     export class Box extends Shape {
         halfExtents: Vec3;
         convexPolyhedronRepresentation: ConvexPolyhedron;
@@ -281,10 +281,10 @@ declare module "shapes/Box" {
         calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void;
     }
 }
-declare module "shapes/Plane" {
-    import { Shape } from "shapes/Shape";
-    import { Vec3 } from "math/Vec3";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/shapes/Plane" {
+    import { Shape } from "src/shapes/Shape";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Quaternion } from "src/math/Quaternion";
     export class Plane extends Shape {
         worldNormal: Vec3;
         worldNormalNeedsUpdate: boolean;
@@ -297,18 +297,18 @@ declare module "shapes/Plane" {
         updateBoundingSphereRadius(): void;
     }
 }
-declare module "utils/Utils" {
+declare module "src/utils/Utils" {
     export function Utils(): void;
     export namespace Utils {
         var defaults: (options: Record<string, any> | undefined, defaults: Record<string, any>) => Record<string, any>;
     }
 }
-declare module "shapes/Heightfield" {
-    import { Shape } from "shapes/Shape";
-    import { ConvexPolyhedron } from "shapes/ConvexPolyhedron";
-    import { Vec3 } from "math/Vec3";
-    import type { AABB } from "collision/AABB";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/shapes/Heightfield" {
+    import { Shape } from "src/shapes/Shape";
+    import { ConvexPolyhedron } from "src/shapes/ConvexPolyhedron";
+    import { Vec3 } from "src/math/Vec3";
+    import type { AABB } from "src/collision/AABB";
+    import type { Quaternion } from "src/math/Quaternion";
     export type HeightfieldOptions = {
         maxValue?: number | null;
         minValue?: number | null;
@@ -351,10 +351,10 @@ declare module "shapes/Heightfield" {
         setHeightsFromImage(image: HTMLImageElement, scale: Vec3): void;
     }
 }
-declare module "utils/Octree" {
-    import { AABB } from "collision/AABB";
-    import type { Transform } from "math/Transform";
-    import type { Ray } from "collision/Ray";
+declare module "src/utils/Octree" {
+    import { AABB } from "src/collision/AABB";
+    import type { Transform } from "src/math/Transform";
+    import type { Ray } from "src/collision/Ray";
     class OctreeNode {
         root: OctreeNode | null;
         aabb: AABB;
@@ -378,12 +378,12 @@ declare module "utils/Octree" {
         });
     }
 }
-declare module "shapes/Trimesh" {
-    import { Shape } from "shapes/Shape";
-    import { Vec3 } from "math/Vec3";
-    import { AABB } from "collision/AABB";
-    import { Octree } from "utils/Octree";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/shapes/Trimesh" {
+    import { Shape } from "src/shapes/Shape";
+    import { Vec3 } from "src/math/Vec3";
+    import { AABB } from "src/collision/AABB";
+    import { Octree } from "src/utils/Octree";
+    import type { Quaternion } from "src/math/Quaternion";
     export class Trimesh extends Shape {
         vertices: Float32Array;
         indices: Int16Array;
@@ -415,8 +415,8 @@ declare module "shapes/Trimesh" {
         volume(): number;
     }
 }
-declare module "math/JacobianElement" {
-    import { Vec3 } from "math/Vec3";
+declare module "src/math/JacobianElement" {
+    import { Vec3 } from "src/math/Vec3";
     export class JacobianElement {
         spatial: Vec3;
         rotational: Vec3;
@@ -425,10 +425,10 @@ declare module "math/JacobianElement" {
         multiplyVectors(spatial: Vec3, rotational: Vec3): number;
     }
 }
-declare module "equations/Equation" {
-    import { JacobianElement } from "math/JacobianElement";
-    import type { Body } from "objects/Body";
-    import type { Shape } from "shapes/Shape";
+declare module "src/equations/Equation" {
+    import { JacobianElement } from "src/math/JacobianElement";
+    import type { Body } from "src/objects/Body";
+    import type { Shape } from "src/shapes/Shape";
     export class Equation {
         id: number;
         minForce: number;
@@ -457,9 +457,9 @@ declare module "equations/Equation" {
         computeC(): number;
     }
 }
-declare module "solver/Solver" {
-    import type { Equation } from "equations/Equation";
-    import type { World } from "world/World";
+declare module "src/solver/Solver" {
+    import type { Equation } from "src/equations/Equation";
+    import type { World } from "src/world/World";
     export class Solver {
         equations: Equation[];
         constructor();
@@ -469,9 +469,9 @@ declare module "solver/Solver" {
         removeAllEquations(): void;
     }
 }
-declare module "solver/GSSolver" {
-    import { Solver } from "solver/Solver";
-    import type { World } from "world/World";
+declare module "src/solver/GSSolver" {
+    import { Solver } from "src/solver/Solver";
+    import type { World } from "src/world/World";
     export class GSSolver extends Solver {
         iterations: number;
         tolerance: number;
@@ -479,10 +479,10 @@ declare module "solver/GSSolver" {
         solve(dt: number, world: World): number;
     }
 }
-declare module "collision/Broadphase" {
-    import { Body } from "objects/Body";
-    import type { AABB } from "collision/AABB";
-    import type { World } from "world/World";
+declare module "src/collision/Broadphase" {
+    import { Body } from "src/objects/Body";
+    import type { AABB } from "src/collision/AABB";
+    import type { World } from "src/world/World";
     export class Broadphase {
         world: World | null;
         useBoundingBoxes: boolean;
@@ -499,18 +499,18 @@ declare module "collision/Broadphase" {
         aabbQuery(world: World, aabb: AABB, result: Body[]): Body[];
     }
 }
-declare module "collision/NaiveBroadphase" {
-    import { Broadphase } from "collision/Broadphase";
-    import type { AABB } from "collision/AABB";
-    import type { Body } from "objects/Body";
-    import type { World } from "world/World";
+declare module "src/collision/NaiveBroadphase" {
+    import { Broadphase } from "src/collision/Broadphase";
+    import type { AABB } from "src/collision/AABB";
+    import type { Body } from "src/objects/Body";
+    import type { World } from "src/world/World";
     export class NaiveBroadphase extends Broadphase {
         constructor();
         collisionPairs(world: World, pairs1: Body[], pairs2: Body[]): void;
         aabbQuery(world: World, aabb: AABB, result?: Body[]): Body[];
     }
 }
-declare module "utils/Pool" {
+declare module "src/utils/Pool" {
     export class Pool {
         objects: any[];
         type: any;
@@ -521,19 +521,19 @@ declare module "utils/Pool" {
         resize(size: number): Pool;
     }
 }
-declare module "utils/Vec3Pool" {
-    import { Pool } from "utils/Pool";
-    import { Vec3 } from "math/Vec3";
+declare module "src/utils/Vec3Pool" {
+    import { Pool } from "src/utils/Pool";
+    import { Vec3 } from "src/math/Vec3";
     export class Vec3Pool extends Pool {
         type: typeof Vec3;
         constructor();
         constructObject(): Vec3;
     }
 }
-declare module "equations/ContactEquation" {
-    import { Equation } from "equations/Equation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/equations/ContactEquation" {
+    import { Equation } from "src/equations/Equation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export class ContactEquation extends Equation {
         restitution: number;
         ri: Vec3;
@@ -544,10 +544,10 @@ declare module "equations/ContactEquation" {
         getImpactVelocityAlongNormal(): number;
     }
 }
-declare module "equations/FrictionEquation" {
-    import { Equation } from "equations/Equation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/equations/FrictionEquation" {
+    import { Equation } from "src/equations/Equation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export class FrictionEquation extends Equation {
         ri: Vec3;
         rj: Vec3;
@@ -556,10 +556,10 @@ declare module "equations/FrictionEquation" {
         computeB(h: number): number;
     }
 }
-declare module "shapes/Particle" {
-    import { Shape } from "shapes/Shape";
-    import { Vec3 } from "math/Vec3";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/shapes/Particle" {
+    import { Shape } from "src/shapes/Shape";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Quaternion } from "src/math/Quaternion";
     export class Particle extends Shape {
         constructor();
         calculateLocalInertia(mass: number, target?: Vec3): Vec3;
@@ -568,8 +568,8 @@ declare module "shapes/Particle" {
         calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void;
     }
 }
-declare module "material/ContactMaterial" {
-    import type { Material } from "material/Material";
+declare module "src/material/ContactMaterial" {
+    import type { Material } from "src/material/Material";
     export type ContactMaterialOptions = {
         friction?: number;
         restitution?: number;
@@ -591,23 +591,23 @@ declare module "material/ContactMaterial" {
         constructor(m1: Material, m2: Material, options: ContactMaterialOptions);
     }
 }
-declare module "world/Narrowphase" {
-    import { Shape } from "shapes/Shape";
-    import { Vec3 } from "math/Vec3";
-    import { Quaternion } from "math/Quaternion";
-    import { Body } from "objects/Body";
-    import { Vec3Pool } from "utils/Vec3Pool";
-    import { ContactEquation } from "equations/ContactEquation";
-    import { FrictionEquation } from "equations/FrictionEquation";
-    import type { Box } from "shapes/Box";
-    import type { Sphere } from "shapes/Sphere";
-    import type { ConvexPolyhedron } from "shapes/ConvexPolyhedron";
-    import type { Particle } from "shapes/Particle";
-    import type { Plane } from "shapes/Plane";
-    import type { Trimesh } from "shapes/Trimesh";
-    import type { Heightfield } from "shapes/Heightfield";
-    import type { ContactMaterial } from "material/ContactMaterial";
-    import type { World } from "world/World";
+declare module "src/world/Narrowphase" {
+    import { Shape } from "src/shapes/Shape";
+    import { Vec3 } from "src/math/Vec3";
+    import { Quaternion } from "src/math/Quaternion";
+    import { Body } from "src/objects/Body";
+    import { Vec3Pool } from "src/utils/Vec3Pool";
+    import { ContactEquation } from "src/equations/ContactEquation";
+    import { FrictionEquation } from "src/equations/FrictionEquation";
+    import type { Box } from "src/shapes/Box";
+    import type { Sphere } from "src/shapes/Sphere";
+    import type { ConvexPolyhedron } from "src/shapes/ConvexPolyhedron";
+    import type { Particle } from "src/shapes/Particle";
+    import type { Plane } from "src/shapes/Plane";
+    import type { Trimesh } from "src/shapes/Trimesh";
+    import type { Heightfield } from "src/shapes/Heightfield";
+    import type { ContactMaterial } from "src/material/ContactMaterial";
+    import type { World } from "src/world/World";
     export const COLLISION_TYPES: {
         sphereSphere: 1;
         spherePlane: 3;
@@ -681,8 +681,8 @@ declare module "world/Narrowphase" {
         planeTrimesh(planeShape: Plane, trimeshShape: Trimesh, planePos: Vec3, trimeshPos: Vec3, planeQuat: Quaternion, trimeshQuat: Quaternion, planeBody: Body, trimeshBody: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
     }
 }
-declare module "collision/ArrayCollisionMatrix" {
-    import type { Body } from "objects/Body";
+declare module "src/collision/ArrayCollisionMatrix" {
+    import type { Body } from "src/objects/Body";
     export class ArrayCollisionMatrix {
         matrix: number[];
         constructor();
@@ -692,7 +692,7 @@ declare module "collision/ArrayCollisionMatrix" {
         setNumObjects(n: number): void;
     }
 }
-declare module "collision/OverlapKeeper" {
+declare module "src/collision/OverlapKeeper" {
     export class OverlapKeeper {
         current: number[];
         previous: number[];
@@ -703,7 +703,7 @@ declare module "collision/OverlapKeeper" {
         getDiff(additions: number[], removals: number[]): void;
     }
 }
-declare module "utils/TupleDictionary" {
+declare module "src/utils/TupleDictionary" {
     export class TupleDictionary {
         data: {
             [id: string]: any;
@@ -715,9 +715,9 @@ declare module "utils/TupleDictionary" {
         reset(): void;
     }
 }
-declare module "constraints/Constraint" {
-    import type { Body } from "objects/Body";
-    import type { Equation } from "equations/Equation";
+declare module "src/constraints/Constraint" {
+    import type { Body } from "src/objects/Body";
+    import type { Equation } from "src/equations/Equation";
     export type ConstraintOptions = {
         collideConnected?: boolean;
         wakeUpBodies?: boolean;
@@ -735,24 +735,24 @@ declare module "constraints/Constraint" {
         disable(): void;
     }
 }
-declare module "world/World" {
-    import { EventTarget } from "utils/EventTarget";
-    import { Narrowphase } from "world/Narrowphase";
-    import { Vec3 } from "math/Vec3";
-    import { Material } from "material/Material";
-    import { ContactMaterial } from "material/ContactMaterial";
-    import { ArrayCollisionMatrix } from "collision/ArrayCollisionMatrix";
-    import { OverlapKeeper } from "collision/OverlapKeeper";
-    import { TupleDictionary } from "utils/TupleDictionary";
-    import { RaycastResult } from "collision/RaycastResult";
-    import { Body } from "objects/Body";
-    import type { Broadphase } from "collision/Broadphase";
-    import type { Solver } from "solver/Solver";
-    import type { ContactEquation } from "equations/ContactEquation";
-    import type { FrictionEquation } from "equations/FrictionEquation";
-    import type { RayOptions, RaycastCallback } from "collision/Ray";
-    import type { Constraint } from "constraints/Constraint";
-    import type { Shape } from "shapes/Shape";
+declare module "src/world/World" {
+    import { EventTarget } from "src/utils/EventTarget";
+    import { Narrowphase } from "src/world/Narrowphase";
+    import { Vec3 } from "src/math/Vec3";
+    import { Material } from "src/material/Material";
+    import { ContactMaterial } from "src/material/ContactMaterial";
+    import { ArrayCollisionMatrix } from "src/collision/ArrayCollisionMatrix";
+    import { OverlapKeeper } from "src/collision/OverlapKeeper";
+    import { TupleDictionary } from "src/utils/TupleDictionary";
+    import { RaycastResult } from "src/collision/RaycastResult";
+    import { Body } from "src/objects/Body";
+    import type { Broadphase } from "src/collision/Broadphase";
+    import type { Solver } from "src/solver/Solver";
+    import type { ContactEquation } from "src/equations/ContactEquation";
+    import type { FrictionEquation } from "src/equations/FrictionEquation";
+    import type { RayOptions, RaycastCallback } from "src/collision/Ray";
+    import type { Constraint } from "src/constraints/Constraint";
+    import type { Shape } from "src/shapes/Shape";
     export type WorldOptions = {
         gravity?: Vec3;
         allowSleep?: boolean;
@@ -831,20 +831,20 @@ declare module "world/World" {
         clearForces(): void;
     }
 }
-declare module "collision/Ray" {
-    import { Vec3 } from "math/Vec3";
-    import { Quaternion } from "math/Quaternion";
-    import { RaycastResult } from "collision/RaycastResult";
-    import { Shape } from "shapes/Shape";
-    import { AABB } from "collision/AABB";
-    import type { Body } from "objects/Body";
-    import type { Sphere } from "shapes/Sphere";
-    import type { Box } from "shapes/Box";
-    import type { Plane } from "shapes/Plane";
-    import type { Heightfield } from "shapes/Heightfield";
-    import type { ConvexPolyhedron } from "shapes/ConvexPolyhedron";
-    import type { Trimesh } from "shapes/Trimesh";
-    import type { World } from "world/World";
+declare module "src/collision/Ray" {
+    import { Vec3 } from "src/math/Vec3";
+    import { Quaternion } from "src/math/Quaternion";
+    import { RaycastResult } from "src/collision/RaycastResult";
+    import { Shape } from "src/shapes/Shape";
+    import { AABB } from "src/collision/AABB";
+    import type { Body } from "src/objects/Body";
+    import type { Sphere } from "src/shapes/Sphere";
+    import type { Box } from "src/shapes/Box";
+    import type { Plane } from "src/shapes/Plane";
+    import type { Heightfield } from "src/shapes/Heightfield";
+    import type { ConvexPolyhedron } from "src/shapes/ConvexPolyhedron";
+    import type { Trimesh } from "src/shapes/Trimesh";
+    import type { World } from "src/world/World";
     export const RAY_MODES: {
         CLOSEST: 1;
         ANY: 2;
@@ -906,11 +906,11 @@ declare module "collision/Ray" {
         private reportIntersection;
     }
 }
-declare module "collision/AABB" {
-    import { Vec3 } from "math/Vec3";
-    import type { Ray } from "collision/Ray";
-    import type { Transform } from "math/Transform";
-    import type { Quaternion } from "math/Quaternion";
+declare module "src/collision/AABB" {
+    import { Vec3 } from "src/math/Vec3";
+    import type { Ray } from "src/collision/Ray";
+    import type { Transform } from "src/math/Transform";
+    import type { Quaternion } from "src/math/Quaternion";
     export class AABB {
         lowerBound: Vec3;
         upperBound: Vec3;
@@ -931,15 +931,15 @@ declare module "collision/AABB" {
         overlapsRay(ray: Ray): boolean;
     }
 }
-declare module "objects/Body" {
-    import { EventTarget } from "utils/EventTarget";
-    import { Vec3 } from "math/Vec3";
-    import { Mat3 } from "math/Mat3";
-    import { Quaternion } from "math/Quaternion";
-    import { AABB } from "collision/AABB";
-    import type { Shape } from "shapes/Shape";
-    import type { Material } from "material/Material";
-    import type { World } from "world/World";
+declare module "src/objects/Body" {
+    import { EventTarget } from "src/utils/EventTarget";
+    import { Vec3 } from "src/math/Vec3";
+    import { Mat3 } from "src/math/Mat3";
+    import { Quaternion } from "src/math/Quaternion";
+    import { AABB } from "src/collision/AABB";
+    import type { Shape } from "src/shapes/Shape";
+    import type { Material } from "src/material/Material";
+    import type { World } from "src/world/World";
     export const BODY_TYPES: {
         DYNAMIC: 1;
         STATIC: 2;
@@ -1064,8 +1064,8 @@ declare module "objects/Body" {
         integrate(dt: number, quatNormalize: boolean, quatNormalizeFast: boolean): void;
     }
 }
-declare module "collision/ObjectCollisionMatrix" {
-    import type { Body } from "objects/Body";
+declare module "src/collision/ObjectCollisionMatrix" {
+    import type { Body } from "src/objects/Body";
     export class ObjectCollisionMatrix {
         matrix: Record<string, boolean>;
         constructor();
@@ -1075,11 +1075,11 @@ declare module "collision/ObjectCollisionMatrix" {
         setNumObjects(n: number): void;
     }
 }
-declare module "collision/GridBroadphase" {
-    import { Broadphase } from "collision/Broadphase";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
-    import type { World } from "world/World";
+declare module "src/collision/GridBroadphase" {
+    import { Broadphase } from "src/collision/Broadphase";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
+    import type { World } from "src/world/World";
     export class GridBroadphase extends Broadphase {
         nx: number;
         ny: number;
@@ -1092,11 +1092,11 @@ declare module "collision/GridBroadphase" {
         collisionPairs(world: World, pairs1: Body[], pairs2: Body[]): void;
     }
 }
-declare module "collision/SAPBroadphase" {
-    import { Broadphase } from "collision/Broadphase";
-    import type { AABB } from "collision/AABB";
-    import type { Body } from "objects/Body";
-    import type { World } from "world/World";
+declare module "src/collision/SAPBroadphase" {
+    import { Broadphase } from "src/collision/Broadphase";
+    import type { AABB } from "src/collision/AABB";
+    import type { Body } from "src/objects/Body";
+    import type { World } from "src/world/World";
     export class SAPBroadphase extends Broadphase {
         axisList: Body[];
         world: World | null;
@@ -1115,11 +1115,11 @@ declare module "collision/SAPBroadphase" {
         aabbQuery(world: World, aabb: AABB, result?: Body[]): Body[];
     }
 }
-declare module "constraints/PointToPointConstraint" {
-    import { Constraint } from "constraints/Constraint";
-    import { ContactEquation } from "equations/ContactEquation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/constraints/PointToPointConstraint" {
+    import { Constraint } from "src/constraints/Constraint";
+    import { ContactEquation } from "src/equations/ContactEquation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export class PointToPointConstraint extends Constraint {
         pivotA: Vec3;
         pivotB: Vec3;
@@ -1130,10 +1130,10 @@ declare module "constraints/PointToPointConstraint" {
         update(): void;
     }
 }
-declare module "equations/ConeEquation" {
-    import { Vec3 } from "math/Vec3";
-    import { Equation } from "equations/Equation";
-    import type { Body } from "objects/Body";
+declare module "src/equations/ConeEquation" {
+    import { Vec3 } from "src/math/Vec3";
+    import { Equation } from "src/equations/Equation";
+    import type { Body } from "src/objects/Body";
     export type ConeEquationOptions = {
         maxForce?: number;
         axisA?: Vec3;
@@ -1148,10 +1148,10 @@ declare module "equations/ConeEquation" {
         computeB(h: number): number;
     }
 }
-declare module "equations/RotationalEquation" {
-    import { Equation } from "equations/Equation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/equations/RotationalEquation" {
+    import { Equation } from "src/equations/Equation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export type RotationalEquationOptions = {
         maxForce?: number;
         axisA?: Vec3;
@@ -1166,12 +1166,12 @@ declare module "equations/RotationalEquation" {
         computeB(h: number): number;
     }
 }
-declare module "constraints/ConeTwistConstraint" {
-    import { PointToPointConstraint } from "constraints/PointToPointConstraint";
-    import { ConeEquation } from "equations/ConeEquation";
-    import { RotationalEquation } from "equations/RotationalEquation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/constraints/ConeTwistConstraint" {
+    import { PointToPointConstraint } from "src/constraints/PointToPointConstraint";
+    import { ConeEquation } from "src/equations/ConeEquation";
+    import { RotationalEquation } from "src/equations/RotationalEquation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export type ConeTwistConstraintOptions = {
         maxForce?: number;
         pivotA?: Vec3;
@@ -1193,10 +1193,10 @@ declare module "constraints/ConeTwistConstraint" {
         update(): void;
     }
 }
-declare module "constraints/DistanceConstraint" {
-    import { Constraint } from "constraints/Constraint";
-    import { ContactEquation } from "equations/ContactEquation";
-    import type { Body } from "objects/Body";
+declare module "src/constraints/DistanceConstraint" {
+    import { Constraint } from "src/constraints/Constraint";
+    import { ContactEquation } from "src/equations/ContactEquation";
+    import type { Body } from "src/objects/Body";
     export class DistanceConstraint extends Constraint {
         distance: number;
         distanceEquation: ContactEquation;
@@ -1204,10 +1204,10 @@ declare module "constraints/DistanceConstraint" {
         update(): void;
     }
 }
-declare module "equations/RotationalMotorEquation" {
-    import { Equation } from "equations/Equation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/equations/RotationalMotorEquation" {
+    import { Equation } from "src/equations/Equation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export class RotationalMotorEquation extends Equation {
         axisA: Vec3;
         axisB: Vec3;
@@ -1216,12 +1216,12 @@ declare module "equations/RotationalMotorEquation" {
         computeB(h: number): number;
     }
 }
-declare module "constraints/LockConstraint" {
-    import { PointToPointConstraint } from "constraints/PointToPointConstraint";
-    import { RotationalEquation } from "equations/RotationalEquation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
-    import type { RotationalMotorEquation } from "equations/RotationalMotorEquation";
+declare module "src/constraints/LockConstraint" {
+    import { PointToPointConstraint } from "src/constraints/PointToPointConstraint";
+    import { RotationalEquation } from "src/equations/RotationalEquation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
+    import type { RotationalMotorEquation } from "src/equations/RotationalMotorEquation";
     export type LockConstraintOptions = {
         maxForce?: number;
     };
@@ -1240,12 +1240,12 @@ declare module "constraints/LockConstraint" {
         update(): void;
     }
 }
-declare module "constraints/HingeConstraint" {
-    import { PointToPointConstraint } from "constraints/PointToPointConstraint";
-    import { RotationalEquation } from "equations/RotationalEquation";
-    import { RotationalMotorEquation } from "equations/RotationalMotorEquation";
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/constraints/HingeConstraint" {
+    import { PointToPointConstraint } from "src/constraints/PointToPointConstraint";
+    import { RotationalEquation } from "src/equations/RotationalEquation";
+    import { RotationalMotorEquation } from "src/equations/RotationalMotorEquation";
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export type HingeConstraintOptions = {
         maxForce?: number;
         pivotA?: Vec3;
@@ -1268,9 +1268,9 @@ declare module "constraints/HingeConstraint" {
         update(): void;
     }
 }
-declare module "objects/Spring" {
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/objects/Spring" {
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export type SpringOptions = {
         restLength?: number;
         stiffness?: number;
@@ -1296,11 +1296,11 @@ declare module "objects/Spring" {
         applyForce(): void;
     }
 }
-declare module "objects/WheelInfo" {
-    import { Vec3 } from "math/Vec3";
-    import { Transform } from "math/Transform";
-    import { RaycastResult } from "collision/RaycastResult";
-    import type { Body } from "objects/Body";
+declare module "src/objects/WheelInfo" {
+    import { Vec3 } from "src/math/Vec3";
+    import { Transform } from "src/math/Transform";
+    import { RaycastResult } from "src/collision/RaycastResult";
+    import type { Body } from "src/objects/Body";
     export type WheelInfoOptions = {
         chassisConnectionPointLocal?: Vec3;
         chassisConnectionPointWorld?: Vec3;
@@ -1377,14 +1377,14 @@ declare module "objects/WheelInfo" {
         updateWheel(chassis: Body): void;
     }
 }
-declare module "objects/RaycastVehicle" {
-    import type { Body } from "objects/Body";
-    import { Vec3 } from "math/Vec3";
-    import { WheelInfo } from "objects/WheelInfo";
-    import type { WheelInfoOptions } from "objects/WheelInfo";
-    import type { Transform } from "math/Transform";
-    import type { Constraint } from "constraints/Constraint";
-    import type { World } from "world/World";
+declare module "src/objects/RaycastVehicle" {
+    import type { Body } from "src/objects/Body";
+    import { Vec3 } from "src/math/Vec3";
+    import { WheelInfo } from "src/objects/WheelInfo";
+    import type { WheelInfoOptions } from "src/objects/WheelInfo";
+    import type { Transform } from "src/math/Transform";
+    import type { Constraint } from "src/constraints/Constraint";
+    import type { World } from "src/world/World";
     export type RaycastVehicleOptions = {
         chassisBody: Body;
         indexRightAxis?: number;
@@ -1419,11 +1419,11 @@ declare module "objects/RaycastVehicle" {
         updateFriction(timeStep: number): void;
     }
 }
-declare module "objects/RigidVehicle" {
-    import { Vec3 } from "math/Vec3";
-    import { Body } from "objects/Body";
-    import { HingeConstraint } from "constraints/HingeConstraint";
-    import type { World } from "world/World";
+declare module "src/objects/RigidVehicle" {
+    import { Vec3 } from "src/math/Vec3";
+    import { Body } from "src/objects/Body";
+    import { HingeConstraint } from "src/constraints/HingeConstraint";
+    import type { World } from "src/world/World";
     export type RigidVehicleOptions = {
         coordinateSystem?: Vec3;
         chassisBody?: Body;
@@ -1455,9 +1455,9 @@ declare module "objects/RigidVehicle" {
         getWheelSpeed(wheelIndex: number): number;
     }
 }
-declare module "objects/SPHSystem" {
-    import { Vec3 } from "math/Vec3";
-    import type { Body } from "objects/Body";
+declare module "src/objects/SPHSystem" {
+    import { Vec3 } from "src/math/Vec3";
+    import type { Body } from "src/objects/Body";
     export class SPHSystem {
         particles: Body[];
         density: number;
@@ -1478,17 +1478,17 @@ declare module "objects/SPHSystem" {
         nablaw(r: number): number;
     }
 }
-declare module "shapes/Cylinder" {
-    import { ConvexPolyhedron } from "shapes/ConvexPolyhedron";
+declare module "src/shapes/Cylinder" {
+    import { ConvexPolyhedron } from "src/shapes/ConvexPolyhedron";
     export class Cylinder extends ConvexPolyhedron {
         constructor(radiusTop: number, radiusBottom: number, height: number, numSegments: number);
     }
 }
-declare module "solver/SplitSolver" {
-    import { Solver } from "solver/Solver";
-    import { Body } from "objects/Body";
-    import type { Equation } from "equations/Equation";
-    import type { World } from "world/World";
+declare module "src/solver/SplitSolver" {
+    import { Solver } from "src/solver/Solver";
+    import { Body } from "src/objects/Body";
+    import type { Equation } from "src/equations/Equation";
+    import type { World } from "src/world/World";
     type SplitSolverNode = {
         body: Body | null;
         children: SplitSolverNode[];
@@ -1506,55 +1506,72 @@ declare module "solver/SplitSolver" {
         solve(dt: number, world: World): number;
     }
 }
-declare module "cannon-es" {
-    export * from "collision/ObjectCollisionMatrix";
-    export * from "collision/AABB";
-    export * from "collision/ArrayCollisionMatrix";
-    export * from "collision/Broadphase";
-    export * from "collision/GridBroadphase";
-    export * from "collision/NaiveBroadphase";
-    export * from "collision/Ray";
-    export * from "collision/RaycastResult";
-    export * from "collision/SAPBroadphase";
-    export * from "constraints/ConeTwistConstraint";
-    export * from "constraints/Constraint";
-    export * from "constraints/DistanceConstraint";
-    export * from "constraints/LockConstraint";
-    export * from "constraints/PointToPointConstraint";
-    export * from "constraints/HingeConstraint";
-    export * from "equations/ContactEquation";
-    export * from "equations/Equation";
-    export * from "equations/FrictionEquation";
-    export * from "equations/RotationalEquation";
-    export * from "equations/RotationalMotorEquation";
-    export * from "material/ContactMaterial";
-    export * from "material/Material";
-    export * from "math/Quaternion";
-    export * from "math/Mat3";
-    export * from "math/Transform";
-    export * from "math/Vec3";
-    export * from "math/JacobianElement";
-    export * from "objects/Body";
-    export * from "objects/Spring";
-    export * from "objects/RaycastVehicle";
-    export * from "objects/RigidVehicle";
-    export * from "objects/SPHSystem";
-    export * from "shapes/Box";
-    export * from "shapes/ConvexPolyhedron";
-    export * from "shapes/Cylinder";
-    export * from "shapes/Particle";
-    export * from "shapes/Plane";
-    export * from "shapes/Shape";
-    export * from "shapes/Sphere";
-    export * from "shapes/Heightfield";
-    export * from "shapes/Trimesh";
-    export * from "solver/GSSolver";
-    export * from "solver/Solver";
-    export * from "solver/SplitSolver";
-    export * from "utils/Pool";
-    export * from "utils/EventTarget";
-    export * from "utils/Vec3Pool";
-    export * from "world/Narrowphase";
-    export * from "world/World";
+declare module "src/cannon-es" {
+    export * from "src/collision/ObjectCollisionMatrix";
+    export * from "src/collision/AABB";
+    export * from "src/collision/ArrayCollisionMatrix";
+    export * from "src/collision/Broadphase";
+    export * from "src/collision/GridBroadphase";
+    export * from "src/collision/NaiveBroadphase";
+    export * from "src/collision/Ray";
+    export * from "src/collision/RaycastResult";
+    export * from "src/collision/SAPBroadphase";
+    export * from "src/constraints/ConeTwistConstraint";
+    export * from "src/constraints/Constraint";
+    export * from "src/constraints/DistanceConstraint";
+    export * from "src/constraints/LockConstraint";
+    export * from "src/constraints/PointToPointConstraint";
+    export * from "src/constraints/HingeConstraint";
+    export * from "src/equations/ContactEquation";
+    export * from "src/equations/Equation";
+    export * from "src/equations/FrictionEquation";
+    export * from "src/equations/RotationalEquation";
+    export * from "src/equations/RotationalMotorEquation";
+    export * from "src/material/ContactMaterial";
+    export * from "src/material/Material";
+    export * from "src/math/Quaternion";
+    export * from "src/math/Mat3";
+    export * from "src/math/Transform";
+    export * from "src/math/Vec3";
+    export * from "src/math/JacobianElement";
+    export * from "src/objects/Body";
+    export * from "src/objects/Spring";
+    export * from "src/objects/RaycastVehicle";
+    export * from "src/objects/RigidVehicle";
+    export * from "src/objects/SPHSystem";
+    export * from "src/shapes/Box";
+    export * from "src/shapes/ConvexPolyhedron";
+    export * from "src/shapes/Cylinder";
+    export * from "src/shapes/Particle";
+    export * from "src/shapes/Plane";
+    export * from "src/shapes/Shape";
+    export * from "src/shapes/Sphere";
+    export * from "src/shapes/Heightfield";
+    export * from "src/shapes/Trimesh";
+    export * from "src/solver/GSSolver";
+    export * from "src/solver/Solver";
+    export * from "src/solver/SplitSolver";
+    export * from "src/utils/Pool";
+    export * from "src/utils/EventTarget";
+    export * from "src/utils/Vec3Pool";
+    export * from "src/world/Narrowphase";
+    export * from "src/world/World";
 }
-declare module "world/Narrowphase.test" { }
+declare module "src/world/Narrowphase.test" { }
+declare module "test/helpers" {
+    export type TestConfig = {
+        positions: Array<[number, number, number]>;
+        colliding: {
+            [tupleKey: string]: boolean;
+        };
+    };
+    global {
+        namespace jest {
+            interface Matchers<R> {
+                toBeColliding(testConfig: TestConfig): R;
+            }
+        }
+    }
+    export function testCollisionMatrix(CollisionMatrix: any): void;
+}
+declare module "src/world/World.test" { }
