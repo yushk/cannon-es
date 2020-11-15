@@ -19,7 +19,7 @@
 
       const demo = new Demo()
 
-      demo.addScene('lock', () => {
+      demo.addScene('Lock', () => {
         const world = setupWorld(demo)
         world.gravity.set(0, -10, 0)
         world.solver.iterations = 20
@@ -71,7 +71,7 @@
       })
 
       // We link together boxes in a chain
-      demo.addScene('links', () => {
+      demo.addScene('Links', () => {
         const world = setupWorld(demo)
         world.gravity.set(0, -20, -1)
 
@@ -122,7 +122,7 @@
       })
 
       // Particle cloth on sphere
-      demo.addScene('cloth on sphere', () => {
+      demo.addScene('Cloth on sphere', () => {
         const world = setupWorld(demo)
 
         const dist = 0.2
@@ -278,6 +278,8 @@
       // Distance constraints can be used to construct even cooler things, like this 3d block.
       demo.addScene('3D cloth structure', () => {
         const world = setupWorld(demo)
+
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
         world.solver.iterations = 10
 
         const dist = 1
@@ -352,9 +354,6 @@
         // Create world
         const world = demo.getWorld()
         world.gravity.set(0, -40, 0)
-
-        world.quatNormalizeFast = false
-        world.quatNormalizeSkip = 0
 
         // Static ground plane
         const groundShape = new CANNON.Plane()

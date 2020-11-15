@@ -18,7 +18,7 @@
 
       const demo = new Demo()
 
-      demo.addScene('car', () => {
+      demo.addScene('Car', () => {
         const world = demo.getWorld()
         world.gravity.set(0, -20, 0)
 
@@ -130,7 +130,7 @@
         frontRightHinge.setMotorSpeed(-velocity)
       })
 
-      demo.addScene('hinge', () => {
+      demo.addScene('Hinge', () => {
         const world = demo.getWorld()
         world.gravity.set(0, -20, 5)
 

@@ -22,9 +22,11 @@
        */
       const demo = new Demo()
 
-      demo.addScene('filter', () => {
+      demo.addScene('Collision filter', () => {
         const world = demo.getWorld()
         world.gravity.set(0, 0, 0) // no gravity
+
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
         world.solver.iterations = 5
 
         // Collision filter groups - must be powers of 2!

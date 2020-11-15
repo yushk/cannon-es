@@ -131,9 +131,15 @@
         const world = demo.getWorld()
         world.gravity.set(0, 0, 0) // no gravity
 
-        world.solver.iterations = 5
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e6
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 10
+
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
+        world.solver.iterations = 5
 
         return world
       }

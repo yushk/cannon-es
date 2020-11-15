@@ -8,11 +8,12 @@ import { addTitle, addSourceButton } from './dom-utils.js'
 import { bodyToMesh } from './three-conversion-utils.js'
 
 /**
- * Demo utility class. If you want to learn how to connect Cannon.js with Three.js, please look at the examples/threejs_* instead.
+ * Demo utility class. If you want to learn how to connect cannon.js with three.js, please look at the examples/threejs_* instead.
  */
 class Demo extends CANNON.EventTarget {
   sceneFolder
   scenes = []
+  listeners = {}
 
   // array used to keep in sync the visuals with the bodies
   // they will have always the same length
@@ -489,6 +490,15 @@ class Demo extends CANNON.EventTarget {
 
   changeScene = (n) => {
     this.dispatchEvent({ type: 'destroy' })
+
+    // unbind all listeners
+    Object.keys(this.listeners).forEach((event) => {
+      this.listeners[event].forEach((callback) => {
+        this.removeEventListener(event, callback)
+      })
+    })
+    this.listeners = {}
+
     this.settings.paused = false
     this.updateGui()
     this.buildScene(n)
@@ -969,6 +979,16 @@ class Demo extends CANNON.EventTarget {
     while (this.bodies.length) {
       this.removeVisual(this.bodies[0])
     }
+  }
+
+  addEventListener(event, callback) {
+    if (this.listeners[event]) {
+      this.listeners[event].push(callback)
+    } else {
+      this.listeners[event] = [callback]
+    }
+
+    super.addEventListener(event, callback)
   }
 }
 

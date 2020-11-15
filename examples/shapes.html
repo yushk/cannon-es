@@ -13,6 +13,10 @@
 
       const demo = new Demo()
 
+      /**
+       * Showcase all available shapes.
+       */
+
       function createTetra() {
         const vertices = [
           new CANNON.Vec3(0, 0, 0),
@@ -38,7 +42,7 @@
         })
       }
 
-      demo.addScene('all shapes', () => {
+      demo.addScene('All shapes', () => {
         const world = setupWorld(demo)
 
         const mass = 1
@@ -112,9 +116,14 @@
         const world = demo.getWorld()
         world.gravity.set(0, -30, 0)
 
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
         world.solver.iterations = 17
 
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e6
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 3
 
         // Static ground plane

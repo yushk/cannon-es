@@ -15,11 +15,19 @@
       addTitle()
       addSourceButton()
 
-      // Three.js variables
+      /**
+       * Really basic example to show cannon.js integration
+       * with three.js.
+       * Each frame the cannon.js world is stepped forward and then
+       * the position and rotation data of the boody is copied
+       * over to the three.js scene.
+       */
+
+      // three.js variables
       let camera, scene, renderer
       let mesh
 
-      // Cannon.js variables
+      // cannon.js variables
       let world
       let body
       const timeStep = 1 / 60
@@ -74,7 +82,7 @@
         // Step the physics world
         world.step(timeStep)
 
-        // Copy coordinates from Cannon.js to Three.js
+        // Copy coordinates from cannon.js to three.js
         mesh.position.copy(body.position)
         mesh.quaternion.copy(body.quaternion)
       }

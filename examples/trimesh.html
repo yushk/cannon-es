@@ -62,12 +62,9 @@
         world.addEventListener('postStep', postStepListener)
 
         // Remove listener when we change demo
-        // TODO find a way to do this in Demo.js
-        function destroyer() {
+        demo.addEventListener('destroy', () => {
           world.removeEventListener('postStep', postStepListener)
-          demo.removeEventListener('destroy', destroyer)
-        }
-        demo.addEventListener('destroy', destroyer)
+        })
       })
 
       demo.addScene('Trimesh', () => {
@@ -100,7 +97,11 @@
         const world = demo.getWorld()
         world.gravity.set(0, -10, 0)
 
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e7
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 4
 
         // Static ground plane

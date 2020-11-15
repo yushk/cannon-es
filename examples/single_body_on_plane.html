@@ -11,6 +11,10 @@
       import * as CANNON from '../dist/cannon-es.js'
       import { Demo } from './js/Demo.js'
 
+      /**
+       * Just a simple body on a plane.
+       */
+
       const demo = new Demo()
 
       demo.addScene('Sphere', () => {
@@ -47,7 +51,11 @@
         const world = demo.getWorld()
         world.gravity.set(0, -10, 0)
 
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e7
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 4
 
         // Static ground plane

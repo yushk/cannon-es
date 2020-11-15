@@ -11,6 +11,10 @@
       import * as CANNON from '../dist/cannon-es.js'
       import { Demo } from './js/Demo.js'
 
+      /**
+       * Tween manually the position of a body.
+       */
+
       const demo = new Demo()
 
       demo.addScene('Tween box', () => {
@@ -62,12 +66,9 @@
         world.addEventListener('postStep', postStepListener)
 
         // Remove listener when we change demo
-        // TODO find a way to do this in Demo.js
-        function destroyer() {
+        demo.addEventListener('destroy', () => {
           world.removeEventListener('postStep', postStepListener)
-          demo.removeEventListener('destroy', destroyer)
-        }
-        demo.addEventListener('destroy', destroyer)
+        })
       })
 
       demo.start()

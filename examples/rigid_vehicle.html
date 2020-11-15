@@ -191,7 +191,10 @@
         const world = demo.getWorld()
         world.gravity.set(0, -30, 0)
 
+        // Sweep and prune broadphase
         world.broadphase = new CANNON.SAPBroadphase(world)
+
+        // Adjust the global friction
         world.defaultContactMaterial.friction = 0.2
 
         return world

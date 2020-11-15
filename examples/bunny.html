@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>cannon.js - bunny demo</title>
+    <title>cannon.js - bunny convex hull demo</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
@@ -11,6 +11,11 @@
       import * as CANNON from '../dist/cannon-es.js'
       import { Demo } from './js/Demo.js'
       import { bunny } from './js/bunny.js'
+
+      /**
+       * Demo of importing a convex hull generated with V-HACD.
+       * https://github.com/kmammou/v-hacd
+       */
 
       const demo = new Demo()
 
@@ -58,7 +63,11 @@
         const world = demo.getWorld()
         world.gravity.set(0, -20, 0)
 
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
         world.solver.iterations = 20
+
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e10
         world.defaultContactMaterial.contactEquationRelaxation = 10
 

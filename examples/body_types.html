@@ -14,6 +14,7 @@
       /**
        * Demos of the Body.type types.
        */
+
       const demo = new Demo()
 
       demo.addScene('Moving box', () => {
@@ -62,7 +63,11 @@
         const world = demo.getWorld()
         world.gravity.set(0, -40, 0)
 
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e8
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 10
 
         // Static ground plane

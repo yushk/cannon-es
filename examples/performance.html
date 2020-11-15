@@ -98,11 +98,16 @@
       function setupWorld(demo) {
         const world = demo.getWorld()
         world.gravity.set(0, -50, 0)
+
+        // Uncomment to try the SAPBroadphase instead of
+        // the default NaiveBroadphase
         // world.broadphase = new CANNON.SAPBroadphase(world)
 
-        // world.solver.iterations = 20;
-        // world.solver.tolerance = 0.001;
-        // world.allowSleep = true;
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
+        // world.solver.iterations = 20
+
+        // When tolerance is reached, the system is assumed to be converged.
+        // world.solver.tolerance = 0.001
 
         // Static ground plane
         const groundShape = new CANNON.Plane()

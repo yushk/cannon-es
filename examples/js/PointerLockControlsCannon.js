@@ -57,7 +57,7 @@ class PointerLockControlsCannon extends THREE.EventDispatcher {
 
     this.velocity = this.cannonBody.velocity
 
-    // Moves the camera to the Cannon.js object position and adds velocity to the object if the run key is down
+    // Moves the camera to the cannon.js object position and adds velocity to the object if the run key is down
     this.inputVelocity = new THREE.Vector3()
     this.euler = new THREE.Euler()
 

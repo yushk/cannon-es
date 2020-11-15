@@ -16,14 +16,18 @@
       addTitle()
       addSourceButton()
 
-      // Three.js variables
+      /**
+       * Example of a pickable object.
+       */
+
+      // three.js variables
       let camera, scene, renderer, stats
       let movementPlane
       let clickMarker
       let raycaster
       let cubeMesh
 
-      // Cannon.js variables
+      // cannon.js variables
       let world
       const dt = 1 / 60
       let jointBody
@@ -132,9 +136,6 @@
       function initCannon() {
         // Setup world
         world = new CANNON.World()
-        world.quatNormalizeSkip = 0
-        world.quatNormalizeFast = false
-
         world.gravity.set(0, -10, 0)
 
         // Floor

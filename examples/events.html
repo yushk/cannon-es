@@ -44,7 +44,11 @@
         const world = demo.getWorld()
         world.gravity.set(0, -20, 0)
 
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 5e7
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 4
 
         // Static ground plane

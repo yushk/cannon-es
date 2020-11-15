@@ -14,6 +14,7 @@
       /**
        * For debugging different kinds of stacks
        */
+
       const demo = new Demo()
 
       const size = 2
@@ -385,9 +386,15 @@
       function setupWorld(demo) {
         const world = demo.getWorld()
         world.gravity.set(0, -10, 0)
+
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
         world.solver.iterations = 20
 
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e7
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 5
 
         // Static ground plane

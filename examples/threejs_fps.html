@@ -41,17 +41,21 @@
       import * as CANNON from '../dist/cannon-es.js'
       import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js'
       import Stats from 'https://unpkg.com/three@0.122.0/examples/jsm/libs/stats.module.js'
-      import { PointerLockControlsCannon } from './js/PointerLockControlsCannon.js'
+      import { PointerLockControlsCannon } from './js/PointerLockControlscannon.js'
       import { addTitle, addSourceButton } from './js/dom-utils.js'
 
       addTitle()
       addSourceButton()
 
-      // Three.js variables
+      /**
+       * Example of a really barebones version of a fps game.
+       */
+
+      // three.js variables
       let camera, scene, renderer, stats
       let material
 
-      // Cannon.js variables
+      // cannon.js variables
       let world
       let controls
       const dt = 1 / 60
@@ -137,10 +141,12 @@
 
       function initCannon() {
         world = new CANNON.World()
-        world.quatNormalizeSkip = 0
-        world.quatNormalizeFast = false
 
+        // Tweak contact properties.
+        // Contact stiffness - use to make softer/harder contacts
         world.defaultContactMaterial.contactEquationStiffness = 1e9
+
+        // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 4
 
         const solver = new CANNON.GSSolver()

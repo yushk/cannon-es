@@ -18,6 +18,13 @@
       addTitle()
       addSourceButton()
 
+      /**
+       * Example on how to build a simple physics cloth with
+       * just structurals constraints.
+       * More info here:
+       * https://viscomp.alexandra.dk/?p=147
+       */
+
       // Specify the simulation constants
       const dt = 1 / 60
 
@@ -43,13 +50,13 @@
         return target
       }
 
-      // Three.js variables
+      // three.js variables
       let camera, scene, renderer, stats
       let controls
       let clothGeometry
       let sphereMesh
 
-      // Cannon.js variables
+      // cannon.js variables
       let world
       let sphereBody
       const particles = []
@@ -61,6 +68,8 @@
       function initCannon() {
         world = new CANNON.World()
         world.gravity.set(0, -9.81, 0)
+
+        // Max solver iterations: Use more for better force propagation, but keep in mind that it's not very computationally cheap!
         world.solver.iterations = 20
 
         // Materials
@@ -71,7 +80,9 @@
           restitution: 0,
         })
         // Adjust constraint equation parameters
+        // Contact stiffness - use to make softer/harder contacts
         cloth_sphere.contactEquationStiffness = 1e9
+        // Stabilization time in number of timesteps
         cloth_sphere.contactEquationRelaxation = 3
 
         // Add contact material to the world
