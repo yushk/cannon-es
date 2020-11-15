@@ -133,7 +133,7 @@
         material = new THREE.MeshLambertMaterial({ color: 0xdddddd })
 
         // Floor
-        const floorGeometry = new THREE.PlaneGeometry(300, 300, 50, 50)
+        const floorGeometry = new THREE.PlaneBufferGeometry(300, 300, 50, 50)
         floorGeometry.rotateX(-Math.PI / 2)
         floor = new THREE.Mesh(floorGeometry, material)
         floor.receiveShadow = true
@@ -221,7 +221,7 @@
         // Voxel meshes
         for (let i = 0; i < voxels.boxes.length; i++) {
           const box = voxels.boxes[i]
-          const voxelGeometry = new THREE.CubeGeometry(voxels.sx * box.nx, voxels.sy * box.ny, voxels.sz * box.nz)
+          const voxelGeometry = new THREE.BoxBufferGeometry(voxels.sx * box.nx, voxels.sy * box.ny, voxels.sz * box.nz)
           const voxelMesh = new THREE.Mesh(voxelGeometry, material)
           voxelMesh.castShadow = true
           voxelMesh.receiveShadow = true
@@ -232,7 +232,7 @@
         // The shooting balls
         const shootVelocity = 15
         const ballShape = new CANNON.Sphere(0.2)
-        const ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32)
+        const ballGeometry = new THREE.SphereBufferGeometry(ballShape.radius, 32, 32)
 
         // Returns a vector pointing the the diretion the camera is at
         function getShootDirection() {

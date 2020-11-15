@@ -124,7 +124,7 @@
         material = new THREE.MeshLambertMaterial({ color: 0xdddddd })
 
         // Floor
-        const floorGeometry = new THREE.PlaneGeometry(300, 300, 100, 100)
+        const floorGeometry = new THREE.PlaneBufferGeometry(300, 300, 100, 100)
         floorGeometry.rotateX(-Math.PI / 2)
         const floor = new THREE.Mesh(floorGeometry, material)
         floor.receiveShadow = true
@@ -187,7 +187,7 @@
         // Add boxes both in cannon.js and three.js
         const halfExtents = new CANNON.Vec3(1, 1, 1)
         const boxShape = new CANNON.Box(halfExtents)
-        const boxGeometry = new THREE.BoxGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2)
+        const boxGeometry = new THREE.BoxBufferGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2)
 
         for (let i = 0; i < 7; i++) {
           const boxBody = new CANNON.Body({ mass: 5 })
@@ -217,7 +217,7 @@
         const N = 5
         const halfExtents2 = new CANNON.Vec3(size, size, size * 0.1)
         const boxShape2 = new CANNON.Box(halfExtents2)
-        const boxGeometry2 = new THREE.BoxGeometry(halfExtents2.x * 2, halfExtents2.y * 2, halfExtents2.z * 2)
+        const boxGeometry2 = new THREE.BoxBufferGeometry(halfExtents2.x * 2, halfExtents2.y * 2, halfExtents2.z * 2)
 
         let last
         for (let i = 0; i < N; i++) {
@@ -261,7 +261,7 @@
         // The shooting balls
         const shootVelocity = 15
         const ballShape = new CANNON.Sphere(0.2)
-        const ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32)
+        const ballGeometry = new THREE.SphereBufferGeometry(ballShape.radius, 32, 32)
 
         // Returns a vector pointing the the diretion the camera is at
         function getShootDirection() {

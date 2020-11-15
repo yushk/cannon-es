@@ -218,7 +218,7 @@
         scene.add(directionalLight)
 
         // Floor
-        const floorGeometry = new THREE.PlaneGeometry(100, 100, 1, 1)
+        const floorGeometry = new THREE.PlaneBufferGeometry(100, 100, 1, 1)
         floorGeometry.rotateX(-Math.PI / 2)
         const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x777777 })
         const floor = new THREE.Mesh(floorGeometry, floorMaterial)
@@ -226,7 +226,7 @@
         scene.add(floor)
 
         // Cubes
-        const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 10, 10)
+        const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1, 10, 10)
         const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 })
         for (let i = 0; i < N; i++) {
           const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial)
