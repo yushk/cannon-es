@@ -1558,3 +1558,20 @@ declare module "cannon-es" {
     export * from "world/World";
 }
 declare module "world/Narrowphase.test" { }
+declare module "world/testHelpers" {
+    export type TestConfig = {
+        positions: Array<[number, number, number]>;
+        colliding: {
+            [tupleKey: string]: boolean;
+        };
+    };
+    global {
+        namespace jest {
+            interface Matchers<R> {
+                toBeColliding(testConfig: TestConfig): R;
+            }
+        }
+    }
+    export function testCollisionMatrix(CollisionMatrix: any): void;
+}
+declare module "world/World.test" { }
