@@ -1,35 +1,7 @@
-import { Body } from '../objects/Body'
-import { NaiveBroadphase } from '../collision/NaiveBroadphase'
-import { Sphere } from '../shapes/Sphere'
-import { World } from '../world/World'
-
-type ToBeCollidingRecieved = [World, number, number, boolean]
-
-expect.extend({
-  toBeColliding([world, bodyAIndex, bodyBIndex, isFirstStep]: ToBeCollidingRecieved, testConfig: TestConfig) {
-    const bodyA = world.bodies[bodyAIndex]
-    const bodyB = world.bodies[bodyBIndex]
-    const isColliding = isFirstStep
-      ? !!world.collisionMatrix.get(bodyA, bodyB)
-      : !!world.collisionMatrixPrevious.get(bodyA, bodyB)
-
-    const expected = testConfig.colliding[bodyAIndex + '-' + bodyBIndex] === true
-
-    return {
-      pass: isColliding === expected,
-      message: () =>
-        [
-          `${expected ? 'Should be colliding' : 'Should not be colliding'}`,
-          `testConfig=${JSON.stringify(testConfig)}`,
-          `isFirstStep=${isFirstStep}`,
-          `expected=${expected}`,
-          `isColliding=${isColliding}`,
-          `bodyAIndex=${bodyAIndex}`,
-          `bodyBIndex=${bodyBIndex}`,
-        ].join(', '),
-    }
-  },
-})
+import { Body } from '../src/objects/Body'
+import { NaiveBroadphase } from '../src/collision/NaiveBroadphase'
+import { Sphere } from '../src/shapes/Sphere'
+import { World } from '../src/world/World'
 
 export type TestConfig = {
   positions: Array<[number, number, number]>

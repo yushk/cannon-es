@@ -4,6 +4,6 @@ module.exports = {
   ...tsPreset,
   testPathIgnorePatterns: ['/node_modules/'],
   setupFilesAfterEnv: [
-    "./src/world/testHelpers.ts"
+    "./test/customMatchers.ts"
   ]
 }

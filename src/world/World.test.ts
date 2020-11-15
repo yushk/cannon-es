@@ -1,3 +1,4 @@
+import type { Shape } from '../shapes/Shape'
 import { Vec3 } from '../math/Vec3'
 import { Box } from '../shapes/Box'
 import { Sphere } from '../shapes/Sphere'
@@ -6,7 +7,7 @@ import { World } from '../world/World'
 import { ArrayCollisionMatrix } from '../collision/ArrayCollisionMatrix'
 import { ObjectCollisionMatrix } from '../collision/ObjectCollisionMatrix'
 import { RaycastResult } from '../collision/RaycastResult'
-import { testCollisionMatrix } from './testHelpers'
+import { testCollisionMatrix } from '../../test/helpers'
 
 describe('World', () => {
   test('clearForces', () => {
