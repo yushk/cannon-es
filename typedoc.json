@@ -1,0 +1,9 @@
+{
+  "entryPoints": "./src/cannon-es.ts",
+  "out": "docs/",
+  "theme": "minimal",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "hideGenerator": true
+}
