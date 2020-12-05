@@ -6723,9 +6723,9 @@ class RaycastVehicle {
     this.wheelInfos = [];
     this.sliding = false;
     this.world = null;
-    this.indexRightAxis = typeof options.indexRightAxis !== 'undefined' ? options.indexRightAxis : 1;
+    this.indexRightAxis = typeof options.indexRightAxis !== 'undefined' ? options.indexRightAxis : 2;
     this.indexForwardAxis = typeof options.indexForwardAxis !== 'undefined' ? options.indexForwardAxis : 0;
-    this.indexUpAxis = typeof options.indexUpAxis !== 'undefined' ? options.indexUpAxis : 2;
+    this.indexUpAxis = typeof options.indexUpAxis !== 'undefined' ? options.indexUpAxis : 1;
     this.constraints = [];
 
     this.preStepCallback = () => {};
@@ -7366,7 +7366,7 @@ class RigidVehicle {
       // No chassis body given. Create it!
       this.chassisBody = new Body({
         mass: 1,
-        shape: new Box(new Vec3(5, 2, 0.5))
+        shape: new Box(new Vec3(5, 0.5, 2))
       });
     }
 
@@ -7407,7 +7407,7 @@ class RigidVehicle {
     this.chassisBody.pointToWorldFrame(position, worldPosition);
     wheelBody.position.set(worldPosition.x, worldPosition.y, worldPosition.z); // Constrain wheel
 
-    const axis = typeof options.axis !== 'undefined' ? options.axis.clone() : new Vec3(0, 1, 0);
+    const axis = typeof options.axis !== 'undefined' ? options.axis.clone() : new Vec3(0, 0, 1);
     this.wheelAxes.push(axis);
     const hingeConstraint = new HingeConstraint(this.chassisBody, wheelBody, {
       pivotA: position,
@@ -7434,8 +7434,8 @@ class RigidVehicle {
     const c = Math.cos(value);
     const s = Math.sin(value);
     const x = axis.x;
-    const y = axis.y;
-    this.constraints[wheelIndex].axisA.set(c * x - s * y, s * x + c * y, 0);
+    const z = axis.z;
+    this.constraints[wheelIndex].axisA.set(-c * x + s * z, 0, s * x + c * z);
   }
   /**
    * Set the target rotational speed of the hinge constraint.

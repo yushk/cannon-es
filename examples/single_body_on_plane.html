@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>cannon.js - events demo</title>
+    <title>cannon.js - single body on plane demo</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   </head>
@@ -12,41 +12,48 @@
       import { Demo } from './js/Demo.js'
 
       /**
-       * For demonstrating events.
+       * Just a simple body on a plane.
        */
 
       const demo = new Demo()
 
-      demo.addScene("'collide' event", function () {
+      demo.addScene('Sphere', () => {
         const world = setupWorld(demo)
 
-        const size = 1
+        const size = 2
 
-        // Sphere
-        const sphere = new CANNON.Sphere(size)
-        const sphereBody = new CANNON.Body({ mass: 30 })
-        sphereBody.addShape(sphere)
-        sphereBody.position.set(0, size * 6, 0)
-        world.addBody(sphereBody)
-        demo.addVisual(sphereBody)
+        const sphereShape = new CANNON.Sphere(size)
 
-        // When a body collides with another body, they both dispatch the "collide" event.
-        sphereBody.addEventListener('collide', (event) => {
-          console.log('The sphere just collided with the ground!')
-          console.log('Collided with body:', event.body)
-          console.log('Contact between bodies:', event.contact)
-        })
+        const body = new CANNON.Body({ mass: 30 })
+        body.addShape(sphereShape)
+        body.position.set(0, size * 2, size)
+        world.addBody(body)
+        demo.addVisual(body)
+      })
+
+      demo.addScene('Box', () => {
+        const world = setupWorld(demo)
+
+        const size = 2
+
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size, size, size))
+
+        const body = new CANNON.Body({ mass: 30 })
+        body.addShape(boxShape)
+        body.position.set(0, size * 2, size)
+        world.addBody(body)
+        demo.addVisual(body)
       })
 
       demo.start()
 
       function setupWorld(demo) {
         const world = demo.getWorld()
-        world.gravity.set(0, -20, 0)
+        world.gravity.set(0, -10, 0)
 
         // Tweak contact properties.
         // Contact stiffness - use to make softer/harder contacts
-        world.defaultContactMaterial.contactEquationStiffness = 5e7
+        world.defaultContactMaterial.contactEquationStiffness = 1e7
 
         // Stabilization time in number of timesteps
         world.defaultContactMaterial.contactEquationRelaxation = 4
