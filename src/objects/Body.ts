@@ -189,7 +189,7 @@ export class Body extends EventTarget {
     }
 
     this.allowSleep = typeof options.allowSleep !== 'undefined' ? options.allowSleep : true
-    this.sleepState = 0
+    this.sleepState = Body.AWAKE
     this.sleepSpeedLimit = typeof options.sleepSpeedLimit !== 'undefined' ? options.sleepSpeedLimit : 0.1
     this.sleepTimeLimit = typeof options.sleepTimeLimit !== 'undefined' ? options.sleepTimeLimit : 1
     this.timeLastSleepy = 0
@@ -260,7 +260,7 @@ export class Body extends EventTarget {
    */
   wakeUp(): void {
     const prevState = this.sleepState
-    this.sleepState = 0
+    this.sleepState = Body.AWAKE
     this.wakeUpAfterNarrowphase = false
     if (prevState === Body.SLEEPING) {
       this.dispatchEvent(Body.wakeupEvent)
