@@ -120,6 +120,7 @@
         'threejs_voxel_fps',
         'threejs',
         'worker',
+        'worker_sharedarraybuffer',
         'body_types',
         'bounce',
         'bunny',
@@ -157,7 +158,9 @@
       ]
 
       function exampleTemplate(name) {
-        const readableName = replaceAll(name, '_', ' ').replace('threejs', 'three.js')
+        const readableName = replaceAll(name, '_', ' ')
+          .replace('threejs', 'three.js')
+          .replace('sharedarraybuffer', 'SharedArrayBuffer')
 
         return `
           <div class="example">
@@ -209,9 +212,7 @@
         </a>
       </h1>
 
-      <div class="description">
-        A lightweight and simple 3D physics engine for the web.
-      </div>
+      <div class="description">A lightweight and simple 3D physics engine for the web.</div>
 
       <!-- <h2>
         <a href="docs/index.html">
