@@ -499,6 +499,9 @@ class Demo extends CANNON.EventTarget {
     })
     this.listeners = {}
 
+    // clear any previous logs
+    console.clear()
+
     this.settings.paused = false
     this.updateGui()
     this.buildScene(n)
