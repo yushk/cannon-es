@@ -29,6 +29,12 @@
         font-size: 40px;
       }
     </style>
+    <script type="module">
+      import { addTitle, addSourceButton } from './js/dom-utils.js'
+
+      addTitle()
+      addSourceButton()
+    </script>
   </head>
   <body>
     <div id="instructions">
@@ -43,10 +49,6 @@
       import Stats from 'https://unpkg.com/three@0.122.0/examples/jsm/libs/stats.module.js'
       import { PointerLockControlsCannon } from './js/PointerLockControlscannon.js'
       import { VoxelLandscape } from './js/VoxelLandscape.js'
-      import { addTitle, addSourceButton } from './js/dom-utils.js'
-
-      addTitle()
-      addSourceButton()
 
       /**
        * Example construction of a voxel world and player.

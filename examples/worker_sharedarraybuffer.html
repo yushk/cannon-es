@@ -5,6 +5,12 @@
     <title>cannon.js - worker example using SharedArrayBuffer</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script type="module">
+      import { addTitle, addSourceButton } from './js/dom-utils.js'
+
+      addTitle()
+      addSourceButton()
+    </script>
   </head>
   <body>
     <!-- Worker script, will be run in separate thread -->
@@ -86,10 +92,6 @@
       import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js'
       import Stats from 'https://unpkg.com/three@0.122.0/examples/jsm/libs/stats.module.js'
       import { OrbitControls } from 'https://unpkg.com/three@0.122.0/examples/jsm/controls/OrbitControls.js'
-      import { addTitle, addSourceButton } from './js/dom-utils.js'
-
-      addTitle()
-      addSourceButton()
 
       // Parameters
       const N = 40 // number of objects

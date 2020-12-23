@@ -13,14 +13,16 @@
         color: #2f56e7;
       }
     </style>
-  </head>
-  <body>
     <script type="module">
-      import * as CANNON from '../dist/cannon-es.js'
       import { addTitle, addSourceButton } from './js/dom-utils.js'
 
       addTitle()
       addSourceButton()
+    </script>
+  </head>
+  <body>
+    <script type="module">
+      import * as CANNON from '../dist/cannon-es.js'
 
       /**
        * Example of interpolatedPosition and interpolatedQuaternion
