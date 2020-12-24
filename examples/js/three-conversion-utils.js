@@ -10,7 +10,7 @@ import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js'
 export function shapeToGeometry(shape, { flatShading = true } = {}) {
   switch (shape.type) {
     case CANNON.Shape.types.SPHERE: {
-      return new THREE.SphereGeometry(shape.radius, 16, 16)
+      return new THREE.SphereGeometry(shape.radius, 8, 8)
     }
 
     case CANNON.Shape.types.PARTICLE: {
