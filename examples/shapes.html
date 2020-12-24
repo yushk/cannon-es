@@ -66,12 +66,10 @@
 
         // Cylinder shape 2
         const cylinderShape2 = new CANNON.Cylinder(size, size, size * 2, 10)
-        const quaternion = new CANNON.Quaternion()
-        quaternion.setFromEuler(Math.PI / 2, Math.PI / 2, 0)
-        cylinderShape2.transformAllPoints(new CANNON.Vec3(), quaternion)
         const cylinderBody2 = new CANNON.Body({ mass })
         cylinderBody2.addShape(cylinderShape2)
         cylinderBody2.position.set(size * 2, size * 4 + 1, size * 2)
+        cylinderBody2.quaternion.setFromEuler(Math.PI / 2, Math.PI / 2, 0)
         world.addBody(cylinderBody2)
         demo.addVisual(cylinderBody2)
 

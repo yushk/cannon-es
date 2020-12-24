@@ -149,6 +149,26 @@
         demo.addVisual(body2)
       })
 
+      demo.addScene('sphere/cylinder', () => {
+        const world = setupWorld(demo)
+
+        // Sphere
+        const sphereShape = new CANNON.Sphere(size * 0.5)
+        const body1 = new CANNON.Body({ mass })
+        body1.addShape(sphereShape)
+        body1.position.set(0, size * 6, 0)
+        world.addBody(body1)
+        demo.addVisual(body1)
+
+        // Cylinder
+        const cylinderShape = new CANNON.Cylinder(size, size, size * 2, 10)
+        const body2 = new CANNON.Body({ mass })
+        body2.addShape(cylinderShape)
+        body2.position.set(0, size * 3, 0)
+        world.addBody(body2)
+        demo.addVisual(body2)
+      })
+
       demo.addScene('sphere/particle', () => {
         const world = setupWorld(demo)
 
@@ -198,6 +218,18 @@
         const body = new CANNON.Body({ mass })
         body.addShape(tetraShape)
         body.position.set(0, size, 0)
+        world.addBody(body)
+        demo.addVisual(body)
+      })
+
+      demo.addScene('plane/cylinder', () => {
+        const world = setupWorld(demo)
+
+        // Cylinder
+        const cylinderShape = new CANNON.Cylinder(size, size, size * 2, 10)
+        const body = new CANNON.Body({ mass })
+        body.addShape(cylinderShape)
+        body.position.set(0, size * 3, 0)
         world.addBody(body)
         demo.addVisual(body)
       })
@@ -270,6 +302,26 @@
         demo.addVisual(body2)
       })
 
+      demo.addScene('box/cylinder', () => {
+        const world = setupWorld(demo)
+
+        // Box
+        const boxShape = new CANNON.Box(new CANNON.Vec3(size * 0.5, size * 0.5, size * 0.5))
+        const body1 = new CANNON.Body({ mass })
+        body1.addShape(boxShape)
+        body1.position.set(0, size * 5, 0)
+        world.addBody(body1)
+        demo.addVisual(body1)
+
+        // Cylinder
+        const cylinderShape = new CANNON.Cylinder(size, size, size * 2, 10)
+        const body2 = new CANNON.Body({ mass })
+        body2.addShape(cylinderShape)
+        body2.position.set(0, size * 2, 0)
+        world.addBody(body2)
+        demo.addVisual(body2)
+      })
+
       demo.addScene('box/particle', () => {
         const world = setupWorld(demo)
 
@@ -323,6 +375,24 @@
         demo.addVisual(body2)
       })
 
+      demo.addScene('compound/cylinder', () => {
+        const world = setupWorld(demo)
+
+        // Cylinder
+        const cylinderShape = new CANNON.Cylinder(size, size, size * 2, 10)
+        const body1 = new CANNON.Body({ mass })
+        body1.addShape(cylinderShape)
+        body1.position.set(0, size * 5, 0)
+        world.addBody(body1)
+        demo.addVisual(body1)
+
+        // Compound
+        const body2 = createCompound(5)
+        body2.position.set(0, size, 0)
+        world.addBody(body2)
+        demo.addVisual(body2)
+      })
+
       demo.addScene('compound/particle', () => {
         const world = setupWorld(demo)
 
@@ -361,6 +431,26 @@
         demo.addVisual(body2)
       })
 
+      demo.addScene('convex/cylinder', () => {
+        const world = setupWorld(demo)
+
+        // Convex tetra
+        const tetraShape = createTetra()
+        const body1 = new CANNON.Body({ mass })
+        body1.addShape(tetraShape)
+        body1.position.set(-0.1, size * 5, 0.1)
+        world.addBody(body1)
+        demo.addVisual(body1)
+
+        // Cylinder
+        const cylinderShape = new CANNON.Cylinder(size, size, size * 2, 10)
+        const body2 = new CANNON.Body({ mass })
+        body2.addShape(cylinderShape)
+        body2.position.set(0, size * 2, 0)
+        world.addBody(body2)
+        demo.addVisual(body2)
+      })
+
       demo.addScene('convex/particle', () => {
         const world = setupWorld(demo)
 
@@ -377,6 +467,45 @@
         const particle = new CANNON.Body({ mass: 1 })
         particle.addShape(new CANNON.Particle())
         particle.position.set(0, size * 3, 0)
+        world.addBody(particle)
+        demo.addVisual(particle)
+      })
+
+      demo.addScene('cylinder/cylinder', () => {
+        const world = setupWorld(demo)
+
+        // Cylinder
+        const cylinderShape = new CANNON.Cylinder(size, size, size * 2, 10)
+        const body1 = new CANNON.Body({ mass })
+        body1.addShape(cylinderShape)
+        body1.position.set(0, size * 3, 0)
+        world.addBody(body1)
+        demo.addVisual(body1)
+
+        // Cylinder
+        const body2 = new CANNON.Body({ mass })
+        body2.addShape(cylinderShape)
+        body2.position.set(0, size * 6, 0)
+        body2.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        world.addBody(body2)
+        demo.addVisual(body2)
+      })
+
+      demo.addScene('cylinder/particle', () => {
+        const world = setupWorld(demo)
+
+        // Cylinder
+        const cylinderShape = new CANNON.Cylinder(size, size, size * 2, 10)
+        const body1 = new CANNON.Body({ mass })
+        body1.addShape(cylinderShape)
+        body1.position.set(0, size * 2, 0)
+        world.addBody(body1)
+        demo.addVisual(body1)
+
+        // Particle
+        const particle = new CANNON.Body({ mass: 1 })
+        particle.addShape(new CANNON.Particle())
+        particle.position.set(0, size * 4, 0)
         world.addBody(particle)
         demo.addVisual(particle)
       })

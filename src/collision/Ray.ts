@@ -65,6 +65,7 @@ export class Ray {
   [Shape.types.SPHERE]: typeof Ray.prototype._intersectSphere;
   [Shape.types.PLANE]: typeof Ray.prototype._intersectPlane;
   [Shape.types.BOX]: typeof Ray.prototype._intersectBox;
+  [Shape.types.CYLINDER]: typeof Ray.prototype._intersectConvex;
   [Shape.types.CONVEXPOLYHEDRON]: typeof Ray.prototype._intersectConvex;
   [Shape.types.HEIGHTFIELD]: typeof Ray.prototype._intersectHeightfield;
   [Shape.types.TRIMESH]: typeof Ray.prototype._intersectTrimesh
@@ -199,9 +200,9 @@ export class Ray {
       return
     }
 
-    const intersectMethod = this[shape.type as RayMode]
+    const intersectMethod = this[shape.type as RayMode] as any
     if (intersectMethod) {
-      ;(intersectMethod as any).call(this, shape, quat, position, body, shape)
+      intersectMethod.call(this, shape, quat, position, body, shape)
     }
   }
 
@@ -713,6 +714,8 @@ const intersectConvex_normal = new Vec3()
 const intersectConvex_minDistNormal = new Vec3()
 const intersectConvex_minDistIntersect = new Vec3()
 const intersectConvex_vector = new Vec3()
+
+Ray.prototype[Shape.types.CYLINDER] = Ray.prototype._intersectConvex
 
 Ray.prototype[Shape.types.CONVEXPOLYHEDRON] = Ray.prototype._intersectConvex
 

@@ -143,15 +143,15 @@ declare module "shapes/Shape" {
     import type { Body } from "objects/Body";
     import type { Material } from "material/Material";
     export const SHAPE_TYPES: {
-        SPHERE: 1;
-        PLANE: 2;
-        BOX: 4;
-        COMPOUND: 8;
-        CONVEXPOLYHEDRON: 16;
-        HEIGHTFIELD: 32;
-        PARTICLE: 64;
-        CYLINDER: 128;
-        TRIMESH: 256;
+        readonly SPHERE: 1;
+        readonly PLANE: 2;
+        readonly BOX: 4;
+        readonly COMPOUND: 8;
+        readonly CONVEXPOLYHEDRON: 16;
+        readonly HEIGHTFIELD: 32;
+        readonly PARTICLE: 64;
+        readonly CYLINDER: 128;
+        readonly TRIMESH: 256;
     };
     export type ShapeType = typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES];
     export type ShapeOptions = {
@@ -568,6 +568,16 @@ declare module "shapes/Particle" {
         calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void;
     }
 }
+declare module "shapes/Cylinder" {
+    import { ConvexPolyhedron } from "shapes/ConvexPolyhedron";
+    export class Cylinder extends ConvexPolyhedron {
+        radiusTop: number;
+        radiusBottom: number;
+        height: number;
+        numSegments: number;
+        constructor(radiusTop?: number, radiusBottom?: number, height?: number, numSegments?: number);
+    }
+}
 declare module "material/ContactMaterial" {
     import type { Material } from "material/Material";
     export type ContactMaterialOptions = {
@@ -606,6 +616,7 @@ declare module "world/Narrowphase" {
     import type { Plane } from "shapes/Plane";
     import type { Trimesh } from "shapes/Trimesh";
     import type { Heightfield } from "shapes/Heightfield";
+    import { Cylinder } from "shapes/Cylinder";
     import type { ContactMaterial } from "material/ContactMaterial";
     import type { World } from "world/World";
     export const COLLISION_TYPES: {
@@ -625,6 +636,13 @@ declare module "world/Narrowphase" {
         planeParticle: 66;
         boxParticle: 68;
         convexParticle: 80;
+        cylinderCylinder: 128;
+        sphereCylinder: 129;
+        planeCylinder: 130;
+        boxCylinder: 132;
+        convexCylinder: 144;
+        heightfieldCylinder: 160;
+        particleCylinder: 192;
         sphereTrimesh: 257;
         planeTrimesh: 258;
     };
@@ -654,6 +672,13 @@ declare module "world/Narrowphase" {
         [COLLISION_TYPES.planeParticle]: typeof Narrowphase.prototype.planeParticle;
         [COLLISION_TYPES.boxParticle]: typeof Narrowphase.prototype.boxParticle;
         [COLLISION_TYPES.convexParticle]: typeof Narrowphase.prototype.convexParticle;
+        [COLLISION_TYPES.cylinderCylinder]: typeof Narrowphase.prototype.convexConvex;
+        [COLLISION_TYPES.sphereCylinder]: typeof Narrowphase.prototype.sphereConvex;
+        [COLLISION_TYPES.planeCylinder]: typeof Narrowphase.prototype.planeConvex;
+        [COLLISION_TYPES.boxCylinder]: typeof Narrowphase.prototype.boxConvex;
+        [COLLISION_TYPES.convexCylinder]: typeof Narrowphase.prototype.convexConvex;
+        [COLLISION_TYPES.heightfieldCylinder]: typeof Narrowphase.prototype.heightfieldCylinder;
+        [COLLISION_TYPES.particleCylinder]: typeof Narrowphase.prototype.particleCylinder;
         [COLLISION_TYPES.sphereTrimesh]: typeof Narrowphase.prototype.sphereTrimesh;
         [COLLISION_TYPES.planeTrimesh]: typeof Narrowphase.prototype.planeTrimesh;
         constructor(world: World);
@@ -677,6 +702,8 @@ declare module "world/Narrowphase" {
         planeParticle(sj: Plane, si: Particle, xj: Vec3, xi: Vec3, qj: Quaternion, qi: Quaternion, bj: Body, bi: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
         boxParticle(si: Box, sj: Particle, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
         convexParticle(sj: ConvexPolyhedron, si: Particle, xj: Vec3, xi: Vec3, qj: Quaternion, qi: Quaternion, bj: Body, bi: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
+        heightfieldCylinder(hfShape: Heightfield, convexShape: Cylinder, hfPos: Vec3, convexPos: Vec3, hfQuat: Quaternion, convexQuat: Quaternion, hfBody: Body, convexBody: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
+        particleCylinder(si: Particle, sj: Cylinder, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
         sphereTrimesh(sphereShape: Sphere, trimeshShape: Trimesh, spherePos: Vec3, trimeshPos: Vec3, sphereQuat: Quaternion, trimeshQuat: Quaternion, sphereBody: Body, trimeshBody: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
         planeTrimesh(planeShape: Plane, trimeshShape: Trimesh, planePos: Vec3, trimeshPos: Vec3, planeQuat: Quaternion, trimeshQuat: Quaternion, planeBody: Body, trimeshBody: Body, rsi?: Shape | null, rsj?: Shape | null, justTest?: boolean): true | void;
     }
@@ -883,6 +910,7 @@ declare module "collision/Ray" {
         [Shape.types.SPHERE]: typeof Ray.prototype._intersectSphere;
         [Shape.types.PLANE]: typeof Ray.prototype._intersectPlane;
         [Shape.types.BOX]: typeof Ray.prototype._intersectBox;
+        [Shape.types.CYLINDER]: typeof Ray.prototype._intersectConvex;
         [Shape.types.CONVEXPOLYHEDRON]: typeof Ray.prototype._intersectConvex;
         [Shape.types.HEIGHTFIELD]: typeof Ray.prototype._intersectHeightfield;
         [Shape.types.TRIMESH]: typeof Ray.prototype._intersectTrimesh;
@@ -1476,12 +1504,6 @@ declare module "objects/SPHSystem" {
         w(r: number): number;
         gradw(rVec: Vec3, resultVec: Vec3): void;
         nablaw(r: number): number;
-    }
-}
-declare module "shapes/Cylinder" {
-    import { ConvexPolyhedron } from "shapes/ConvexPolyhedron";
-    export class Cylinder extends ConvexPolyhedron {
-        constructor(radiusTop: number, radiusBottom: number, height: number, numSegments: number);
     }
 }
 declare module "solver/SplitSolver" {
