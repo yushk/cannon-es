@@ -1083,10 +1083,10 @@ declare module "objects/Body" {
         updateBoundingRadius(): void;
         computeAABB(): void;
         updateInertiaWorld(force?: boolean): void;
-        applyForce(force: Vec3, relativePoint: Vec3): void;
-        applyLocalForce(localForce: Vec3, localPoint: Vec3): void;
-        applyImpulse(impulse: Vec3, relativePoint: Vec3): void;
-        applyLocalImpulse(localImpulse: Vec3, localPoint: Vec3): void;
+        applyForce(force: Vec3, relativePoint?: Vec3): void;
+        applyLocalForce(localForce: Vec3, localPoint?: Vec3): void;
+        applyImpulse(impulse: Vec3, relativePoint?: Vec3): void;
+        applyLocalImpulse(localImpulse: Vec3, localPoint?: Vec3): void;
         updateMassProperties(): void;
         getVelocityAtWorldPoint(worldPoint: Vec3, result: Vec3): Vec3;
         integrate(dt: number, quatNormalize: boolean, quatNormalizeFast: boolean): void;
