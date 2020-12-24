@@ -484,10 +484,21 @@ export class Body extends EventTarget {
     }
   }
 
-  applyForce(force: Vec3, relativePoint: Vec3): void {
+  /**
+   * Apply force to a point of the body. This could for example be a point on the Body surface.
+   * Applying force this way will add to Body.force and Body.torque.
+   * @method applyForce
+   * @param  {Vec3} force The amount of force to add.
+   * @param  {Vec3} [relativePoint] A point relative to the center of mass to apply the force on.
+   */
+  applyForce(force: Vec3, relativePoint: Vec3 = new Vec3()): void {
+    // Needed?
     if (this.type !== Body.DYNAMIC) {
-      // Needed?
       return
+    }
+
+    if (this.sleepState === Body.SLEEPING) {
+      this.wakeUp()
     }
 
     // Compute produced rotational force
@@ -501,7 +512,13 @@ export class Body extends EventTarget {
     this.torque.vadd(rotForce, this.torque)
   }
 
-  applyLocalForce(localForce: Vec3, localPoint: Vec3): void {
+  /**
+   * Apply force to a local point in the body.
+   * @method applyLocalForce
+   * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
+   * @param  {Vec3} [localPoint] A local point in the body to apply the force on.
+   */
+  applyLocalForce(localForce: Vec3, localPoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
       return
     }
@@ -516,9 +533,21 @@ export class Body extends EventTarget {
     this.applyForce(worldForce, relativePointWorld)
   }
 
-  applyImpulse(impulse: Vec3, relativePoint: Vec3): void {
+  /**
+   * Apply impulse to a point of the body. This could for example be a point on the Body surface.
+   * An impulse is a force added to a body during a short period of time (impulse = force * time).
+   * Impulses will be added to Body.velocity and Body.angularVelocity.
+   * @method applyImpulse
+   * @param  {Vec3} impulse The amount of impulse to add.
+   * @param  {Vec3} relativePoint A point relative to the center of mass to apply the force on.
+   */
+  applyImpulse(impulse: Vec3, relativePoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
       return
+    }
+
+    if (this.sleepState === Body.SLEEPING) {
+      this.wakeUp()
     }
 
     // Compute point position relative to the body center
@@ -547,7 +576,13 @@ export class Body extends EventTarget {
     this.angularVelocity.vadd(rotVelo, this.angularVelocity)
   }
 
-  applyLocalImpulse(localImpulse: Vec3, localPoint: Vec3): void {
+  /**
+   * Apply locally-defined impulse to a local point in the body.
+   * @method applyLocalImpulse
+   * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
+   * @param  {Vec3} localPoint A local point in the body to apply the force on.
+   */
+  applyLocalImpulse(localImpulse: Vec3, localPoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
       return
     }
@@ -738,38 +773,14 @@ const uiw_m1 = new Mat3()
 const uiw_m2 = new Mat3()
 const uiw_m3 = new Mat3()
 
-/**
- * Apply force to a world point. This could for example be a point on the Body surface. Applying force this way will add to Body.force and Body.torque.
- * @method applyForce
- * @param  {Vec3} force The amount of force to add.
- * @param  {Vec3} relativePoint A point relative to the center of mass to apply the force on.
- */
 const Body_applyForce_rotForce = new Vec3()
 
-/**
- * Apply force to a local point in the body.
- * @method applyLocalForce
- * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
- * @param  {Vec3} localPoint A local point in the body to apply the force on.
- */
 const Body_applyLocalForce_worldForce = new Vec3()
 const Body_applyLocalForce_relativePointWorld = new Vec3()
 
-/**
- * Apply impulse to a world point. This could for example be a point on the Body surface. An impulse is a force added to a body during a short period of time (impulse = force * time). Impulses will be added to Body.velocity and Body.angularVelocity.
- * @method applyImpulse
- * @param  {Vec3} impulse The amount of impulse to add.
- * @param  {Vec3} relativePoint A point relative to the center of mass to apply the force on.
- */
 const Body_applyImpulse_velo = new Vec3()
 const Body_applyImpulse_rotVelo = new Vec3()
 
-/**
- * Apply locally-defined impulse to a local point in the body.
- * @method applyLocalImpulse
- * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
- * @param  {Vec3} localPoint A local point in the body to apply the force on.
- */
 const Body_applyLocalImpulse_worldImpulse = new Vec3()
 const Body_applyLocalImpulse_relativePoint = new Vec3()
 
