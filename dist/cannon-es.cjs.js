@@ -3326,7 +3326,7 @@ class Body extends EventTarget {
     }
 
     this.allowSleep = typeof options.allowSleep !== 'undefined' ? options.allowSleep : true;
-    this.sleepState = 0;
+    this.sleepState = Body.AWAKE;
     this.sleepSpeedLimit = typeof options.sleepSpeedLimit !== 'undefined' ? options.sleepSpeedLimit : 0.1;
     this.sleepTimeLimit = typeof options.sleepTimeLimit !== 'undefined' ? options.sleepTimeLimit : 1;
     this.timeLastSleepy = 0;
@@ -3393,7 +3393,7 @@ class Body extends EventTarget {
 
   wakeUp() {
     const prevState = this.sleepState;
-    this.sleepState = 0;
+    this.sleepState = Body.AWAKE;
     this.wakeUpAfterNarrowphase = false;
 
     if (prevState === Body.SLEEPING) {
@@ -5042,6 +5042,7 @@ const Ray_intersectSphere_normal = new Vec3();
 Ray.prototype[Shape.types.SPHERE] = Ray.prototype._intersectSphere;
 const intersectConvex_normal = new Vec3();
 const intersectConvex_vector = new Vec3();
+Ray.prototype[Shape.types.CYLINDER] = Ray.prototype._intersectConvex;
 Ray.prototype[Shape.types.CONVEXPOLYHEDRON] = Ray.prototype._intersectConvex;
 const intersectTrimesh_normal = new Vec3();
 const intersectTrimesh_localDirection = new Vec3();
@@ -7758,7 +7759,15 @@ const SPHSystem_update_u = new Vec3();
  */
 
 class Cylinder extends ConvexPolyhedron {
-  constructor(radiusTop, radiusBottom, height, numSegments) {
+  constructor(radiusTop = 1, radiusBottom = 1, height = 1, numSegments = 8) {
+    if (radiusTop < 0) {
+      throw new Error('The cylinder radiusTop cannot be negative.');
+    }
+
+    if (radiusBottom < 0) {
+      throw new Error('The cylinder radiusBottom cannot be negative.');
+    }
+
     const N = numSegments;
     const vertices = [];
     const axes = [];
@@ -7812,6 +7821,11 @@ class Cylinder extends ConvexPolyhedron {
       faces,
       axes
     });
+    this.type = Shape.types.CYLINDER;
+    this.radiusTop = radiusTop;
+    this.radiusBottom = radiusBottom;
+    this.height = height;
+    this.numSegments = numSegments;
   }
 
 }
@@ -9711,6 +9725,10 @@ class Vec3Pool extends Pool {
 
 }
 
+// Naming rule: based of the order in SHAPE_TYPES,
+// the first part of the method is formed by the
+// shape type that comes before, in the second part
+// there is the shape type that comes after in the SHAPE_TYPES list
 const COLLISION_TYPES = {
   sphereSphere: Shape.types.SPHERE,
   spherePlane: Shape.types.SPHERE | Shape.types.PLANE,
@@ -9728,6 +9746,13 @@ const COLLISION_TYPES = {
   planeParticle: Shape.types.PLANE | Shape.types.PARTICLE,
   boxParticle: Shape.types.BOX | Shape.types.PARTICLE,
   convexParticle: Shape.types.PARTICLE | Shape.types.CONVEXPOLYHEDRON,
+  cylinderCylinder: Shape.types.CYLINDER,
+  sphereCylinder: Shape.types.SPHERE | Shape.types.CYLINDER,
+  planeCylinder: Shape.types.PLANE | Shape.types.CYLINDER,
+  boxCylinder: Shape.types.BOX | Shape.types.CYLINDER,
+  convexCylinder: Shape.types.CONVEXPOLYHEDRON | Shape.types.CYLINDER,
+  heightfieldCylinder: Shape.types.HEIGHTFIELD | Shape.types.CYLINDER,
+  particleCylinder: Shape.types.PARTICLE | Shape.types.CYLINDER,
   sphereTrimesh: Shape.types.SPHERE | Shape.types.TRIMESH,
   planeTrimesh: Shape.types.PLANE | Shape.types.TRIMESH
 };
@@ -10895,6 +10920,14 @@ class Narrowphase {
     }
   }
 
+  heightfieldCylinder(hfShape, convexShape, hfPos, convexPos, hfQuat, convexQuat, hfBody, convexBody, rsi, rsj, justTest) {
+    return this.convexHeightfield(convexShape, hfShape, convexPos, hfPos, convexQuat, hfQuat, convexBody, hfBody, rsi, rsj, justTest);
+  }
+
+  particleCylinder(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    return this.convexParticle(sj, si, xj, xi, qj, qi, bj, bi, rsi, rsj, justTest);
+  }
+
   sphereTrimesh(sphereShape, trimeshShape, spherePos, trimeshPos, sphereQuat, trimeshQuat, sphereBody, trimeshBody, rsi, rsj, justTest) {
     const edgeVertexA = sphereTrimesh_edgeVertexA;
     const edgeVertexB = sphereTrimesh_edgeVertexB;
@@ -11247,7 +11280,14 @@ const particlePlane_relpos = new Vec3();
 const particlePlane_projected = new Vec3();
 Narrowphase.prototype[COLLISION_TYPES.planeParticle] = Narrowphase.prototype.planeParticle;
 const particleSphere_normal = new Vec3();
-Narrowphase.prototype[COLLISION_TYPES.sphereParticle] = Narrowphase.prototype.sphereParticle; // WIP
+Narrowphase.prototype[COLLISION_TYPES.sphereParticle] = Narrowphase.prototype.sphereParticle;
+Narrowphase.prototype[COLLISION_TYPES.cylinderCylinder] = Narrowphase.prototype.convexConvex;
+Narrowphase.prototype[COLLISION_TYPES.sphereCylinder] = Narrowphase.prototype.sphereConvex;
+Narrowphase.prototype[COLLISION_TYPES.planeCylinder] = Narrowphase.prototype.planeConvex;
+Narrowphase.prototype[COLLISION_TYPES.boxCylinder] = Narrowphase.prototype.boxConvex;
+Narrowphase.prototype[COLLISION_TYPES.convexCylinder] = Narrowphase.prototype.convexConvex;
+Narrowphase.prototype[COLLISION_TYPES.heightfieldCylinder] = Narrowphase.prototype.heightfieldCylinder;
+Narrowphase.prototype[COLLISION_TYPES.particleCylinder] = Narrowphase.prototype.particleCylinder; // WIP
 
 const cqj = new Quaternion();
 const convexParticle_local = new Vec3();
@@ -11820,9 +11860,9 @@ class World extends EventTarget {
         this.accumulator -= dt;
         substeps++;
 
-        if (performance.now() - t0 > dt * 2 * 1000) {
+        if (performance.now() - t0 > dt * 1000) {
           // The framerate is not interactive anymore.
-          // We are at half of the target framerate.
+          // We are below the target framerate.
           // Better bail out.
           break;
         }

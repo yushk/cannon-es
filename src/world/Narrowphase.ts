@@ -15,9 +15,14 @@ import type { Particle } from '../shapes/Particle'
 import type { Plane } from '../shapes/Plane'
 import type { Trimesh } from '../shapes/Trimesh'
 import type { Heightfield } from '../shapes/Heightfield'
+import { Cylinder } from '../shapes/Cylinder'
 import type { ContactMaterial } from '../material/ContactMaterial'
 import type { World } from '../world/World'
 
+// Naming rule: based of the order in SHAPE_TYPES,
+// the first part of the method is formed by the
+// shape type that comes before, in the second part
+// there is the shape type that comes after in the SHAPE_TYPES list
 export const COLLISION_TYPES = {
   sphereSphere: Shape.types.SPHERE as 1,
   spherePlane: (Shape.types.SPHERE | Shape.types.PLANE) as 3,
@@ -35,6 +40,13 @@ export const COLLISION_TYPES = {
   planeParticle: (Shape.types.PLANE | Shape.types.PARTICLE) as 66,
   boxParticle: (Shape.types.BOX | Shape.types.PARTICLE) as 68,
   convexParticle: (Shape.types.PARTICLE | Shape.types.CONVEXPOLYHEDRON) as 80,
+  cylinderCylinder: Shape.types.CYLINDER as 128,
+  sphereCylinder: (Shape.types.SPHERE | Shape.types.CYLINDER) as 129,
+  planeCylinder: (Shape.types.PLANE | Shape.types.CYLINDER) as 130,
+  boxCylinder: (Shape.types.BOX | Shape.types.CYLINDER) as 132,
+  convexCylinder: (Shape.types.CONVEXPOLYHEDRON | Shape.types.CYLINDER) as 144,
+  heightfieldCylinder: (Shape.types.HEIGHTFIELD | Shape.types.CYLINDER) as 160,
+  particleCylinder: (Shape.types.PARTICLE | Shape.types.CYLINDER) as 192,
   sphereTrimesh: (Shape.types.SPHERE | Shape.types.TRIMESH) as 257,
   planeTrimesh: (Shape.types.PLANE | Shape.types.TRIMESH) as 258,
 }
@@ -75,6 +87,13 @@ export class Narrowphase {
   [COLLISION_TYPES.planeParticle]: typeof Narrowphase.prototype.planeParticle;
   [COLLISION_TYPES.boxParticle]: typeof Narrowphase.prototype.boxParticle;
   [COLLISION_TYPES.convexParticle]: typeof Narrowphase.prototype.convexParticle;
+  [COLLISION_TYPES.cylinderCylinder]: typeof Narrowphase.prototype.convexConvex;
+  [COLLISION_TYPES.sphereCylinder]: typeof Narrowphase.prototype.sphereConvex;
+  [COLLISION_TYPES.planeCylinder]: typeof Narrowphase.prototype.planeConvex;
+  [COLLISION_TYPES.boxCylinder]: typeof Narrowphase.prototype.boxConvex;
+  [COLLISION_TYPES.convexCylinder]: typeof Narrowphase.prototype.convexConvex;
+  [COLLISION_TYPES.heightfieldCylinder]: typeof Narrowphase.prototype.heightfieldCylinder;
+  [COLLISION_TYPES.particleCylinder]: typeof Narrowphase.prototype.particleCylinder;
   [COLLISION_TYPES.sphereTrimesh]: typeof Narrowphase.prototype.sphereTrimesh;
   [COLLISION_TYPES.planeTrimesh]: typeof Narrowphase.prototype.planeTrimesh
 
@@ -1551,6 +1570,50 @@ export class Narrowphase {
     }
   }
 
+  heightfieldCylinder(
+    hfShape: Heightfield,
+    convexShape: Cylinder,
+    hfPos: Vec3,
+    convexPos: Vec3,
+    hfQuat: Quaternion,
+    convexQuat: Quaternion,
+    hfBody: Body,
+    convexBody: Body,
+    rsi?: Shape | null,
+    rsj?: Shape | null,
+    justTest?: boolean
+  ): true | void {
+    return this.convexHeightfield(
+      convexShape as ConvexPolyhedron,
+      hfShape,
+      convexPos,
+      hfPos,
+      convexQuat,
+      hfQuat,
+      convexBody,
+      hfBody,
+      rsi,
+      rsj,
+      justTest
+    )
+  }
+
+  particleCylinder(
+    si: Particle,
+    sj: Cylinder,
+    xi: Vec3,
+    xj: Vec3,
+    qi: Quaternion,
+    qj: Quaternion,
+    bi: Body,
+    bj: Body,
+    rsi?: Shape | null,
+    rsj?: Shape | null,
+    justTest?: boolean
+  ): true | void {
+    return this.convexParticle(sj as ConvexPolyhedron, si, xj, xi, qj, qi, bj, bi, rsi, rsj, justTest)
+  }
+
   sphereTrimesh(
     sphereShape: Sphere,
     trimeshShape: Trimesh,
@@ -2015,6 +2078,14 @@ Narrowphase.prototype[COLLISION_TYPES.planeParticle] = Narrowphase.prototype.pla
 const particleSphere_normal = new Vec3()
 
 Narrowphase.prototype[COLLISION_TYPES.sphereParticle] = Narrowphase.prototype.sphereParticle
+
+Narrowphase.prototype[COLLISION_TYPES.cylinderCylinder] = Narrowphase.prototype.convexConvex
+Narrowphase.prototype[COLLISION_TYPES.sphereCylinder] = Narrowphase.prototype.sphereConvex
+Narrowphase.prototype[COLLISION_TYPES.planeCylinder] = Narrowphase.prototype.planeConvex
+Narrowphase.prototype[COLLISION_TYPES.boxCylinder] = Narrowphase.prototype.boxConvex
+Narrowphase.prototype[COLLISION_TYPES.convexCylinder] = Narrowphase.prototype.convexConvex
+Narrowphase.prototype[COLLISION_TYPES.heightfieldCylinder] = Narrowphase.prototype.heightfieldCylinder
+Narrowphase.prototype[COLLISION_TYPES.particleCylinder] = Narrowphase.prototype.particleCylinder
 
 // WIP
 const cqj = new Quaternion()

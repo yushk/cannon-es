@@ -4,16 +4,16 @@ import type { Body } from '../objects/Body'
 import type { Material } from '../material/Material'
 
 export const SHAPE_TYPES = {
-  SPHERE: 1 as const,
-  PLANE: 2 as const,
-  BOX: 4 as const,
-  COMPOUND: 8 as const,
-  CONVEXPOLYHEDRON: 16 as const,
-  HEIGHTFIELD: 32 as const,
-  PARTICLE: 64 as const,
-  CYLINDER: 128 as const,
-  TRIMESH: 256 as const,
-}
+  SPHERE: 1,
+  PLANE: 2,
+  BOX: 4,
+  COMPOUND: 8,
+  CONVEXPOLYHEDRON: 16,
+  HEIGHTFIELD: 32,
+  PARTICLE: 64,
+  CYLINDER: 128,
+  TRIMESH: 256,
+} as const
 
 export type ShapeType = typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES]
 

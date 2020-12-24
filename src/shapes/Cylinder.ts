@@ -1,5 +1,6 @@
 import { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import { Vec3 } from '../math/Vec3'
+import { Shape } from './Shape'
 
 /**
  * @class Cylinder
@@ -12,7 +13,20 @@ import { Vec3 } from '../math/Vec3'
  * @param {Number} numSegments The number of segments to build the cylinder out of
  */
 export class Cylinder extends ConvexPolyhedron {
-  constructor(radiusTop: number, radiusBottom: number, height: number, numSegments: number) {
+  radiusTop: number
+  radiusBottom: number
+  height: number
+  numSegments: number
+
+  constructor(radiusTop: number = 1, radiusBottom: number = 1, height: number = 1, numSegments: number = 8) {
+    if (radiusTop < 0) {
+      throw new Error('The cylinder radiusTop cannot be negative.')
+    }
+
+    if (radiusBottom < 0) {
+      throw new Error('The cylinder radiusBottom cannot be negative.')
+    }
+
     const N = numSegments
     const vertices = []
     const axes = []
@@ -63,5 +77,11 @@ export class Cylinder extends ConvexPolyhedron {
     faces.push(temp)
 
     super({ vertices, faces, axes })
+
+    this.type = Shape.types.CYLINDER
+    this.radiusTop = radiusTop
+    this.radiusBottom = radiusBottom
+    this.height = height
+    this.numSegments = numSegments
   }
 }
