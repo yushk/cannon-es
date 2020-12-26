@@ -1,8 +1,12 @@
 import * as CANNON from '../../dist/cannon-es.js'
 import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js'
+import { ConvexGeometry } from 'https://unpkg.com/three@0.122.0/examples/jsm/geometries/ConvexGeometry.js'
+import { SimplifyModifier } from 'https://unpkg.com/three@0.122.0/examples/jsm/modifiers/SimplifyModifier.js'
 
 /**
  * Converts a cannon.js shape to a three.js geometry
+ * ⚠️ Warning: it will not work if the shape has been rotated
+ * or scaled beforehand, for example with ConvexPolyhedron.transformAllPoints().
  * @param {Shape} shape The cannon.js shape
  * @param {Object} options The options of the conversion
  * @return {Geometry} The three.js geometry
@@ -165,7 +169,9 @@ export function bodyToMesh(body, material) {
 
 /**
  * Converts a three.js shape to a cannon.js geometry.
- * If you want a more elaborate transformation, use this library:
+ * ⚠️ Warning: it will not work if the geometry has been rotated
+ * or scaled beforehand.
+ * If you want a more robust conversion, use this library:
  * https://github.com/donmccurdy/three-to-cannon
  * @param {Geometry} geometry The three.js geometry
  * @return {Shape} The cannon.js shape
@@ -198,8 +204,29 @@ export function geometryToShape(geometry) {
       return new CANNON.Cylinder(radiusTop, radiusBottom, height, radialSegments)
     }
 
+    // Create a ConvexPolyhedron with the convex hull if
+    // it's none of these
     default: {
-      throw new Error(`Geometry not recognized: "${geometry.type}"`)
+      // Simplify the geometry if it has too many points,
+      // make it have no more than MAX_VERTEX_COUNT vertices
+      const vertexCount = geometry.isBufferGeometry ? geometry.attributes.position.count : geometry.vertices.length
+
+      const MAX_VERTEX_COUNT = 150
+      const simplifiedGeometry = new SimplifyModifier().modify(geometry, Math.max(vertexCount - MAX_VERTEX_COUNT, 0))
+
+      const points = new THREE.Geometry().fromBufferGeometry(simplifiedGeometry).vertices
+
+      // Generate convex hull
+      const hullGeometry = new ConvexGeometry(points)
+
+      const vertices = hullGeometry.vertices.map((v) => new CANNON.Vec3().copy(v))
+      const faces = hullGeometry.faces.map((f) => [f.a, f.b, f.c])
+      const normals = hullGeometry.faces.map((f) => new CANNON.Vec3().copy(f.normal))
+
+      // Construct polyhedron
+      const polyhedron = new CANNON.ConvexPolyhedron({ vertices, faces, normals })
+
+      return polyhedron
     }
   }
 }

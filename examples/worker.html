@@ -93,10 +93,15 @@
       let quaternions = new Float32Array(N * 4)
 
       // Get the worker code
-      const workerScript = document
-        .querySelector('#worker1')
-        // BUG Somehow relative urls don't work in a module worker
-        .textContent.replace('..', window.location.origin)
+      let workerScript = document.querySelector('#worker1').textContent
+
+      // BUG Relative urls don't currently work in an inline
+      // module worker in Chrome
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=1161710
+      const href = window.location.href.replace('/examples/worker', '')
+      workerScript = workerScript
+        .replace(/from '\.\.\//g, `from '${href}/`)
+        .replace(/from '\.\//g, `from '${href}/examples/`)
 
       // Create a blob for the inline worker code
       const blob = new Blob([workerScript], { type: 'text/javascript' })

@@ -16,6 +16,7 @@
     <!-- Worker script, will be run in separate thread -->
     <script id="worker1" type="text/js-worker">
       import * as CANNON from '../dist/cannon-es.js'
+      import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js'
       import { geometryToShape } from './js/three-conversion-utils.js'
 
       const dt = 1 / 60
@@ -40,7 +41,12 @@
 
       // When we get the init message
       self.addEventListener('message', (event) => {
-        const { geometries, positionsSharedBuffer, quaternionsSharedBuffer } = event.data
+        const { geometries: geometriesSerialized, positionsSharedBuffer, quaternionsSharedBuffer } = event.data
+
+        // Parse the serialized geometries received from
+        // the main thread
+        const unserialized = new THREE.ObjectLoader().parseGeometries(geometriesSerialized)
+        const geometries = geometriesSerialized.map(g => unserialized[g.uuid])
 
         // Save the reference to the SharedArrayBuffer
         positions = new Float32Array(positionsSharedBuffer)
@@ -93,44 +99,19 @@
       import Stats from 'https://unpkg.com/three@0.122.0/examples/jsm/libs/stats.module.js'
       import { OrbitControls } from 'https://unpkg.com/three@0.122.0/examples/jsm/controls/OrbitControls.js'
 
-      // Parameters
-      const N = 40 // number of objects
-
-      // Data arrays. Contains all our kinematic data we need for rendering.
-      // SharedArrayBuffer are shared between the main
-      // and worker thread. cannon.js will update the data while
-      // three.js will read from them.
-      const positionsSharedBuffer = new SharedArrayBuffer(N * 3 * Float32Array.BYTES_PER_ELEMENT)
-      const quaternionsSharedBuffer = new SharedArrayBuffer(N * 4 * Float32Array.BYTES_PER_ELEMENT)
-      const positions = new Float32Array(positionsSharedBuffer)
-      const quaternions = new Float32Array(quaternionsSharedBuffer)
-
-      // Get the worker code
-      const workerScript = document
-        .querySelector('#worker1')
-        // BUG Somehow relative urls don't work in a module worker
-        .textContent.replace(/from '\.\.\//g, `from '${window.location.origin}/`)
-        .replace(/from '\.\//g, `from '${window.location.origin}/examples/`)
-
-      // Create a blob for the inline worker code
-      const blob = new Blob([workerScript], { type: 'text/javascript' })
-
-      // Create worker
-      const worker = new Worker(window.URL.createObjectURL(blob), { type: 'module' })
-
-      worker.addEventListener('message', (event) => {
-        console.log(event.data)
-      })
-      worker.addEventListener('error', (event) => {
-        console.error(event.message)
-      })
-
-      // Initialize three.js
+      // three.js variables
       let camera, scene, renderer, stats
       let controls
 
       // The meshes that will be passed to cannon.js
       const meshes = []
+
+      // The SharedArrayBuffers. They contain all our kinematic data we need for rendering.
+      // SharedArrayBuffers are shared between the main
+      // and worker thread. Cannon.js will update the data while
+      // three.js will read from them.
+      let positions
+      let quaternions
 
       initThree()
       initCannonWorker()
@@ -196,20 +177,37 @@
         // Floor
         const floorGeometry = new THREE.PlaneGeometry(100, 100, 1, 1)
         floorGeometry.rotateX(-Math.PI / 2)
-        const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x777777 })
+        const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x777777 })
         const floor = new THREE.Mesh(floorGeometry, floorMaterial)
         floor.receiveShadow = true
         scene.add(floor)
 
         // Cubes
-        const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 10, 10)
-        const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 })
-        for (let i = 0; i < N; i++) {
+        const cubeGeometry = new THREE.BoxBufferGeometry()
+        const cubeMaterial = new THREE.MeshStandardMaterial({ color: '#888' })
+        for (let i = 0; i < 40; i++) {
           const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial)
           cubeMesh.position.set(Math.random() - 0.5, i * 2.5 + 0.5, Math.random() - 0.5)
           cubeMesh.castShadow = true
+          cubeMesh.receiveShadow = true
           meshes.push(cubeMesh)
           scene.add(cubeMesh)
+        }
+
+        // Torus knots
+        const torusGeometry = new THREE.TorusKnotBufferGeometry()
+        const torusMaterial = new THREE.MeshStandardMaterial({ color: '#2b4c7f' })
+        for (let i = 0; i < 8; i++) {
+          const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial)
+          torusMesh.position.set((Math.random() - 0.5) * 20, i * 10 + 20, (Math.random() - 0.5) * 20)
+          // random rotation
+          torusMesh.quaternion.setFromEuler(
+            new THREE.Euler(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2)
+          )
+          torusMesh.castShadow = true
+          torusMesh.receiveShadow = true
+          meshes.push(torusMesh)
+          scene.add(torusMesh)
         }
 
         window.addEventListener('resize', onWindowResize)
@@ -222,6 +220,15 @@
       }
 
       function initCannonWorker() {
+        // Initialize the SharedArrayBuffers.
+        // SharedArrayBuffers are shared between the main
+        // and worker thread. Cannon.js will update the data while
+        // three.js will read from them.
+        const positionsSharedBuffer = new SharedArrayBuffer(meshes.length * 3 * Float32Array.BYTES_PER_ELEMENT)
+        const quaternionsSharedBuffer = new SharedArrayBuffer(meshes.length * 4 * Float32Array.BYTES_PER_ELEMENT)
+        positions = new Float32Array(positionsSharedBuffer)
+        quaternions = new Float32Array(quaternionsSharedBuffer)
+
         // Copy the initial meshes data into the buffers
         for (let i = 0; i < meshes.length; i++) {
           const mesh = meshes[i]
@@ -235,10 +242,36 @@
           quaternions[i * 4 + 3] = mesh.quaternion.w
         }
 
-        // Send the geometry data to setup the cannon.js bodies and
-        // the initial position and rotation data
+        // Get the worker code
+        let workerScript = document.querySelector('#worker1').textContent
+
+        // BUG Relative urls don't currently work in an inline
+        // module worker in Chrome
+        // https://bugs.chromium.org/p/chromium/issues/detail?id=1161710
+        const href = window.location.href.replace('/examples/worker_sharedarraybuffer', '')
+        workerScript = workerScript
+          .replace(/from '\.\.\//g, `from '${href}/`)
+          .replace(/from '\.\//g, `from '${href}/examples/`)
+
+        // Create a blob for the inline worker code
+        const blob = new Blob([workerScript], { type: 'text/javascript' })
+
+        // Create worker
+        const worker = new Worker(window.URL.createObjectURL(blob), { type: 'module' })
+
+        worker.addEventListener('message', (event) => {
+          console.log('Message from worker', event.data)
+        })
+        worker.addEventListener('error', (event) => {
+          console.error('Error in worker', event.message)
+        })
+
+        // Send the geometry data to setup the cannon.js bodies
+        // and the initial position and rotation data
         worker.postMessage({
-          geometries: meshes.map((m) => m.geometry),
+          // serialize the geometries as json to pass
+          // them to the worker
+          geometries: meshes.map((m) => m.geometry.toJSON()),
           positionsSharedBuffer,
           quaternionsSharedBuffer,
         })
@@ -247,7 +280,8 @@
       function animate() {
         requestAnimationFrame(animate)
 
-        // Update the three.js meshes
+        // Read from the SharedArrayBuffers and
+        // update the three.js meshes
         for (let i = 0; i < meshes.length; i++) {
           meshes[i].position.set(positions[i * 3 + 0], positions[i * 3 + 1], positions[i * 3 + 2])
           meshes[i].quaternion.set(
