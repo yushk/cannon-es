@@ -31,7 +31,7 @@ export class Vec3 {
   /**
    * Vector cross product
    * @method cross
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Vec3} target Optional. Target to save in.
    * @return {Vec3}
    */
@@ -76,7 +76,7 @@ export class Vec3 {
   /**
    * Vector addition
    * @method vadd
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Vec3} target Optional.
    * @return {Vec3}
    */
@@ -95,7 +95,7 @@ export class Vec3 {
   /**
    * Vector subtraction
    * @method vsub
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Vec3} target Optional. Target to save in.
    * @return {Vec3}
    */
@@ -271,7 +271,7 @@ export class Vec3 {
   /**
    * Calculate dot product
    * @method dot
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @return {Number}
    */
   dot(vector: Vec3): number {
@@ -361,7 +361,7 @@ export class Vec3 {
   /**
    * Do a linear interpolation between two vectors
    * @method lerp
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Number} t A number between 0 and 1. 0 will make this function return u, and 1 will make it return v. Numbers in between will generate a vector in between them.
    * @param {Vec3} target
    */
@@ -377,7 +377,7 @@ export class Vec3 {
   /**
    * Check if a vector equals is almost equal to another one.
    * @method almostEquals
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Number} precision
    * @return bool
    */
