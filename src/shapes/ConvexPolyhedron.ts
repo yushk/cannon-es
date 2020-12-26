@@ -39,9 +39,6 @@ export class ConvexPolyhedron extends Shape {
   uniqueAxes: Vec3[] | null // If given, these locally defined, normalized axes are the only ones being checked when doing separating axis check.
   uniqueEdges: Vec3[]
 
-  static computeNormal: (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3) => void
-  static project: (shape: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]) => void
-
   constructor(
     props: {
       vertices?: Vec3[]
@@ -157,6 +154,26 @@ export class ConvexPolyhedron extends Shape {
     const vb = this.vertices[f[1]]
     const vc = this.vertices[f[2]]
     ConvexPolyhedron.computeNormal(va, vb, vc, target)
+  }
+
+  /**
+   * Get face normal given 3 vertices
+   * @static
+   * @method computeNormal
+   * @param {Vec3} va
+   * @param {Vec3} vb
+   * @param {Vec3} vc
+   * @param {Vec3} target
+   */
+  static computeNormal(va: Vec3, vb: Vec3, vc: Vec3, target: Vec3): void {
+    const cb = new Vec3()
+    const ab = new Vec3()
+    vb.vsub(va, ab)
+    vc.vsub(vb, cb)
+    cb.cross(ab, target)
+    if (!target.isZero()) {
+      target.normalize()
+    }
   }
 
   /**
@@ -834,87 +851,66 @@ export class ConvexPolyhedron extends Shape {
     // If we got here, all dot products were of the same sign.
     return positiveResult ? 1 : -1
   }
-}
 
-/**
- * Get face normal given 3 vertices
- * @static
- * @method computeNormal
- * @param {Vec3} va
- * @param {Vec3} vb
- * @param {Vec3} vc
- * @param {Vec3} target
- */
-ConvexPolyhedron.computeNormal = (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3): void => {
-  const cb = new Vec3()
-  const ab = new Vec3()
-  vb.vsub(va, ab)
-  vc.vsub(vb, cb)
-  cb.cross(ab, target)
-  if (!target.isZero()) {
-    target.normalize()
+  /**
+   * Get max and min dot product of a convex hull at position (pos,quat) projected onto an axis.
+   * Results are saved in the array maxmin.
+   * @static
+   * @method project
+   * @param {ConvexPolyhedron} hull
+   * @param {Vec3} axis
+   * @param {Vec3} pos
+   * @param {Quaternion} quat
+   * @param {array} result result[0] and result[1] will be set to maximum and minimum, respectively.
+   */
+  static project(shape: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]): void {
+    const n = shape.vertices.length
+    const worldVertex = project_worldVertex
+    const localAxis = project_localAxis
+    let max = 0
+    let min = 0
+    const localOrigin = project_localOrigin
+    const vs = shape.vertices
+
+    localOrigin.setZero()
+
+    // Transform the axis to local
+    Transform.vectorToLocalFrame(pos, quat, axis, localAxis)
+    Transform.pointToLocalFrame(pos, quat, localOrigin, localOrigin)
+    const add = localOrigin.dot(localAxis)
+
+    min = max = vs[0].dot(localAxis)
+
+    for (let i = 1; i < n; i++) {
+      const val = vs[i].dot(localAxis)
+
+      if (val > max) {
+        max = val
+      }
+
+      if (val < min) {
+        min = val
+      }
+    }
+
+    min -= add
+    max -= add
+
+    if (min > max) {
+      // Inconsistent - swap
+      const temp = min
+      min = max
+      max = temp
+    }
+    // Output
+    result[0] = max
+    result[1] = min
   }
 }
 
 const maxminA: number[] = []
 const maxminB: number[] = []
 
-/**
- * Get max and min dot product of a convex hull at position (pos,quat) projected onto an axis.
- * Results are saved in the array maxmin.
- * @static
- * @method project
- * @param {ConvexPolyhedron} hull
- * @param {Vec3} axis
- * @param {Vec3} pos
- * @param {Quaternion} quat
- * @param {array} result result[0] and result[1] will be set to maximum and minimum, respectively.
- */
-ConvexPolyhedron.project = (
-  shape: ConvexPolyhedron,
-  axis: Vec3,
-  pos: Vec3,
-  quat: Quaternion,
-  result: number[]
-): void => {
-  const n = shape.vertices.length
-  const localAxis = new Vec3()
-  let max = 0
-  let min = 0
-  const localOrigin = new Vec3()
-  const vs = shape.vertices
-
-  localOrigin.setZero()
-
-  // Transform the axis to local
-  Transform.vectorToLocalFrame(pos, quat, axis, localAxis)
-  Transform.pointToLocalFrame(pos, quat, localOrigin, localOrigin)
-  const add = localOrigin.dot(localAxis)
-
-  min = max = vs[0].dot(localAxis)
-
-  for (let i = 1; i < n; i++) {
-    const val = vs[i].dot(localAxis)
-
-    if (val > max) {
-      max = val
-    }
-
-    if (val < min) {
-      min = val
-    }
-  }
-
-  min -= add
-  max -= add
-
-  if (min > max) {
-    // Inconsistent - swap
-    const temp = min
-    min = max
-    max = temp
-  }
-  // Output
-  result[0] = max
-  result[1] = min
-}
+const project_worldVertex = new Vec3()
+const project_localAxis = new Vec3()
+const project_localOrigin = new Vec3()
