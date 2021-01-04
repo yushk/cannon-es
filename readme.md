@@ -44,6 +44,8 @@ import * as CANNON from 'cannon-es'
 
 ## [Examples](https://pmndrs.github.io/cannon-es/)
 
+[![](screenshots/examples.png)](https://pmndrs.github.io/cannon-es/)
+
 #### TO DO:
 
 - Correct & standardize JSDoc comments
