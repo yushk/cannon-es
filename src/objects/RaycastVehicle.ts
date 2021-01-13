@@ -457,9 +457,6 @@ export class RaycastVehicle {
       }
     }
 
-    const sideFactor = 1
-    const fwdFactor = 0.5
-
     this.sliding = false
     for (let i = 0; i < numWheels; i++) {
       const wheel = wheelInfos[i]
@@ -504,8 +501,8 @@ export class RaycastVehicle {
 
         wheel.forwardImpulse = rollingFriction //wheelInfo.engineForce* timeStep;
 
-        const x = wheel.forwardImpulse * fwdFactor
-        const y = wheel.sideImpulse * sideFactor
+        const x = wheel.forwardImpulse * wheel.slideImpulseForwardFactor
+        const y = wheel.sideImpulse * wheel.slideImpulseSideFactor
 
         const impulseSquared = x * x + y * y
 
