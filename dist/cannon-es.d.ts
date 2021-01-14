@@ -1514,6 +1514,7 @@ declare module "solver/SplitSolver" {
     import { Body } from "objects/Body";
     import type { Equation } from "equations/Equation";
     import type { World } from "world/World";
+    import { GSSolver } from "solver/GSSolver";
     type SplitSolverNode = {
         body: Body | null;
         children: SplitSolverNode[];
@@ -1523,10 +1524,10 @@ declare module "solver/SplitSolver" {
     export class SplitSolver extends Solver {
         iterations: number;
         tolerance: number;
-        subsolver: SplitSolver;
+        subsolver: GSSolver;
         nodes: SplitSolverNode[];
         nodePool: SplitSolverNode[];
-        constructor(subsolver: SplitSolver);
+        constructor(subsolver: GSSolver);
         createNode(): SplitSolverNode;
         solve(dt: number, world: World): number;
     }
