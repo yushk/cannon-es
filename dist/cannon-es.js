@@ -10,8 +10,8 @@ class ObjectCollisionMatrix {
   }
   /**
    * @method get
-   * @param  {Body} i
-   * @param  {Body} j
+   * @param  {Body} bi
+   * @param  {Body} bj
    * @return {boolean}
    */
 
@@ -34,8 +34,8 @@ class ObjectCollisionMatrix {
   }
   /**
    * @method set
-   * @param  {Body} i
-   * @param  {Body} j
+   * @param  {Body} bi
+   * @param  {Body} bj
    * @param {boolean} value
    */
 
@@ -576,7 +576,7 @@ class Vec3 {
   /**
    * Vector cross product
    * @method cross
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Vec3} target Optional. Target to save in.
    * @return {Vec3}
    */
@@ -622,7 +622,7 @@ class Vec3 {
   /**
    * Vector addition
    * @method vadd
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Vec3} target Optional.
    * @return {Vec3}
    */
@@ -640,7 +640,7 @@ class Vec3 {
   /**
    * Vector subtraction
    * @method vsub
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Vec3} target Optional. Target to save in.
    * @return {Vec3}
    */
@@ -829,7 +829,7 @@ class Vec3 {
   /**
    * Calculate dot product
    * @method dot
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @return {Number}
    */
 
@@ -929,7 +929,7 @@ class Vec3 {
   /**
    * Do a linear interpolation between two vectors
    * @method lerp
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Number} t A number between 0 and 1. 0 will make this function return u, and 1 will make it return v. Numbers in between will generate a vector in between them.
    * @param {Vec3} target
    */
@@ -946,7 +946,7 @@ class Vec3 {
   /**
    * Check if a vector equals is almost equal to another one.
    * @method almostEquals
-   * @param {Vec3} v
+   * @param {Vec3} vector
    * @param {Number} precision
    * @return bool
    */
@@ -1337,8 +1337,8 @@ class ArrayCollisionMatrix {
   /**
    * Get an element
    * @method get
-   * @param  {Body} i
-   * @param  {Body} j
+   * @param  {Body} bi
+   * @param  {Body} bj
    * @return {Number}
    */
 
@@ -1362,8 +1362,8 @@ class ArrayCollisionMatrix {
   /**
    * Set an element
    * @method set
-   * @param {Body} i
-   * @param {Body} j
+   * @param {Body} bi
+   * @param {Body} bj
    * @param {boolean} value
    */
 
@@ -2268,6 +2268,28 @@ class ConvexPolyhedron extends Shape {
     ConvexPolyhedron.computeNormal(va, vb, vc, target);
   }
   /**
+   * Get face normal given 3 vertices
+   * @static
+   * @method computeNormal
+   * @param {Vec3} va
+   * @param {Vec3} vb
+   * @param {Vec3} vc
+   * @param {Vec3} target
+   */
+
+
+  static computeNormal(va, vb, vc, target) {
+    const cb = new Vec3();
+    const ab = new Vec3();
+    vb.vsub(va, ab);
+    vc.vsub(vb, cb);
+    cb.cross(ab, target);
+
+    if (!target.isZero()) {
+      target.normalize();
+    }
+  }
+  /**
    * @method clipAgainstHull
    * @param {Vec3} posA
    * @param {Quaternion} quatA
@@ -2937,84 +2959,65 @@ class ConvexPolyhedron extends Shape {
 
     return  -1;
   }
+  /**
+   * Get max and min dot product of a convex hull at position (pos,quat) projected onto an axis.
+   * Results are saved in the array maxmin.
+   * @static
+   * @method project
+   * @param {ConvexPolyhedron} hull
+   * @param {Vec3} axis
+   * @param {Vec3} pos
+   * @param {Quaternion} quat
+   * @param {array} result result[0] and result[1] will be set to maximum and minimum, respectively.
+   */
+
+
+  static project(shape, axis, pos, quat, result) {
+    const n = shape.vertices.length;
+    const localAxis = project_localAxis;
+    let max = 0;
+    let min = 0;
+    const localOrigin = project_localOrigin;
+    const vs = shape.vertices;
+    localOrigin.setZero(); // Transform the axis to local
+
+    Transform.vectorToLocalFrame(pos, quat, axis, localAxis);
+    Transform.pointToLocalFrame(pos, quat, localOrigin, localOrigin);
+    const add = localOrigin.dot(localAxis);
+    min = max = vs[0].dot(localAxis);
+
+    for (let i = 1; i < n; i++) {
+      const val = vs[i].dot(localAxis);
+
+      if (val > max) {
+        max = val;
+      }
+
+      if (val < min) {
+        min = val;
+      }
+    }
+
+    min -= add;
+    max -= add;
+
+    if (min > max) {
+      // Inconsistent - swap
+      const temp = min;
+      min = max;
+      max = temp;
+    } // Output
+
+
+    result[0] = max;
+    result[1] = min;
+  }
 
 }
-/**
- * Get face normal given 3 vertices
- * @static
- * @method computeNormal
- * @param {Vec3} va
- * @param {Vec3} vb
- * @param {Vec3} vc
- * @param {Vec3} target
- */
-
-ConvexPolyhedron.computeNormal = (va, vb, vc, target) => {
-  const cb = new Vec3();
-  const ab = new Vec3();
-  vb.vsub(va, ab);
-  vc.vsub(vb, cb);
-  cb.cross(ab, target);
-
-  if (!target.isZero()) {
-    target.normalize();
-  }
-};
-
 const maxminA = [];
 const maxminB = [];
-/**
- * Get max and min dot product of a convex hull at position (pos,quat) projected onto an axis.
- * Results are saved in the array maxmin.
- * @static
- * @method project
- * @param {ConvexPolyhedron} hull
- * @param {Vec3} axis
- * @param {Vec3} pos
- * @param {Quaternion} quat
- * @param {array} result result[0] and result[1] will be set to maximum and minimum, respectively.
- */
-
-ConvexPolyhedron.project = (shape, axis, pos, quat, result) => {
-  const n = shape.vertices.length;
-  const localAxis = new Vec3();
-  let max = 0;
-  let min = 0;
-  const localOrigin = new Vec3();
-  const vs = shape.vertices;
-  localOrigin.setZero(); // Transform the axis to local
-
-  Transform.vectorToLocalFrame(pos, quat, axis, localAxis);
-  Transform.pointToLocalFrame(pos, quat, localOrigin, localOrigin);
-  const add = localOrigin.dot(localAxis);
-  min = max = vs[0].dot(localAxis);
-
-  for (let i = 1; i < n; i++) {
-    const val = vs[i].dot(localAxis);
-
-    if (val > max) {
-      max = val;
-    }
-
-    if (val < min) {
-      min = val;
-    }
-  }
-
-  min -= add;
-  max -= add;
-
-  if (min > max) {
-    // Inconsistent - swap
-    const temp = min;
-    min = max;
-    max = temp;
-  } // Output
-
-
-  result[0] = max;
-  result[1] = min;
-};
+const project_localAxis = new Vec3();
+const project_localOrigin = new Vec3();
 
 /**
  * A 3d box shape.
@@ -3074,6 +3077,13 @@ class Box extends Shape {
   calculateLocalInertia(mass, target = new Vec3()) {
     Box.calculateInertia(this.halfExtents, mass, target);
     return target;
+  }
+
+  static calculateInertia(halfExtents, mass, target) {
+    const e = halfExtents;
+    target.x = 1.0 / 12.0 * mass * (2 * e.y * 2 * e.y + 2 * e.z * 2 * e.z);
+    target.y = 1.0 / 12.0 * mass * (2 * e.x * 2 * e.x + 2 * e.z * 2 * e.z);
+    target.z = 1.0 / 12.0 * mass * (2 * e.y * 2 * e.y + 2 * e.x * 2 * e.x);
   }
   /**
    * Get the box 6 side normals
@@ -3197,14 +3207,6 @@ class Box extends Shape {
   }
 
 }
-
-Box.calculateInertia = (halfExtents, mass, target) => {
-  const e = halfExtents;
-  target.x = 1.0 / 12.0 * mass * (2 * e.y * 2 * e.y + 2 * e.z * 2 * e.z);
-  target.y = 1.0 / 12.0 * mass * (2 * e.x * 2 * e.x + 2 * e.z * 2 * e.z);
-  target.z = 1.0 / 12.0 * mass * (2 * e.y * 2 * e.y + 2 * e.x * 2 * e.x);
-};
-
 const worldCornerTempPos = new Vec3();
 const worldCornersTemp = [new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3()];
 
@@ -3965,6 +3967,15 @@ class Broadphase {
       this.doBoundingSphereBroadphase(bodyA, bodyB, pairs1, pairs2);
     }
   }
+  /**
+   * Check if the bounding spheres of two bodies are intersecting.
+   * @method doBoundingSphereBroadphase
+   * @param {Body} bodyA
+   * @param {Body} bodyB
+   * @param {Array} pairs1 bodyA is appended to this array if intersection
+   * @param {Array} pairs2 bodyB is appended to this array if intersection
+   */
+
 
   doBoundingSphereBroadphase(bodyA, bodyB, pairs1, pairs2) {
     const r = Broadphase_collisionPairs_r;
@@ -4002,6 +4013,13 @@ class Broadphase {
       pairs2.push(bodyB);
     }
   }
+  /**
+   * Removes duplicate pairs from the pair arrays.
+   * @method makePairsUnique
+   * @param {Array} pairs1
+   * @param {Array} pairs2
+   */
+
 
   makePairsUnique(pairs1, pairs2) {
     const t = Broadphase_makePairsUnique_temp;
@@ -4042,6 +4060,24 @@ class Broadphase {
 
   setWorld(world) {}
   /**
+   * Check if the bounding spheres of two bodies overlap.
+   * @static
+   * @method boundingSphereCheck
+   * @param {Body} bodyA
+   * @param {Body} bodyB
+   * @return {boolean}
+   */
+
+
+  static boundingSphereCheck(bodyA, bodyB) {
+    const dist = new Vec3(); // bsc_dist;
+
+    bodyA.position.vsub(bodyB.position, dist);
+    const sa = bodyA.shapes[0];
+    const sb = bodyB.shapes[0];
+    return Math.pow(sa.boundingSphereRadius + sb.boundingSphereRadius, 2) > dist.lengthSquared();
+  }
+  /**
    * Returns all the bodies within the AABB.
    * @method aabbQuery
    * @param  {World} world
@@ -4056,39 +4092,14 @@ class Broadphase {
     return [];
   }
 
-}
-/**
- * Check if the bounding spheres of two bodies are intersecting.
- * @method doBoundingSphereBroadphase
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {Array} pairs1 bodyA is appended to this array if intersection
- * @param {Array} pairs2 bodyB is appended to this array if intersection
- */
+} // Temp objects
 
-const // Temp objects
-Broadphase_collisionPairs_r = new Vec3();
-/**
- * Removes duplicate pairs from the pair arrays.
- * @method makePairsUnique
- * @param {Array} pairs1
- * @param {Array} pairs2
- */
-
+const Broadphase_collisionPairs_r = new Vec3();
 const Broadphase_makePairsUnique_temp = {
   keys: []
 };
 const Broadphase_makePairsUnique_p1 = [];
 const Broadphase_makePairsUnique_p2 = [];
-
-Broadphase.boundingSphereCheck = (bodyA, bodyB) => {
-  const dist = new Vec3(); // bsc_dist;
-
-  bodyA.position.vsub(bodyB.position, dist);
-  const sa = bodyA.shapes[0];
-  const sb = bodyB.shapes[0];
-  return Math.pow(sa.boundingSphereRadius + sb.boundingSphereRadius, 2) > dist.lengthSquared();
-};
 
 /**
  * Axis aligned uniform grid broadphase.
@@ -5403,25 +5414,26 @@ SAPBroadphase.checkBounds = (bi, bj, axisIndex) => {
   return boundB1 < boundA2;
 };
 
-function Utils() {}
-/**
- * Extend an options object with default values.
- * @static
- * @method defaults
- * @param  {object} options The options object. May be falsy: in this case, a new object is created and returned.
- * @param  {object} defaults An object containing default values.
- * @return {object} The modified options object.
- */
-
-Utils.defaults = (options = {}, defaults) => {
-  for (let key in defaults) {
-    if (!(key in options)) {
-      options[key] = defaults[key];
+class Utils {
+  /**
+   * Extend an options object with default values.
+   * @static
+   * @method defaults
+   * @param  {object} options The options object. May be falsy: in this case, a new object is created and returned.
+   * @param  {object} defaults An object containing default values.
+   * @return {object} The modified options object.
+   */
+  static defaults(options = {}, defaults) {
+    for (let key in defaults) {
+      if (!(key in options)) {
+        options[key] = defaults[key];
+      }
     }
+
+    return options;
   }
 
-  return options;
-};
+}
 
 /**
  * Constraint base class
@@ -8972,6 +8984,26 @@ class Trimesh extends Shape {
     vb.vsub(va, vectorStore);
   }
   /**
+   * Get face normal given 3 vertices
+   * @static
+   * @method computeNormal
+   * @param {Vec3} va
+   * @param {Vec3} vb
+   * @param {Vec3} vc
+   * @param {Vec3} target
+   */
+
+
+  static computeNormal(va, vb, vc, target) {
+    vb.vsub(va, ab);
+    vc.vsub(vb, cb);
+    cb.cross(ab, target);
+
+    if (!target.isZero()) {
+      target.normalize();
+    }
+  }
+  /**
    * Get vertex i.
    * @method getVertex
    * @param  {number} i
@@ -9195,35 +9227,55 @@ class Trimesh extends Shape {
   volume() {
     return 4.0 * Math.PI * this.boundingSphereRadius / 3.0;
   }
+  /**
+   * Create a Trimesh instance, shaped as a torus.
+   * @static
+   * @method createTorus
+   * @param  {number} [radius=1]
+   * @param  {number} [tube=0.5]
+   * @param  {number} [radialSegments=8]
+   * @param  {number} [tubularSegments=6]
+   * @param  {number} [arc=6.283185307179586]
+   * @return {Trimesh} A torus
+   */
+
+
+  static createTorus(radius = 1, tube = 0.5, radialSegments = 8, tubularSegments = 6, arc = Math.PI * 2) {
+    const vertices = [];
+    const indices = [];
+
+    for (let j = 0; j <= radialSegments; j++) {
+      for (let i = 0; i <= tubularSegments; i++) {
+        const u = i / tubularSegments * arc;
+        const v = j / radialSegments * Math.PI * 2;
+        const x = (radius + tube * Math.cos(v)) * Math.cos(u);
+        const y = (radius + tube * Math.cos(v)) * Math.sin(u);
+        const z = tube * Math.sin(v);
+        vertices.push(x, y, z);
+      }
+    }
+
+    for (let j = 1; j <= radialSegments; j++) {
+      for (let i = 1; i <= tubularSegments; i++) {
+        const a = (tubularSegments + 1) * j + i - 1;
+        const b = (tubularSegments + 1) * (j - 1) + i - 1;
+        const c = (tubularSegments + 1) * (j - 1) + i;
+        const d = (tubularSegments + 1) * j + i;
+        indices.push(a, b, d);
+        indices.push(b, c, d);
+      }
+    }
+
+    return new Trimesh(vertices, indices);
+  }
 
 }
 const computeNormals_n = new Vec3();
 const unscaledAABB = new AABB();
 const getEdgeVector_va = new Vec3();
 const getEdgeVector_vb = new Vec3();
-/**
- * Get face normal given 3 vertices
- * @static
- * @method computeNormal
- * @param {Vec3} va
- * @param {Vec3} vb
- * @param {Vec3} vc
- * @param {Vec3} target
- */
-
 const cb = new Vec3();
 const ab = new Vec3();
-
-Trimesh.computeNormal = (va, vb, vc, target) => {
-  vb.vsub(va, ab);
-  vc.vsub(vb, cb);
-  cb.cross(ab, target);
-
-  if (!target.isZero()) {
-    target.normalize();
-  }
-};
-
 const va = new Vec3();
 const vb = new Vec3();
 const vc = new Vec3();
@@ -9231,46 +9283,6 @@ const cli_aabb = new AABB();
 const computeLocalAABB_worldVert = new Vec3();
 const calculateWorldAABB_frame = new Transform();
 const calculateWorldAABB_aabb = new AABB();
-/**
- * Create a Trimesh instance, shaped as a torus.
- * @static
- * @method createTorus
- * @param  {number} [radius=1]
- * @param  {number} [tube=0.5]
- * @param  {number} [radialSegments=8]
- * @param  {number} [tubularSegments=6]
- * @param  {number} [arc=6.283185307179586]
- * @return {Trimesh} A torus
- */
-
-Trimesh.createTorus = (radius = 1, tube = 0.5, radialSegments = 8, tubularSegments = 6, arc = Math.PI * 2) => {
-  const vertices = [];
-  const indices = [];
-
-  for (let j = 0; j <= radialSegments; j++) {
-    for (let i = 0; i <= tubularSegments; i++) {
-      const u = i / tubularSegments * arc;
-      const v = j / radialSegments * Math.PI * 2;
-      const x = (radius + tube * Math.cos(v)) * Math.cos(u);
-      const y = (radius + tube * Math.cos(v)) * Math.sin(u);
-      const z = tube * Math.sin(v);
-      vertices.push(x, y, z);
-    }
-  }
-
-  for (let j = 1; j <= radialSegments; j++) {
-    for (let i = 1; i <= tubularSegments; i++) {
-      const a = (tubularSegments + 1) * j + i - 1;
-      const b = (tubularSegments + 1) * (j - 1) + i - 1;
-      const c = (tubularSegments + 1) * (j - 1) + i;
-      const d = (tubularSegments + 1) * j + i;
-      indices.push(a, b, d);
-      indices.push(b, c, d);
-    }
-  }
-
-  return new Trimesh(vertices, indices);
-};
 
 /**
  * Constraint equation solver base class.

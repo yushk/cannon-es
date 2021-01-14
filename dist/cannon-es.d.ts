@@ -232,8 +232,6 @@ declare module "shapes/ConvexPolyhedron" {
         worldFaceNormalsNeedsUpdate: boolean;
         uniqueAxes: Vec3[] | null;
         uniqueEdges: Vec3[];
-        static computeNormal: (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3) => void;
-        static project: (shape: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]) => void;
         constructor(props?: {
             vertices?: Vec3[];
             faces?: number[][];
@@ -244,6 +242,7 @@ declare module "shapes/ConvexPolyhedron" {
         computeEdges(): void;
         computeNormals(): void;
         getFaceNormal(i: number, target: Vec3): void;
+        static computeNormal(va: Vec3, vb: Vec3, vc: Vec3, target: Vec3): void;
         clipAgainstHull(posA: Vec3, quatA: Quaternion, hullB: ConvexPolyhedron, posB: Vec3, quatB: Quaternion, separatingNormal: Vec3, minDist: number, maxDist: number, result: ConvexPolyhedronContactPoint[]): void;
         findSeparatingAxis(hullB: ConvexPolyhedron, posA: Vec3, quatA: Quaternion, posB: Vec3, quatB: Quaternion, target: Vec3, faceListA?: number[] | null, faceListB?: number[] | null): boolean;
         testSepAxis(axis: Vec3, hullB: ConvexPolyhedron, posA: Vec3, quatA: Quaternion, posB: Vec3, quatB: Quaternion): number | false;
@@ -260,6 +259,7 @@ declare module "shapes/ConvexPolyhedron" {
         getAveragePointLocal(target?: Vec3): Vec3;
         transformAllPoints(offset: Vec3, quat: Quaternion): void;
         pointIsInside(p: Vec3): 1 | -1 | false;
+        static project(shape: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]): void;
     }
 }
 declare module "shapes/Box" {
@@ -270,10 +270,10 @@ declare module "shapes/Box" {
     export class Box extends Shape {
         halfExtents: Vec3;
         convexPolyhedronRepresentation: ConvexPolyhedron;
-        static calculateInertia: (halfExtents: Vec3, mass: number, target: Vec3) => void;
         constructor(halfExtents: Vec3);
         updateConvexPolyhedronRepresentation(): void;
         calculateLocalInertia(mass: number, target?: Vec3): Vec3;
+        static calculateInertia(halfExtents: Vec3, mass: number, target: Vec3): void;
         getSideNormals(sixTargetVectors: Vec3[], quat: Quaternion): Vec3[];
         volume(): number;
         updateBoundingSphereRadius(): void;
@@ -298,9 +298,8 @@ declare module "shapes/Plane" {
     }
 }
 declare module "utils/Utils" {
-    export function Utils(): void;
-    export namespace Utils {
-        var defaults: (options: Record<string, any> | undefined, defaults: Record<string, any>) => Record<string, any>;
+    export class Utils {
+        static defaults(options: Record<string, any> | undefined, defaults: Record<string, any>): Record<string, any>;
     }
 }
 declare module "shapes/Heightfield" {
@@ -392,8 +391,6 @@ declare module "shapes/Trimesh" {
         edges: Int16Array | null;
         scale: Vec3;
         tree: Octree;
-        static computeNormal: (va: Vec3, vb: Vec3, vc: Vec3, target: Vec3) => void;
-        static createTorus: (radius: number, tube: number, radialSegments: number, tubularSegments: number, arc: number) => Trimesh;
         constructor(vertices: number[], indices: number[]);
         updateTree(): void;
         getTrianglesInAABB(aabb: AABB, result: number[]): number[];
@@ -402,6 +399,7 @@ declare module "shapes/Trimesh" {
         updateEdges(): void;
         getEdgeVertex(edgeIndex: number, firstOrSecond: number, vertexStore: Vec3): void;
         getEdgeVector(edgeIndex: number, vectorStore: Vec3): void;
+        static computeNormal(va: Vec3, vb: Vec3, vc: Vec3, target: Vec3): void;
         getVertex(i: number, out: Vec3): Vec3;
         private _getUnscaledVertex;
         getWorldVertex(i: number, pos: Vec3, quat: Quaternion, out: Vec3): Vec3;
@@ -413,6 +411,7 @@ declare module "shapes/Trimesh" {
         updateBoundingSphereRadius(): void;
         calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void;
         volume(): number;
+        static createTorus(radius?: number, tube?: number, radialSegments?: number, tubularSegments?: number, arc?: number): Trimesh;
     }
 }
 declare module "math/JacobianElement" {
@@ -487,7 +486,6 @@ declare module "collision/Broadphase" {
         world: World | null;
         useBoundingBoxes: boolean;
         dirty: boolean;
-        static boundingSphereCheck: (bodyA: Body, bodyB: Body) => boolean;
         constructor();
         collisionPairs(world: World, p1: Body[], p2: Body[]): void;
         needBroadphaseCollision(bodyA: Body, bodyB: Body): boolean;
@@ -496,6 +494,7 @@ declare module "collision/Broadphase" {
         doBoundingBoxBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void;
         makePairsUnique(pairs1: Body[], pairs2: Body[]): void;
         setWorld(world: World): void;
+        static boundingSphereCheck(bodyA: Body, bodyB: Body): boolean;
         aabbQuery(world: World, aabb: AABB, result: Body[]): Body[];
     }
 }
