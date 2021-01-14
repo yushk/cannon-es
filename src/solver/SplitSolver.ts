@@ -2,6 +2,7 @@ import { Solver } from '../solver/Solver'
 import { Body } from '../objects/Body'
 import type { Equation } from '../equations/Equation'
 import type { World } from '../world/World'
+import { GSSolver } from './GSSolver'
 
 type SplitSolverNode = { body: Body | null; children: SplitSolverNode[]; eqs: Equation[]; visited: boolean }
 
@@ -15,11 +16,11 @@ type SplitSolverNode = { body: Body | null; children: SplitSolverNode[]; eqs: Eq
 export class SplitSolver extends Solver {
   iterations: number // The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
   tolerance: number // When tolerance is reached, the system is assumed to be converged.
-  subsolver: SplitSolver
+  subsolver: GSSolver
   nodes: SplitSolverNode[]
   nodePool: SplitSolverNode[]
 
-  constructor(subsolver: SplitSolver) {
+  constructor(subsolver: GSSolver) {
     super()
 
     this.iterations = 10
