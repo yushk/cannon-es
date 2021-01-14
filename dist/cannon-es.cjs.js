@@ -6631,6 +6631,8 @@ class WheelInfo {
       dampingCompression: 10,
       dampingRelaxation: 10,
       frictionSlip: 10000,
+      forwardAcceleration: 1,
+      sideAcceleration: 1,
       steering: 0,
       rotation: 0,
       deltaRotation: 0,
@@ -6664,6 +6666,8 @@ class WheelInfo {
     this.dampingCompression = options.dampingCompression;
     this.dampingRelaxation = options.dampingRelaxation;
     this.frictionSlip = options.frictionSlip;
+    this.forwardAcceleration = options.forwardAcceleration;
+    this.sideAcceleration = options.sideAcceleration;
     this.steering = 0;
     this.rotation = 0;
     this.deltaRotation = 0;
@@ -7157,8 +7161,8 @@ class RaycastVehicle {
         const maximpSquared = maximp * maximpSide;
         wheel.forwardImpulse = rollingFriction; //wheelInfo.engineForce* timeStep;
 
-        const x = wheel.forwardImpulse * fwdFactor;
-        const y = wheel.sideImpulse * sideFactor;
+        const x = wheel.forwardImpulse * fwdFactor / wheel.forwardAcceleration;
+        const y = wheel.sideImpulse * sideFactor / wheel.sideAcceleration;
         const impulseSquared = x * x + y * y;
         wheel.sliding = false;
 
