@@ -1343,8 +1343,8 @@ declare module "objects/WheelInfo" {
         dampingCompression?: number;
         dampingRelaxation?: number;
         frictionSlip?: number;
-        slideImpulseForwardFactor?: number;
-        slideImpulseSideFactor?: number;
+        forwardAcceleration?: number;
+        sideAcceleration?: number;
         steering?: number;
         rotation?: number;
         deltaRotation?: number;
@@ -1384,8 +1384,8 @@ declare module "objects/WheelInfo" {
         dampingCompression: number;
         dampingRelaxation: number;
         frictionSlip: number;
-        slideImpulseForwardFactor: number;
-        slideImpulseSideFactor: number;
+        forwardAcceleration: number;
+        sideAcceleration: number;
         steering: number;
         rotation: number;
         deltaRotation: number;

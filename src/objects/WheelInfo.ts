@@ -18,8 +18,8 @@ export type WheelInfoOptions = {
   dampingCompression?: number
   dampingRelaxation?: number
   frictionSlip?: number
-  slideImpulseForwardFactor?: number
-  slideImpulseSideFactor?: number
+  forwardAcceleration?: number
+  sideAcceleration?: number
   steering?: number
   rotation?: number
   deltaRotation?: number
@@ -95,8 +95,8 @@ export class WheelInfo {
   dampingCompression: number
   dampingRelaxation: number
   frictionSlip: number
-  slideImpulseForwardFactor: number
-  slideImpulseSideFactor: number
+  forwardAcceleration: number
+  sideAcceleration: number
   steering: number
   rotation: number // Rotation value, in radians.
   deltaRotation: number
@@ -132,8 +132,8 @@ export class WheelInfo {
       dampingCompression: 10,
       dampingRelaxation: 10,
       frictionSlip: 10000,
-      slideImpulseForwardFactor: 0.5,
-      slideImpulseSideFactor: 1,
+      forwardAcceleration: 1,
+      sideAcceleration: 1,
       steering: 0,
       rotation: 0,
       deltaRotation: 0,
@@ -168,8 +168,8 @@ export class WheelInfo {
     this.dampingCompression = options.dampingCompression!
     this.dampingRelaxation = options.dampingRelaxation!
     this.frictionSlip = options.frictionSlip!
-    this.slideImpulseForwardFactor = options.slideImpulseForwardFactor!
-    this.slideImpulseSideFactor = options.slideImpulseSideFactor!
+    this.forwardAcceleration = options.forwardAcceleration!
+    this.sideAcceleration = options.sideAcceleration!
     this.steering = 0
     this.rotation = 0
     this.deltaRotation = 0
