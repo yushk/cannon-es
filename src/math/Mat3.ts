@@ -70,11 +70,12 @@ export class Mat3 {
    * @method getTrace
    * @return {Vec3}
    */
-  getTrace(target = new Vec3()): void {
+  getTrace(target = new Vec3()): Vec3 {
     const e = this.elements
     target.x = e[0]
     target.y = e[4]
     target.z = e[8]
+    return target
   }
 
   /**
