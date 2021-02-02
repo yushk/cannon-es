@@ -53,6 +53,9 @@ describe('Quaternion', () => {
 
     q.setFromVectors(new Vec3(0, 0, 1), new Vec3(0, 0, -1))
     expect(q.vmult(new Vec3(0, 0, 1)).almostEquals(new Vec3(0, 0, -1))).toBe(true)
+
+    q.setFromVectors(new Vec3(1, 2, 3), new Vec3(2, 1, 3))
+    expect(q.vmult(new Vec3(1, 2, 3)).almostEquals(new Vec3(2, 1, 3))).toBe(true)
   })
 
   test('slerp', () => {
@@ -65,5 +68,49 @@ describe('Quaternion', () => {
     qb.setFromAxisAngle(new Vec3(0, 0, 1), -Math.PI / 4)
     qa.slerp(qb, 0.5, qb)
     expect(qb).toStrictEqual(new Quaternion())
+  })
+
+  test('set', () => {
+    const q = new Quaternion(1, 2, 3, 4)
+    q.set(5, 6, 7, 8)
+    expect(q.x).toBe(5)
+    expect(q.y).toBe(6)
+    expect(q.z).toBe(7)
+    expect(q.w).toBe(8)
+  })
+
+  test('toString', () => {
+    const q = new Quaternion(1, 2, 3, 4)
+    expect(q.toString()).toBe('1,2,3,4')
+  })
+
+  test('toArray', () => {
+    const q = new Quaternion(1, 2, 3, 4)
+    const qa = q.toArray()
+    expect(qa[0]).toBe(1)
+    expect(qa[1]).toBe(2)
+    expect(qa[2]).toBe(3)
+    expect(qa[3]).toBe(4)
+  })
+
+  test('copy', () => {
+    const q = new Quaternion(1, 2, 3, 4)
+    const qc = new Quaternion()
+    qc.copy(q)
+    q.set(4, 5, 6, 7)
+    expect(qc.x).toBe(1)
+    expect(qc.y).toBe(2)
+    expect(qc.z).toBe(3)
+    expect(qc.w).toBe(4)
+  })
+
+  test('clone', () => {
+    const q = new Quaternion(1, 2, 3, 4)
+    const qc = q.clone()
+    q.set(4, 5, 6, 7)
+    expect(qc.x).toBe(1)
+    expect(qc.y).toBe(2)
+    expect(qc.z).toBe(3)
+    expect(qc.w).toBe(4)
   })
 })
