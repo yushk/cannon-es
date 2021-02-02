@@ -115,15 +115,17 @@ export class Mat3 {
    */
   mmult(matrix: Mat3, target = new Mat3()): Mat3 {
     const { elements } = matrix
+    const result = Mat3_mmult_result
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         let sum = 0.0
         for (let k = 0; k < 3; k++) {
           sum += elements[i + k * 3] * this.elements[k + j * 3]
         }
-        target.elements[i + j * 3] = sum
+        result.elements[i + j * 3] = sum
       }
     }
+    target.copy(result)
     return target
   }
 
@@ -424,7 +426,7 @@ export class Mat3 {
    * @return {Mat3} The target Mat3, or a new Mat3 if target was omitted.
    */
   transpose(target = new Mat3()): Mat3 {
-    const Mt = target.elements
+    const Mt = Mat3_transpose_result.elements
     const M = this.elements
 
     for (let i = 0; i !== 3; i++) {
@@ -432,7 +434,9 @@ export class Mat3 {
         Mt[3 * i + j] = M[3 * j + i]
       }
     }
-
+    target.copy(Mat3_transpose_result)
     return target
   }
 }
+const Mat3_transpose_result = new Mat3()
+const Mat3_mmult_result = new Mat3()
