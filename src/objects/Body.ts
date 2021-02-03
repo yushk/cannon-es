@@ -406,12 +406,11 @@ export class Body extends EventTarget {
    * @return {Body} The body object, for chainability.
    */
   removeShape(shape: Shape): Body {
-
     const index = this.shapes.indexOf(shape)
 
     if (index === -1) {
-      console.warn('Shape does not belong to the body');
-      return this;
+      console.warn('Shape does not belong to the body')
+      return this
     }
 
     this.shapes.splice(index, 1)
