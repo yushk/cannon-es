@@ -80,11 +80,16 @@ export class Vec3 {
    * @param {Vec3} target Optional.
    * @return {Vec3}
    */
-  vadd(vector: Vec3, target = new Vec3()): Vec3 {
-    target.x = vector.x + this.x
-    target.y = vector.y + this.y
-    target.z = vector.z + this.z
-    return target
+  vadd(vector: Vec3): Vec3
+  vadd(vector: Vec3, target: Vec3): void
+  vadd(vector: Vec3, target?: Vec3): Vec3 | void {
+    if (target) {
+      target.x = vector.x + this.x
+      target.y = vector.y + this.y
+      target.z = vector.z + this.z
+    } else {
+      return new Vec3(this.x + vector.x, this.y + vector.y, this.z + vector.z)
+    }
   }
 
   /**
@@ -94,11 +99,16 @@ export class Vec3 {
    * @param {Vec3} target Optional. Target to save in.
    * @return {Vec3}
    */
-  vsub(vector: Vec3, target = new Vec3()): Vec3 {
-    target.x = this.x - vector.x
-    target.y = this.y - vector.y
-    target.z = this.z - vector.z
-    return target
+  vsub(vector: Vec3): Vec3
+  vsub(vector: Vec3, target: Vec3): void
+  vsub(vector: Vec3, target?: Vec3): Vec3 | void {
+    if (target) {
+      target.x = this.x - vector.x
+      target.y = this.y - vector.y
+      target.z = this.z - vector.z
+    } else {
+      return new Vec3(this.x - vector.x, this.y - vector.y, this.z - vector.z)
+    }
   }
 
   /**

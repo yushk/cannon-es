@@ -236,13 +236,14 @@ export class Mat3 {
    * @param {Number} value Optional. If provided, the matrix element will be set to this value.
    * @return {Number}
    */
-  e(row: number, column: number, value?: number): number {
+  e(row: number, column: number): number
+  e(row: number, column: number, value: number): void
+  e(row: number, column: number, value?: number): number | void {
     if (value === undefined) {
       return this.elements[column + 3 * row]
     } else {
       // Set value
       this.elements[column + 3 * row] = value
-      return value
     }
   }
 
