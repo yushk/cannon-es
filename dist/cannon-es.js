@@ -3667,6 +3667,25 @@ class Body extends EventTarget {
     this.applyForce(worldForce, relativePointWorld);
   }
   /**
+   * Apply torque to the body.
+   * @method applyTorque
+   * @param  {Vec3} torque The amount of torque to add.
+   */
+
+
+  applyTorque(torque) {
+    if (this.type !== Body.DYNAMIC) {
+      return;
+    }
+
+    if (this.sleepState === Body.SLEEPING) {
+      this.wakeUp();
+    } // Add rotational force
+
+
+    this.torque.vadd(torque, this.torque);
+  }
+  /**
    * Apply impulse to a point of the body. This could for example be a point on the Body surface.
    * An impulse is a force added to a body during a short period of time (impulse = force * time).
    * Impulses will be added to Body.velocity and Body.angularVelocity.

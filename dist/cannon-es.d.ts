@@ -1084,6 +1084,7 @@ declare module "objects/Body" {
         updateInertiaWorld(force?: boolean): void;
         applyForce(force: Vec3, relativePoint?: Vec3): void;
         applyLocalForce(localForce: Vec3, localPoint?: Vec3): void;
+        applyTorque(torque: Vec3): void;
         applyImpulse(impulse: Vec3, relativePoint?: Vec3): void;
         applyLocalImpulse(localImpulse: Vec3, localPoint?: Vec3): void;
         updateMassProperties(): void;
