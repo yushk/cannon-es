@@ -12,17 +12,10 @@ describe('Vec3', () => {
     const v = new Vec3(1, 2, 3)
     const u = new Vec3(4, 5, 6)
 
-    //Test for returning new vector
     const v_x_u = v.cross(u)
     expect(v_x_u.x).toBe(-3)
     expect(v_x_u.y).toBe(6)
     expect(v_x_u.z).toBe(-3)
-
-    //Test for changing target vector
-    v.cross(u, v)
-    expect(v.x).toBe(-3)
-    expect(v.y).toBe(6)
-    expect(v.z).toBe(-3)
   })
 
   test('set', () => {
@@ -46,34 +39,20 @@ describe('Vec3', () => {
     const v = new Vec3(1, 2, 3)
     const u = new Vec3(4, 5, 6)
 
-    //Test for returning new vector
     const w = v.vadd(u)
     expect(w.x).toBe(5)
     expect(w.y).toBe(7)
     expect(w.z).toBe(9)
-
-    //Test for changing target vector
-    v.vadd(u, v)
-    expect(v.x).toBe(5)
-    expect(v.y).toBe(7)
-    expect(v.z).toBe(9)
   })
 
   test('vsub', () => {
     const v = new Vec3(1, 2, 3)
     const u = new Vec3(4, 6, 8)
 
-    //Test for returning new vector
     const w = v.vsub(u)
     expect(w.x).toBe(-3)
     expect(w.y).toBe(-4)
     expect(w.z).toBe(-5)
-
-    //Test for changing target vector
-    v.vsub(u, v)
-    expect(v.x).toBe(-3)
-    expect(v.y).toBe(-4)
-    expect(v.z).toBe(-5)
   })
 
   test('normalize', () => {
@@ -99,12 +78,6 @@ describe('Vec3', () => {
     expect(unit_v.x).toBeCloseTo(2 / 7)
     expect(unit_v.y).toBeCloseTo(3 / 7)
     expect(unit_v.z).toBeCloseTo(6 / 7)
-
-    //Test for changing target vector
-    v.unit(v)
-    expect(v.x).toBeCloseTo(2 / 7)
-    expect(v.y).toBeCloseTo(3 / 7)
-    expect(v.z).toBeCloseTo(6 / 7)
   })
 
   test('unit_0', () => {
@@ -142,51 +115,30 @@ describe('Vec3', () => {
   test('scale', () => {
     const v = new Vec3(1, 2, 3)
 
-    //Test for returning new vector
     const v2 = v.scale(2)
     expect(v2.x).toBe(2)
     expect(v2.y).toBe(4)
     expect(v2.z).toBe(6)
-
-    //Test for changing target vector
-    v.scale(2, v)
-    expect(v.x).toBe(2)
-    expect(v.y).toBe(4)
-    expect(v.z).toBe(6)
   })
 
   test('vmul', () => {
     const v = new Vec3(1, 2, 3)
     const u = new Vec3(4, 5, 6)
 
-    //Test for returning new vector
     const vu = v.vmul(u)
     expect(vu.x).toBe(4)
     expect(vu.y).toBe(10)
     expect(vu.z).toBe(18)
-
-    //Test for changing target vector
-    v.vmul(u, v)
-    expect(v.x).toBe(4)
-    expect(v.y).toBe(10)
-    expect(v.z).toBe(18)
   })
 
   test('addScaledVector', () => {
     const v = new Vec3(1, 2, 3)
     const u = new Vec3(4, 5, 6)
 
-    //Test for returning new vector
     const v3u = v.addScaledVector(3, u)
     expect(v3u.x).toBe(13)
     expect(v3u.y).toBe(17)
     expect(v3u.z).toBe(21)
-
-    //Test for changing target vector
-    v.addScaledVector(3, u, v)
-    expect(v.x).toBe(13)
-    expect(v.y).toBe(17)
-    expect(v.z).toBe(21)
   })
 
   test('dot', () => {
@@ -214,17 +166,10 @@ describe('Vec3', () => {
   test('negate', () => {
     const v = new Vec3(1, 2, 3)
 
-    //Test for returning new vector
     const neg_v = v.negate()
     expect(neg_v.x).toBe(-1)
     expect(neg_v.y).toBe(-2)
     expect(neg_v.z).toBe(-3)
-
-    //Test for changing target vector
-    v.negate(v)
-    expect(v.x).toBe(-1)
-    expect(v.y).toBe(-2)
-    expect(v.z).toBe(-3)
   })
 
   test('tangents', () => {
@@ -263,7 +208,6 @@ describe('Vec3', () => {
     const v = new Vec3(1, 2, 3)
     const u = new Vec3(5, 6, 7)
 
-    //lerp does not implement new target vector
     const vlerpu = new Vec3()
     v.lerp(u, 0.5, vlerpu)
     expect(vlerpu.x).toBeCloseTo(3)

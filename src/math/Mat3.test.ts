@@ -54,35 +54,20 @@ describe('Mat3', () => {
   test('getTrace', () => {
     const m = new Mat3([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-    //Test for returning new vector
     const mTrace = m.getTrace()
     expect(mTrace.x).toBe(1)
     expect(mTrace.y).toBe(5)
     expect(mTrace.z).toBe(9)
-
-    //Test for changing target vector
-    const v = new Vec3()
-    m.getTrace(v)
-    expect(v.x).toBe(1)
-    expect(v.y).toBe(5)
-    expect(v.z).toBe(9)
   })
 
   test('vmult', () => {
     const v = new Vec3(2, 3, 7)
     const m = new Mat3([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-    //Test for returning new vector
     const t = m.vmult(v)
     expect(t.x).toBe(29)
     expect(t.y).toBe(65)
     expect(t.z).toBe(101)
-
-    //Test for changing target vector
-    m.vmult(v, v)
-    expect(v.x).toBe(29)
-    expect(v.y).toBe(65)
-    expect(v.z).toBe(101)
   })
 
   test('smult', () => {
@@ -103,7 +88,6 @@ describe('Mat3', () => {
     const m1 = new Mat3([1, 2, 3, 4, 5, 6, 7, 8, 9])
     const m2 = new Mat3([5, 2, 4, 4, 5, 1, 1, 8, 0])
 
-    //Test for returning new matrix
     const m3 = m1.mmult(m2)
     expect(m3.e(0, 0)).toBe(16)
     expect(m3.e(0, 1)).toBe(36)
@@ -114,19 +98,6 @@ describe('Mat3', () => {
     expect(m3.e(2, 0)).toBe(76)
     expect(m3.e(2, 1)).toBe(126)
     expect(m3.e(2, 2)).toBe(36)
-
-    //Test for changing target matrix
-    const m4 = new Mat3()
-    m1.mmult(m2, m4)
-    expect(m4.e(0, 0)).toBe(16)
-    expect(m4.e(0, 1)).toBe(36)
-    expect(m4.e(0, 2)).toBe(6)
-    expect(m4.e(1, 0)).toBe(46)
-    expect(m4.e(1, 1)).toBe(81)
-    expect(m4.e(1, 2)).toBe(21)
-    expect(m4.e(2, 0)).toBe(76)
-    expect(m4.e(2, 1)).toBe(126)
-    expect(m4.e(2, 2)).toBe(36)
   })
 
   test('mmult in place', () => {
@@ -150,7 +121,6 @@ describe('Mat3', () => {
     const m = new Mat3([1, 2, 3, 4, 5, 6, 7, 8, 9])
     const v = new Vec3(2, 3, 4)
 
-    //Test for returning new matrix
     const m1 = new Mat3()
     m.scale(v, m1)
     expect(m1.e(0, 0)).toBe(2)
@@ -162,35 +132,16 @@ describe('Mat3', () => {
     expect(m1.e(2, 0)).toBe(14)
     expect(m1.e(2, 1)).toBe(24)
     expect(m1.e(2, 2)).toBe(36)
-
-    //Test for changing target matrix
-    m.scale(v, m)
-    expect(m.e(0, 0)).toBe(2)
-    expect(m.e(0, 1)).toBe(6)
-    expect(m.e(0, 2)).toBe(12)
-    expect(m.e(1, 0)).toBe(8)
-    expect(m.e(1, 1)).toBe(15)
-    expect(m.e(1, 2)).toBe(24)
-    expect(m.e(2, 0)).toBe(14)
-    expect(m.e(2, 1)).toBe(24)
-    expect(m.e(2, 2)).toBe(36)
   })
 
   test('solve', () => {
     const A = new Mat3([0, 2, 3, -4, -5, -6, 7, -8, 9])
     const b = new Vec3(0 * 10 + 2 * 11 + 3 * 12, -4 * 10 + -5 * 11 + -6 * 12, 7 * 10 + -8 * 11 + 9 * 12)
 
-    //Test for returning new vector
     const x = A.solve(b)
     expect(x.x).toBeCloseTo(10)
     expect(x.y).toBeCloseTo(11)
     expect(x.z).toBeCloseTo(12)
-
-    //Test for changing target vector
-    A.solve(b, b)
-    expect(b.x).toBeCloseTo(10)
-    expect(b.y).toBeCloseTo(11)
-    expect(b.z).toBeCloseTo(12)
 
     //Test for no solution error
     expect(() => {
@@ -260,29 +211,18 @@ describe('Mat3', () => {
 
   test('toString', () => {
     const m = new Mat3([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    expect(m.toString()).toBe('1,2,3,4,5,6,7,8,9,')
   })
 
   test('reverse', () => {
     const m = new Mat3([5, 2, 4, 4, 5, 1, 1, 8, 0])
 
-    //Test for returning new matrix
     const m2 = m.reverse()
     const m3 = m2.mmult(m)
     const i = new Mat3([1, 0, 0, 0, 1, 0, 0, 0, 1])
     for (let c = 0; c < 3; c++) {
       for (let r = 0; r < 3; r++) {
         expect(m3.e(r, c)).toBeCloseTo(i.e(r, c))
-      }
-    }
-
-    //Test for changing target matrix
-    const n = new Mat3([5, 2, 4, 4, 5, 1, 1, 8, 0])
-    const n2 = new Mat3([5, 2, 4, 4, 5, 1, 1, 8, 0])
-    n.reverse(n)
-    const n3 = n2.mmult(n)
-    for (let c = 0; c < 3; c++) {
-      for (let r = 0; r < 3; r++) {
-        expect(n3.e(r, c)).toBeCloseTo(i.e(r, c))
       }
     }
 
@@ -323,7 +263,6 @@ describe('Mat3', () => {
   test('transpose', () => {
     const M = new Mat3([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-    //Test for returning new matrix
     const Mt = M.transpose()
     expect(Mt.e(0, 0)).toBe(1)
     expect(Mt.e(0, 1)).toBe(4)
@@ -334,19 +273,6 @@ describe('Mat3', () => {
     expect(Mt.e(2, 0)).toBe(3)
     expect(Mt.e(2, 1)).toBe(6)
     expect(Mt.e(2, 2)).toBe(9)
-
-    //Test for changing target matrix
-    const T = new Mat3()
-    M.transpose(T)
-    expect(T.e(0, 0)).toBe(1)
-    expect(T.e(0, 1)).toBe(4)
-    expect(T.e(0, 2)).toBe(7)
-    expect(T.e(1, 0)).toBe(2)
-    expect(T.e(1, 1)).toBe(5)
-    expect(T.e(1, 2)).toBe(8)
-    expect(T.e(2, 0)).toBe(3)
-    expect(T.e(2, 1)).toBe(6)
-    expect(T.e(2, 2)).toBe(9)
 
     //Ensure input matrix unchanged
     expect(M.e(0, 0)).toBe(1)
