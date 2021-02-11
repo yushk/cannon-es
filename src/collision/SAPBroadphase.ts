@@ -216,7 +216,7 @@ export class SAPBroadphase extends Broadphase {
       const b = axisList[i]
 
       if (b.aabbNeedsUpdate) {
-        b.computeAABB()
+        b.updateAABB()
       }
 
       if (b.aabb.overlaps(aabb)) {
