@@ -451,10 +451,9 @@ export class Body extends EventTarget {
 
   /**
    * Updates the .aabb
-   * @method computeAABB
-   * @todo rename to updateAABB()
+   * @method updateAABB
    */
-  computeAABB(): void {
+  updateAABB(): void {
     const shapes = this.shapes
     const shapeOffsets = this.shapeOffsets
     const shapeOrientations = this.shapeOrientations
@@ -486,6 +485,14 @@ export class Body extends EventTarget {
     }
 
     this.aabbNeedsUpdate = false
+  }
+  
+  computeAABB() {
+
+    console.warn('.computeAABB() has been renamed to .updateAABB()');
+
+    return this.updateAABB();
+
   }
 
   /**
