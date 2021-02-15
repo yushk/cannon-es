@@ -1,7 +1,3 @@
-/**
- * @class TupleDictionary
- * @constructor
- */
 export class TupleDictionary {
   data: { [id: string]: any; keys: string[] }
 
@@ -9,12 +5,6 @@ export class TupleDictionary {
     this.data = { keys: [] }
   }
 
-  /**
-   * @method get
-   * @param  {Number} i
-   * @param  {Number} j
-   * @return {Object}
-   */
   get(i: number, j: number): any {
     if (i > j) {
       // swap
@@ -25,12 +15,6 @@ export class TupleDictionary {
     return this.data[`${i}-${j}`]
   }
 
-  /**
-   * @method set
-   * @param  {Number} i
-   * @param  {Number} j
-   * @param {Object} value
-   */
   set(i: number, j: number, value: any): void {
     if (i > j) {
       const temp = j
@@ -47,9 +31,6 @@ export class TupleDictionary {
     this.data[key] = value
   }
 
-  /**
-   * @method reset
-   */
   reset(): void {
     const data = this.data
     const keys = data.keys

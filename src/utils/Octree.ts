@@ -3,18 +3,15 @@ import { Vec3 } from '../math/Vec3'
 import type { Transform } from '../math/Transform'
 import type { Ray } from '../collision/Ray'
 
-/**
- * @class OctreeNode
- * @constructor
- * @param {object} [options]
- * @param {Octree} [options.root]
- * @param {AABB} [options.aabb]
- */
 class OctreeNode {
-  root: OctreeNode | null // The root node
-  aabb: AABB // Boundary of this node
-  data: number[] // Contained data at the current node level
-  children: OctreeNode[] // Children to this node
+  /** The root node */
+  root: OctreeNode | null
+  /** Boundary of this node */
+  aabb: AABB
+  /** Contained data at the current node level */
+  data: number[]
+  /** Children to this node */
+  children: OctreeNode[]
 
   constructor(options: { root?: Octree | null; aabb?: AABB } = {}) {
     this.root = options.root || null
@@ -29,9 +26,6 @@ class OctreeNode {
 
   /**
    * Insert data into this node
-   * @method insert
-   * @param  {AABB} aabb
-   * @param  {object} elementData
    * @return {boolean} True if successful, otherwise false
    */
   insert(aabb: AABB, elementData: number, level = 0): boolean {
@@ -73,8 +67,7 @@ class OctreeNode {
   }
 
   /**
-   * Create 8 equally sized children nodes and put them in the .children array.
-   * @method subdivide
+   * Create 8 equally sized children nodes and put them in the `children` array.
    */
   subdivide(): void {
     const aabb = this.aabb
@@ -120,9 +113,6 @@ class OctreeNode {
 
   /**
    * Get all data, potentially within an AABB
-   * @method aabbQuery
-   * @param  {AABB} aabb
-   * @param  {array} result
    * @return {array} The "result" object
    */
   aabbQuery(aabb: AABB, result: number[]): number[] {
@@ -158,15 +148,11 @@ class OctreeNode {
 
   /**
    * Get all data, potentially intersected by a ray.
-   * @method rayQuery
-   * @param  {Ray} ray
-   * @param  {Transform} treeTransform
-   * @param  {array} result
    * @return {array} The "result" object
    */
   rayQuery(ray: Ray, treeTransform: Transform, result: number[]): number[] {
     // Use aabb query for now.
-    // @todo implement real ray query which needs less lookups
+    /** @todo implement real ray query which needs less lookups */
     ray.getAABB(tmpAABB)
     tmpAABB.toLocalFrame(treeTransform, tmpAABB)
     this.aabbQuery(tmpAABB, result)
@@ -188,16 +174,22 @@ class OctreeNode {
 }
 
 /**
- * @class Octree
  * @param {AABB} aabb The total AABB of the tree
- * @param {object} [options]
- * @param {number} [options.maxDepth=8] Maximum subdivision depth
- * @extends OctreeNode
  */
 export class Octree extends OctreeNode {
-  maxDepth: number // Maximum subdivision depth
+  /**
+   * Maximum subdivision depth
+   * @default 8
+   */
+  maxDepth: number
 
-  constructor(aabb?: AABB, options: { maxDepth?: number } = {}) {
+  constructor(aabb?: AABB, options: {
+    /**
+     * Maximum subdivision depth
+     * @default 8
+     */
+    maxDepth?: number
+  } = {}) {
     super({ root: null, aabb })
 
     this.maxDepth = typeof options.maxDepth !== 'undefined' ? options.maxDepth : 8
