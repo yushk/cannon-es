@@ -8,12 +8,7 @@ import type { World } from '../world/World'
 
 /**
  * Axis aligned uniform grid broadphase.
- * @class GridBroadphase
- * @constructor
- * @extends Broadphase
  * @todo Needs support for more than just planes and spheres.
- * @param {Vec3} aabbMin
- * @param {Vec3} aabbMax
  * @param {Number} nx Number of boxes along x
  * @param {Number} ny Number of boxes along y
  * @param {Number} nz Number of boxes along z
@@ -49,6 +44,9 @@ export class GridBroadphase extends Broadphase {
     }
   }
 
+  /**
+   * Get all the collision pairs in the physics world
+   */
   collisionPairs(world: World, pairs1: Body[], pairs2: Body[]): void {
     const N = world.numObjects()
     const bodies = world.bodies
@@ -183,7 +181,7 @@ export class GridBroadphase extends Broadphase {
           const yreset = ymin + binsizeY * 0.5 - bi.position.y
           const zreset = zmin + binsizeZ * 0.5 - bi.position.z
 
-          const d = GridBroadphase_collisionPairs_d
+          const d = new Vec3()
           d.set(xreset, yreset, zreset)
 
           for (let xi = 0, xoff = 0; xi !== nx; xi++, xoff += xstep, d.y = yreset, d.x += binsizeX) {
@@ -252,13 +250,3 @@ export class GridBroadphase extends Broadphase {
     this.makePairsUnique(pairs1, pairs2)
   }
 }
-
-/**
- * Get all the collision pairs in the physics world
- * @method collisionPairs
- * @param {World} world
- * @param {Array} pairs1
- * @param {Array} pairs2
- */
-const GridBroadphase_collisionPairs_d = new Vec3()
-const GridBroadphase_collisionPairs_binPos = new Vec3()

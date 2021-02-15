@@ -37,30 +37,73 @@ export type RaycastCallback = (result: RaycastResult) => void
 
 /**
  * A line in 3D space that intersects bodies and return points.
- * @class Ray
- * @constructor
- * @param {Vec3} from
- * @param {Vec3} to
  */
 export class Ray {
   from: Vec3
   to: Vec3
   direction: Vec3
-  precision: number // The precision of the ray. Used when checking parallelity etc.
-  checkCollisionResponse: boolean // Set to true if you want the Ray to take .collisionResponse flags into account on bodies and shapes.
-  skipBackfaces: boolean // If set to true, the ray skips any hits with normal.dot(rayDirection) < 0.
+  /**
+   * The precision of the ray. Used when checking parallelity etc.
+   * @default 0.0001
+   */
+  precision: number
+  /**
+   * Set to `true` if you want the Ray to take `collisionResponse` flags into account on bodies and shapes.
+   * @default true
+   */
+  checkCollisionResponse: boolean
+  /**
+   * If set to `true`, the ray skips any hits with normal.dot(rayDirection) < 0.
+   */
+  skipBackfaces: boolean
   collisionFilterMask: number
   collisionFilterGroup: number
-  mode: number // The intersection mode. Should be Ray.ANY, Ray.ALL or Ray.CLOSEST.
-  result: RaycastResult // Current result object.
-  hasHit: boolean // Will be set to true during intersectWorld() if the ray hit anything.
-  callback: RaycastCallback // User-provided result callback. Will be used if mode is Ray.ALL.
+  /**
+   * The intersection mode. Should be Ray.ANY, Ray.ALL or Ray.CLOSEST.
+   * @default RAY.ANY
+   */
+  mode: number
+  /**
+   * Current result object.
+   */
+  result: RaycastResult
+  /**
+   * Will be set to `true` during intersectWorld() if the ray hit anything.
+   */
+  hasHit: boolean
+  /**
+   * User-provided result callback. Will be used if mode is Ray.ALL.
+   */
+  callback: RaycastCallback
 
   static CLOSEST: typeof RAY_MODES['CLOSEST']
   static ANY: typeof RAY_MODES['ANY']
   static ALL: typeof RAY_MODES['ALL']
 
-  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
+  /**
+   * As per "Barycentric Technique" as named 
+   * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
+   */
+  static pointInTriangle (p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
+    c.vsub(a, v0)
+    b.vsub(a, v1)
+    p.vsub(a, v2)
+
+    const dot00 = v0.dot(v0)
+    const dot01 = v0.dot(v1)
+    const dot02 = v0.dot(v2)
+    const dot11 = v1.dot(v1)
+    const dot12 = v1.dot(v2)
+
+    let u
+    let v
+
+    return (
+      (u = dot11 * dot02 - dot01 * dot12) >= 0 &&
+      (v = dot00 * dot12 - dot01 * dot02) >= 0 &&
+      u + v < dot00 * dot11 - dot01 * dot01
+    )
+  }
 
   [Shape.types.SPHERE]: typeof Ray.prototype._intersectSphere;
   [Shape.types.PLANE]: typeof Ray.prototype._intersectPlane;
@@ -87,9 +130,6 @@ export class Ray {
 
   /**
    * Do itersection against all bodies in the given World.
-   * @method intersectWorld
-   * @param  {World} world
-   * @param  {object} options
    * @return {Boolean} True if the ray hit anything, otherwise false.
    */
   intersectWorld(world: World, options: RayOptions): boolean {
@@ -124,8 +164,7 @@ export class Ray {
 
   /**
    * Shoot a ray at a body, get back information about the hit.
-   * @param {Body} body
-   * @param {RaycastResult} [result] Deprecated - set the result property of the Ray instead.
+   * @deprecated @param {RaycastResult} [result] set the result property of the Ray instead.
    */
   intersectBody(body: Body, result?: RaycastResult): void {
     if (result) {
@@ -168,9 +207,8 @@ export class Ray {
   }
 
   /**
-   * @method intersectBodies
    * @param {Array} bodies An array of Body objects.
-   * @param {RaycastResult} [result] Deprecated
+   * @deprecated @param {RaycastResult} [result]
    */
   intersectBodies(bodies: Body[], result?: RaycastResult): void {
     if (result) {
@@ -269,8 +307,6 @@ export class Ray {
   }
 
   _intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
-    const data = shape.data
-    const w = shape.elementSize
 
     // Convert the ray to local heightfield coordinates
     const localRay = intersectHeightfield_localRay //new Ray(this.from, this.to);
@@ -390,10 +426,8 @@ export class Ray {
     reportedShape: Shape,
     options?: { faceList: number[] }
   ): void {
-    const minDistNormal = intersectConvex_minDistNormal
     const normal = intersectConvex_normal
     const vector = intersectConvex_vector
-    const minDistIntersect = intersectConvex_minDistIntersect
     const faceList = (options && options.faceList) || null
 
     // Checking faces
@@ -407,7 +441,6 @@ export class Ray {
     const to = this.to
     const fromToDistance = from.distanceTo(to)
 
-    const minDist = -1
     const Nfaces = faceList ? faceList.length : faces.length
     const result = this.result
 
@@ -472,7 +505,7 @@ export class Ray {
         const distance = intersectPoint.distanceTo(from)
 
         if (
-          !(pointInTriangle(intersectPoint, a, b, c) || pointInTriangle(intersectPoint, b, a, c)) ||
+          !(Ray.pointInTriangle(intersectPoint, a, b, c) || Ray.pointInTriangle(intersectPoint, b, a, c)) ||
           distance > fromToDistance
         ) {
           continue
@@ -499,16 +532,12 @@ export class Ray {
     const normal = intersectTrimesh_normal
     const triangles = intersectTrimesh_triangles
     const treeTransform = intersectTrimesh_treeTransform
-    const minDistNormal = intersectConvex_minDistNormal
     const vector = intersectConvex_vector
-    const minDistIntersect = intersectConvex_minDistIntersect
-    const localAABB = intersectTrimesh_localAABB
     const localDirection = intersectTrimesh_localDirection
     const localFrom = intersectTrimesh_localFrom
     const localTo = intersectTrimesh_localTo
     const worldIntersectPoint = intersectTrimesh_worldIntersectPoint
     const worldNormal = intersectTrimesh_worldNormal
-    const faceList = (options && options.faceList) || null
 
     // Checking faces
     const indices = mesh.indices
@@ -520,7 +549,6 @@ export class Ray {
     const to = this.to
     const direction = this.direction
 
-    const minDist = -1
     treeTransform.position.copy(position)
     treeTransform.quaternion.copy(quat)
 
@@ -584,7 +612,7 @@ export class Ray {
       const squaredDistance = intersectPoint.distanceSquared(localFrom)
 
       if (
-        !(pointInTriangle(intersectPoint, b, a, c) || pointInTriangle(intersectPoint, a, b, c)) ||
+        !(Ray.pointInTriangle(intersectPoint, b, a, c) || Ray.pointInTriangle(intersectPoint, a, b, c)) ||
         squaredDistance > fromToDistanceSquared
       ) {
         continue
@@ -642,58 +670,27 @@ export class Ray {
   }
 }
 
-Ray.CLOSEST = 1
-Ray.ANY = 2
-Ray.ALL = 4
-
 const tmpAABB = new AABB()
 const tmpArray: Body[] = []
 
 const v1 = new Vec3()
 const v2 = new Vec3()
 
-/*
- * As per "Barycentric Technique" as named here http://www.blackpawn.com/texts/pointinpoly/default.html But without the division
- */
-Ray.pointInTriangle = pointInTriangle
-function pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
-  c.vsub(a, v0)
-  b.vsub(a, v1)
-  p.vsub(a, v2)
-
-  const dot00 = v0.dot(v0)
-  const dot01 = v0.dot(v1)
-  const dot02 = v0.dot(v2)
-  const dot11 = v1.dot(v1)
-  const dot12 = v1.dot(v2)
-
-  let u
-  let v
-
-  return (
-    (u = dot11 * dot02 - dot01 * dot12) >= 0 &&
-    (v = dot00 * dot12 - dot01 * dot02) >= 0 &&
-    u + v < dot00 * dot11 - dot01 * dot01
-  )
-}
-
 const intersectBody_xi = new Vec3()
 const intersectBody_qi = new Quaternion()
-
-const vector = new Vec3()
-const normal = new Vec3()
 const intersectPoint = new Vec3()
 
 const a = new Vec3()
 const b = new Vec3()
 const c = new Vec3()
-const d = new Vec3()
-
-const tmpRaycastResult = new RaycastResult()
 
 Ray.prototype[Shape.types.BOX] = Ray.prototype._intersectBox
-
 Ray.prototype[Shape.types.PLANE] = Ray.prototype._intersectPlane
+Ray.prototype[Shape.types.HEIGHTFIELD] = Ray.prototype._intersectHeightfield
+Ray.prototype[Shape.types.SPHERE] = Ray.prototype._intersectSphere
+Ray.prototype[Shape.types.CYLINDER] = Ray.prototype._intersectConvex
+Ray.prototype[Shape.types.CONVEXPOLYHEDRON] = Ray.prototype._intersectConvex
+Ray.prototype[Shape.types.TRIMESH] = Ray.prototype._intersectTrimesh
 
 const intersectConvexOptions = {
   faceList: [0],
@@ -701,23 +698,12 @@ const intersectConvexOptions = {
 const worldPillarOffset = new Vec3()
 const intersectHeightfield_localRay = new Ray()
 const intersectHeightfield_index: number[] = []
-const intersectHeightfield_minMax = []
-
-Ray.prototype[Shape.types.HEIGHTFIELD] = Ray.prototype._intersectHeightfield
 
 const Ray_intersectSphere_intersectionPoint = new Vec3()
 const Ray_intersectSphere_normal = new Vec3()
 
-Ray.prototype[Shape.types.SPHERE] = Ray.prototype._intersectSphere
-
 const intersectConvex_normal = new Vec3()
-const intersectConvex_minDistNormal = new Vec3()
-const intersectConvex_minDistIntersect = new Vec3()
 const intersectConvex_vector = new Vec3()
-
-Ray.prototype[Shape.types.CYLINDER] = Ray.prototype._intersectConvex
-
-Ray.prototype[Shape.types.CONVEXPOLYHEDRON] = Ray.prototype._intersectConvex
 
 const intersectTrimesh_normal = new Vec3()
 const intersectTrimesh_localDirection = new Vec3()
@@ -728,8 +714,6 @@ const intersectTrimesh_worldIntersectPoint = new Vec3()
 const intersectTrimesh_localAABB = new AABB()
 const intersectTrimesh_triangles: number[] = []
 const intersectTrimesh_treeTransform = new Transform()
-
-Ray.prototype[Shape.types.TRIMESH] = Ray.prototype._intersectTrimesh
 
 const v0 = new Vec3()
 const intersect = new Vec3()

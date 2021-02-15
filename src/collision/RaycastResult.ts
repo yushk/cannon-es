@@ -3,9 +3,7 @@ import type { Body } from '../objects/Body'
 import type { Shape } from '../shapes/Shape'
 
 /**
- * Storage for Ray casting data.
- * @class RaycastResult
- * @constructor
+ * Storage for Ray casting data
  */
 export class RaycastResult {
   rayFromWorld: Vec3
@@ -15,9 +13,18 @@ export class RaycastResult {
   hasHit: boolean
   shape: Shape | null
   body: Body | null
-  hitFaceIndex: number // The index of the hit triangle, if the hit shape was a trimesh.
-  distance: number // Distance to the hit. Will be set to -1 if there was no hit.
-  shouldStop: boolean // If the ray should stop traversing the bodies.
+  /**
+   * The index of the hit triangle, if the hit shape was a trimesh
+   */
+  hitFaceIndex: number
+  /**
+   * Distance to the hit. Will be set to -1 if there was no hit
+   */
+  distance: number
+  /**
+   * If the ray should stop traversing the bodies
+   */
+  shouldStop: boolean
 
   constructor() {
     this.rayFromWorld = new Vec3()
@@ -33,8 +40,7 @@ export class RaycastResult {
   }
 
   /**
-   * Reset all result data.
-   * @method reset
+   * Reset all result data
    */
   reset(): void {
     this.rayFromWorld.setZero()
@@ -49,23 +55,10 @@ export class RaycastResult {
     this.shouldStop = false
   }
 
-  /**
-   * @method abort
-   */
   abort(): void {
     this.shouldStop = true
   }
 
-  /**
-   * @method set
-   * @param {Vec3} rayFromWorld
-   * @param {Vec3} rayToWorld
-   * @param {Vec3} hitNormalWorld
-   * @param {Vec3} hitPointWorld
-   * @param {Shape} shape
-   * @param {Body} body
-   * @param {number} distance
-   */
   set(
     rayFromWorld: Vec3,
     rayToWorld: Vec3,

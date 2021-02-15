@@ -2,8 +2,6 @@ import type { Body } from '../objects/Body'
 
 /**
  * Records what objects are colliding with each other
- * @class ObjectCollisionMatrix
- * @constructor
  */
 export class ObjectCollisionMatrix {
   matrix: Record<string, boolean> // The matrix storage.
@@ -12,12 +10,6 @@ export class ObjectCollisionMatrix {
     this.matrix = {}
   }
 
-  /**
-   * @method get
-   * @param  {Body} bi
-   * @param  {Body} bj
-   * @return {boolean}
-   */
   get(bi: Body, bj: Body): boolean {
     let { id: i } = bi
     let { id: j } = bj
@@ -29,12 +21,6 @@ export class ObjectCollisionMatrix {
     return `${i}-${j}` in this.matrix
   }
 
-  /**
-   * @method set
-   * @param  {Body} bi
-   * @param  {Body} bj
-   * @param {boolean} value
-   */
   set(bi: Body, bj: Body, value: boolean): void {
     let { id: i } = bi
     let { id: j } = bj
@@ -52,7 +38,6 @@ export class ObjectCollisionMatrix {
 
   /**
    * Empty the matrix
-   * @method reset
    */
   reset(): void {
     this.matrix = {}
@@ -60,8 +45,6 @@ export class ObjectCollisionMatrix {
 
   /**
    * Set max number of objects
-   * @method setNumObjects
-   * @param {Number} n
    */
   setNumObjects(n: number): void {}
 }
