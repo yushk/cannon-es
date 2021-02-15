@@ -50,25 +50,19 @@ export class Body extends EventTarget {
 
   /**
    * A dynamic body is fully simulated. Can be moved manually by the user, but normally they move according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero mass.
-   * @static
    */
   static DYNAMIC = BODY_TYPES['DYNAMIC']
 
   /**
    * A static body does not move during simulation and behaves as if it has infinite mass. Static bodies can be moved manually by setting the position of the body. The velocity of a static body is always zero. Static bodies do not collide with other static or kinematic bodies.
-   * @static
    */
   static STATIC = BODY_TYPES['STATIC']
 
   /**
    * A kinematic body moves under simulation according to its velocity. They do not respond to forces. They can be moved manually, but normally a kinematic body is moved by setting its velocity. A kinematic body behaves as if it has infinite mass. Kinematic bodies do not collide with other static or kinematic bodies.
-   * @static
    */
   static KINEMATIC = BODY_TYPES['KINEMATIC']
 
-  /**
-   * @static
-   */
   static AWAKE = BODY_SLEEP_STATES.AWAKE
   static SLEEPY = BODY_SLEEP_STATES.SLEEPY
   static SLEEPING = BODY_SLEEP_STATES.SLEEPING
