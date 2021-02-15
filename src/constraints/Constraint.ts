@@ -2,32 +2,30 @@ import { Utils } from '../utils/Utils'
 import type { Body } from '../objects/Body'
 import type { Equation } from '../equations/Equation'
 
-export type ConstraintOptions = {
-  collideConnected?: boolean
-  wakeUpBodies?: boolean
-}
+export type ConstraintOptions = ConstructorParameters<typeof Constraint>[2]
 
 /**
  * Constraint base class
- * @class Constraint
- * @author schteppe
- * @constructor
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {object} [options]
- * @param {boolean} [options.collideConnected=true]
- * @param {boolean} [options.wakeUpBodies=true]
  */
 export class Constraint {
-  equations: Equation[] // Equations to be solved in this constraint.
+  /**
+   * Equations to be solved in this constraint.
+   */
+  equations: Equation[]
   bodyA: Body
   bodyB: Body
   id: number
-  collideConnected: boolean // Set to true if you want the bodies to collide when they are connected.
+  /**
+   * Set to true if you want the bodies to collide when they are connected.
+   */
+  collideConnected: boolean
 
   static idCounter: number
 
-  constructor(bodyA: Body, bodyB: Body, options: ConstraintOptions = {}) {
+  constructor(bodyA: Body, bodyB: Body, options: {
+    collideConnected?: boolean
+    wakeUpBodies?: boolean
+  } = {}) {
     options = Utils.defaults(options, {
       collideConnected: true,
       wakeUpBodies: true,
@@ -51,7 +49,6 @@ export class Constraint {
 
   /**
    * Update all the equations with data.
-   * @method update
    */
   update(): void {
     throw new Error('method update() not implmemented in this Constraint subclass!')
@@ -59,7 +56,6 @@ export class Constraint {
 
   /**
    * Enables all equations in the constraint.
-   * @method enable
    */
   enable(): void {
     const eqs = this.equations
@@ -70,7 +66,6 @@ export class Constraint {
 
   /**
    * Disables all equations in the constraint.
-   * @method disable
    */
   disable(): void {
     const eqs = this.equations

@@ -5,10 +5,6 @@ import type { Body } from '../objects/Body'
 
 /**
  * Connects two bodies at given offset points.
- * @class PointToPointConstraint
- * @extends Constraint
- * @constructor
- * @param {Body} bodyA
  * @param {Vec3} pivotA The point relative to the center of mass of bodyA which bodyA is constrained to.
  * @param {Body} bodyB Body that will be constrained in a similar way to the same point as bodyA. We will therefore get a link between bodyA and bodyB. If not specified, bodyA will be constrained to a static point.
  * @param {Vec3} pivotB See pivotA.
@@ -29,8 +25,14 @@ import type { Body } from '../objects/Body'
  *     world.addConstraint(constraint);
  */
 export class PointToPointConstraint extends Constraint {
-  pivotA: Vec3 // Pivot, defined locally in bodyA.
-  pivotB: Vec3 // Pivot, defined locally in bodyB.
+  /**
+   * Pivot, defined locally in bodyA.
+   */
+  pivotA: Vec3
+  /**
+   * Pivot, defined locally in bodyB.
+   */
+  pivotB: Vec3
   equationX: ContactEquation
   equationY: ContactEquation
   equationZ: ContactEquation

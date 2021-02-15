@@ -4,16 +4,11 @@ import type { Body } from '../objects/Body'
 
 /**
  * Constrains two bodies to be at a constant distance from each others center of mass.
- * @class DistanceConstraint
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {Number} [distance] The distance to keep. If undefined, it will be set to the current distance between bodyA and bodyB
- * @param {Number} [maxForce=1e6]
- * @extends Constraint
  */
 export class DistanceConstraint extends Constraint {
+  /**
+   * The distance to keep. If undefined, it will be set to the current distance between bodyA and bodyB
+   */
   distance: number
   distanceEquation: ContactEquation
 
