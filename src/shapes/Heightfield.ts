@@ -5,11 +5,7 @@ import { Utils } from '../utils/Utils'
 import type { AABB } from '../collision/AABB'
 import type { Quaternion } from '../math/Quaternion'
 
-export type HeightfieldOptions = {
-  maxValue?: number | null
-  minValue?: number | null
-  elementSize?: number
-}
+export type HeightfieldOptions = ConstructorParameters<typeof Heightfield>[1]
 
 type HeightfieldPillar = {
   convex: any
@@ -18,14 +14,6 @@ type HeightfieldPillar = {
 
 /**
  * Heightfield shape class. Height data is given as an array. These data points are spread out evenly with a given distance.
- * @class Heightfield
- * @extends Shape
- * @constructor
- * @param {Array} data An array of Y values that will be used to construct the terrain.
- * @param {object} options
- * @param {Number} [options.minValue] Minimum value of the data points in the data array. Will be computed automatically if not given.
- * @param {Number} [options.maxValue] Maximum value.
- * @param {Number} [options.elementSize=0.1] World spacing between the data points in X direction.
  * @todo Should be possible to use along all axes, not just y
  * @todo should be possible to scale along all axes
  * @todo Refactor elementSize to elementSizeX and elementSizeY
@@ -47,17 +35,45 @@ type HeightfieldPillar = {
  *     world.addBody(heightfieldBody);
  */
 export class Heightfield extends Shape {
-  data: number[][] // An array of numbers, or height values, that are spread out along the x axis.
-  maxValue: number | null // Max value of the data.
-  minValue: number | null // Max value of the data.
-  elementSize: number // The width of each element. To do: elementSizeX and Y
+  /**
+   * An array of numbers, or height values, that are spread out along the x axis.
+   */
+  data: number[][]
+
+  /**
+   * Max value of the data.
+   * Will be computed automatically if not given.
+   */
+  maxValue: number | null
+
+  /**
+   * Minimum value of the data points in the data array.
+   * Will be computed automatically if not given.
+   */
+  minValue: number | null
+
+  /**
+   * The width of each element. 
+   * AKA World spacing between the data points in X direction.
+   * @todo elementSizeX and Y
+   * @default 1
+   */
+  elementSize: number
+  
+  /**
+   * @default true
+   */
   cacheEnabled: boolean
   pillarConvex: ConvexPolyhedron
   pillarOffset: Vec3
 
   private _cachedPillars: { [key: string]: HeightfieldPillar }
 
-  constructor(data: number[][], options: HeightfieldOptions = {}) {
+  constructor(data: number[][], options: {
+    maxValue?: number | null
+    minValue?: number | null
+    elementSize?: number
+  } = {}) {
     options = Utils.defaults(options, {
       maxValue: null,
       minValue: null,
@@ -94,15 +110,13 @@ export class Heightfield extends Shape {
 
   /**
    * Call whenever you change the data array.
-   * @method update
    */
   update(): void {
     this._cachedPillars = {}
   }
 
   /**
-   * Update the .minValue property
-   * @method updateMinValue
+   * Update the `minValue` property
    */
   updateMinValue(): void {
     const data = this.data
@@ -119,8 +133,7 @@ export class Heightfield extends Shape {
   }
 
   /**
-   * Update the .maxValue property
-   * @method updateMaxValue
+   * Update the `maxValue` property
    */
   updateMaxValue(): void {
     const data = this.data
@@ -138,10 +151,6 @@ export class Heightfield extends Shape {
 
   /**
    * Set the height value at an index. Don't forget to update maxValue and minValue after you're done.
-   * @method setHeightValueAtIndex
-   * @param {integer} xi
-   * @param {integer} yi
-   * @param {number} value
    */
   setHeightValueAtIndex(xi: number, yi: number, value: number): void {
     const data = this.data
@@ -164,12 +173,6 @@ export class Heightfield extends Shape {
 
   /**
    * Get max/min in a rectangle in the matrix data
-   * @method getRectMinMax
-   * @param  {integer} iMinX
-   * @param  {integer} iMinY
-   * @param  {integer} iMaxX
-   * @param  {integer} iMaxY
-   * @param  {array} [result] An array to store the results in.
    * @return {array} The result array, if it was passed in. Minimum will be at position 0 and max at 1.
    */
   getRectMinMax(iMinX: number, iMinY: number, iMaxX: number, iMaxY: number, result: number[] = []): void {
@@ -192,12 +195,8 @@ export class Heightfield extends Shape {
 
   /**
    * Get the index of a local position on the heightfield. The indexes indicate the rectangles, so if your terrain is made of N x N height data points, you will have rectangle indexes ranging from 0 to N-1.
-   * @method getIndexOfPosition
-   * @param  {number} x
-   * @param  {number} y
    * @param  {array} result Two-element array
    * @param  {boolean} clamp If the position should be clamped to the heightfield edge.
-   * @return {boolean}
    */
   getIndexOfPosition(x: number, y: number, result: number[], clamp: boolean): boolean {
     // Get the index of the data points to test against
@@ -282,10 +281,6 @@ export class Heightfield extends Shape {
 
   /**
    * Get the height in the heightfield at a given position
-   * @param  {number} x
-   * @param  {number} y
-   * @param  {boolean} edgeClamp
-   * @return {number}
    */
   getHeightAt(x: number, y: number, edgeClamp: boolean): number {
     const data = this.data
@@ -342,12 +337,6 @@ export class Heightfield extends Shape {
 
   /**
    * Get a triangle from the heightfield
-   * @param  {number} xi
-   * @param  {number} yi
-   * @param  {boolean} upper
-   * @param  {Vec3} a
-   * @param  {Vec3} b
-   * @param  {Vec3} c
    */
   getTriangle(xi: number, yi: number, upper: boolean, a: Vec3, b: Vec3, c: Vec3): void {
     const data = this.data
@@ -368,10 +357,6 @@ export class Heightfield extends Shape {
 
   /**
    * Get a triangle in the terrain in the form of a triangular convex shape.
-   * @method getConvexTrianglePillar
-   * @param  {integer} i
-   * @param  {integer} j
-   * @param  {boolean} getUpperTriangle
    */
   getConvexTrianglePillar(xi: number, yi: number, getUpperTriangle: boolean): void {
     let result = this.pillarConvex
@@ -530,7 +515,7 @@ export class Heightfield extends Shape {
   }
 
   calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
-    // TODO: do it properly
+    /** @TODO do it properly */
     min.set(-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE)
     max.set(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE)
   }
@@ -549,9 +534,6 @@ export class Heightfield extends Shape {
 
   /**
    * Sets the height values from an image. Currently only supported in browser.
-   * @method setHeightsFromImage
-   * @param {Image} image
-   * @param {Vec3} scale
    */
   setHeightsFromImage(image: HTMLImageElement, scale: Vec3): void {
     const { x, z, y } = scale

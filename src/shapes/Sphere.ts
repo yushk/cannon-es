@@ -4,11 +4,7 @@ import type { Quaternion } from '../math/Quaternion'
 
 /**
  * Spherical shape
- * @class Sphere
- * @constructor
- * @extends Shape
  * @param {Number} radius The radius of the sphere, a non-negative number.
- * @author schteppe / http://github.com/schteppe
  */
 export class Sphere extends Shape {
   radius: number

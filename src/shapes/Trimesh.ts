@@ -6,11 +6,6 @@ import { Octree } from '../utils/Octree'
 import type { Quaternion } from '../math/Quaternion'
 
 /**
- * @class Trimesh
- * @constructor
- * @param {array} vertices
- * @param {array} indices
- * @extends Shape
  * @example
  *     // How to make a mesh with a single triangle
  *     const vertices = [
@@ -25,12 +20,35 @@ import type { Quaternion } from '../math/Quaternion'
  */
 export class Trimesh extends Shape {
   vertices: Float32Array
-  indices: Int16Array // Array of integers, indicating which vertices each triangle consists of. The length of this array is thus 3 times the number of triangles.
-  normals: Float32Array // The normals data.
-  aabb: AABB // The local AABB of the mesh.
-  edges: Int16Array | null // References to vertex pairs, making up all unique edges in the trimesh.
-  scale: Vec3 // Local scaling of the mesh. Use .setScale() to set it.
-  tree: Octree // The indexed triangles. Use .updateTree() to update it.
+
+  /**
+   * Array of integers, indicating which vertices each triangle consists of. The length of this array is thus 3 times the number of triangles.
+   */
+  indices: Int16Array
+
+  /**
+   * The normals data.
+   */
+  normals: Float32Array
+  /**
+   * The local AABB of the mesh.
+   */
+  aabb: AABB
+
+  /**
+   * References to vertex pairs, making up all unique edges in the trimesh.
+   */
+  edges: Int16Array | null
+
+  /**
+   * Local scaling of the mesh. Use .setScale() to set it.
+   */
+  scale: Vec3
+
+  /**
+   * The indexed triangles. Use .updateTree() to update it.
+   */
+  tree: Octree
 
   constructor(vertices: number[], indices: number[]) {
     super({ type: Shape.types.TRIMESH })
@@ -50,9 +68,6 @@ export class Trimesh extends Shape {
     this.updateTree()
   }
 
-  /**
-   * @method updateTree
-   */
   updateTree(): void {
     const tree = this.tree
 
@@ -89,9 +104,7 @@ export class Trimesh extends Shape {
 
   /**
    * Get triangles in a local AABB from the trimesh.
-   * @method getTrianglesInAABB
-   * @param  {AABB} aabb
-   * @param  {array} result An array of integers, referencing the queried triangles.
+   * @param {array} result An array of integers, referencing the queried triangles.
    */
   getTrianglesInAABB(aabb: AABB, result: number[]): number[] {
     unscaledAABB.copy(aabb)
@@ -113,10 +126,6 @@ export class Trimesh extends Shape {
     return this.tree.aabbQuery(unscaledAABB, result)
   }
 
-  /**
-   * @method setScale
-   * @param {Vec3} scale
-   */
   setScale(scale: Vec3): void {
     const wasUniform = this.scale.x === this.scale.y && this.scale.y === this.scale.z
     const isUniform = scale.x === scale.y && scale.y === scale.z
@@ -131,8 +140,7 @@ export class Trimesh extends Shape {
   }
 
   /**
-   * Compute the normals of the faces. Will save in the .normals array.
-   * @method updateNormals
+   * Compute the normals of the faces. Will save in the `normals` array.
    */
   updateNormals(): void {
     const n = computeNormals_n
@@ -159,8 +167,7 @@ export class Trimesh extends Shape {
   }
 
   /**
-   * Update the .edges property
-   * @method updateEdges
+   * Update the `edges` property
    */
   updateEdges(): void {
     const edges: { [key: string]: boolean } = {}
@@ -188,10 +195,8 @@ export class Trimesh extends Shape {
 
   /**
    * Get an edge vertex
-   * @method getEdgeVertex
-   * @param  {number} edgeIndex
-   * @param  {number} firstOrSecond 0 or 1, depending on which one of the vertices you need.
-   * @param  {Vec3} vertexStore Where to store the result
+   * @param {number} firstOrSecond 0 or 1, depending on which one of the vertices you need.
+   * @param {Vec3} vertexStore Where to store the result
    */
   getEdgeVertex(edgeIndex: number, firstOrSecond: number, vertexStore: Vec3): void {
     const vertexIndex = this.edges![edgeIndex * 2 + (firstOrSecond ? 1 : 0)]
@@ -200,9 +205,6 @@ export class Trimesh extends Shape {
 
   /**
    * Get a vector along an edge.
-   * @method getEdgeVector
-   * @param  {number} edgeIndex
-   * @param  {Vec3} vectorStore
    */
   getEdgeVector(edgeIndex: number, vectorStore: Vec3): void {
     const va = getEdgeVector_va
@@ -214,12 +216,6 @@ export class Trimesh extends Shape {
 
   /**
    * Get face normal given 3 vertices
-   * @static
-   * @method computeNormal
-   * @param {Vec3} va
-   * @param {Vec3} vb
-   * @param {Vec3} vc
-   * @param {Vec3} target
    */
   static computeNormal(va: Vec3, vb: Vec3, vc: Vec3, target: Vec3): void {
     vb.vsub(va, ab)
@@ -232,9 +228,6 @@ export class Trimesh extends Shape {
 
   /**
    * Get vertex i.
-   * @method getVertex
-   * @param  {number} i
-   * @param  {Vec3} out
    * @return {Vec3} The "out" vector object
    */
   getVertex(i: number, out: Vec3): Vec3 {
@@ -248,10 +241,6 @@ export class Trimesh extends Shape {
 
   /**
    * Get raw vertex i
-   * @private
-   * @method _getUnscaledVertex
-   * @param  {number} i
-   * @param  {Vec3} out
    * @return {Vec3} The "out" vector object
    */
   private _getUnscaledVertex(i: number, out: Vec3): Vec3 {
@@ -262,11 +251,6 @@ export class Trimesh extends Shape {
 
   /**
    * Get a vertex from the trimesh,transformed by the given position and quaternion.
-   * @method getWorldVertex
-   * @param  {number} i
-   * @param  {Vec3} pos
-   * @param  {Quaternion} quat
-   * @param  {Vec3} out
    * @return {Vec3} The "out" vector object
    */
   getWorldVertex(i: number, pos: Vec3, quat: Quaternion, out: Vec3): Vec3 {
@@ -277,11 +261,6 @@ export class Trimesh extends Shape {
 
   /**
    * Get the three vertices for triangle i.
-   * @method getTriangleVertices
-   * @param  {number} i
-   * @param  {Vec3} a
-   * @param  {Vec3} b
-   * @param  {Vec3} c
    */
   getTriangleVertices(i: number, a: Vec3, b: Vec3, c: Vec3): void {
     const i3 = i * 3
@@ -292,9 +271,6 @@ export class Trimesh extends Shape {
 
   /**
    * Compute the normal of triangle i.
-   * @method getNormal
-   * @param  {Number} i
-   * @param  {Vec3} target
    * @return {Vec3} The "target" vector object
    */
   getNormal(i: number, target: Vec3): Vec3 {
@@ -303,9 +279,6 @@ export class Trimesh extends Shape {
   }
 
   /**
-   * @method calculateLocalInertia
-   * @param  {Number} mass
-   * @param  {Vec3} target
    * @return {Vec3} The "target" vector object
    */
   calculateLocalInertia(mass: number, target: Vec3): Vec3 {
@@ -324,8 +297,6 @@ export class Trimesh extends Shape {
 
   /**
    * Compute the local AABB for the trimesh
-   * @method computeLocalAABB
-   * @param  {AABB} aabb
    */
   computeLocalAABB(aabb: AABB): void {
     const l = aabb.lowerBound
@@ -362,16 +333,14 @@ export class Trimesh extends Shape {
   }
 
   /**
-   * Update the .aabb property
-   * @method updateAABB
+   * Update the `aabb` property
    */
   updateAABB(): void {
     this.computeLocalAABB(this.aabb)
   }
 
   /**
-   * Will update the .boundingSphereRadius property
-   * @method updateBoundingSphereRadius
+   * Will update the `boundingSphereRadius` property
    */
   updateBoundingSphereRadius(): void {
     // Assume points are distributed with local (0,0,0) as center
@@ -388,13 +357,6 @@ export class Trimesh extends Shape {
     this.boundingSphereRadius = Math.sqrt(max2)
   }
 
-  /**
-   * @method calculateWorldAABB
-   * @param {Vec3}        pos
-   * @param {Quaternion}  quat
-   * @param {Vec3}        min
-   * @param {Vec3}        max
-   */
   calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3) {
     /*
         const n = this.vertices.length / 3,
@@ -440,8 +402,6 @@ export class Trimesh extends Shape {
 
   /**
    * Get approximate volume
-   * @method volume
-   * @return {Number}
    */
   volume() {
     return (4.0 * Math.PI * this.boundingSphereRadius) / 3.0
@@ -449,14 +409,6 @@ export class Trimesh extends Shape {
 
   /**
    * Create a Trimesh instance, shaped as a torus.
-   * @static
-   * @method createTorus
-   * @param  {number} [radius=1]
-   * @param  {number} [tube=0.5]
-   * @param  {number} [radialSegments=8]
-   * @param  {number} [tubularSegments=6]
-   * @param  {number} [arc=6.283185307179586]
-   * @return {Trimesh} A torus
    */
   static createTorus(radius = 1, tube = 0.5, radialSegments = 8, tubularSegments = 6, arc = Math.PI * 2): Trimesh {
     const vertices = []

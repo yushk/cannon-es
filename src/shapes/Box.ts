@@ -5,11 +5,6 @@ import type { Quaternion } from '../math/Quaternion'
 
 /**
  * A 3d box shape.
- * @class Box
- * @constructor
- * @param {Vec3} halfExtents
- * @author schteppe
- * @extends Shape
  */
 export class Box extends Shape {
   halfExtents: Vec3
@@ -26,7 +21,6 @@ export class Box extends Shape {
 
   /**
    * Updates the local convex polyhedron representation used for some collisions.
-   * @method updateConvexPolyhedronRepresentation
    */
   updateConvexPolyhedronRepresentation(): void {
     const sx = this.halfExtents.x
@@ -61,12 +55,6 @@ export class Box extends Shape {
     h.material = this.material
   }
 
-  /**
-   * @method calculateLocalInertia
-   * @param  {Number} mass
-   * @param  {Vec3} target
-   * @return {Vec3}
-   */
   calculateLocalInertia(mass: number, target = new Vec3()): Vec3 {
     Box.calculateInertia(this.halfExtents, mass, target)
     return target
@@ -81,10 +69,8 @@ export class Box extends Shape {
 
   /**
    * Get the box 6 side normals
-   * @method getSideNormals
-   * @param {array}      sixTargetVectors An array of 6 vectors, to store the resulting side normals in.
-   * @param {Quaternion} quat             Orientation to apply to the normal vectors. If not provided, the vectors will be in respect to the local frame.
-   * @return {array}
+   * @param {array} sixTargetVectors An array of 6 vectors, to store the resulting side normals in.
+   * @param {Quaternion} quat Orientation to apply to the normal vectors. If not provided, the vectors will be in respect to the local frame.
    */
   getSideNormals(sixTargetVectors: Vec3[], quat: Quaternion): Vec3[] {
     const sides = sixTargetVectors

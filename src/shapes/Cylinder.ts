@@ -3,13 +3,6 @@ import { Vec3 } from '../math/Vec3'
 import { Shape } from './Shape'
 
 /**
- * @class Cylinder
- * @constructor
- * @extends ConvexPolyhedron
- * @author schteppe / https://github.com/schteppe
- * @param {Number} radiusTop
- * @param {Number} radiusBottom
- * @param {Number} height
  * @param {Number} numSegments The number of segments to build the cylinder out of
  */
 export class Cylinder extends ConvexPolyhedron {
