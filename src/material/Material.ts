@@ -1,28 +1,42 @@
-export type MaterialOptions = {
-  friction?: number
-  restitution?: number
-}
+export type MaterialOptions = ConstructorParameters<typeof Material>
 
 /**
  * Defines a physics material.
- * @class Material
- * @constructor
- * @param {object} [options]
- * @author schteppe
  */
 export class Material {
-  name: string // Material name.
-  id: number // Material id.
-  friction: number // Friction for this material. If non-negative, it will be used instead of the friction given by ContactMaterials. If there's no matching ContactMaterial, the value from .defaultContactMaterial in the World will be used.
-  restitution: number // Restitution for this material. If non-negative, it will be used instead of the restitution given by ContactMaterials. If there's no matching ContactMaterial, the value from .defaultContactMaterial in the World will be used.
+  /**
+   * Material name.
+   * If options is a string, name will be set to that string.
+   */
+  name: string
+  /** Material id. */
+  id: number
+  /**
+   * Friction for this material.
+   * If non-negative, it will be used instead of the friction given by ContactMaterials. If there's no matching ContactMaterial, the value from `defaultContactMaterial` in the World will be used.
+   */
+  friction: number
+  /**
+   * Restitution for this material.
+   * If non-negative, it will be used instead of the restitution given by ContactMaterials. If there's no matching ContactMaterial, the value from `defaultContactMaterial` in the World will be used.
+   */
+  restitution: number
 
   static idCounter: number
 
-  constructor(options: MaterialOptions | string = {}) {
+  constructor(
+    options:
+      | {
+          friction?: number
+          restitution?: number
+        }
+      | string = {}
+  ) {
     let name = ''
 
     // Backwards compatibility fix
     if (typeof options === 'string') {
+      console.warn(`Passing a string to MaterialOptions is deprecated, and has no effect`)
       name = options
       options = {}
     }
