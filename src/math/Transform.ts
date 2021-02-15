@@ -1,16 +1,16 @@
 import { Vec3 } from '../math/Vec3'
 import { Quaternion } from '../math/Quaternion'
 
-export type TransformOptions = {
-  position?: Vec3
-  quaternion?: Quaternion
-}
+export type TransformOptions = ConstructorParameters<typeof Transform>
 
 export class Transform {
   position: Vec3
   quaternion: Quaternion
 
-  constructor(options: TransformOptions = {}) {
+  constructor(options: {
+    position?: Vec3
+    quaternion?: Quaternion
+  } = {}) {
     this.position = new Vec3()
     this.quaternion = new Quaternion()
 

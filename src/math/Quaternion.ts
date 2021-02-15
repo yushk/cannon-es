@@ -158,7 +158,6 @@ export class Quaternion {
 
   /**
    * Normalize the quaternion. Note that this changes the values of the quaternion.
-   * @method normalize
    */
   normalize(): Quaternion {
     let l = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
@@ -179,7 +178,6 @@ export class Quaternion {
 
   /**
    * Approximation of quaternion normalization. Works best when quat is already almost-normalized.
-   * @see http://jsperf.com/fast-quaternion-normalization
    * @author unphased, https://github.com/unphased
    */
   normalizeFast(): Quaternion {
@@ -239,9 +237,7 @@ export class Quaternion {
   }
 
   /**
-   * Convert the quaternion to euler angle representation. Order: YZX, as this page describes: http://www.euclideanspace.com/maths/standards/index.htm
-   * @method toEuler
-   * @param {Vec3} target
+   * Convert the quaternion to euler angle representation. Order: YZX, as this page describes: https://www.euclideanspace.com/maths/standards/index.htm
    * @param {String} order Three-character string, defaults to "YZX"
    */
   toEuler(target: Vec3, order = 'YZX'): void {
@@ -287,11 +283,9 @@ export class Quaternion {
   }
 
   /**
-   * @param {Number} x
-   * @param {Number} y
-   * @param {Number} z
-   * @param {String} order The order to apply angles: 'XYZ' or 'YXZ' or any other combination
-   * @see http://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/content/SpinCalc.m
+   * @param {String} order The order to apply angles: 'XYZ' or 'YXZ' or any other combination.
+   * 
+   * See {@link https://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors MathWorks} reference
    */
   setFromEuler(x: number, y: number, z: number, order = 'XYZ'): Quaternion {
     const c1 = Math.cos(x / 2)
@@ -336,10 +330,6 @@ export class Quaternion {
     return this
   }
 
-  /**
-   * @method clone
-   * @return {Quaternion}
-   */
   clone(): Quaternion {
     return new Quaternion(this.x, this.y, this.z, this.w)
   }

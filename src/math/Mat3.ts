@@ -3,12 +3,12 @@ import type { Quaternion } from '../math/Quaternion'
 
 /**
  * A 3x3 matrix.
- * @class Mat3
- * @constructor
- * @param {Array} elements A vector of length 9, containing all matrix elements. Optional.
- * @author schteppe / http://github.com/schteppe
+ * Authored by {@link http://github.com/schteppe/ schteppe}
  */
 export class Mat3 {
+  /**
+   * A vector of length 9, containing all matrix elements.
+   */
   elements: number[]
 
   constructor(elements = [0, 0, 0, 0, 0, 0, 0, 0, 0]) {
@@ -17,9 +17,8 @@ export class Mat3 {
 
   /**
    * Sets the matrix to identity
-   * @method identity
-   * @todo Should perhaps be renamed to setIdentity() to be more clear.
-   * @todo Create another function that immediately creates an identity matrix eg. eye()
+   * @todo Should perhaps be renamed to `setIdentity()` to be more clear.
+   * @todo Create another function that immediately creates an identity matrix eg. `eye()`
    */
   identity(): void {
     const e = this.elements
@@ -38,7 +37,6 @@ export class Mat3 {
 
   /**
    * Set all elements to zero
-   * @method setZero
    */
   setZero(): void {
     const e = this.elements
@@ -55,8 +53,6 @@ export class Mat3 {
 
   /**
    * Sets the matrix diagonal elements from a Vec3
-   * @method setTrace
-   * @param {Vec3} vec3
    */
   setTrace(vector: Vec3): void {
     const e = this.elements
@@ -67,8 +63,6 @@ export class Mat3 {
 
   /**
    * Gets the matrix diagonal elements
-   * @method getTrace
-   * @return {Vec3}
    */
   getTrace(target = new Vec3()): Vec3 {
     const e = this.elements
@@ -80,7 +74,6 @@ export class Mat3 {
 
   /**
    * Matrix-Vector multiplication
-   * @method vmult
    * @param {Vec3} v The vector to multiply with
    * @param {Vec3} target Optional, target to save the result in.
    */
@@ -98,8 +91,6 @@ export class Mat3 {
 
   /**
    * Matrix-scalar multiplication
-   * @method smult
-   * @param {Number} s
    */
   smult(s: number): void {
     for (let i = 0; i < this.elements.length; i++) {
@@ -109,9 +100,7 @@ export class Mat3 {
 
   /**
    * Matrix multiplication
-   * @method mmult
    * @param {Mat3} matrix Matrix to multiply with from left side.
-   * @return {Mat3} The result.
    */
   mmult(matrix: Mat3, target = new Mat3()): Mat3 {
     const A = this.elements
@@ -155,9 +144,6 @@ export class Mat3 {
 
   /**
    * Scale each column of the matrix
-   * @method scale
-   * @param {Vec3} v
-   * @return {Mat3} The result.
    */
   scale(vector: Vec3, target = new Mat3()): Mat3 {
     const e = this.elements
@@ -172,7 +158,6 @@ export class Mat3 {
 
   /**
    * Solve Ax=b
-   * @method solve
    * @param {Vec3} b The right hand side
    * @param {Vec3} target Optional. Target vector to save in.
    * @return {Vec3} The solution x
@@ -254,11 +239,7 @@ export class Mat3 {
 
   /**
    * Get an element in the matrix by index. Index starts at 0, not 1!!!
-   * @method e
-   * @param {Number} row
-   * @param {Number} column
-   * @param {Number} value Optional. If provided, the matrix element will be set to this value.
-   * @return {Number}
+   * @param {Number} value If provided, the matrix element will be set to this value.
    */
   e(row: number, column: number): number
   e(row: number, column: number, value: number): void
@@ -273,9 +254,6 @@ export class Mat3 {
 
   /**
    * Copy another matrix into this matrix object.
-   * @method copy
-   * @param {Mat3} source
-   * @return {Mat3} this
    */
   copy(matrix: Mat3): Mat3 {
     for (let i = 0; i < matrix.elements.length; i++) {
@@ -286,8 +264,6 @@ export class Mat3 {
 
   /**
    * Returns a string representation of the matrix.
-   * @method toString
-   * @return string
    */
   toString(): string {
     let r = ''
@@ -300,8 +276,7 @@ export class Mat3 {
 
   /**
    * reverse the matrix
-   * @method reverse
-   * @param {Mat3} target Optional. Target matrix to save in.
+   * @param {Mat3} target Target matrix to save in.
    * @return {Mat3} The solution x
    */
   reverse(target = new Mat3()): Mat3 {
@@ -404,8 +379,6 @@ export class Mat3 {
 
   /**
    * Set the matrix from a quaterion
-   * @method setRotationFromQuaternion
-   * @param {Quaternion} q
    */
   setRotationFromQuaternion(q: Quaternion): Mat3 {
     const x = q.x
@@ -443,7 +416,6 @@ export class Mat3 {
 
   /**
    * Transpose the matrix
-   * @method transpose
    * @param  {Mat3} target Optional. Where to store the result.
    * @return {Mat3} The target Mat3, or a new Mat3 if target was omitted.
    */
