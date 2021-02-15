@@ -518,7 +518,6 @@ export class Body extends EventTarget {
 
   /**
    * Wake the body up.
-   * @method wakeUp
    */
   wakeUp(): void {
     const prevState = this.sleepState
@@ -578,9 +577,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a world point to local body frame.
-   * @param  {Vec3} worldPoint
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   pointToLocalFrame(worldPoint: Vec3, result = new Vec3()): Vec3 {
     worldPoint.vsub(this.position, result)
@@ -590,9 +586,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a world vector to local body frame.
-   * @param  {Vec3} worldPoint
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   vectorToLocalFrame(worldVector: Vec3, result = new Vec3()): Vec3 {
     this.quaternion.conjugate().vmult(worldVector, result)
@@ -601,9 +594,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a local body point to world frame.
-   * @param  {Vec3} localPoint
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   pointToWorldFrame(localPoint: Vec3, result = new Vec3()): Vec3 {
     this.quaternion.vmult(localPoint, result)
@@ -613,9 +603,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a local body point to world frame.
-   * @param  {Vec3} localVector
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   vectorToWorldFrame(localVector: Vec3, result = new Vec3()): Vec3 {
     this.quaternion.vmult(localVector, result)
@@ -624,9 +611,6 @@ export class Body extends EventTarget {
 
   /**
    * Add a shape to the body with a local offset and orientation.
-   * @param {Shape} shape
-   * @param {Vec3} [_offset]
-   * @param {Quaternion} [_orientation]
    * @return {Body} The body object, for chainability.
    */
   addShape(shape: Shape, _offset?: Vec3, _orientation?: Quaternion): Body {
@@ -740,7 +724,7 @@ export class Body extends EventTarget {
   }
 
   /**
-   * Update .inertiaWorld and .invInertiaWorld
+   * Update `inertiaWorld` and `invInertiaWorld`
    */
   updateInertiaWorld(force?: boolean): void {
     const I = this.invInertia

@@ -8,36 +8,35 @@ import type { Transform } from '../math/Transform'
 import type { Constraint } from '../constraints/Constraint'
 import type { World } from '../world/World'
 
-export type RaycastVehicleOptions = {
-  chassisBody: Body
-  indexRightAxis?: number
-  indexForwardAxis?: number
-  indexUpAxis?: number
-}
+export type RaycastVehicleOptions = ConstructorParameters<typeof RaycastVehicle>[0]
 
 /**
  * Vehicle helper class that casts rays from the wheel positions towards the ground and applies forces.
- * @class RaycastVehicle
- * @constructor
- * @param {object} [options]
- * @param {Body} [options.chassisBody] The car chassis body.
- * @param {integer} [options.indexRightAxis] Axis to use for right. x=0, y=1, z=2
- * @param {integer} [options.indexLeftAxis]
- * @param {integer} [options.indexUpAxis]
  */
 export class RaycastVehicle {
+  /** The car chassis body. */
   chassisBody: Body
   wheelInfos: WheelInfo[]
-  sliding: boolean // Will be set to true if the car is sliding.
+  /** Will be set to true if the car is sliding. */
+  sliding: boolean
   world: World | null
-  indexRightAxis: number // Index of the right axis, 0=x, 1=y, 2=z
-  indexForwardAxis: number // Index of the forward axis, 0=x, 1=y, 2=z
-  indexUpAxis: number // Index of the up axis, 0=x, 1=y, 2=z
+  indexRightAxis: number
+  indexForwardAxis: number
+  indexUpAxis: number
   constraints: Constraint[]
   preStepCallback: () => void
   currentVehicleSpeedKmHour: number
 
-  constructor(options: RaycastVehicleOptions) {
+  constructor(options: {
+    /** The car chassis body. */
+    chassisBody: Body
+    /** Axis to use for right. x=0, y=1, z=2 */
+    indexRightAxis?: number
+    /** Index of the forward axis. x=0, y=1, z=2 */
+    indexForwardAxis?: number
+    /** ndex of the up axis. x=0, y=1, z=2 */
+    indexUpAxis?: number
+  }) {
     this.chassisBody = options.chassisBody
     this.wheelInfos = []
     this.sliding = false
@@ -51,9 +50,7 @@ export class RaycastVehicle {
   }
 
   /**
-   * Add a wheel. For information about the options, see WheelInfo.
-   * @method addWheel
-   * @param {object} [options]
+   * Add a wheel. For information about the options, see `WheelInfo`.
    */
   addWheel(options: WheelInfoOptions = {}): number {
     const info = new WheelInfo(options)
@@ -65,9 +62,6 @@ export class RaycastVehicle {
 
   /**
    * Set the steering value of a wheel.
-   * @method setSteeringValue
-   * @param {number} value
-   * @param {integer} wheelIndex
    */
   setSteeringValue(value: number, wheelIndex: number): void {
     const wheel = this.wheelInfos[wheelIndex]
@@ -76,9 +70,6 @@ export class RaycastVehicle {
 
   /**
    * Set the wheel force to apply on one of the wheels each time step
-   * @method applyEngineForce
-   * @param  {number} value
-   * @param  {integer} wheelIndex
    */
   applyEngineForce(value: number, wheelIndex: number): void {
     this.wheelInfos[wheelIndex].engineForce = value
@@ -86,9 +77,6 @@ export class RaycastVehicle {
 
   /**
    * Set the braking force of a wheel
-   * @method setBrake
-   * @param {number} brake
-   * @param {integer} wheelIndex
    */
   setBrake(brake: number, wheelIndex: number): void {
     this.wheelInfos[wheelIndex].brake = brake
@@ -96,11 +84,8 @@ export class RaycastVehicle {
 
   /**
    * Add the vehicle including its constraints to the world.
-   * @method addToWorld
-   * @param {World} world
    */
   addToWorld(world: World): void {
-    const constraints = this.constraints
     world.addBody(this.chassisBody)
     const that = this
     this.preStepCallback = () => {
@@ -112,12 +97,8 @@ export class RaycastVehicle {
 
   /**
    * Get one of the wheel axles, world-oriented.
-   * @private
-   * @method getVehicleAxisWorld
-   * @param  {integer} axisIndex
-   * @param  {Vec3} result
    */
-  getVehicleAxisWorld(axisIndex: number, result: Vec3): void {
+  private getVehicleAxisWorld(axisIndex: number, result: Vec3): void {
     result.set(axisIndex === 0 ? 1 : 0, axisIndex === 1 ? 1 : 0, axisIndex === 2 ? 1 : 0)
     this.chassisBody.vectorToWorldFrame(result, result)
   }
@@ -248,8 +229,6 @@ export class RaycastVehicle {
 
   /**
    * Remove the vehicle including its constraints from the world.
-   * @method removeFromWorld
-   * @param {World} world
    */
   removeFromWorld(world: World): void {
     const constraints = this.constraints
@@ -345,7 +324,6 @@ export class RaycastVehicle {
   /**
    * Update one of the wheel transform.
    * Note when rendering wheels: during each step, wheel transforms are updated BEFORE the chassis; ie. their position becomes invalid after the step. Thus when you render wheels, you must update wheel transforms before rendering them. See raycastVehicle demo for an example.
-   * @method updateWheelTransform
    * @param {integer} wheelIndex The wheel index to update.
    */
   updateWheelTransform(wheelIndex: number): void {
@@ -386,9 +364,6 @@ export class RaycastVehicle {
 
   /**
    * Get the world transform of one of the wheels
-   * @method getWheelTransformWorld
-   * @param  {integer} wheelIndex
-   * @return {Transform}
    */
   getWheelTransformWorld(wheelIndex: number): Transform {
     return this.wheelInfos[wheelIndex].worldTransform

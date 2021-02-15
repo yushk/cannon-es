@@ -5,22 +5,21 @@ import { Box } from '../shapes/Box'
 import { HingeConstraint } from '../constraints/HingeConstraint'
 import type { World } from '../world/World'
 
-export type RigidVehicleOptions = {
-  coordinateSystem?: Vec3
-  chassisBody?: Body
-}
+export type RigidVehicleOptions = ConstructorParameters<typeof RigidVehicle>[0]
 
 export type RigidVehicleWheelOptions = {
+  /** The wheel body */
   body?: Body
+  /** Position of the wheel, locally in the chassis body. */
   position?: Vec3
+  /** Axis of rotation of the wheel, locally defined in the chassis. */
   axis?: Vec3
+  /** Slide direction of the wheel along the suspension. */
+  direction?: Vec3
 }
 
 /**
  * Simple vehicle helper class with spherical rigid body wheels.
- * @class RigidVehicle
- * @constructor
- * @param {Body} [options.chassisBody]
  */
 export class RigidVehicle {
   wheelBodies: Body[]
@@ -30,7 +29,10 @@ export class RigidVehicle {
   wheelAxes: Vec3[]
   wheelForces: number[]
 
-  constructor(options: RigidVehicleOptions = {}) {
+  constructor(options: {
+    coordinateSystem?: Vec3
+    chassisBody?: Body
+  } = {}) {
     this.wheelBodies = []
     this.coordinateSystem =
       typeof options.coordinateSystem !== 'undefined' ? options.coordinateSystem.clone() : new Vec3(1, 2, 3)
@@ -49,13 +51,6 @@ export class RigidVehicle {
 
   /**
    * Add a wheel
-   * @method addWheel
-   * @param {object} options
-   * @param {boolean} [options.isFrontWheel]
-   * @param {Vec3} [options.position] Position of the wheel, locally in the chassis body.
-   * @param {Vec3} [options.direction] Slide direction of the wheel along the suspension.
-   * @param {Vec3} [options.axis] Axis of rotation of the wheel, locally defined in the chassis.
-   * @param {Body} [options.body] The wheel body.
    */
   addWheel(options: RigidVehicleWheelOptions = {}): number {
     let wheelBody: Body
@@ -71,7 +66,6 @@ export class RigidVehicle {
     this.wheelForces.push(0)
 
     // Position constrain wheels
-    const zero = new Vec3()
     const position = typeof options.position !== 'undefined' ? options.position.clone() : new Vec3()
 
     // Set position locally to the chassis
@@ -97,9 +91,6 @@ export class RigidVehicle {
 
   /**
    * Set the steering value of a wheel.
-   * @method setSteeringValue
-   * @param {number} value
-   * @param {integer} wheelIndex
    * @todo check coordinateSystem
    */
   setSteeringValue(value: number, wheelIndex: number): void {
@@ -115,9 +106,6 @@ export class RigidVehicle {
 
   /**
    * Set the target rotational speed of the hinge constraint.
-   * @method setMotorSpeed
-   * @param {number} value
-   * @param {integer} wheelIndex
    */
   setMotorSpeed(value: number, wheelIndex: number): void {
     const hingeConstraint = this.constraints[wheelIndex]
@@ -127,9 +115,6 @@ export class RigidVehicle {
 
   /**
    * Set the target rotational speed of the hinge constraint.
-   * @method disableMotor
-   * @param {number} value
-   * @param {integer} wheelIndex
    */
   disableMotor(wheelIndex: number): void {
     const hingeConstraint = this.constraints[wheelIndex]
@@ -138,9 +123,6 @@ export class RigidVehicle {
 
   /**
    * Set the wheel force to apply on one of the wheels each time step
-   * @method setWheelForce
-   * @param  {number} value
-   * @param  {integer} wheelIndex
    */
   setWheelForce(value: number, wheelIndex: number): void {
     this.wheelForces[wheelIndex] = value
@@ -148,9 +130,6 @@ export class RigidVehicle {
 
   /**
    * Apply a torque on one of the wheels.
-   * @method applyWheelForce
-   * @param  {number} value
-   * @param  {integer} wheelIndex
    */
   applyWheelForce(value: number, wheelIndex: number): void {
     const axis = this.wheelAxes[wheelIndex]
@@ -164,8 +143,6 @@ export class RigidVehicle {
 
   /**
    * Add the vehicle including its constraints to the world.
-   * @method addToWorld
-   * @param {World} world
    */
   addToWorld(world: World): void {
     const constraints = this.constraints
@@ -191,8 +168,6 @@ export class RigidVehicle {
 
   /**
    * Remove the vehicle including its constraints from the world.
-   * @method removeFromWorld
-   * @param {World} world
    */
   removeFromWorld(world: World): void {
     const constraints = this.constraints
@@ -209,8 +184,6 @@ export class RigidVehicle {
 
   /**
    * Get current rotational velocity of a wheel
-   * @method getWheelSpeed
-   * @param {integer} wheelIndex
    */
   getWheelSpeed(wheelIndex: number): number {
     const axis = this.wheelAxes[wheelIndex]

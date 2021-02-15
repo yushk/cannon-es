@@ -3,15 +3,19 @@ import type { Body } from '../objects/Body'
 
 /**
  * Smoothed-particle hydrodynamics system
- * @class SPHSystem
- * @constructor
  */
 export class SPHSystem {
   particles: Body[]
-  density: number // Density of the system (kg/m3).
-  smoothingRadius: number // Distance below which two particles are considered to be neighbors. It should be adjusted so there are about 15-20 neighbor particles within this radius.
+  /** Density of the system (kg/m3). */
+  density: number
+  /**
+   * Distance below which two particles are considered to be neighbors.
+   * It should be adjusted so there are about 15-20 neighbor particles within this radius.
+   */
+  smoothingRadius: number
   speedOfSound: number
-  viscosity: number // Viscosity of the system.
+  /** Viscosity of the system. */
+  viscosity: number
   eps: number
   pressures: number[]
   densities: number[]
@@ -33,8 +37,6 @@ export class SPHSystem {
 
   /**
    * Add a particle to the system.
-   * @method add
-   * @param {Body} particle
    */
   add(particle: Body): void {
     this.particles.push(particle)
@@ -45,8 +47,6 @@ export class SPHSystem {
 
   /**
    * Remove a particle from the system.
-   * @method remove
-   * @param {Body} particle
    */
   remove(particle: Body): void {
     const idx = this.particles.indexOf(particle)
@@ -190,9 +190,6 @@ export class SPHSystem {
 
 /**
  * Get neighbors within smoothing volume, save in the array neighbors
- * @method getNeighbors
- * @param {Body} particle
- * @param {Array} neighbors
  */
 const SPHSystem_getNeighbors_dist = new Vec3()
 

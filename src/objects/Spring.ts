@@ -125,7 +125,6 @@ export class Spring {
 
   /**
    * Set the anchor point on body A, using world coordinates.
-   * @param {Vec3} worldAnchorA
    */
   setWorldAnchorA(worldAnchorA: Vec3): void {
     this.bodyA.pointToLocalFrame(worldAnchorA, this.localAnchorA)
@@ -133,7 +132,6 @@ export class Spring {
 
   /**
    * Set the anchor point on body B, using world coordinates.
-   * @param {Vec3} worldAnchorB
    */
   setWorldAnchorB(worldAnchorB: Vec3): void {
     this.bodyB.pointToLocalFrame(worldAnchorB, this.localAnchorB)
