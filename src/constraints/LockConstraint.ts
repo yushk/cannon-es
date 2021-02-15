@@ -21,12 +21,16 @@ export class LockConstraint extends PointToPointConstraint {
   rotationalEquation3: RotationalEquation
   motorEquation?: RotationalMotorEquation
 
-  constructor(bodyA: Body, bodyB: Body, options: {
-    /**
-     * @default 1e6
-     */
-    maxForce?: number
-  } = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * @default 1e6
+       */
+      maxForce?: number
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     // Set pivot point in between

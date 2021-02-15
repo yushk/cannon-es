@@ -91,7 +91,7 @@ export class Vec3 {
 
   /**
    * Get the cross product matrix a_cross from a vector, such that a x b = a_cross * b = c
-   * 
+   *
    * See {@link https://www8.cs.umu.se/kurser/TDBD24/VT06/lectures/Lecture6.pdf Umeå University Lecture}
    */
   crossmat(): Mat3 {

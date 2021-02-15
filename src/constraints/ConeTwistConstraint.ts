@@ -14,16 +14,20 @@ export class ConeTwistConstraint extends PointToPointConstraint {
   twistEquation: RotationalEquation
   twistAngle: number
 
-  constructor(bodyA: Body, bodyB: Body, options: {
-    maxForce?: number
-    pivotA?: Vec3
-    pivotB?: Vec3
-    axisA?: Vec3
-    axisB?: Vec3
-    collideConnected?: boolean
-    angle?: number
-    twistAngle?: number
-  } = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      maxForce?: number
+      pivotA?: Vec3
+      pivotB?: Vec3
+      axisA?: Vec3
+      axisB?: Vec3
+      collideConnected?: boolean
+      angle?: number
+      twistAngle?: number
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     // Set pivot point in between

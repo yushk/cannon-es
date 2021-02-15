@@ -29,10 +29,12 @@ export class RigidVehicle {
   wheelAxes: Vec3[]
   wheelForces: number[]
 
-  constructor(options: {
-    coordinateSystem?: Vec3
-    chassisBody?: Body
-  } = {}) {
+  constructor(
+    options: {
+      coordinateSystem?: Vec3
+      chassisBody?: Body
+    } = {}
+  ) {
     this.wheelBodies = []
     this.coordinateSystem =
       typeof options.coordinateSystem !== 'undefined' ? options.coordinateSystem.clone() : new Vec3(1, 2, 3)

@@ -12,12 +12,16 @@ export class RotationalEquation extends Equation {
   axisB: Vec3
   maxAngle: number
 
-  constructor(bodyA: Body, bodyB: Body, options: {
-    maxForce?: number
-    axisA?: Vec3
-    axisB?: Vec3
-    maxAngle?: number
-  } = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      maxForce?: number
+      axisA?: Vec3
+      axisB?: Vec3
+      maxAngle?: number
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     super(bodyA, bodyB, -maxForce, maxForce)

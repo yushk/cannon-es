@@ -13,7 +13,7 @@ export class AABB {
   lowerBound: Vec3
   /**
    * The upper bound of the bounding box
-   */ 
+   */
   upperBound: Vec3
 
   constructor(options: { upperBound?: Vec3; lowerBound?: Vec3 } = {}) {

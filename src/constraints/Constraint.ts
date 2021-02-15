@@ -22,10 +22,14 @@ export class Constraint {
 
   static idCounter: number
 
-  constructor(bodyA: Body, bodyB: Body, options: {
-    collideConnected?: boolean
-    wakeUpBodies?: boolean
-  } = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      collideConnected?: boolean
+      wakeUpBodies?: boolean
+    } = {}
+  ) {
     options = Utils.defaults(options, {
       collideConnected: true,
       wakeUpBodies: true,

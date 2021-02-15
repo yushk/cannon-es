@@ -81,10 +81,10 @@ export class Ray {
   static ALL: typeof RAY_MODES['ALL']
 
   /**
-   * As per "Barycentric Technique" as named 
+   * As per "Barycentric Technique" as named
    * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
    */
-  static pointInTriangle (p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
+  static pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
     c.vsub(a, v0)
     b.vsub(a, v1)
     p.vsub(a, v2)
@@ -307,7 +307,6 @@ export class Ray {
   }
 
   _intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
-
     // Convert the ray to local heightfield coordinates
     const localRay = intersectHeightfield_localRay //new Ray(this.from, this.to);
     localRay.from.copy(this.from)

@@ -5,7 +5,7 @@ import type { Shape } from '../shapes/Shape'
 
 /**
  * Equation base class.
- * 
+ *
  * `a`, `b` and `eps` are {@link https://www8.cs.umu.se/kurser/5DV058/VT15/lectures/SPOOKlabnotes.pdf SPOOK} parameters that default to `0.0`. See {@link https://github.com/schteppe/cannon.js/issues/238#issuecomment-147172327 this exchange} for more details on Cannon's physics implementation.
  */
 export class Equation {
@@ -54,7 +54,7 @@ export class Equation {
 
   /**
    * Recalculates a, b, and eps.
-   * 
+   *
    * The Equation constructor sets typical SPOOK parameters as such:
    * * `stiffness` = 1e7
    * * `relaxation` = 4

@@ -21,15 +21,19 @@ export class ConeEquation extends Equation {
    */
   angle: number // The cone angle to keep.
 
-  constructor(bodyA: Body, bodyB: Body, options: {
-    /**
-     * @default 1e6
-     */
-    maxForce?: number
-    axisA?: Vec3
-    axisB?: Vec3
-    angle?: number
-  } = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * @default 1e6
+       */
+      maxForce?: number
+      axisA?: Vec3
+      axisB?: Vec3
+      angle?: number
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     super(bodyA, bodyB, -maxForce, maxForce)

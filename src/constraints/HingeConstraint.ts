@@ -22,23 +22,27 @@ export class HingeConstraint extends PointToPointConstraint {
   rotationalEquation2: RotationalEquation
   motorEquation: RotationalMotorEquation
 
-  constructor(bodyA: Body, bodyB: Body, options: {
-    /**
-     * @default 1e6
-     */
-    maxForce?: number
-    /**
-     * A point defined locally in bodyA. This defines the offset of axisA.
-     */
-    pivotA?: Vec3
-    pivotB?: Vec3
-    /**
-     * An axis that bodyA can rotate around, defined locally in bodyA.
-     */
-    axisA?: Vec3
-    axisB?: Vec3
-    collideConnected?: boolean
-  } = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * @default 1e6
+       */
+      maxForce?: number
+      /**
+       * A point defined locally in bodyA. This defines the offset of axisA.
+       */
+      pivotA?: Vec3
+      pivotB?: Vec3
+      /**
+       * An axis that bodyA can rotate around, defined locally in bodyA.
+       */
+      axisA?: Vec3
+      axisB?: Vec3
+      collideConnected?: boolean
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
     const pivotA = options.pivotA ? options.pivotA.clone() : new Vec3()
     const pivotB = options.pivotB ? options.pivotB.clone() : new Vec3()

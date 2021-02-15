@@ -1,4 +1,4 @@
-export type MaterialOptions = ConstructorParameters<typeof Material>
+export type MaterialOptions = ConstructorParameters<typeof Material>[0]
 
 /**
  * Defines a physics material.
