@@ -48,9 +48,6 @@ export class SplitSolver extends Solver {
 
   /**
    * Solve the subsystems
-   * @method solve
-   * @param  {Number} dt
-   * @param  {World} world
    * @return {Number} number of iterations performed
    */
   solve(dt: number, world: World): number {

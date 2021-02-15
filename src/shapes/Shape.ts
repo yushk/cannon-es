@@ -66,17 +66,19 @@ export class Shape {
   static idCounter: number
   static types: typeof SHAPE_TYPES
 
-  constructor(options: {
-    type?: ShapeType
-    /**
-     * Whether to produce contact forces when in contact with other bodies.
-     * @default true
-     */
-    collisionResponse?: boolean
-    collisionFilterGroup?: number
-    collisionFilterMask?: number
-    material?: Material
-  } = {}) {
+  constructor(
+    options: {
+      type?: ShapeType
+      /**
+       * Whether to produce contact forces when in contact with other bodies.
+       * @default true
+       */
+      collisionResponse?: boolean
+      collisionFilterGroup?: number
+      collisionFilterMask?: number
+      material?: Material
+    } = {}
+  ) {
     this.id = Shape.idCounter++
     this.type = options.type || 0
     this.boundingSphereRadius = 0
@@ -97,8 +99,6 @@ export class Shape {
 
   /**
    * Get the volume of this shape
-   * @method volume
-   * @return {Number}
    */
   volume(): number {
     throw `volume() not implemented for shape type ${this.type}`

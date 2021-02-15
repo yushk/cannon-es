@@ -11,7 +11,7 @@ export type ConvexPolyhedronContactPoint = {
 
 /**
  * A set of polygons describing a convex shape.
- * 
+ *
  * The shape MUST be convex for the code to work properly. No polygons may be coplanar (contained
  * in the same 3D plane), instead these should be merged into one polygon.
  *
@@ -81,7 +81,6 @@ export class ConvexPolyhedron extends Shape {
 
   /**
    * Computes uniqueEdges
-   * @method computeEdges
    */
   computeEdges(): void {
     const faces = this.faces
@@ -642,9 +641,6 @@ export class ConvexPolyhedron extends Shape {
     this.worldFaceNormalsNeedsUpdate = false
   }
 
-  /**
-   * @method updateBoundingSphereRadius
-   */
   updateBoundingSphereRadius(): void {
     // Assume points are distributed with local (0,0,0) as center
     let max2 = 0

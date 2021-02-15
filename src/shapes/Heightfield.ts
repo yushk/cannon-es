@@ -53,13 +53,13 @@ export class Heightfield extends Shape {
   minValue: number | null
 
   /**
-   * The width of each element. 
+   * The width of each element.
    * AKA World spacing between the data points in X direction.
    * @todo elementSizeX and Y
    * @default 1
    */
   elementSize: number
-  
+
   /**
    * @default true
    */
@@ -69,11 +69,14 @@ export class Heightfield extends Shape {
 
   private _cachedPillars: { [key: string]: HeightfieldPillar }
 
-  constructor(data: number[][], options: {
-    maxValue?: number | null
-    minValue?: number | null
-    elementSize?: number
-  } = {}) {
+  constructor(
+    data: number[][],
+    options: {
+      maxValue?: number | null
+      minValue?: number | null
+      elementSize?: number
+    } = {}
+  ) {
     options = Utils.defaults(options, {
       maxValue: null,
       minValue: null,

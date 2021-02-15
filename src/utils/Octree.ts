@@ -160,9 +160,6 @@ class OctreeNode {
     return result
   }
 
-  /**
-   * @method removeEmptyNodes
-   */
   removeEmptyNodes(): void {
     for (let i = this.children.length - 1; i >= 0; i--) {
       this.children[i].removeEmptyNodes()
@@ -183,13 +180,16 @@ export class Octree extends OctreeNode {
    */
   maxDepth: number
 
-  constructor(aabb?: AABB, options: {
-    /**
-     * Maximum subdivision depth
-     * @default 8
-     */
-    maxDepth?: number
-  } = {}) {
+  constructor(
+    aabb?: AABB,
+    options: {
+      /**
+       * Maximum subdivision depth
+       * @default 8
+       */
+      maxDepth?: number
+    } = {}
+  ) {
     super({ root: null, aabb })
 
     this.maxDepth = typeof options.maxDepth !== 'undefined' ? options.maxDepth : 8

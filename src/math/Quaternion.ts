@@ -224,8 +224,6 @@ export class Quaternion {
 
   /**
    * Copies value of source to this quaternion.
-   * @method copy
-   * @param {Quaternion} source
    * @return {Quaternion} this
    */
   copy(quat: Quaternion): Quaternion {

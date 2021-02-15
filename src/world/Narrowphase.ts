@@ -55,18 +55,22 @@ export type CollisionType = typeof COLLISION_TYPES[keyof typeof COLLISION_TYPES]
 
 /**
  * Helper class for the World. Generates ContactEquations.
- * @class Narrowphase
- * @constructor
  * @todo Sphere-ConvexPolyhedron contacts
  * @todo Contact reduction
  * @todo should move methods to prototype
  */
 export class Narrowphase {
-  contactPointPool: ContactEquation[] // Internal storage of pooled contact points.
+  /**
+   * Internal storage of pooled contact points.
+   */
+  contactPointPool: ContactEquation[]
   frictionEquationPool: FrictionEquation[]
   result: ContactEquation[]
   frictionResult: FrictionEquation[]
-  v3pool: Vec3Pool // Pooled vectors.
+  /**
+   * Pooled vectors.
+   */
+  v3pool: Vec3Pool
   world: World
   currentContactMaterial: ContactMaterial
   enableFrictionReduction: boolean;
@@ -110,14 +114,6 @@ export class Narrowphase {
 
   /**
    * Make a contact object, by using the internal pool or creating a new one.
-   * @method createContactEquation
-   * @param {Body} bi
-   * @param {Body} bj
-   * @param {Shape} si
-   * @param {Shape} sj
-   * @param {Shape} overrideShapeA
-   * @param {Shape} overrideShapeB
-   * @return {ContactEquation}
    */
   createContactEquation(
     bi: Body,
@@ -256,7 +252,6 @@ export class Narrowphase {
 
   /**
    * Generate all contacts between a list of body pairs
-   * @method getContacts
    * @param {array} p1 Array of body indices
    * @param {array} p2 Array of body indices
    * @param {World} world
