@@ -4,18 +4,15 @@ import type { Body } from '../objects/Body'
 
 /**
  * Constrains the slipping in a contact along a tangent
- * @class FrictionEquation
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
  * @param {Number} slipForce should be +-F_friction = +-mu * F_normal = +-mu * m * g
- * @extends Equation
  */
 export class FrictionEquation extends Equation {
   ri: Vec3
   rj: Vec3
-  t: Vec3 // Tangent.
+  /**
+   * Tangent
+   */
+  t: Vec3
 
   constructor(bodyA: Body, bodyB: Body, slipForce: number) {
     super(bodyA, bodyB, -slipForce, slipForce)
@@ -25,10 +22,7 @@ export class FrictionEquation extends Equation {
   }
 
   computeB(h: number): number {
-    const a = this.a
     const b = this.b
-    const bi = this.bi
-    const bj = this.bj
     const ri = this.ri
     const rj = this.rj
     const rixt = FrictionEquation_computeB_temp1

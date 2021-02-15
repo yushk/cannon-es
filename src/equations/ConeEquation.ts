@@ -2,32 +2,34 @@ import { Vec3 } from '../math/Vec3'
 import { Equation } from '../equations/Equation'
 import type { Body } from '../objects/Body'
 
-export type ConeEquationOptions = {
-  maxForce?: number
-  axisA?: Vec3
-  axisB?: Vec3
-  angle?: number
-}
+export type ConeEquationOptions = ConstructorParameters<typeof ConeEquation>[2]
 
 /**
  * Cone equation. Works to keep the given body world vectors aligned, or tilted within a given angle from each other.
- * @class ConeEquation
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {Vec3} [options.axisA] Local axis in A
- * @param {Vec3} [options.axisB] Local axis in B
- * @param {Vec3} [options.angle] The "cone angle" to keep
- * @param {number} [options.maxForce=1e6]
- * @extends Equation
  */
 export class ConeEquation extends Equation {
+  /**
+   * Local axis in A
+   */
   axisA: Vec3
+  /**
+   * Local axis in B
+   */
   axisB: Vec3
+  /**
+   * The "cone angle" to keep
+   */
   angle: number // The cone angle to keep.
 
-  constructor(bodyA: Body, bodyB: Body, options: ConeEquationOptions = {}) {
+  constructor(bodyA: Body, bodyB: Body, options: {
+    /**
+     * @default 1e6
+     */
+    maxForce?: number
+    axisA?: Vec3
+    axisB?: Vec3
+    angle?: number
+  } = {}) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     super(bodyA, bodyB, -maxForce, maxForce)
