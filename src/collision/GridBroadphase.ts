@@ -181,7 +181,7 @@ export class GridBroadphase extends Broadphase {
           const yreset = ymin + binsizeY * 0.5 - bi.position.y
           const zreset = zmin + binsizeZ * 0.5 - bi.position.z
 
-          const d = new Vec3()
+          const d = GridBroadphase_collisionPairs_d
           d.set(xreset, yreset, zreset)
 
           for (let xi = 0, xoff = 0; xi !== nx; xi++, xoff += xstep, d.y = yreset, d.x += binsizeX) {
@@ -250,3 +250,6 @@ export class GridBroadphase extends Broadphase {
     this.makePairsUnique(pairs1, pairs2)
   }
 }
+
+const GridBroadphase_collisionPairs_d = new Vec3()
+const GridBroadphase_collisionPairs_binPos = new Vec3()

@@ -64,9 +64,12 @@ export class LockConstraint extends PointToPointConstraint {
   update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB
+    const motor = this.motorEquation
     const r1 = this.rotationalEquation1
     const r2 = this.rotationalEquation2
     const r3 = this.rotationalEquation3
+    const worldAxisA = LockConstraint_update_tmpVec1
+    const worldAxisB = LockConstraint_update_tmpVec2
 
     super.update()
 
@@ -81,3 +84,6 @@ export class LockConstraint extends PointToPointConstraint {
     bodyB.vectorToWorldFrame(this.xB, r3.axisB)
   }
 }
+
+const LockConstraint_update_tmpVec1 = new Vec3()
+const LockConstraint_update_tmpVec2 = new Vec3()

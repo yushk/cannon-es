@@ -28,7 +28,10 @@ export class RotationalMotorEquation extends Equation {
   }
 
   computeB(h: number): number {
+    const a = this.a
     const b = this.b
+    const bi = this.bi
+    const bj = this.bj
     const axisA = this.axisA
     const axisB = this.axisB
     const GA = this.jacobianElementA

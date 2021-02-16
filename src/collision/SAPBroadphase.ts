@@ -271,6 +271,8 @@ export class SAPBroadphase extends Broadphase {
     }
 
     const axisList = this.axisList
+    const lower = aabb.lowerBound[axis]
+    const upper = aabb.upperBound[axis]
     for (let i = 0; i < axisList.length; i++) {
       const b = axisList[i]
 

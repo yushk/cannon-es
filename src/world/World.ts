@@ -67,7 +67,7 @@ export class World extends EventTarget {
   /**
    * Default and last timestep sizes.
    */
-  default_dt: number //
+  default_dt: number
   nextId: number
   gravity: Vec3
 
@@ -191,7 +191,7 @@ export class World extends EventTarget {
     this.materials = []
     this.contactmaterials = []
     this.contactMaterialTable = new TupleDictionary()
-    this.defaultMaterial = new Material('default')
+    this.defaultMaterial = new Material()
     this.defaultContactMaterial = new ContactMaterial(this.defaultMaterial, this.defaultMaterial, {
       friction: 0.3,
       restitution: 0.0,
@@ -479,6 +479,8 @@ export class World extends EventTarget {
   internalStep(dt: number): void {
     this.dt = dt
 
+    const world = this
+    const that = this
     const contacts = this.contacts
     const p1 = World_step_p1
     const p2 = World_step_p2
@@ -492,6 +494,7 @@ export class World extends EventTarget {
     let profilingStart = -Infinity
     const constraints = this.constraints
     const frictionEquationPool = World_step_frictionEquationPool
+    const gnorm = gravity.length()
     const gx = gravity.x
     const gy = gravity.y
     const gz = gravity.z
@@ -852,6 +855,8 @@ export class World extends EventTarget {
 }
 
 // Temp stuff
+const tmpAABB1 = new AABB()
+const tmpArray1 = []
 const tmpRay = new Ray()
 
 // performance.now() fallback on Date.now()
@@ -864,6 +869,8 @@ if (!performance.now) {
   }
   performance.now = () => Date.now() - nowOffset
 }
+
+const step_tmp1 = new Vec3()
 
 // Dispatched after the world has stepped forward in time.
 // Reusable event objects to save memory.

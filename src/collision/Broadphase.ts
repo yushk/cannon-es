@@ -1,5 +1,6 @@
 import { Body } from '../objects/Body'
 import { Vec3 } from '../math/Vec3'
+import { Quaternion } from '../math/Quaternion'
 import type { AABB } from '../collision/AABB'
 import type { World } from '../world/World'
 
@@ -167,6 +168,13 @@ export class Broadphase {
 
 // Temp objects
 const Broadphase_collisionPairs_r = new Vec3()
+
+const Broadphase_collisionPairs_normal = new Vec3()
+const Broadphase_collisionPairs_quat = new Quaternion()
+const Broadphase_collisionPairs_relpos = new Vec3()
+
 const Broadphase_makePairsUnique_temp: Record<string, any> = { keys: [] }
 const Broadphase_makePairsUnique_p1: Body[] = []
 const Broadphase_makePairsUnique_p2: Body[] = []
+
+const bsc_dist = new Vec3()

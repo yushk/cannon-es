@@ -43,8 +43,12 @@ export class ContactEquation extends Equation {
     const rjxn = ContactEquation_computeB_temp2
     const vi = bi.velocity
     const wi = bi.angularVelocity
+    const fi = bi.force
+    const taui = bi.torque
     const vj = bj.velocity
     const wj = bj.angularVelocity
+    const fj = bj.force
+    const tauj = bj.torque
     const penetrationVec = ContactEquation_computeB_temp3
     const GA = this.jacobianElementA
     const GB = this.jacobianElementB

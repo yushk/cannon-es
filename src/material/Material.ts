@@ -36,7 +36,7 @@ export class Material {
 
     // Backwards compatibility fix
     if (typeof options === 'string') {
-      console.warn(`Passing a string to MaterialOptions is deprecated, and has no effect`)
+      //console.warn(`Passing a string to MaterialOptions is deprecated, and has no effect`)
       name = options
       options = {}
     }

@@ -84,26 +84,7 @@ export class Ray {
    * As per "Barycentric Technique" as named
    * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
    */
-  static pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
-    c.vsub(a, v0)
-    b.vsub(a, v1)
-    p.vsub(a, v2)
-
-    const dot00 = v0.dot(v0)
-    const dot01 = v0.dot(v1)
-    const dot02 = v0.dot(v2)
-    const dot11 = v1.dot(v1)
-    const dot12 = v1.dot(v2)
-
-    let u
-    let v
-
-    return (
-      (u = dot11 * dot02 - dot01 * dot12) >= 0 &&
-      (v = dot00 * dot12 - dot01 * dot02) >= 0 &&
-      u + v < dot00 * dot11 - dot01 * dot01
-    )
-  }
+  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
 
   [Shape.types.SPHERE]: typeof Ray.prototype._intersectSphere;
   [Shape.types.PLANE]: typeof Ray.prototype._intersectPlane;
@@ -307,6 +288,8 @@ export class Ray {
   }
 
   _intersectHeightfield(shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape): void {
+    const data = shape.data
+    const w = shape.elementSize
     // Convert the ray to local heightfield coordinates
     const localRay = intersectHeightfield_localRay //new Ray(this.from, this.to);
     localRay.from.copy(this.from)
@@ -425,8 +408,10 @@ export class Ray {
     reportedShape: Shape,
     options?: { faceList: number[] }
   ): void {
+    const minDistNormal = intersectConvex_minDistNormal
     const normal = intersectConvex_normal
     const vector = intersectConvex_vector
+    const minDistIntersect = intersectConvex_minDistIntersect
     const faceList = (options && options.faceList) || null
 
     // Checking faces
@@ -440,6 +425,7 @@ export class Ray {
     const to = this.to
     const fromToDistance = from.distanceTo(to)
 
+    const minDist = -1
     const Nfaces = faceList ? faceList.length : faces.length
     const result = this.result
 
@@ -611,7 +597,7 @@ export class Ray {
       const squaredDistance = intersectPoint.distanceSquared(localFrom)
 
       if (
-        !(Ray.pointInTriangle(intersectPoint, b, a, c) || Ray.pointInTriangle(intersectPoint, a, b, c)) ||
+        !(pointInTriangle(intersectPoint, b, a, c) || pointInTriangle(intersectPoint, a, b, c)) ||
         squaredDistance > fromToDistanceSquared
       ) {
         continue
@@ -669,6 +655,33 @@ export class Ray {
   }
 }
 
+Ray.CLOSEST = 1
+Ray.ANY = 2
+Ray.ALL = 4
+
+Ray.pointInTriangle = pointInTriangle
+/**
+ * As per "Barycentric Technique" as named
+ * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
+ */
+function pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
+  c.vsub(a, v0)
+  b.vsub(a, v1)
+  p.vsub(a, v2)
+  const dot00 = v0.dot(v0)
+  const dot01 = v0.dot(v1)
+  const dot02 = v0.dot(v2)
+  const dot11 = v1.dot(v1)
+  const dot12 = v1.dot(v2)
+  let u
+  let v
+  return (
+    (u = dot11 * dot02 - dot01 * dot12) >= 0 &&
+    (v = dot00 * dot12 - dot01 * dot02) >= 0 &&
+    u + v < dot00 * dot11 - dot01 * dot01
+  )
+}
+
 const tmpAABB = new AABB()
 const tmpArray: Body[] = []
 
@@ -682,6 +695,9 @@ const intersectPoint = new Vec3()
 const a = new Vec3()
 const b = new Vec3()
 const c = new Vec3()
+const d = new Vec3()
+
+const tmpRaycastResult = new RaycastResult()
 
 Ray.prototype[Shape.types.BOX] = Ray.prototype._intersectBox
 Ray.prototype[Shape.types.PLANE] = Ray.prototype._intersectPlane
@@ -697,11 +713,14 @@ const intersectConvexOptions = {
 const worldPillarOffset = new Vec3()
 const intersectHeightfield_localRay = new Ray()
 const intersectHeightfield_index: number[] = []
+const intersectHeightfield_minMax = []
 
 const Ray_intersectSphere_intersectionPoint = new Vec3()
 const Ray_intersectSphere_normal = new Vec3()
 
 const intersectConvex_normal = new Vec3()
+const intersectConvex_minDistNormal = new Vec3()
+const intersectConvex_minDistIntersect = new Vec3()
 const intersectConvex_vector = new Vec3()
 
 const intersectTrimesh_normal = new Vec3()

@@ -1,4 +1,3 @@
-import { ContactEquation } from '../equations/ContactEquation'
 import { Solver } from '../solver/Solver'
 import type { World } from '../world/World'
 
@@ -40,6 +39,7 @@ export class GSSolver extends Solver {
     const bodies = world.bodies
     const Nbodies = bodies.length
     const h = dt
+    let q
     let B
     let invC
     let deltalambda
@@ -63,7 +63,7 @@ export class GSSolver extends Solver {
     Bs.length = Neq
     lambda.length = Neq
     for (let i = 0; i !== Neq; i++) {
-      const c = equations[i] as ContactEquation
+      const c = equations[i] as any
       lambda[i] = 0.0
       Bs[i] = c.computeB(h)
       invCs[i] = 1.0 / c.computeC()
