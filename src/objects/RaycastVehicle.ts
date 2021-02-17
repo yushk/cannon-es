@@ -34,7 +34,7 @@ export class RaycastVehicle {
     indexRightAxis?: number
     /** Index of the forward axis. x=0, y=1, z=2 */
     indexForwardAxis?: number
-    /** ndex of the up axis. x=0, y=1, z=2 */
+    /** Index of the up axis. x=0, y=1, z=2 */
     indexUpAxis?: number
   }) {
     this.chassisBody = options.chassisBody
