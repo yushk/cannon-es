@@ -123,7 +123,7 @@ export class SAPBroadphase extends Broadphase {
     for (let i = 0; i !== N; i++) {
       const bi = axisList[i]
       if (bi.aabbNeedsUpdate) {
-        bi.computeAABB()
+        bi.updateAABB()
       }
     }
 
@@ -216,7 +216,7 @@ export class SAPBroadphase extends Broadphase {
       const b = axisList[i]
 
       if (b.aabbNeedsUpdate) {
-        b.computeAABB()
+        b.updateAABB()
       }
 
       if (b.aabb.overlaps(aabb)) {

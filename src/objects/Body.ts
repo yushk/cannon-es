@@ -451,10 +451,9 @@ export class Body extends EventTarget {
 
   /**
    * Updates the .aabb
-   * @method computeAABB
-   * @todo rename to updateAABB()
+   * @method updateAABB
    */
-  computeAABB(): void {
+  updateAABB(): void {
     const shapes = this.shapes
     const shapeOffsets = this.shapeOffsets
     const shapeOrientations = this.shapeOrientations
@@ -463,7 +462,7 @@ export class Body extends EventTarget {
     const orientation = tmpQuat
     const bodyQuat = this.quaternion
     const aabb = this.aabb
-    const shapeAABB = computeAABB_shapeAABB
+    const shapeAABB = updateAABB_shapeAABB
 
     for (let i = 0; i !== N; i++) {
       const shape = shapes[i]
@@ -486,6 +485,14 @@ export class Body extends EventTarget {
     }
 
     this.aabbNeedsUpdate = false
+  }
+  
+  computeAABB() {
+
+    console.warn('.computeAABB() has been renamed to .updateAABB()');
+
+    return this.updateAABB();
+
   }
 
   /**
@@ -654,7 +661,7 @@ export class Body extends EventTarget {
     const fixed = this.fixedRotation
 
     // Approximate with AABB box
-    this.computeAABB()
+    this.updateAABB()
     halfExtents.set(
       (this.aabb.upperBound.x - this.aabb.lowerBound.x) / 2,
       (this.aabb.upperBound.y - this.aabb.lowerBound.y) / 2,
@@ -812,7 +819,7 @@ Body.sleepEvent = { type: 'sleep' }
 const tmpVec = new Vec3()
 const tmpQuat = new Quaternion()
 
-const computeAABB_shapeAABB = new AABB()
+const updateAABB_shapeAABB = new AABB()
 
 const uiw_m1 = new Mat3()
 const uiw_m2 = new Mat3()
