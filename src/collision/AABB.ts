@@ -16,7 +16,18 @@ export class AABB {
    */
   upperBound: Vec3
 
-  constructor(options: { upperBound?: Vec3; lowerBound?: Vec3 } = {}) {
+  constructor(
+    options: {
+      /**
+       * The lower bound of the bounding box
+       */
+      upperBound?: Vec3
+      /**
+       * The upper bound of the bounding box
+       */
+      lowerBound?: Vec3
+    } = {}
+  ) {
     this.lowerBound = new Vec3()
     this.upperBound = new Vec3()
 

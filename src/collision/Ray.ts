@@ -14,22 +14,53 @@ import type { Trimesh } from '../shapes/Trimesh'
 import type { World } from '../world/World'
 
 export const RAY_MODES = {
-  CLOSEST: 1 as typeof Body.DYNAMIC,
-  ANY: 2 as typeof Body.STATIC,
-  ALL: 4 as typeof Body.KINEMATIC,
-}
+  CLOSEST: 1,
+  ANY: 2,
+  ALL: 4,
+} as const
 
 export type RayMode = typeof RAY_MODES[keyof typeof RAY_MODES]
 
+/**
+ * RayOptions
+ */
 export type RayOptions = {
+  /**
+   * from
+   */
   from?: Vec3
+  /**
+   * to
+   */
   to?: Vec3
+  /**
+   * mode
+   */
   mode?: RayMode
+  /**
+   * result
+   */
   result?: RaycastResult
+  /**
+   * skipBackfaces
+   */
   skipBackfaces?: boolean
+  /**
+   * collisionFilterMask
+   */
   collisionFilterMask?: number
+  /**
+   * collisionFilterGroup
+   */
   collisionFilterGroup?: number
+  /**
+   * Set to `true` if you want the Ray to take `collisionResponse` flags into account on bodies and shapes.
+   * @default true
+   */
   checkCollisionResponse?: boolean
+  /**
+   * callback
+   */
   callback?: RaycastCallback
 }
 
@@ -39,8 +70,17 @@ export type RaycastCallback = (result: RaycastResult) => void
  * A line in 3D space that intersects bodies and return points.
  */
 export class Ray {
+  /**
+   * from
+   */
   from: Vec3
+  /**
+   * to
+   */
   to: Vec3
+  /**
+   * direction
+   */
   direction: Vec3
   /**
    * The precision of the ray. Used when checking parallelity etc.
@@ -56,7 +96,13 @@ export class Ray {
    * If set to `true`, the ray skips any hits with normal.dot(rayDirection) < 0.
    */
   skipBackfaces: boolean
+  /**
+   * collisionFilterMask
+   */
   collisionFilterMask: number
+  /**
+   * collisionFilterGroup
+   */
   collisionFilterGroup: number
   /**
    * The intersection mode. Should be Ray.ANY, Ray.ALL or Ray.CLOSEST.
@@ -76,8 +122,17 @@ export class Ray {
    */
   callback: RaycastCallback
 
+  /**
+   * CLOSEST
+   */
   static CLOSEST: typeof RAY_MODES['CLOSEST']
+  /**
+   * ANY
+   */
   static ANY: typeof RAY_MODES['ANY']
+  /**
+   * ALL
+   */
   static ALL: typeof RAY_MODES['ALL']
 
   /**
@@ -188,8 +243,10 @@ export class Ray {
   }
 
   /**
+   * Shoot a ray at an array bodies, get back information about the hit.
    * @param {Array} bodies An array of Body objects.
-   * @deprecated @param {RaycastResult} [result]
+   * @deprecated @param {RaycastResult} [result] set the result property of the Ray instead.
+   *
    */
   intersectBodies(bodies: Body[], result?: RaycastResult): void {
     if (result) {
@@ -654,10 +711,6 @@ export class Ray {
     }
   }
 }
-
-Ray.CLOSEST = 1
-Ray.ANY = 2
-Ray.ALL = 4
 
 Ray.pointInTriangle = pointInTriangle
 /**

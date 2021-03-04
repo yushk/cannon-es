@@ -5,7 +5,10 @@ import type { Body } from '../objects/Body'
  * It's actually a triangular-shaped array of whether two bodies are touching this step, for reference next step
  */
 export class ArrayCollisionMatrix {
-  matrix: number[] // The matrix storage.
+  /**
+   * The matrix storage.
+   */
+  matrix: number[]
 
   constructor() {
     this.matrix = []

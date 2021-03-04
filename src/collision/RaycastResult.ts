@@ -6,12 +6,33 @@ import type { Shape } from '../shapes/Shape'
  * Storage for Ray casting data
  */
 export class RaycastResult {
+  /**
+   * rayFromWorld
+   */
   rayFromWorld: Vec3
+  /**
+   * rayToWorld
+   */
   rayToWorld: Vec3
+  /**
+   * hitNormalWorld
+   */
   hitNormalWorld: Vec3
+  /**
+   * hitPointWorld
+   */
   hitPointWorld: Vec3
+  /**
+   * hasHit
+   */
   hasHit: boolean
+  /**
+   * shape
+   */
   shape: Shape | null
+  /**
+   * body
+   */
   body: Body | null
   /**
    * The index of the hit triangle, if the hit shape was a trimesh
@@ -40,7 +61,7 @@ export class RaycastResult {
   }
 
   /**
-   * Reset all result data
+   * Reset all result data.
    */
   reset(): void {
     this.rayFromWorld.setZero()
@@ -55,10 +76,16 @@ export class RaycastResult {
     this.shouldStop = false
   }
 
+  /**
+   * abort
+   */
   abort(): void {
     this.shouldStop = true
   }
 
+  /**
+   * Set result data.
+   */
   set(
     rayFromWorld: Vec3,
     rayToWorld: Vec3,

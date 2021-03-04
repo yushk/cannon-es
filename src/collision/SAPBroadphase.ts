@@ -52,7 +52,11 @@ export class SAPBroadphase extends Broadphase {
 
     return boundB1 < boundA2
   }
+
   // Note: these are identical, save for x/y/z lowerbound
+  /**
+   * insertionSortX
+   */
   static insertionSortX(a: Body[]): Body[] {
     for (let i = 1, l = a.length; i < l; i++) {
       const v = a[i]
@@ -67,6 +71,10 @@ export class SAPBroadphase extends Broadphase {
     }
     return a
   }
+
+  /**
+   * insertionSortY
+   */
   static insertionSortY(a: Body[]): Body[] {
     for (let i = 1, l = a.length; i < l; i++) {
       const v = a[i]
@@ -81,6 +89,10 @@ export class SAPBroadphase extends Broadphase {
     }
     return a
   }
+
+  /**
+   * insertionSortZ
+   */
   static insertionSortZ(a: Body[]): Body[] {
     for (let i = 1, l = a.length; i < l; i++) {
       const v = a[i]

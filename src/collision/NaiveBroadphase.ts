@@ -9,6 +9,9 @@ import type { World } from '../world/World'
  * The naive broadphase looks at all possible pairs without restriction, therefore it has complexity N^2 _(which is bad)_
  */
 export class NaiveBroadphase extends Broadphase {
+  /**
+   * @todo Remove useless constructor
+   */
   constructor() {
     super()
   }

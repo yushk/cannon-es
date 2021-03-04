@@ -4,12 +4,18 @@ import type { Body } from '../objects/Body'
  * Records what objects are colliding with each other
  */
 export class ObjectCollisionMatrix {
-  matrix: Record<string, boolean> // The matrix storage.
+  /**
+   * The matrix storage.
+   */
+  matrix: Record<string, boolean>
 
   constructor() {
     this.matrix = {}
   }
 
+  /**
+   * get
+   */
   get(bi: Body, bj: Body): boolean {
     let { id: i } = bi
     let { id: j } = bj
@@ -21,6 +27,9 @@ export class ObjectCollisionMatrix {
     return `${i}-${j}` in this.matrix
   }
 
+  /**
+   * set
+   */
   set(bi: Body, bj: Body, value: boolean): void {
     let { id: i } = bi
     let { id: j } = bj

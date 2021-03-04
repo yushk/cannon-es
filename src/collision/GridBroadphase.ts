@@ -9,20 +9,65 @@ import type { World } from '../world/World'
 /**
  * Axis aligned uniform grid broadphase.
  * @todo Needs support for more than just planes and spheres.
- * @param {Number} nx Number of boxes along x
- * @param {Number} ny Number of boxes along y
- * @param {Number} nz Number of boxes along z
  */
 export class GridBroadphase extends Broadphase {
+  /**
+   * Number of boxes along x
+   */
   nx: number
+
+  /**
+   * Number of boxes along y
+   */
   ny: number
+
+  /**
+   * Number of boxes along z
+   */
   nz: number
+
+  /**
+   * aabbMin
+   */
   aabbMin: Vec3
+
+  /**
+   * aabbMax
+   */
   aabbMax: Vec3
+
+  /**
+   * bins
+   */
   bins: Body[][]
+
+  /**
+   * binLengths
+   */
   binLengths: number[]
 
-  constructor(aabbMin = new Vec3(100, 100, 100), aabbMax = new Vec3(-100, -100, -100), nx = 10, ny = 10, nz = 10) {
+  constructor(
+    /**
+     * aabbMin
+     */
+    aabbMin = new Vec3(100, 100, 100),
+    /**
+     * aabbMax
+     */
+    aabbMax = new Vec3(-100, -100, -100),
+    /**
+     * Number of boxes along x
+     */
+    nx = 10,
+    /**
+     * Number of boxes along y
+     */
+    ny = 10,
+    /**
+     * Number of boxes along z
+     */
+    nz = 10
+  ) {
     super()
 
     this.nx = nx
@@ -35,7 +80,7 @@ export class GridBroadphase extends Broadphase {
       throw "GridBroadphase: Each dimension's n must be >0"
     }
     this.bins = []
-    this.binLengths = [] //Rather than continually resizing arrays (thrashing the memory), just record length and allow them to grow
+    this.binLengths = [] // Rather than continually resizing arrays (thrashing the memory), just record length and allow them to grow
     this.bins.length = nbins
     this.binLengths.length = nbins
     for (let i = 0; i < nbins; i++) {
