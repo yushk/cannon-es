@@ -7,8 +7,15 @@ import type { Quaternion } from '../math/Quaternion'
  * A 3d box shape.
  */
 export class Box extends Shape {
+  /**
+   * The half extents of the box.
+   */
   halfExtents: Vec3
-  convexPolyhedronRepresentation: ConvexPolyhedron // Used by the contact generator to make contacts with other convex polyhedra for example.
+
+  /**
+   * Used by the contact generator to make contacts with other convex polyhedra for example.
+   */
+  convexPolyhedronRepresentation: ConvexPolyhedron
 
   constructor(halfExtents: Vec3) {
     super({ type: Shape.types.BOX })
@@ -99,6 +106,9 @@ export class Box extends Shape {
     this.boundingSphereRadius = this.halfExtents.length()
   }
 
+  /**
+   * forEachWorldCorner
+   */
   forEachWorldCorner(pos: Vec3, quat: Quaternion, callback: (x: number, y: number, z: number) => void): void {
     const e = this.halfExtents
     const corners = [
@@ -119,6 +129,9 @@ export class Box extends Shape {
     }
   }
 
+  /**
+   * calculateWorldAABB
+   */
   calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
     const e = this.halfExtents
     worldCornersTemp[0].set(e.x, e.y, e.z)
