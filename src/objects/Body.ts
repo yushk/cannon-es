@@ -486,14 +486,6 @@ export class Body extends EventTarget {
 
     this.aabbNeedsUpdate = false
   }
-  
-  computeAABB() {
-
-    console.warn('.computeAABB() has been renamed to .updateAABB()');
-
-    return this.updateAABB();
-
-  }
 
   /**
    * Update .inertiaWorld and .invInertiaWorld
