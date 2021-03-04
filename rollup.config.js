@@ -2,7 +2,7 @@ import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
+import filesize from 'rollup-plugin-filesize'
 
 const extensions = ['.ts']
 
@@ -28,7 +28,7 @@ export default [
   {
     input: `./src/cannon-es`,
     output: { file: `dist/cannon-es.js`, format: 'esm' },
-    plugins: [json(), resolve({ extensions }), babel(babelOptions), sizeSnapshot()],
+    plugins: [json(), resolve({ extensions }), babel(babelOptions), filesize()],
   },
   {
     input: `./src/cannon-es`,
@@ -37,11 +37,11 @@ export default [
       json(),
       resolve({ extensions }),
       babel(babelOptions),
-      sizeSnapshot(),
       replace({
         // Use node built-in performance.now in commonjs environments
         'globalThis.performance': `require('perf_hooks').performance`,
       }),
+      filesize(),
     ],
   },
 ]
