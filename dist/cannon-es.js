@@ -154,6 +154,7 @@ class Mat3 {
     target.x = e[0];
     target.y = e[4];
     target.z = e[8];
+    return target;
   }
   /**
    * Matrix-Vector multiplication
@@ -194,22 +195,36 @@ class Mat3 {
 
 
   mmult(matrix, target = new Mat3()) {
-    const {
-      elements
-    } = matrix;
-
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        let sum = 0.0;
-
-        for (let k = 0; k < 3; k++) {
-          sum += elements[i + k * 3] * this.elements[k + j * 3];
-        }
-
-        target.elements[i + j * 3] = sum;
-      }
-    }
-
+    const A = this.elements;
+    const B = matrix.elements;
+    const T = target.elements;
+    const a11 = A[0],
+          a12 = A[1],
+          a13 = A[2],
+          a21 = A[3],
+          a22 = A[4],
+          a23 = A[5],
+          a31 = A[6],
+          a32 = A[7],
+          a33 = A[8];
+    const b11 = B[0],
+          b12 = B[1],
+          b13 = B[2],
+          b21 = B[3],
+          b22 = B[4],
+          b23 = B[5],
+          b31 = B[6],
+          b32 = B[7],
+          b33 = B[8];
+    T[0] = a11 * b11 + a12 * b21 + a13 * b31;
+    T[1] = a11 * b12 + a12 * b22 + a13 * b32;
+    T[2] = a11 * b13 + a12 * b23 + a13 * b33;
+    T[3] = a21 * b11 + a22 * b21 + a23 * b31;
+    T[4] = a21 * b12 + a22 * b22 + a23 * b32;
+    T[5] = a21 * b13 + a22 * b23 + a23 * b33;
+    T[6] = a31 * b11 + a32 * b21 + a33 * b31;
+    T[7] = a31 * b12 + a32 * b22 + a33 * b32;
+    T[8] = a31 * b13 + a32 * b23 + a33 * b33;
     return target;
   }
   /**
@@ -540,15 +555,22 @@ class Mat3 {
 
 
   transpose(target = new Mat3()) {
-    const Mt = target.elements;
     const M = this.elements;
+    const T = target.elements;
+    let tmp; //Set diagonals
 
-    for (let i = 0; i !== 3; i++) {
-      for (let j = 0; j !== 3; j++) {
-        Mt[3 * i + j] = M[3 * j + i];
-      }
-    }
-
+    T[0] = M[0];
+    T[4] = M[4];
+    T[8] = M[8];
+    tmp = M[1];
+    T[1] = M[3];
+    T[3] = tmp;
+    tmp = M[2];
+    T[2] = M[6];
+    T[6] = tmp;
+    tmp = M[5];
+    T[5] = M[7];
+    T[7] = tmp;
     return target;
   }
 
@@ -3540,6 +3562,31 @@ class Body extends EventTarget {
     return this;
   }
   /**
+   * Remove a shape from the body.
+   * @method removeShape
+   * @param {Shape} shape
+   * @return {Body} The body object, for chainability.
+   */
+
+
+  removeShape(shape) {
+    const index = this.shapes.indexOf(shape);
+
+    if (index === -1) {
+      console.warn('Shape does not belong to the body');
+      return this;
+    }
+
+    this.shapes.splice(index, 1);
+    this.shapeOffsets.splice(index, 1);
+    this.shapeOrientations.splice(index, 1);
+    this.updateMassProperties();
+    this.updateBoundingRadius();
+    this.aabbNeedsUpdate = true;
+    shape.body = null;
+    return this;
+  }
+  /**
    * Update the bounding radius of the body. Should be done if any of the shapes are changed.
    * @method updateBoundingRadius
    */
@@ -3566,12 +3613,11 @@ class Body extends EventTarget {
   }
   /**
    * Updates the .aabb
-   * @method computeAABB
-   * @todo rename to updateAABB()
+   * @method updateAABB
    */
 
 
-  computeAABB() {
+  updateAABB() {
     const shapes = this.shapes;
     const shapeOffsets = this.shapeOffsets;
     const shapeOrientations = this.shapeOrientations;
@@ -3580,7 +3626,7 @@ class Body extends EventTarget {
     const orientation = tmpQuat$1;
     const bodyQuat = this.quaternion;
     const aabb = this.aabb;
-    const shapeAABB = computeAABB_shapeAABB;
+    const shapeAABB = updateAABB_shapeAABB;
 
     for (let i = 0; i !== N; i++) {
       const shape = shapes[i]; // Get shape world position
@@ -3757,7 +3803,7 @@ class Body extends EventTarget {
     const I = this.inertia;
     const fixed = this.fixedRotation; // Approximate with AABB box
 
-    this.computeAABB();
+    this.updateAABB();
     halfExtents.set((this.aabb.upperBound.x - this.aabb.lowerBound.x) / 2, (this.aabb.upperBound.y - this.aabb.lowerBound.y) / 2, (this.aabb.upperBound.z - this.aabb.lowerBound.z) / 2);
     Box.calculateInertia(halfExtents, this.mass, I);
     this.invInertia.set(I.x > 0 && !fixed ? 1.0 / I.x : 0, I.y > 0 && !fixed ? 1.0 / I.y : 0, I.z > 0 && !fixed ? 1.0 / I.z : 0);
@@ -3907,7 +3953,7 @@ Body.sleepEvent = {
 };
 const tmpVec = new Vec3();
 const tmpQuat$1 = new Quaternion();
-const computeAABB_shapeAABB = new AABB();
+const updateAABB_shapeAABB = new AABB();
 const uiw_m1 = new Mat3();
 const uiw_m2 = new Mat3();
 const Body_applyForce_rotForce = new Vec3();
@@ -4019,11 +4065,11 @@ class Broadphase {
 
   doBoundingBoxBroadphase(bodyA, bodyB, pairs1, pairs2) {
     if (bodyA.aabbNeedsUpdate) {
-      bodyA.computeAABB();
+      bodyA.updateAABB();
     }
 
     if (bodyB.aabbNeedsUpdate) {
-      bodyB.computeAABB();
+      bodyB.updateAABB();
     } // Check AABB / AABB
 
 
@@ -4312,7 +4358,7 @@ class GridBroadphase extends Broadphase {
         default:
           {
             if (bi.aabbNeedsUpdate) {
-              bi.computeAABB();
+              bi.updateAABB();
             }
 
             addBoxToBins(bi.aabb.lowerBound.x, bi.aabb.lowerBound.y, bi.aabb.lowerBound.z, bi.aabb.upperBound.x, bi.aabb.upperBound.y, bi.aabb.upperBound.z, bi);
@@ -4421,7 +4467,7 @@ class NaiveBroadphase extends Broadphase {
       const b = world.bodies[i];
 
       if (b.aabbNeedsUpdate) {
-        b.computeAABB();
+        b.updateAABB();
       } // Ugly hack until Body gets aabb
 
 
@@ -5214,7 +5260,7 @@ class SAPBroadphase extends Broadphase {
       const bi = axisList[i];
 
       if (bi.aabbNeedsUpdate) {
-        bi.computeAABB();
+        bi.updateAABB();
       }
     } // Sort the list
 
@@ -5309,7 +5355,7 @@ class SAPBroadphase extends Broadphase {
       const b = axisList[i];
 
       if (b.aabbNeedsUpdate) {
-        b.computeAABB();
+        b.updateAABB();
       }
 
       if (b.aabb.overlaps(aabb)) {
