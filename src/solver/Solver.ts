@@ -34,7 +34,7 @@ export class Solver {
    * @param {Equation} eq
    */
   addEquation(eq: Equation): void {
-    if (eq.enabled) {
+    if (eq.enabled && !eq.bi.isTrigger && !eq.bj.isTrigger) {
       this.equations.push(eq)
     }
   }

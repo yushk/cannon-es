@@ -9,18 +9,18 @@ import type { Material } from '../material/Material'
 import type { World } from '../world/World'
 
 export const BODY_TYPES = {
-  DYNAMIC: 1 as const,
-  STATIC: 2 as const,
-  KINEMATIC: 4 as const,
-}
+  DYNAMIC: 1,
+  STATIC: 2,
+  KINEMATIC: 4,
+} as const
 
 export type BodyType = typeof BODY_TYPES[keyof typeof BODY_TYPES]
 
 export const BODY_SLEEP_STATES = {
-  AWAKE: 0 as const,
-  SLEEPY: 1 as const,
-  SLEEPING: 2 as const,
-}
+  AWAKE: 0,
+  SLEEPY: 1,
+  SLEEPING: 2,
+} as const
 
 export type BodySleepState = typeof BODY_SLEEP_STATES[keyof typeof BODY_SLEEP_STATES]
 
@@ -44,6 +44,7 @@ export type BodyOptions = {
   linearFactor?: Vec3
   angularFactor?: Vec3
   shape?: Shape
+  isTrigger?: boolean
 }
 
 /**
@@ -130,6 +131,7 @@ export class Body extends EventTarget {
   aabbNeedsUpdate: boolean // Indicates if the AABB needs to be updated before use.
   boundingRadius: number // Total bounding radius of the Body including its shapes, relative to body.position.
   wlambda: Vec3
+  isTrigger: boolean // When true "collide" events are still triggered but bodies do not interact.
 
   static idCounter: number
   static COLLIDE_EVENT_NAME: 'collide'
@@ -246,6 +248,7 @@ export class Body extends EventTarget {
     this.aabbNeedsUpdate = true
     this.boundingRadius = 0
     this.wlambda = new Vec3()
+    this.isTrigger = Boolean(options.isTrigger)
 
     if (options.shape) {
       this.addShape(options.shape)
