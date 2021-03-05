@@ -19,7 +19,7 @@ export class ConeEquation extends Equation {
   /**
    * The "cone angle" to keep
    */
-  angle: number // The cone angle to keep.
+  angle: number
 
   constructor(
     bodyA: Body,

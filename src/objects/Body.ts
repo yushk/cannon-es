@@ -85,6 +85,9 @@ export class Body extends EventTarget {
    */
   static sleepEvent = { type: 'sleep' }
 
+  /**
+   * Identifier of the body.
+   */
   id: number
 
   /**

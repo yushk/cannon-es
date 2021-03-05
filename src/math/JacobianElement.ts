@@ -4,7 +4,13 @@ import { Vec3 } from '../math/Vec3'
  * An element containing 6 entries, 3 spatial and 3 rotational degrees of freedom.
  */
 export class JacobianElement {
+  /**
+   * spatial
+   */
   spatial: Vec3
+  /**
+   * rotational
+   */
   rotational: Vec3
 
   constructor() {

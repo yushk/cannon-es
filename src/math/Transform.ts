@@ -3,13 +3,28 @@ import { Quaternion } from '../math/Quaternion'
 
 export type TransformOptions = ConstructorParameters<typeof Transform>[0]
 
+/**
+ * Transformation utilities.
+ */
 export class Transform {
+  /**
+   * position
+   */
   position: Vec3
+  /**
+   * quaternion
+   */
   quaternion: Quaternion
 
   constructor(
     options: {
+      /**
+       * position
+       */
       position?: Vec3
+      /**
+       * quaternion
+       */
       quaternion?: Quaternion
     } = {}
   ) {
@@ -39,11 +54,17 @@ export class Transform {
     return Transform.pointToWorldFrame(this.position, this.quaternion, localPoint, result)
   }
 
+  /**
+   * vectorToWorldFrame
+   */
   vectorToWorldFrame(localVector: Vec3, result = new Vec3()): Vec3 {
     this.quaternion.vmult(localVector, result)
     return result
   }
 
+  /**
+   * pointToLocalFrame
+   */
   static pointToLocalFrame(position: Vec3, quaternion: Quaternion, worldPoint: Vec3, result = new Vec3()): Vec3 {
     worldPoint.vsub(position, result)
     quaternion.conjugate(tmpQuat)
@@ -51,17 +72,26 @@ export class Transform {
     return result
   }
 
+  /**
+   * pointToWorldFrame
+   */
   static pointToWorldFrame(position: Vec3, quaternion: Quaternion, localPoint: Vec3, result = new Vec3()): Vec3 {
     quaternion.vmult(localPoint, result)
     result.vadd(position, result)
     return result
   }
 
+  /**
+   * vectorToWorldFrame
+   */
   static vectorToWorldFrame(quaternion: Quaternion, localVector: Vec3, result = new Vec3()): Vec3 {
     quaternion.vmult(localVector, result)
     return result
   }
 
+  /**
+   * vectorToLocalFrame
+   */
   static vectorToLocalFrame(position: Vec3, quaternion: Quaternion, worldVector: Vec3, result = new Vec3()): Vec3 {
     quaternion.w *= -1
     quaternion.vmult(worldVector, result)

@@ -4,7 +4,6 @@ import type { Body } from '../objects/Body'
 
 /**
  * Constrains the slipping in a contact along a tangent
- * @param {Number} slipForce should be +-F_friction = +-mu * F_normal = +-mu * m * g
  */
 export class FrictionEquation extends Equation {
   ri: Vec3
@@ -14,6 +13,9 @@ export class FrictionEquation extends Equation {
    */
   t: Vec3
 
+  /**
+   * @param {Number} slipForce should be +-F_friction = +-mu * F_normal = +-mu * m * g
+   */
   constructor(bodyA: Body, bodyB: Body, slipForce: number) {
     super(bodyA, bodyB, -slipForce, slipForce)
     this.ri = new Vec3()

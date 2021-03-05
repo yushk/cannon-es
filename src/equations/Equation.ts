@@ -22,9 +22,18 @@ export class Equation {
   bj: Body
   si!: Shape
   sj!: Shape
-  a: number // SPOOK parameter
-  b: number // SPOOK parameter
-  eps: number // SPOOK parameter
+  /**
+   * SPOOK parameter
+   */
+  a: number
+  /**
+   * SPOOK parameter
+   */
+  b: number
+  /**
+   * SPOOK parameter
+   */
+  eps: number
   jacobianElementA: JacobianElement
   jacobianElementB: JacobianElement
   enabled: boolean
@@ -33,10 +42,10 @@ export class Equation {
    */
   multiplier: number
 
-  static id: number
+  static idCounter = 0
 
   constructor(bi: Body, bj: Body, minForce = -1e6, maxForce = 1e6) {
-    this.id = Equation.id++
+    this.id = Equation.idCounter++
     this.minForce = minForce
     this.maxForce = maxForce
     this.bi = bi
@@ -199,8 +208,6 @@ export class Equation {
     return this.computeGiMGt() + this.eps
   }
 }
-
-Equation.id = 0
 
 const iMfi = new Vec3()
 const iMfj = new Vec3()

@@ -3,8 +3,8 @@ import { Mat3 } from '../math/Mat3'
 /**
  * 3-dimensional vector
  * @example
- *     const v = new Vec3(1, 2, 3);
- *     console.log('x=' + v.x); // x=1
+ *     const v = new Vec3(1, 2, 3)
+ *     console.log('x=' + v.x) // x=1
  */
 export class Vec3 {
   x: number

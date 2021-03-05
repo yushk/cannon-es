@@ -8,18 +8,39 @@ export type RotationalEquationOptions = ConstructorParameters<typeof RotationalE
  * Rotational constraint. Works to keep the local vectors orthogonal to each other in world space.
  */
 export class RotationalEquation extends Equation {
+  /**
+   * World oriented rotational axis.
+   */
   axisA: Vec3
+  /**
+   * World oriented rotational axis.
+   */
   axisB: Vec3
+  /**
+   * maxAngle
+   */
   maxAngle: number
 
   constructor(
     bodyA: Body,
     bodyB: Body,
     options: {
-      maxForce?: number
+      /**
+       * World oriented rotational axis.
+       */
       axisA?: Vec3
+      /**
+       * World oriented rotational axis.
+       */
       axisB?: Vec3
+      /**
+       * maxAngle
+       */
       maxAngle?: number
+      /**
+       * @default 1e6
+       */
+      maxForce?: number
     } = {}
   ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
