@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>cannon.js - trigger demo</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  </head>
+  <body>
+    <script type="module">
+      import * as CANNON from '../dist/cannon-es.js'
+      import { Demo } from './js/Demo.js'
+
+      /**
+       * Demonstrates how to make use of trigger to allow others body to pass through them, yet still emit collision events
+       */
+      const demo = new Demo()
+
+      demo.addScene('Trigger', () => {
+        const world = setupWorld(demo)
+
+        const boxShape = new CANNON.Box(new CANNON.Vec3(1, 1, 1))
+        const sphereShape = new CANNON.Sphere(1)
+
+        // Trigger body
+        const triggerBox = new CANNON.Body({ isTrigger: true })
+        triggerBox.addShape(boxShape)
+        triggerBox.position.set(-5, 0, 0)
+        world.addBody(triggerBox)
+        demo.addVisual(triggerBox)
+
+        // Sphere
+        const movingSphere = new CANNON.Body({ mass: 5 })
+        movingSphere.addShape(sphereShape)
+        movingSphere.position.set(5, 0, 0)
+        movingSphere.velocity.set(-5, 0, 0)
+        movingSphere.linearDamping = 0
+        world.addBody(movingSphere)
+        demo.addVisual(movingSphere)
+
+        // When a body collides with another body, they both dispatch the "collide" event.
+        triggerBox.addEventListener('collide', (event) => {
+          console.log('The box trigger was collided!', event)
+        })
+        movingSphere.addEventListener('collide', (event) => {
+          console.log('The sphere was collided!', event)
+        })
+
+        // When two bodies collide they also emit contact events
+        world.addEventListener('endContact', (event) => {
+          console.log('World end contact event', event)
+        })
+        world.addEventListener('beginContact', (event) => {
+          console.log('World begin contact event', event)
+        })
+      })
+
+      demo.start()
+
+      function setupWorld(demo) {
+        const world = demo.getWorld()
+        world.gravity.set(0, 0, 0) // no gravity
+
+        return world
+      }
+    </script>
+  </body>
+</html>

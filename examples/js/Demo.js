@@ -547,6 +547,7 @@ class Demo extends CANNON.EventTarget {
     this.currentMaterial = this.solidMaterial
     const contactDotMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
     this.particleMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 })
+    this.triggerMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
 
     const contactPointGeometry = new THREE.SphereGeometry(0.1, 6, 6)
     this.contactMeshCache = new GeometryCache(this.scene, () => {
@@ -894,10 +895,9 @@ class Demo extends CANNON.EventTarget {
       throw new Error('The argument passed to addVisual() is not a body')
     }
 
-    // if it's a particle paint it red, otherwise just gray
-    const material = body.shapes.every((s) => s instanceof CANNON.Particle)
-      ? this.particleMaterial
-      : this.currentMaterial
+    // if it's a particle paint it red, if it's a trigger paint it as green, otherwise just gray
+    const isParticule = body.shapes.every((s) => s instanceof CANNON.Particle)
+    const material = isParticule ? this.particleMaterial : body.isTrigger ? this.triggerMaterial : this.currentMaterial
 
     // get the correspondant three.js mesh
     const mesh = bodyToMesh(body, material)
