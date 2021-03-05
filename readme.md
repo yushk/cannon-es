@@ -15,6 +15,7 @@ These minor changes and improvements were also made:
 - Added a property `World.hasActiveBodies: boolean` which will be false when all physics bodies are sleeping. This allows for invalidating frames when physics aren't active for increased performance.
 - Deprecated properties and methods have been removed.
 - The [original cannon.js debugger](https://github.com/schteppe/cannon.js/blob/master/tools/threejs/CannonDebugRenderer.js), which shows the wireframes of each body, has been moved to its own repo [cannon-es-debugger](https://github.com/pmndrs/cannon-es-debugger).
+- Added a property `Body.isTrigger : boolean` which, when true allows for the body to trigger collision events without interacting physically with the other colliding bodies.
 
 If instead you're using three.js in a **React** environment with [react-three-fiber](https://github.com/pmndrs/react-three-fiber), check out [use-cannon](https://github.com/pmndrs/use-cannon)! It's a wrapper around cannon-es.
 
