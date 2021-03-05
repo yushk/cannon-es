@@ -18,6 +18,7 @@ export class HingeConstraint extends PointToPointConstraint {
    * Rotation axis, defined locally in bodyB.
    */
   axisB: Vec3
+
   rotationalEquation1: RotationalEquation
   rotationalEquation2: RotationalEquation
   motorEquation: RotationalMotorEquation
@@ -27,20 +28,31 @@ export class HingeConstraint extends PointToPointConstraint {
     bodyB: Body,
     options: {
       /**
-       * @default 1e6
-       */
-      maxForce?: number
-      /**
        * A point defined locally in bodyA. This defines the offset of axisA.
        */
       pivotA?: Vec3
+      /**
+       * A point defined locally in bodyB. This defines the offset of axisB.
+       */
       pivotB?: Vec3
       /**
        * An axis that bodyA can rotate around, defined locally in bodyA.
        */
       axisA?: Vec3
+      /**
+       * An axis that bodyB can rotate around, defined locally in bodyB.
+       */
       axisB?: Vec3
+      /**
+       * Wheter to collide the connected bodies or not.
+       * @default false
+       */
       collideConnected?: boolean
+      /**
+       * The maximum force that should be applied to constrain the bodies.
+       * @default 1e6
+       */
+      maxForce?: number
     } = {}
   ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
@@ -66,23 +78,38 @@ export class HingeConstraint extends PointToPointConstraint {
     this.equations.push(rotational1, rotational2, motor)
   }
 
+  /**
+   * enableMotor
+   */
   enableMotor(): void {
     this.motorEquation.enabled = true
   }
 
+  /**
+   * disableMotor
+   */
   disableMotor(): void {
     this.motorEquation.enabled = false
   }
 
+  /**
+   * setMotorSpeed
+   */
   setMotorSpeed(speed: number): void {
     this.motorEquation.targetVelocity = speed
   }
 
+  /**
+   * setMotorMaxForce
+   */
   setMotorMaxForce(maxForce: number): void {
     this.motorEquation.maxForce = maxForce
     this.motorEquation.minForce = -maxForce
   }
 
+  /**
+   * update
+   */
   update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB

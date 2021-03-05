@@ -12,6 +12,10 @@ export class DistanceConstraint extends Constraint {
   distance: number
   distanceEquation: ContactEquation
 
+  /**
+   * @param distance The distance to keep. If undefined, it will be set to the current distance between bodyA and bodyB.
+   * @param maxForce The maximum force that should be applied to constrain the bodies.
+   */
   constructor(bodyA: Body, bodyB: Body, distance?: number, maxForce = 1e6) {
     super(bodyA, bodyB)
 
@@ -28,6 +32,9 @@ export class DistanceConstraint extends Constraint {
     eq.maxForce = maxForce
   }
 
+  /**
+   * update
+   */
   update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB

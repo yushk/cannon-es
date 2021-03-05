@@ -12,21 +12,35 @@ export class Constraint {
    * Equations to be solved in this constraint.
    */
   equations: Equation[]
+  /**
+   * Body A.
+   */
   bodyA: Body
+  /**
+   * Body B.
+   */
   bodyB: Body
   id: number
   /**
-   * Set to true if you want the bodies to collide when they are connected.
+   * Set to false if you don't want the bodies to collide when they are connected.
    */
   collideConnected: boolean
 
-  static idCounter: number
+  static idCounter = 0
 
   constructor(
     bodyA: Body,
     bodyB: Body,
     options: {
+      /**
+       * Set to false if you don't want the bodies to collide when they are connected.
+       * @default true
+       */
       collideConnected?: boolean
+      /**
+       * Set to false if you don't want the bodies to wake up when they are connected.
+       * @default true
+       */
       wakeUpBodies?: boolean
     } = {}
   ) {
@@ -78,5 +92,3 @@ export class Constraint {
     }
   }
 }
-
-Constraint.idCounter = 0

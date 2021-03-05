@@ -6,26 +6,69 @@ import type { Body } from '../objects/Body'
 
 export type ConeTwistConstraintOptions = ConstructorParameters<typeof ConeTwistConstraint>[2]
 
+/**
+ * A Cone Twist constraint, useful for ragdolls.
+ */
 export class ConeTwistConstraint extends PointToPointConstraint {
+  /**
+   * The axis direction for the constraint of the body A.
+   */
   axisA: Vec3
+  /**
+   * The axis direction for the constraint of the body B.
+   */
   axisB: Vec3
+  /**
+   * The aperture angle of the cone.
+   */
   angle: number
+  /**
+   * The twist angle of the joint.
+   */
+  twistAngle: number
   coneEquation: ConeEquation
   twistEquation: RotationalEquation
-  twistAngle: number
 
   constructor(
     bodyA: Body,
     bodyB: Body,
     options: {
-      maxForce?: number
+      /**
+       * The pivot point for bodyA.
+       */
       pivotA?: Vec3
+      /**
+       * The pivot point for bodyB.
+       */
       pivotB?: Vec3
+      /**
+       * The axis direction for the constraint of the body A.
+       */
       axisA?: Vec3
+      /**
+       * The axis direction for the constraint of the body B.
+       */
       axisB?: Vec3
-      collideConnected?: boolean
+      /**
+       * The aperture angle of the cone.
+       * @default 0
+       */
       angle?: number
+      /**
+       * The twist angle of the joint.
+       * @default 0
+       */
       twistAngle?: number
+      /**
+       * The maximum force that should be applied to constrain the bodies.
+       * @default 1e6
+       */
+      maxForce?: number
+      /**
+       * Wether to collide the connected bodies or not.
+       * @default false
+       */
+      collideConnected?: boolean
     } = {}
   ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6

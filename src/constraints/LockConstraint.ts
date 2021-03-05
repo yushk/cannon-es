@@ -16,6 +16,7 @@ export class LockConstraint extends PointToPointConstraint {
   yB: Vec3
   zA: Vec3
   zB: Vec3
+
   rotationalEquation1: RotationalEquation
   rotationalEquation2: RotationalEquation
   rotationalEquation3: RotationalEquation
@@ -26,6 +27,7 @@ export class LockConstraint extends PointToPointConstraint {
     bodyB: Body,
     options: {
       /**
+       * The maximum force that should be applied to constrain the bodies.
        * @default 1e6
        */
       maxForce?: number
@@ -61,6 +63,9 @@ export class LockConstraint extends PointToPointConstraint {
     this.equations.push(r1, r2, r3)
   }
 
+  /**
+   * update
+   */
   update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB

@@ -46,28 +46,12 @@ export class GridBroadphase extends Broadphase {
    */
   binLengths: number[]
 
-  constructor(
-    /**
-     * aabbMin
-     */
-    aabbMin = new Vec3(100, 100, 100),
-    /**
-     * aabbMax
-     */
-    aabbMax = new Vec3(-100, -100, -100),
-    /**
-     * Number of boxes along x
-     */
-    nx = 10,
-    /**
-     * Number of boxes along y
-     */
-    ny = 10,
-    /**
-     * Number of boxes along z
-     */
-    nz = 10
-  ) {
+  /**
+   * @param nx Number of boxes along x.
+   * @param ny Number of boxes along y.
+   * @param nz Number of boxes along z.
+   */
+  constructor(aabbMin = new Vec3(100, 100, 100), aabbMax = new Vec3(-100, -100, -100), nx = 10, ny = 10, nz = 10) {
     super()
 
     this.nx = nx

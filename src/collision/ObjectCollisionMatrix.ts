@@ -9,6 +9,9 @@ export class ObjectCollisionMatrix {
    */
   matrix: Record<string, boolean>
 
+  /**
+   * @todo Remove useless constructor
+   */
   constructor() {
     this.matrix = {}
   }

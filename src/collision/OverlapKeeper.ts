@@ -2,6 +2,9 @@ export class OverlapKeeper {
   current: number[]
   previous: number[]
 
+  /**
+   * @todo Remove useless constructor
+   */
   constructor() {
     this.current = []
     this.previous = []
