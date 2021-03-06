@@ -13,7 +13,7 @@ These minor changes and improvements were also made:
 - `Body.applyImpulse()` and `Body.applyForce()` are now relative to the center of the body instead of the center of the world [86b0444](https://github.com/schteppe/cannon.js/commit/86b0444c93356aeaa25dd1af795fa162574c6f4b)
 - Sleeping bodies now wake up if a force or an impulse is applied to them [#61](https://github.com/pmndrs/cannon-es/pull/61)
 - Added a property `World.hasActiveBodies: boolean` which will be false when all physics bodies are sleeping. This allows for invalidating frames when physics aren't active for increased performance.
-- Add support for [Trigger bodies](https://pmndrs.github.io/cannon-es/examples/trigger). [#79](https://github.com/pmndrs/cannon-es/pull/79)
+- Add support for [Trigger bodies](https://pmndrs.github.io/cannon-es/examples/trigger). [#83](https://github.com/pmndrs/cannon-es/pull/83)
 - Deprecated properties and methods have been removed.
 - The [original cannon.js debugger](https://github.com/schteppe/cannon.js/blob/master/tools/threejs/CannonDebugRenderer.js), which shows the wireframes of each body, has been moved to its own repo [cannon-es-debugger](https://github.com/pmndrs/cannon-es-debugger).
 
