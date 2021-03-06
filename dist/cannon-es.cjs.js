@@ -401,13 +401,9 @@ class Mat3 {
 
     const nc = 6; // num cols
 
-    const eqns = [];
+    const eqns = reverse_eqns;
     let i;
     let j;
-
-    for (i = 0; i < nr * nc; i++) {
-      eqns.push(0);
-    }
 
     for (i = 0; i < 3; i++) {
       for (j = 0; j < 3; j++) {
@@ -579,6 +575,7 @@ class Mat3 {
   }
 
 }
+const reverse_eqns = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 /**
  * 3-dimensional vector
@@ -3307,6 +3304,12 @@ class Body extends EventTarget {
   // World space bounding box of the body and its shapes.
   // Indicates if the AABB needs to be updated before use.
   // Total bounding radius of the Body including its shapes, relative to body.position.
+
+  /**
+   * When true the body behaves like a trigger. It does not collide
+   * with other bodies but collision events are still triggered.
+   * @default false
+   */
   constructor(options = {}) {
     super();
     this.id = Body.idCounter++;
@@ -3402,6 +3405,7 @@ class Body extends EventTarget {
     this.aabbNeedsUpdate = true;
     this.boundingRadius = 0;
     this.wlambda = new Vec3();
+    this.isTrigger = Boolean(options.isTrigger);
 
     if (options.shape) {
       this.addShape(options.shape);
@@ -9386,7 +9390,7 @@ class Solver {
 
 
   addEquation(eq) {
-    if (eq.enabled) {
+    if (eq.enabled && !eq.bi.isTrigger && !eq.bj.isTrigger) {
       this.equations.push(eq);
     }
   }
@@ -12283,10 +12287,9 @@ class World extends EventTarget {
 
     if (doProfiling) {
       profile.integrate = performance.now() - profilingStart;
-    } // Update world time
+    } // Update step number
 
 
-    this.time += dt;
     this.stepnumber += 1;
     this.dispatchEvent(World_step_postStepEvent); // Invoke post-step callbacks
 

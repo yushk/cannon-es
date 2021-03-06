@@ -999,6 +999,7 @@ declare module "objects/Body" {
         linearFactor?: Vec3;
         angularFactor?: Vec3;
         shape?: Shape;
+        isTrigger?: boolean;
     };
     export class Body extends EventTarget {
         id: number;
@@ -1052,6 +1053,7 @@ declare module "objects/Body" {
         aabbNeedsUpdate: boolean;
         boundingRadius: number;
         wlambda: Vec3;
+        isTrigger: boolean;
         static idCounter: number;
         static COLLIDE_EVENT_NAME: 'collide';
         static DYNAMIC: typeof BODY_TYPES['DYNAMIC'];
