@@ -24,7 +24,7 @@ export class Vec3 {
 
   /**
    * Vector cross product
-   * @param {Vec3} target Optional target to save in.
+   * @param target Optional target to save in.
    */
   cross(vector: Vec3, target = new Vec3()): Vec3 {
     const vx = vector.x
@@ -75,7 +75,7 @@ export class Vec3 {
 
   /**
    * Vector subtraction
-   * @param {Vec3} target Optional target to save in.
+   * @param target Optional target to save in.
    */
   vsub(vector: Vec3): Vec3
   vsub(vector: Vec3, target: Vec3): void
@@ -101,7 +101,7 @@ export class Vec3 {
   /**
    * Normalize the vector. Note that this changes the values in the vector.
 
-   * @return {Number} Returns the norm of the vector
+   * @return Returns the norm of the vector
    */
   normalize(): number {
     const x = this.x
@@ -124,8 +124,8 @@ export class Vec3 {
 
   /**
    * Get the version of this vector that is of length 1.
-   * @param {Vec3} target Optional target to save in
-   * @return {Vec3} Returns the unit vector
+   * @param target Optional target to save in
+   * @return Returns the unit vector
    */
   unit(target = new Vec3()): Vec3 {
     const x = this.x
@@ -190,7 +190,7 @@ export class Vec3 {
 
   /**
    * Multiply all the components of the vector with a scalar.
-   * @param {Vec3} target The vector to save the result in.
+   * @param target The vector to save the result in.
    */
   scale(scalar: number, target = new Vec3()): Vec3 {
     const x = this.x
@@ -204,7 +204,7 @@ export class Vec3 {
 
   /**
    * Multiply the vector with an other vector, component-wise.
-   * @param {Vec3} target The vector to save the result in.
+   * @param target The vector to save the result in.
    */
   vmul(vector: Vec3, target = new Vec3()): Vec3 {
     target.x = vector.x * this.x
@@ -215,7 +215,7 @@ export class Vec3 {
 
   /**
    * Scale a vector and add it to this vector. Save the result in "target". (target = this + vector * scalar)
-   * @param {Vec3} target The vector to save the result in.
+   * @param target The vector to save the result in.
    */
   addScaledVector(scalar: number, vector: Vec3, target = new Vec3()): Vec3 {
     target.x = this.x + scalar * vector.x
@@ -226,7 +226,7 @@ export class Vec3 {
 
   /**
    * Calculate dot product
-   * @param {Vec3} vector
+   * @param vector
    */
   dot(vector: Vec3): number {
     return this.x * vector.x + this.y * vector.y + this.z * vector.z
@@ -238,7 +238,7 @@ export class Vec3 {
 
   /**
    * Make the vector point in the opposite direction.
-   * @param {Vec3} target Optional target to save in
+   * @param target Optional target to save in
    */
   negate(target = new Vec3()): Vec3 {
     target.x = -this.x
@@ -249,8 +249,8 @@ export class Vec3 {
 
   /**
    * Compute two artificial tangents to the vector
-   * @param {Vec3} t1 Vector object to save the first tangent in
-   * @param {Vec3} t2 Vector object to save the second tangent in
+   * @param t1 Vector object to save the first tangent in
+   * @param t2 Vector object to save the second tangent in
    */
   tangents(t1: Vec3, t2: Vec3): void {
     const norm = this.length()
@@ -300,7 +300,7 @@ export class Vec3 {
 
   /**
    * Do a linear interpolation between two vectors
-   * @param {Number} t A number between 0 and 1. 0 will make this function return u, and 1 will make it return v. Numbers in between will generate a vector in between them.
+   * @param t A number between 0 and 1. 0 will make this function return u, and 1 will make it return v. Numbers in between will generate a vector in between them.
    */
   lerp(vector: Vec3, t: number, target: Vec3): void {
     const x = this.x
@@ -337,7 +337,7 @@ export class Vec3 {
 
   /**
    * Check if the vector is anti-parallel to another vector.
-   * @param {Number} precision Set to zero for exact comparisons
+   * @param precision Set to zero for exact comparisons
    */
   isAntiparallelTo(vector: Vec3, precision?: number): boolean {
     this.negate(antip_neg)

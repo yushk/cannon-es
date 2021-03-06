@@ -215,7 +215,7 @@ export class World extends EventTarget {
 
   /**
    * Get the contact material between materials m1 and m2
-   * @return {ContactMaterial} The contact material if it was found.
+   * @return The contact material if it was found.
    */
   getContactMaterial(m1: Material, m2: Material): ContactMaterial {
     return this.contactMaterialTable.get(m1.id, m2.id)
@@ -261,9 +261,9 @@ export class World extends EventTarget {
 
   /**
    * Raycast test
-   * @param {Vec3} from
-   * @param {Vec3} to
-   * @param {RaycastResult} result
+   * @param from
+   * @param to
+   * @param result
    * @deprecated Use .raycastAll, .raycastClosest or .raycastAny instead.
    */
   rayTest(from: Vec3, to: Vec3, result: RaycastResult | RaycastCallback): void {
@@ -278,15 +278,15 @@ export class World extends EventTarget {
 
   /**
    * Ray cast against all bodies. The provided callback will be executed for each hit with a RaycastResult as single argument.
-   * @param  {Vec3} from
-   * @param  {Vec3} to
-   * @param  {Object} options
-   * @param  {number} [options.collisionFilterMask=-1]
-   * @param  {number} [options.collisionFilterGroup=-1]
-   * @param  {boolean} [options.skipBackfaces=false]
-   * @param  {boolean} [options.checkCollisionResponse=true]
-   * @param  {Function} callback
-   * @return {boolean} True if any body was hit.
+   * @param from
+   * @param to
+   * @param options
+   * @param [options.collisionFilterMask=-1]
+   * @param [options.collisionFilterGroup=-1]
+   * @param [options.skipBackfaces=false]
+   * @param [options.checkCollisionResponse=true]
+   * @param callback
+   * @return True if any body was hit.
    */
   raycastAll(from?: Vec3, to?: Vec3, options: RayOptions = {}, callback?: RaycastCallback): boolean {
     options.mode = Ray.ALL
@@ -298,15 +298,15 @@ export class World extends EventTarget {
 
   /**
    * Ray cast, and stop at the first result. Note that the order is random - but the method is fast.
-   * @param  {Vec3} from
-   * @param  {Vec3} to
-   * @param  {Object} options
-   * @param  {number} [options.collisionFilterMask=-1]
-   * @param  {number} [options.collisionFilterGroup=-1]
-   * @param  {boolean} [options.skipBackfaces=false]
-   * @param  {boolean} [options.checkCollisionResponse=true]
-   * @param  {RaycastResult} result
-   * @return {boolean} True if any body was hit.
+   * @param from
+   * @param to
+   * @param options
+   * @param [options.collisionFilterMask=-1]
+   * @param [options.collisionFilterGroup=-1]
+   * @param [options.skipBackfaces=false]
+   * @param [options.checkCollisionResponse=true]
+   * @param result
+   * @return True if any body was hit.
    */
   raycastAny(from?: Vec3, to?: Vec3, options: RayOptions = {}, result?: RaycastResult): boolean {
     options.mode = Ray.ANY
@@ -318,15 +318,15 @@ export class World extends EventTarget {
 
   /**
    * Ray cast, and return information of the closest hit.
-   * @param  {Vec3} from
-   * @param  {Vec3} to
-   * @param  {Object} options
-   * @param  {number} [options.collisionFilterMask=-1]
-   * @param  {number} [options.collisionFilterGroup=-1]
-   * @param  {boolean} [options.skipBackfaces=false]
-   * @param  {boolean} [options.checkCollisionResponse=true]
-   * @param  {RaycastResult} result
-   * @return {boolean} True if any body was hit.
+   * @param from
+   * @param to
+   * @param options
+   * @param [options.collisionFilterMask=-1]
+   * @param [options.collisionFilterGroup=-1]
+   * @param [options.skipBackfaces=false]
+   * @param [options.checkCollisionResponse=true]
+   * @param result
+   * @return True if any body was hit.
    */
   raycastClosest(from?: Vec3, to?: Vec3, options: RayOptions = {}, result?: RaycastResult): boolean {
     options.mode = Ray.CLOSEST
@@ -427,13 +427,13 @@ export class World extends EventTarget {
    *
    * There are two modes. The simple mode is fixed timestepping without interpolation. In this case you only use the first argument. The second case uses interpolation. In that you also provide the time since the function was last used, as well as the maximum fixed timesteps to take.
    *
-   * @param {Number} dt                       The fixed time step size to use.
-   * @param {Number} [timeSinceLastCalled]    The time elapsed since the function was last called.
-   * @param {Number} [maxSubSteps=10]         Maximum number of fixed steps to take per function call.
+   * @param dt The fixed time step size to use.
+   * @param timeSinceLastCalled The time elapsed since the function was last called.
+   * @param maxSubSteps Maximum number of fixed steps to take per function call.
    *
    * @example
    *     // fixed timestepping without interpolation
-   *     world.step(1/60);
+   *     world.step(1 / 60)
    */
   step(dt: number, timeSinceLastCalled?: number, maxSubSteps = 10): void {
     if (timeSinceLastCalled === undefined) {

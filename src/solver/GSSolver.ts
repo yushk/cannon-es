@@ -28,7 +28,7 @@ export class GSSolver extends Solver {
 
   /**
    * Solve
-   * @return {Number} number of iterations performed
+   * @return number of iterations performed
    */
   solve(dt: number, world: World): number {
     let iter = 0

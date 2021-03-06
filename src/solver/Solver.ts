@@ -16,7 +16,7 @@ export class Solver {
 
   /**
    * Should be implemented in subclasses!
-   * @return {Number} number of iterations performed
+   * @return number of iterations performed
    */
   solve(dt: number, world: World): number {
     return (

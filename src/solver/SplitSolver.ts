@@ -8,10 +8,6 @@ type SplitSolverNode = { body: Body | null; children: SplitSolverNode[]; eqs: Eq
 
 /**
  * Splits the equations into islands and solves them independently. Can improve performance.
- * @class SplitSolver
- * @constructor
- * @extends Solver
- * @param {Solver} subsolver
  */
 export class SplitSolver extends Solver {
   /**
@@ -48,7 +44,7 @@ export class SplitSolver extends Solver {
 
   /**
    * Solve the subsystems
-   * @return {Number} number of iterations performed
+   * @return number of iterations performed
    */
   solve(dt: number, world: World): number {
     const nodes = SplitSolver_solve_nodes

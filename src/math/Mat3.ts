@@ -77,8 +77,8 @@ export class Mat3 {
 
   /**
    * Matrix-Vector multiplication
-   * @param {Vec3} v The vector to multiply with
-   * @param {Vec3} target Optional, target to save the result in.
+   * @param v The vector to multiply with
+   * @param target Optional, target to save the result in.
    */
   vmult(v: Vec3, target = new Vec3()): Vec3 {
     const e = this.elements
@@ -103,7 +103,7 @@ export class Mat3 {
 
   /**
    * Matrix multiplication
-   * @param {Mat3} matrix Matrix to multiply with from left side.
+   * @param matrix Matrix to multiply with from left side.
    */
   mmult(matrix: Mat3, target = new Mat3()): Mat3 {
     const A = this.elements
@@ -161,9 +161,9 @@ export class Mat3 {
 
   /**
    * Solve Ax=b
-   * @param {Vec3} b The right hand side
-   * @param {Vec3} target Optional. Target vector to save in.
-   * @return {Vec3} The solution x
+   * @param b The right hand side
+   * @param target Optional. Target vector to save in.
+   * @return The solution x
    * @todo should reuse arrays
    */
   solve(b: Vec3, target = new Vec3()): Vec3 {
@@ -242,7 +242,7 @@ export class Mat3 {
 
   /**
    * Get an element in the matrix by index. Index starts at 0, not 1!!!
-   * @param {Number} value If provided, the matrix element will be set to this value.
+   * @param value If provided, the matrix element will be set to this value.
    */
   e(row: number, column: number): number
   e(row: number, column: number, value: number): void
@@ -279,8 +279,8 @@ export class Mat3 {
 
   /**
    * reverse the matrix
-   * @param {Mat3} target Target matrix to save in.
-   * @return {Mat3} The solution x
+   * @param target Target matrix to save in.
+   * @return The solution x
    */
   reverse(target = new Mat3()): Mat3 {
     // Construct equations
@@ -419,8 +419,8 @@ export class Mat3 {
 
   /**
    * Transpose the matrix
-   * @param  {Mat3} target Optional. Where to store the result.
-   * @return {Mat3} The target Mat3, or a new Mat3 if target was omitted.
+   * @param target Optional. Where to store the result.
+   * @return The target Mat3, or a new Mat3 if target was omitted.
    */
   transpose(target = new Mat3()): Mat3 {
     const M = this.elements

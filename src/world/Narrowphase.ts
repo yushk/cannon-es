@@ -252,11 +252,11 @@ export class Narrowphase {
 
   /**
    * Generate all contacts between a list of body pairs
-   * @param {array} p1 Array of body indices
-   * @param {array} p2 Array of body indices
-   * @param {World} world
-   * @param {array} result Array to store generated contacts
-   * @param {array} oldcontacts Optional. Array of reusable contact objects
+   * @param p1 Array of body indices
+   * @param p2 Array of body indices
+   * @param world
+   * @param result Array to store generated contacts
+   * @param oldcontacts Optional. Array of reusable contact objects
    */
   getContacts(
     p1: Body[],

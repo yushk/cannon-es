@@ -8,20 +8,38 @@ import type { Shape } from '../shapes/Shape'
 import type { Material } from '../material/Material'
 import type { World } from '../world/World'
 
+/**
+ * BODY_TYPES
+ */
 export const BODY_TYPES = {
+  /** DYNAMIC */
   DYNAMIC: 1,
+  /** STATIC */
   STATIC: 2,
+  /** KINEMATIC */
   KINEMATIC: 4,
 } as const
 
+/**
+ * BodyType
+ */
 export type BodyType = typeof BODY_TYPES[keyof typeof BODY_TYPES]
 
+/**
+ * BODY_SLEEP_STATES
+ */
 export const BODY_SLEEP_STATES = {
+  /** AWAKE */
   AWAKE: 0,
+  /** SLEEPY */
   SLEEPY: 1,
+  /** SLEEPING */
   SLEEPING: 2,
 } as const
 
+/**
+ * BodySleepState
+ */
 export type BodySleepState = typeof BODY_SLEEP_STATES[keyof typeof BODY_SLEEP_STATES]
 
 export type BodyOptions = ConstructorParameters<typeof Body>[0]
@@ -43,28 +61,37 @@ export class Body extends EventTarget {
    * Dispatched after two bodies collide. This event is dispatched on each
    * of the two bodies involved in the collision.
    * @event collide
-   * @param {Body} body The body that was involved in the collision.
-   * @param {ContactEquation} contact The details of the collision.
+   * @param body The body that was involved in the collision.
+   * @param contact The details of the collision.
    */
   static COLLIDE_EVENT_NAME = 'collide'
 
   /**
    * A dynamic body is fully simulated. Can be moved manually by the user, but normally they move according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero mass.
    */
-  static DYNAMIC = BODY_TYPES['DYNAMIC']
+  static DYNAMIC = BODY_TYPES.DYNAMIC
 
   /**
    * A static body does not move during simulation and behaves as if it has infinite mass. Static bodies can be moved manually by setting the position of the body. The velocity of a static body is always zero. Static bodies do not collide with other static or kinematic bodies.
    */
-  static STATIC = BODY_TYPES['STATIC']
+  static STATIC = BODY_TYPES.STATIC
 
   /**
    * A kinematic body moves under simulation according to its velocity. They do not respond to forces. They can be moved manually, but normally a kinematic body is moved by setting its velocity. A kinematic body behaves as if it has infinite mass. Kinematic bodies do not collide with other static or kinematic bodies.
    */
-  static KINEMATIC = BODY_TYPES['KINEMATIC']
+  static KINEMATIC = BODY_TYPES.KINEMATIC
 
+  /**
+   * AWAKE
+   */
   static AWAKE = BODY_SLEEP_STATES.AWAKE
+  /**
+   * SLEEPY
+   */
   static SLEEPY = BODY_SLEEP_STATES.SLEEPY
+  /**
+   * SLEEPING
+   */
   static SLEEPING = BODY_SLEEP_STATES.SLEEPING
 
   /**
@@ -183,7 +210,7 @@ export class Body extends EventTarget {
   linearDamping: number
 
   /**
-   * One of: Body.DYNAMIC, Body.STATIC and Body.KINEMATIC.
+   * One of: `Body.DYNAMIC`, `Body.STATIC` and `Body.KINEMATIC`.
    */
   type: BodyType
 
@@ -356,7 +383,7 @@ export class Body extends EventTarget {
        */
       linearDamping?: number
       /**
-       * One of: Body.DYNAMIC, Body.STATIC and Body.KINEMATIC.
+       * One of: `Body.DYNAMIC`, `Body.STATIC` and `Body.KINEMATIC`.
        */
       type?: BodyType
       /**
@@ -541,7 +568,7 @@ export class Body extends EventTarget {
 
   /**
    * Called every timestep to update internal sleep timer and change sleep state if needed.
-   * @param {Number} time The world time in seconds
+   * @param time The world time in seconds
    */
   sleepTick(time: number): void {
     if (this.allowSleep) {
@@ -612,7 +639,7 @@ export class Body extends EventTarget {
 
   /**
    * Add a shape to the body with a local offset and orientation.
-   * @return {Body} The body object, for chainability.
+   * @return The body object, for chainability.
    */
   addShape(shape: Shape, _offset?: Vec3, _orientation?: Quaternion): Body {
     const offset = new Vec3()
@@ -749,8 +776,8 @@ export class Body extends EventTarget {
   /**
    * Apply force to a point of the body. This could for example be a point on the Body surface.
    * Applying force this way will add to Body.force and Body.torque.
-   * @param  {Vec3} force The amount of force to add.
-   * @param  {Vec3} [relativePoint] A point relative to the center of mass to apply the force on.
+   * @param force The amount of force to add.
+   * @param [relativePoint] A point relative to the center of mass to apply the force on.
    */
   applyForce(force: Vec3, relativePoint: Vec3 = new Vec3()): void {
     // Needed?
@@ -775,8 +802,8 @@ export class Body extends EventTarget {
 
   /**
    * Apply force to a local point in the body.
-   * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
-   * @param  {Vec3} [localPoint] A local point in the body to apply the force on.
+   * @param force The force vector to apply, defined locally in the body frame.
+   * @param [localPoint] A local point in the body to apply the force on.
    */
   applyLocalForce(localForce: Vec3, localPoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
@@ -815,8 +842,8 @@ export class Body extends EventTarget {
    * Apply impulse to a point of the body. This could for example be a point on the Body surface.
    * An impulse is a force added to a body during a short period of time (impulse = force * time).
    * Impulses will be added to Body.velocity and Body.angularVelocity.
-   * @param  {Vec3} impulse The amount of impulse to add.
-   * @param  {Vec3} relativePoint A point relative to the center of mass to apply the force on.
+   * @param impulse The amount of impulse to add.
+   * @param relativePoint A point relative to the center of mass to apply the force on.
    */
   applyImpulse(impulse: Vec3, relativePoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
@@ -855,8 +882,8 @@ export class Body extends EventTarget {
 
   /**
    * Apply locally-defined impulse to a local point in the body.
-   * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
-   * @param  {Vec3} localPoint A local point in the body to apply the force on.
+   * @param force The force vector to apply, defined locally in the body frame.
+   * @param localPoint A local point in the body to apply the force on.
    */
   applyLocalImpulse(localImpulse: Vec3, localPoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
@@ -902,9 +929,9 @@ export class Body extends EventTarget {
 
   /**
    * Get world velocity of a point in the body.
-   * @param  {Vec3} worldPoint
-   * @param  {Vec3} result
-   * @return {Vec3} The result vector.
+   * @param worldPoint
+   * @param result
+   * @return The result vector.
    */
   getVelocityAtWorldPoint(worldPoint: Vec3, result: Vec3): Vec3 {
     const r = new Vec3()
@@ -916,9 +943,9 @@ export class Body extends EventTarget {
 
   /**
    * Move the body forward in time.
-   * @param {number} dt Time step
-   * @param {boolean} quatNormalize Set to true to normalize the body quaternion
-   * @param {boolean} quatNormalizeFast If the quaternion should be normalized using "fast" quaternion normalization
+   * @param dt Time step
+   * @param quatNormalize Set to true to normalize the body quaternion
+   * @param quatNormalizeFast If the quaternion should be normalized using "fast" quaternion normalization
    */
   integrate(dt: number, quatNormalize: boolean, quatNormalizeFast: boolean): void {
     // Save previous position

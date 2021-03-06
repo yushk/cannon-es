@@ -23,7 +23,6 @@ export class Pool {
 
   /**
    * Get an object
-   * @return {mixed}
    */
   get(): any {
     if (this.objects.length === 0) {
@@ -41,7 +40,7 @@ export class Pool {
   }
 
   /**
-   * @return {Pool} Self, for chaining
+   * @return Self, for chaining
    */
   resize(size: number): Pool {
     const objects = this.objects

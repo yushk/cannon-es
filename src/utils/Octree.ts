@@ -26,7 +26,7 @@ class OctreeNode {
 
   /**
    * Insert data into this node
-   * @return {boolean} True if successful, otherwise false
+   * @return True if successful, otherwise false
    */
   insert(aabb: AABB, elementData: number, level = 0): boolean {
     const nodeData = this.data
@@ -113,7 +113,7 @@ class OctreeNode {
 
   /**
    * Get all data, potentially within an AABB
-   * @return {array} The "result" object
+   * @return The "result" object
    */
   aabbQuery(aabb: AABB, result: number[]): number[] {
     const nodeData = this.data
@@ -148,7 +148,7 @@ class OctreeNode {
 
   /**
    * Get all data, potentially intersected by a ray.
-   * @return {array} The "result" object
+   * @return The "result" object
    */
   rayQuery(ray: Ray, treeTransform: Transform, result: number[]): number[] {
     // Use aabb query for now.
@@ -171,7 +171,7 @@ class OctreeNode {
 }
 
 /**
- * @param {AABB} aabb The total AABB of the tree
+ * @param aabb The total AABB of the tree
  */
 export class Octree extends OctreeNode {
   /**

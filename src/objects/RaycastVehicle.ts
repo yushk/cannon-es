@@ -330,7 +330,7 @@ export class RaycastVehicle {
   /**
    * Update one of the wheel transform.
    * Note when rendering wheels: during each step, wheel transforms are updated BEFORE the chassis; ie. their position becomes invalid after the step. Thus when you render wheels, you must update wheel transforms before rendering them. See raycastVehicle demo for an example.
-   * @param {integer} wheelIndex The wheel index to update.
+   * @param wheelIndex The wheel index to update.
    */
   updateWheelTransform(wheelIndex: number): void {
     const up = tmpVec4

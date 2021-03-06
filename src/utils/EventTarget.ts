@@ -8,7 +8,7 @@ export class EventTarget {
 
   /**
    * Add an event listener
-   * @return {EventTarget} The self object, for chainability.
+   * @return The self object, for chainability.
    */
   addEventListener(type: string, listener: Function): EventTarget {
     if (this._listeners === undefined) {
@@ -51,7 +51,7 @@ export class EventTarget {
 
   /**
    * Remove an event listener
-   * @return {EventTarget} The self object, for chainability.
+   * @return The self object, for chainability.
    */
   removeEventListener(type: string, listener: Function): EventTarget {
     if (this._listeners === undefined) {
@@ -70,7 +70,7 @@ export class EventTarget {
 
   /**
    * Emit an event.
-   * @return {EventTarget} The self object, for chainability.
+   * @return The self object, for chainability.
    */
   dispatchEvent(event: any): EventTarget {
     if (this._listeners === undefined) {

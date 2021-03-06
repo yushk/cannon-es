@@ -139,7 +139,7 @@ export class Spring {
 
   /**
    * Get the anchor point on body A, in world coordinates.
-   * @param {Vec3} result The vector to store the result in.
+   * @param result The vector to store the result in.
    */
   getWorldAnchorA(result: Vec3): void {
     this.bodyA.pointToWorldFrame(this.localAnchorA, result)
@@ -147,7 +147,7 @@ export class Spring {
 
   /**
    * Get the anchor point on body B, in world coordinates.
-   * @param {Vec3} result The vector to store the result in.
+   * @param result The vector to store the result in.
    */
   getWorldAnchorB(result: Vec3): void {
     this.bodyB.pointToWorldFrame(this.localAnchorB, result)

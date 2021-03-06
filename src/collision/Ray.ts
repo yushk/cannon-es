@@ -13,12 +13,21 @@ import type { ConvexPolyhedron } from '../shapes/ConvexPolyhedron'
 import type { Trimesh } from '../shapes/Trimesh'
 import type { World } from '../world/World'
 
+/**
+ * RAY_MODES
+ */
 export const RAY_MODES = {
+  /** CLOSEST */
   CLOSEST: 1,
+  /** ANY */
   ANY: 2,
+  /** ALL */
   ALL: 4,
 } as const
 
+/**
+ * RayMode
+ */
 export type RayMode = typeof RAY_MODES[keyof typeof RAY_MODES]
 
 /**
@@ -54,7 +63,7 @@ export type RayOptions = {
    */
   collisionFilterGroup?: number
   /**
-   * Set to `true` if you want the Ray to take `collisionResponse` flags into account on bodies and shapes.
+   * Set to `false` if you don't want the Ray to take `collisionResponse` flags into account on bodies and shapes.
    * @default true
    */
   checkCollisionResponse?: boolean
@@ -125,15 +134,15 @@ export class Ray {
   /**
    * CLOSEST
    */
-  static CLOSEST: typeof RAY_MODES['CLOSEST']
+  static CLOSEST: typeof RAY_MODES.CLOSEST
   /**
    * ANY
    */
-  static ANY: typeof RAY_MODES['ANY']
+  static ANY: typeof RAY_MODES.ANY
   /**
    * ALL
    */
-  static ALL: typeof RAY_MODES['ALL']
+  static ALL: typeof RAY_MODES.ALL
 
   /**
    * As per "Barycentric Technique" as named
@@ -166,7 +175,7 @@ export class Ray {
 
   /**
    * Do itersection against all bodies in the given World.
-   * @return {Boolean} True if the ray hit anything, otherwise false.
+   * @return True if the ray hit anything, otherwise false.
    */
   intersectWorld(world: World, options: RayOptions): boolean {
     this.mode = options.mode || Ray.ANY
@@ -200,7 +209,7 @@ export class Ray {
 
   /**
    * Shoot a ray at a body, get back information about the hit.
-   * @deprecated @param {RaycastResult} [result] set the result property of the Ray instead.
+   * @deprecated @param result set the result property of the Ray instead.
    */
   intersectBody(body: Body, result?: RaycastResult): void {
     if (result) {
@@ -244,8 +253,8 @@ export class Ray {
 
   /**
    * Shoot a ray at an array bodies, get back information about the hit.
-   * @param {Array} bodies An array of Body objects.
-   * @deprecated @param {RaycastResult} [result] set the result property of the Ray instead.
+   * @param bodies An array of Body objects.
+   * @deprecated @param result set the result property of the Ray instead.
    *
    */
   intersectBodies(bodies: Body[], result?: RaycastResult): void {
@@ -669,7 +678,7 @@ export class Ray {
   }
 
   /**
-   * @return {boolean} True if the intersections should continue
+   * @return True if the intersections should continue
    */
   private reportIntersection(normal: Vec3, hitPointWorld: Vec3, shape: Shape, body: Body, hitFaceIndex: number): void {
     const from = this.from

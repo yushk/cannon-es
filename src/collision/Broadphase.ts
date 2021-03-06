@@ -30,9 +30,9 @@ export class Broadphase {
 
   /**
    * Get the collision pairs from the world
-   * @param {World} world The world to search in
-   * @param {Array} p1 Empty array to be filled with body objects
-   * @param {Array} p2 Empty array to be filled with body objects
+   * @param world The world to search in
+   * @param p1 Empty array to be filled with body objects
+   * @param p2 Empty array to be filled with body objects
    */
   collisionPairs(world: World, p1: Body[], p2: Body[]): void {
     throw new Error('collisionPairs not implemented for this BroadPhase class!')
@@ -75,8 +75,8 @@ export class Broadphase {
 
   /**
    * Check if the bounding spheres of two bodies are intersecting.
-   * @param {Array} pairs1 bodyA is appended to this array if intersection
-   * @param {Array} pairs2 bodyB is appended to this array if intersection
+   * @param pairs1 bodyA is appended to this array if intersection
+   * @param pairs2 bodyB is appended to this array if intersection
    */
   doBoundingSphereBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void {
     const r = Broadphase_collisionPairs_r

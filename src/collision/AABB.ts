@@ -42,8 +42,8 @@ export class AABB {
 
   /**
    * Set the AABB bounds from a set of points.
-   * @param {Array} points An array of Vec3's.
-   * @return {AABB} The self object
+   * @param points An array of Vec3's.
+   * @return The self object
    */
   setFromPoints(points: Vec3[], position?: Vec3, quaternion?: Quaternion, skinSize?: number): AABB {
     const l = this.lowerBound
@@ -105,8 +105,8 @@ export class AABB {
 
   /**
    * Copy bounds from an AABB to this AABB
-   * @param  {AABB} aabb Source to copy from
-   * @return {AABB} The this object, for chainability
+   * @param aabb Source to copy from
+   * @return The this object, for chainability
    */
   copy(aabb: AABB): AABB {
     this.lowerBound.copy(aabb.lowerBound)
@@ -194,7 +194,7 @@ export class AABB {
 
   /**
    * Get the representation of an AABB in another frame.
-   * @return {AABB} The "target" AABB object.
+   * @return The "target" AABB object.
    */
   toLocalFrame(frame: Transform, target: AABB): AABB {
     const corners = transformIntoFrame_corners
@@ -221,7 +221,7 @@ export class AABB {
 
   /**
    * Get the representation of an AABB in the global frame.
-   * @return {AABB} The "target" AABB object.
+   * @return The "target" AABB object.
    */
   toWorldFrame(frame: Transform, target: AABB): AABB {
     const corners = transformIntoFrame_corners

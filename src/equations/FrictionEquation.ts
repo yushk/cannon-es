@@ -11,7 +11,7 @@ export class FrictionEquation extends Equation {
   t: Vec3 // Tangent
 
   /**
-   * @param {Number} slipForce should be +-F_friction = +-mu * F_normal = +-mu * m * g
+   * @param slipForce should be +-F_friction = +-mu * F_normal = +-mu * m * g
    */
   constructor(bodyA: Body, bodyB: Body, slipForce: number) {
     super(bodyA, bodyB, -slipForce, slipForce)
