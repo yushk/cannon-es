@@ -44,6 +44,7 @@ export type BodyOptions = {
   linearFactor?: Vec3
   angularFactor?: Vec3
   shape?: Shape
+  isTrigger?: boolean
 }
 
 /**
@@ -130,6 +131,12 @@ export class Body extends EventTarget {
   aabbNeedsUpdate: boolean // Indicates if the AABB needs to be updated before use.
   boundingRadius: number // Total bounding radius of the Body including its shapes, relative to body.position.
   wlambda: Vec3
+  /**
+   * When true the body behaves like a trigger. It does not collide
+   * with other bodies but collision events are still triggered.
+   * @default false
+   */
+  isTrigger: boolean
 
   static idCounter: number
   static COLLIDE_EVENT_NAME: 'collide'
@@ -246,6 +253,7 @@ export class Body extends EventTarget {
     this.aabbNeedsUpdate = true
     this.boundingRadius = 0
     this.wlambda = new Vec3()
+    this.isTrigger = Boolean(options.isTrigger)
 
     if (options.shape) {
       this.addShape(options.shape)
