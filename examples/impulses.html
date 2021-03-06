@@ -54,7 +54,7 @@
         demo.addVisual(body)
 
         // The top of the sphere, relative to the sphere center
-        const topPoint = new CANNON.Vec3(0, radius / 2, 0)
+        const topPoint = new CANNON.Vec3(0, radius, 0)
         const impulse = new CANNON.Vec3(-strength * dt, 0, 0)
         body.applyImpulse(impulse, topPoint)
       })
@@ -88,7 +88,7 @@
         demo.addVisual(body)
 
         // The top of the sphere, relative to the sphere center
-        const topPoint = new CANNON.Vec3(0, radius / 2, 0)
+        const topPoint = new CANNON.Vec3(0, radius, 0)
         const force = new CANNON.Vec3(-strength, 0, 0)
         body.applyForce(force, topPoint)
       })
@@ -108,7 +108,7 @@
 
         // it's the top point, but since the sphere is rotated
         // by 180 degrees, it is the bottom point to the right
-        const topPoint = new CANNON.Vec3(0, radius / 2, 0)
+        const topPoint = new CANNON.Vec3(0, radius, 0)
         const force = new CANNON.Vec3(-strength, 0, 0)
         body.applyLocalForce(force, topPoint)
       })
