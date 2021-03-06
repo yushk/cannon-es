@@ -41,20 +41,17 @@ export class Heightfield extends Shape {
   data: number[][]
 
   /**
-   * Max value of the data.
-   * Will be computed automatically if not given.
+   * Max value of the data points in the data array.
    */
   maxValue: number | null
 
   /**
    * Minimum value of the data points in the data array.
-   * Will be computed automatically if not given.
    */
   minValue: number | null
 
   /**
-   * The width of each element.
-   * AKA World spacing between the data points in X direction.
+   * World spacing between the data points in X direction.
    * @todo elementSizeX and Y
    * @default 1
    */
@@ -69,11 +66,25 @@ export class Heightfield extends Shape {
 
   private _cachedPillars: { [key: string]: HeightfieldPillar }
 
+  /**
+   * @param data An array of numbers, or height values, that are spread out along the x axis.
+   */
   constructor(
     data: number[][],
     options: {
+      /**
+       * Max value of the data points in the data array.
+       * Will be computed automatically if not given.
+       */
       maxValue?: number | null
+      /**
+       * Minimum value of the data points in the data array.
+       * Will be computed automatically if not given.
+       */
       minValue?: number | null
+      /**
+       * World spacing between the data points in X direction.
+       */
       elementSize?: number
     } = {}
   ) {
@@ -176,7 +187,8 @@ export class Heightfield extends Shape {
 
   /**
    * Get max/min in a rectangle in the matrix data
-   * @return {array} The result array, if it was passed in. Minimum will be at position 0 and max at 1.
+   * @param [result] An array to store the results in.
+   * @return The result array, if it was passed in. Minimum will be at position 0 and max at 1.
    */
   getRectMinMax(iMinX: number, iMinY: number, iMaxX: number, iMaxY: number, result: number[] = []): void {
     // Get max and min of the data
@@ -198,8 +210,8 @@ export class Heightfield extends Shape {
 
   /**
    * Get the index of a local position on the heightfield. The indexes indicate the rectangles, so if your terrain is made of N x N height data points, you will have rectangle indexes ranging from 0 to N-1.
-   * @param  {array} result Two-element array
-   * @param  {boolean} clamp If the position should be clamped to the heightfield edge.
+   * @param result Two-element array
+   * @param clamp If the position should be clamped to the heightfield edge.
    */
   getIndexOfPosition(x: number, y: number, result: number[], clamp: boolean): boolean {
     // Get the index of the data points to test against
@@ -270,9 +282,9 @@ export class Heightfield extends Shape {
 
   /**
    * Get an AABB of a square in the heightfield
-   * @param  {number} xi
-   * @param  {number} yi
-   * @param  {AABB} result
+   * @param xi
+   * @param yi
+   * @param result
    */
   getAabbAtIndex(xi: number, yi: number, { lowerBound, upperBound }: AABB): void {
     const data = this.data

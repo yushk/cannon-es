@@ -10,6 +10,9 @@ export class Particle extends Shape {
     super({ type: Shape.types.PARTICLE })
   }
 
+  /**
+   * calculateLocalInertia
+   */
   calculateLocalInertia(mass: number, target = new Vec3()): Vec3 {
     target.set(0, 0, 0)
     return target

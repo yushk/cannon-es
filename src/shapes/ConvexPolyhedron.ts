@@ -3,6 +3,7 @@ import { Vec3 } from '../math/Vec3'
 import { Transform } from '../math/Transform'
 import type { Quaternion } from '../math/Quaternion'
 
+/** ConvexPolyhedronContactPoint */
 export type ConvexPolyhedronContactPoint = {
   point: Vec3
   normal: Vec3
@@ -15,9 +16,6 @@ export type ConvexPolyhedronContactPoint = {
  * The shape MUST be convex for the code to work properly. No polygons may be coplanar (contained
  * in the same 3D plane), instead these should be merged into one polygon.
  *
- * @param {array} points An array of Vec3's
- * @param {array} faces Array of integer arrays, describing which vertices that is included in each face.
- *
  * @author qiao / https://github.com/qiao (original author, see https://github.com/qiao/three.js/commit/85026f0c769e4000148a67d45a9e9b9c5108836f)
  * @author schteppe / https://github.com/schteppe
  * @see https://www.altdevblogaday.com/2011/05/13/contact-generation-between-3d-convex-meshes/
@@ -27,28 +25,44 @@ export type ConvexPolyhedronContactPoint = {
  */
 
 export class ConvexPolyhedron extends Shape {
+  /** vertices */
   vertices: Vec3[]
   /**
    * Array of integer arrays, indicating which vertices each face consists of
    */
   faces: number[][]
+  /** faceNormals */
   faceNormals: Vec3[]
+  /** worldVertices */
   worldVertices: Vec3[]
+  /** worldVerticesNeedsUpdate */
   worldVerticesNeedsUpdate: boolean
+  /** worldFaceNormals */
   worldFaceNormals: Vec3[]
+  /** worldFaceNormalsNeedsUpdate */
   worldFaceNormalsNeedsUpdate: boolean
   /**
    * If given, these locally defined, normalized axes are the only ones being checked when doing separating axis check.
    */
   uniqueAxes: Vec3[] | null
+  /** uniqueEdges */
   uniqueEdges: Vec3[]
 
+  /**
+   * @param vertices An array of Vec3's
+   * @param faces Array of integer arrays, describing which vertices that is included in each face.
+   */
   constructor(
     props: {
+      /** An array of Vec3's */
       vertices?: Vec3[]
+      /** Array of integer arrays, describing which vertices that is included in each face. */
       faces?: number[][]
+      /** normals */
       normals?: Vec3[]
+      /** axes */
       axes?: Vec3[]
+      /** boundingSphereRadius */
       boundingSphereRadius?: number
     } = {}
   ) {
@@ -171,8 +185,8 @@ export class ConvexPolyhedron extends Shape {
   }
 
   /**
-   * @param {Number} minDist Clamp distance
-   * @param {array} result The an array of contact point objects, see clipFaceAgainstHull
+   * @param minDist Clamp distance
+   * @param result The an array of contact point objects, see clipFaceAgainstHull
    */
   clipAgainstHull(
     posA: Vec3,
@@ -217,8 +231,8 @@ export class ConvexPolyhedron extends Shape {
 
   /**
    * Find the separating axis between this hull and another
-   * @param {Vec3} target The target vector to save the axis in
-   * @return {bool} Returns false if a separation is found, else true
+   * @param target The target vector to save the axis in
+   * @return Returns false if a separation is found, else true
    */
   findSeparatingAxis(
     hullB: ConvexPolyhedron,
@@ -351,7 +365,7 @@ export class ConvexPolyhedron extends Shape {
 
   /**
    * Test separating axis against two hulls. Both hulls are projected onto the axis and the overlap size is returned if there is one.
-   * @return {number} The overlap depth, or FALSE if no penetration.
+   * @return The overlap depth, or FALSE if no penetration.
    */
   testSepAxis(
     axis: Vec3,
@@ -377,6 +391,9 @@ export class ConvexPolyhedron extends Shape {
     return depth
   }
 
+  /**
+   * calculateLocalInertia
+   */
   calculateLocalInertia(mass: number, target: Vec3): void {
     // Approximate with box inertia
     // Exact inertia calculation is overkill, but see http://geometrictools.com/Documentation/PolyhedralMassProperties.pdf for the correct way to do it
@@ -392,7 +409,7 @@ export class ConvexPolyhedron extends Shape {
   }
 
   /**
-   * @param  {Number} face_i Index of the face
+   * @param face_i Index of the face
    */
   getPlaneConstantOfFace(face_i: number): number {
     const f = this.faces[face_i]
@@ -404,8 +421,8 @@ export class ConvexPolyhedron extends Shape {
 
   /**
    * Clip a face against a hull.
-   * @param {Array} worldVertsB1 An array of Vec3 with vertices in the world frame.
-   * @param {Number} minDist Distance clamping
+   * @param worldVertsB1 An array of Vec3 with vertices in the world frame.
+   * @param minDist Distance clamping
    * @param Array result Array to store resulting contact points in. Will be objects with properties: point, depth, normal. These are represented in world coordinates.
    */
   clipFaceAgainstHull(
@@ -535,7 +552,7 @@ export class ConvexPolyhedron extends Shape {
 
   /**
    * Clip a face in a hull against the back of a plane.
-   * @param {Number} planeConstant The constant in the mathematical plane equation
+   * @param planeConstant The constant in the mathematical plane equation
    */
   clipFaceAgainstPlane(inVertices: Vec3[], outVertices: Vec3[], planeNormal: Vec3, planeConstant: number): Vec3[] {
     let n_dot_first
@@ -581,7 +598,9 @@ export class ConvexPolyhedron extends Shape {
     return outVertices
   }
 
-  // Updates .worldVertices and sets .worldVerticesNeedsUpdate to false.
+  /**
+   * Updates `.worldVertices` and sets `.worldVerticesNeedsUpdate` to false.
+   */
   computeWorldVertices(position: Vec3, quat: Quaternion): void {
     while (this.worldVertices.length < this.vertices.length) {
       this.worldVertices.push(new Vec3())
@@ -641,6 +660,9 @@ export class ConvexPolyhedron extends Shape {
     this.worldFaceNormalsNeedsUpdate = false
   }
 
+  /**
+   * updateBoundingSphereRadius
+   */
   updateBoundingSphereRadius(): void {
     // Assume points are distributed with local (0,0,0) as center
     let max2 = 0
@@ -654,6 +676,9 @@ export class ConvexPolyhedron extends Shape {
     this.boundingSphereRadius = Math.sqrt(max2)
   }
 
+  /**
+   * calculateWorldAABB
+   */
   calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
     const verts = this.vertices
     let minx: number | undefined
@@ -755,7 +780,7 @@ export class ConvexPolyhedron extends Shape {
    * Checks whether p is inside the polyhedra. Must be in local coords.
    * The point lies outside of the convex hull of the other points if and only if the direction
    * of all the vectors from it to those other points are on less than one half of a sphere around it.
-   * @param  {Vec3} p A point given in local coordinates
+   * @param p A point given in local coordinates
    */
   pointIsInside(p: Vec3): 1 | -1 | false {
     const verts = this.vertices
@@ -790,7 +815,7 @@ export class ConvexPolyhedron extends Shape {
   /**
    * Get max and min dot product of a convex hull at position (pos,quat) projected onto an axis.
    * Results are saved in the array maxmin.
-   * @param {array} result result[0] and result[1] will be set to maximum and minimum, respectively.
+   * @param result result[0] and result[1] will be set to maximum and minimum, respectively.
    */
   static project(shape: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]): void {
     const n = shape.vertices.length

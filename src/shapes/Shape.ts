@@ -7,17 +7,29 @@ import type { Material } from '../material/Material'
  * The available shape types.
  */
 export const SHAPE_TYPES = {
+  /** SPHERE */
   SPHERE: 1,
+  /** PLANE */
   PLANE: 2,
+  /** BOX */
   BOX: 4,
+  /** COMPOUND */
   COMPOUND: 8,
+  /** CONVEXPOLYHEDRON */
   CONVEXPOLYHEDRON: 16,
+  /** HEIGHTFIELD */
   HEIGHTFIELD: 32,
+  /** PARTICLE */
   PARTICLE: 64,
+  /** CYLINDER */
   CYLINDER: 128,
+  /** TRIMESH */
   TRIMESH: 256,
 } as const
 
+/**
+ * ShapeType
+ */
 export type ShapeType = typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES]
 
 export type ShapeOptions = ConstructorParameters<typeof Shape>[0]
@@ -58,24 +70,46 @@ export class Shape {
   collisionFilterMask: number
 
   /**
-   * @default null
+   * Optional material of the shape that regulates contact properties.
    */
   material: Material | null
+
+  /**
+   * The body to which the shape is added to.
+   */
   body: Body | null
 
-  static idCounter: number
-  static types: typeof SHAPE_TYPES
+  static idCounter = 0
+
+  /**
+   * All the Shape types.
+   */
+  static types = SHAPE_TYPES
 
   constructor(
     options: {
+      /**
+       * The type of this shape.
+       */
       type?: ShapeType
       /**
        * Whether to produce contact forces when in contact with other bodies.
        * @default true
        */
       collisionResponse?: boolean
+      /**
+       * @default 1
+       */
       collisionFilterGroup?: number
+      /**
+       * @default -1
+       */
       collisionFilterMask?: number
+      /**
+       * Optional material of the shape that regulates contact properties.
+       * @default null
+       * @todo check this, the material is passed to the body, right?
+       */
       material?: Material
     } = {}
   ) {
@@ -91,7 +125,7 @@ export class Shape {
 
   /**
    * Computes the bounding sphere radius.
-   * The result is stored in the property `boundingSphereRadius`
+   * The result is stored in the property `.boundingSphereRadius`
    */
   updateBoundingSphereRadius(): void {
     throw `computeBoundingSphereRadius() not implemented for shape type ${this.type}`
@@ -112,11 +146,10 @@ export class Shape {
     throw `calculateLocalInertia() not implemented for shape type ${this.type}`
   }
 
+  /**
+   * @todo use abstract for these kind of methods
+   */
   calculateWorldAABB(pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void {
     throw `calculateWorldAABB() not implemented for shape type ${this.type}`
   }
 }
-
-Shape.idCounter = 0
-
-Shape.types = SHAPE_TYPES

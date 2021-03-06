@@ -79,8 +79,8 @@ export class Box extends Shape {
 
   /**
    * Get the box 6 side normals
-   * @param {array} sixTargetVectors An array of 6 vectors, to store the resulting side normals in.
-   * @param {Quaternion} quat Orientation to apply to the normal vectors. If not provided, the vectors will be in respect to the local frame.
+   * @param sixTargetVectors An array of 6 vectors, to store the resulting side normals in.
+   * @param quat Orientation to apply to the normal vectors. If not provided, the vectors will be in respect to the local frame.
    */
   getSideNormals(sixTargetVectors: Vec3[], quat: Quaternion): Vec3[] {
     const sides = sixTargetVectors
