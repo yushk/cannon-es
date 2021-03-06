@@ -308,12 +308,9 @@ export class Mat3 {
     // Construct equations
     const nr = 3 // num rows
     const nc = 6 // num cols
-    const eqns = []
+    const eqns = reverse_eqns
     let i: number
     let j: number
-    for (i = 0; i < nr * nc; i++) {
-      eqns.push(0)
-    }
     for (i = 0; i < 3; i++) {
       for (j = 0; j < 3; j++) {
         eqns[i + nc * j] = this.elements[i + 3 * j]
@@ -475,3 +472,5 @@ export class Mat3 {
     return target
   }
 }
+
+const reverse_eqns = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
