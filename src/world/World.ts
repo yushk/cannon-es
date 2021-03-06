@@ -757,8 +757,7 @@ export class World extends EventTarget {
       profile.integrate = performance.now() - profilingStart
     }
 
-    // Update world time
-    this.time += dt
+    // Update step number
     this.stepnumber += 1
 
     this.dispatchEvent(World_step_postStepEvent)
