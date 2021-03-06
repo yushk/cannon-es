@@ -12,46 +12,52 @@
       import { Demo } from './js/Demo.js'
 
       /**
-       * Demonstrates how to make use of trigger to allow others body to pass through them, yet still emit collision events
+       * Demonstrates the use of trigger bodies, bodies which don't
+       * collide with other bodies and allow you to run callbacks
+       * when another body enters/exits them.
        */
       const demo = new Demo()
 
       demo.addScene('Trigger', () => {
         const world = setupWorld(demo)
 
-        const boxShape = new CANNON.Box(new CANNON.Vec3(1, 1, 1))
-        const sphereShape = new CANNON.Sphere(1)
+        const radius = 1
+
+        // Sphere moving towards right
+        const sphereShape = new CANNON.Sphere(radius)
+        const sphereBody = new CANNON.Body({ mass: 1 })
+        sphereBody.addShape(sphereShape)
+        sphereBody.position.set(-5, 0, 0)
+        const impulse = new CANNON.Vec3(5.5, 0, 0)
+        const topPoint = new CANNON.Vec3(0, radius, 0)
+        sphereBody.applyImpulse(impulse, topPoint)
+        sphereBody.linearDamping = 0.3
+        sphereBody.angularDamping = 0.3
+        world.addBody(sphereBody)
+        demo.addVisual(sphereBody)
 
         // Trigger body
-        const triggerBox = new CANNON.Body({ isTrigger: true })
-        triggerBox.addShape(boxShape)
-        triggerBox.position.set(-5, 0, 0)
-        world.addBody(triggerBox)
-        demo.addVisual(triggerBox)
+        const boxShape = new CANNON.Box(new CANNON.Vec3(2, 2, 5))
+        const triggerBody = new CANNON.Body({ isTrigger: true })
+        triggerBody.addShape(boxShape)
+        triggerBody.position.set(5, radius, 0)
+        world.addBody(triggerBody)
+        demo.addVisual(triggerBody)
 
-        // Sphere
-        const movingSphere = new CANNON.Body({ mass: 5 })
-        movingSphere.addShape(sphereShape)
-        movingSphere.position.set(5, 0, 0)
-        movingSphere.velocity.set(-5, 0, 0)
-        movingSphere.linearDamping = 0
-        world.addBody(movingSphere)
-        demo.addVisual(movingSphere)
-
-        // When a body collides with another body, they both dispatch the "collide" event.
-        triggerBox.addEventListener('collide', (event) => {
-          console.log('The box trigger was collided!', event)
+        // It is possible to run code on the exit/enter
+        // of the trigger.
+        triggerBody.addEventListener('collide', (event) => {
+          if (event.body === sphereBody) {
+            console.log('The sphere entered the trigger!', event)
+          }
         })
-        movingSphere.addEventListener('collide', (event) => {
-          console.log('The sphere was collided!', event)
-        })
-
-        // When two bodies collide they also emit contact events
         world.addEventListener('endContact', (event) => {
-          console.log('World end contact event', event)
-        })
-        world.addEventListener('beginContact', (event) => {
-          console.log('World begin contact event', event)
+          if (
+            (event.bodyA === sphereBody && event.bodyB === triggerBody) ||
+            (event.bodyB === sphereBody && event.bodyA === triggerBody)
+          ) {
+            console.log('The sphere exited the trigger!', event)
+          }
         })
       })
 

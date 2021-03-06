@@ -6,16 +6,16 @@ It's a type-safe flatbundle (esm and cjs) which allows for **tree shaking** and 
 
 These minor changes and improvements were also made:
 
-- These PRs from the original repo were merged: [schteppe/cannon.js#433](https://github.com/schteppe/cannon.js/pull/433), [schteppe/cannon.js#430](https://github.com/schteppe/cannon.js/pull/430), [schteppe/cannon.js#418](https://github.com/schteppe/cannon.js/pull/418), [schteppe/cannon.js#360](https://github.com/schteppe/cannon.js/pull/360), [schteppe/cannon.js#265](https://github.com/schteppe/cannon.js/pull/265), [schteppe/cannon.js#392](https://github.com/schteppe/cannon.js/pull/392)
+- These PRs from the original repo were merged: [schteppe/cannon.js#433](https://github.com/schteppe/cannon.js/pull/433), [schteppe/cannon.js#430](https://github.com/schteppe/cannon.js/pull/430), [schteppe/cannon.js#418](https://github.com/schteppe/cannon.js/pull/418), [schteppe/cannon.js#360](https://github.com/schteppe/cannon.js/pull/360), [schteppe/cannon.js#265](https://github.com/schteppe/cannon.js/pull/265), [schteppe/cannon.js#392](https://github.com/schteppe/cannon.js/pull/392), [schteppe/cannon.js#424](https://github.com/schteppe/cannon.js/pull/424)
 - The `ConvexPolyhedron` constructor now accepts an object instead of a list of arguments. [#6](https://github.com/pmndrs/cannon-es/pull/6)
 - The `Cylinder` is now oriented on the Y axis. [#30](https://github.com/pmndrs/cannon-es/pull/30)
 - The `type` property of the `Cylinder` is now equal to `Shape.types.CYLINDER`. [#59](https://github.com/pmndrs/cannon-es/pull/59)
 - `Body.applyImpulse()` and `Body.applyForce()` are now relative to the center of the body instead of the center of the world [86b0444](https://github.com/schteppe/cannon.js/commit/86b0444c93356aeaa25dd1af795fa162574c6f4b)
 - Sleeping bodies now wake up if a force or an impulse is applied to them [#61](https://github.com/pmndrs/cannon-es/pull/61)
 - Added a property `World.hasActiveBodies: boolean` which will be false when all physics bodies are sleeping. This allows for invalidating frames when physics aren't active for increased performance.
+- Add support for [Trigger bodies](https://pmndrs.github.io/cannon-es/examples/trigger). [#79](https://github.com/pmndrs/cannon-es/pull/79)
 - Deprecated properties and methods have been removed.
 - The [original cannon.js debugger](https://github.com/schteppe/cannon.js/blob/master/tools/threejs/CannonDebugRenderer.js), which shows the wireframes of each body, has been moved to its own repo [cannon-es-debugger](https://github.com/pmndrs/cannon-es-debugger).
-- Added a property `Body.isTrigger : boolean` which, when true allows for the body to trigger collision events without interacting physically with the other colliding bodies.
 
 If instead you're using three.js in a **React** environment with [react-three-fiber](https://github.com/pmndrs/react-three-fiber), check out [use-cannon](https://github.com/pmndrs/use-cannon)! It's a wrapper around cannon-es.
 

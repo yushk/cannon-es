@@ -896,8 +896,8 @@ class Demo extends CANNON.EventTarget {
     }
 
     // if it's a particle paint it red, if it's a trigger paint it as green, otherwise just gray
-    const isParticule = body.shapes.every((s) => s instanceof CANNON.Particle)
-    const material = isParticule ? this.particleMaterial : body.isTrigger ? this.triggerMaterial : this.currentMaterial
+    const isParticle = body.shapes.every((s) => s instanceof CANNON.Particle)
+    const material = isParticle ? this.particleMaterial : body.isTrigger ? this.triggerMaterial : this.currentMaterial
 
     // get the correspondant three.js mesh
     const mesh = bodyToMesh(body, material)
