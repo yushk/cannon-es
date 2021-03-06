@@ -62,6 +62,9 @@ export class Box extends Shape {
     h.material = this.material
   }
 
+  /**
+   * Calculate the inertia of the box.
+   */
   calculateLocalInertia(mass: number, target = new Vec3()): Vec3 {
     Box.calculateInertia(this.halfExtents, mass, target)
     return target
@@ -98,10 +101,16 @@ export class Box extends Shape {
     return sides
   }
 
+  /**
+   * Returns the volume of the box.
+   */
   volume(): number {
     return 8.0 * this.halfExtents.x * this.halfExtents.y * this.halfExtents.z
   }
 
+  /**
+   * updateBoundingSphereRadius
+   */
   updateBoundingSphereRadius(): void {
     this.boundingSphereRadius = this.halfExtents.length()
   }

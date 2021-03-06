@@ -7,31 +7,42 @@ import type { World } from '../world/World'
 
 export type RigidVehicleOptions = ConstructorParameters<typeof RigidVehicle>[0]
 
-export type RigidVehicleWheelOptions = {
-  /** The wheel body */
-  body?: Body
-  /** Position of the wheel, locally in the chassis body. */
-  position?: Vec3
-  /** Axis of rotation of the wheel, locally defined in the chassis. */
-  axis?: Vec3
-  /** Slide direction of the wheel along the suspension. */
-  direction?: Vec3
-}
-
 /**
  * Simple vehicle helper class with spherical rigid body wheels.
  */
 export class RigidVehicle {
+  /**
+   * The bodies of the wheels.
+   */
   wheelBodies: Body[]
   coordinateSystem: Vec3
+  /**
+   * The chassis body.
+   */
   chassisBody: Body
+  /**
+   * The constraints.
+   */
   constraints: (HingeConstraint & { motorTargetVelocity?: number })[]
+  /**
+   * The wheel axes.
+   */
   wheelAxes: Vec3[]
+  /**
+   * The wheel forces.
+   */
   wheelForces: number[]
 
   constructor(
     options: {
+      /**
+       * A Vector3 defining the world coordinate system.
+       * @default new Vec3(1, 2, 3)
+       */
       coordinateSystem?: Vec3
+      /**
+       * Optionally pass a body for the chassis
+       */
       chassisBody?: Body
     } = {}
   ) {
@@ -54,7 +65,18 @@ export class RigidVehicle {
   /**
    * Add a wheel
    */
-  addWheel(options: RigidVehicleWheelOptions = {}): number {
+  addWheel(
+    options: {
+      /** The wheel body */
+      body?: Body
+      /** Position of the wheel, locally in the chassis body. */
+      position?: Vec3
+      /** Axis of rotation of the wheel, locally defined in the chassis. */
+      axis?: Vec3
+      /** Slide direction of the wheel along the suspension. */
+      direction?: Vec3
+    } = {}
+  ): number {
     let wheelBody: Body
 
     if (options.body) {

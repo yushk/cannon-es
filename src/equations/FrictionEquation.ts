@@ -8,10 +8,7 @@ import type { Body } from '../objects/Body'
 export class FrictionEquation extends Equation {
   ri: Vec3
   rj: Vec3
-  /**
-   * Tangent
-   */
-  t: Vec3
+  t: Vec3 // Tangent
 
   /**
    * @param {Number} slipForce should be +-F_friction = +-mu * F_normal = +-mu * m * g

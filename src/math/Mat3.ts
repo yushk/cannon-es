@@ -11,6 +11,9 @@ export class Mat3 {
    */
   elements: number[]
 
+  /**
+   * @param elements A vector of length 9, containing all matrix elements.
+   */
   constructor(elements = [0, 0, 0, 0, 0, 0, 0, 0, 0]) {
     this.elements = elements
   }

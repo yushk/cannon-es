@@ -261,7 +261,11 @@ export class Body extends EventTarget {
    */
   shapeOrientations: Quaternion[]
 
+  /**
+   * The inertia of the body.
+   */
   inertia: Vec3
+
   invInertia: Vec3
   invInertiaWorld: Mat3
   invMassSolve: number

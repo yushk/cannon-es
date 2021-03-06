@@ -16,21 +16,27 @@ export type RaycastVehicleOptions = ConstructorParameters<typeof RaycastVehicle>
 export class RaycastVehicle {
   /** The car chassis body. */
   chassisBody: Body
+  /** The wheels. */
   wheelInfos: WheelInfo[]
   /** Will be set to true if the car is sliding. */
   sliding: boolean
   world: World | null
+  /** Index of the right axis. x=0, y=1, z=2 */
   indexRightAxis: number
+  /** Index of the forward axis. x=0, y=1, z=2 */
   indexForwardAxis: number
+  /** Index of the up axis. x=0, y=1, z=2 */
   indexUpAxis: number
+  /** The constraints. */
   constraints: Constraint[]
+  /** Optional pre-step callback. */
   preStepCallback: () => void
   currentVehicleSpeedKmHour: number
 
   constructor(options: {
     /** The car chassis body. */
     chassisBody: Body
-    /** Axis to use for right. x=0, y=1, z=2 */
+    /** Index of the right axis. x=0, y=1, z=2 */
     indexRightAxis?: number
     /** Index of the forward axis. x=0, y=1, z=2 */
     indexForwardAxis?: number
@@ -635,7 +641,7 @@ const resolveSingleBilateral_vel1 = new Vec3()
 const resolveSingleBilateral_vel2 = new Vec3()
 const resolveSingleBilateral_vel = new Vec3()
 
-//bilateral constraint between two dynamic objects
+// bilateral constraint between two dynamic objects
 function resolveSingleBilateral(body1: Body, pos1: Vec3, body2: Body, pos2: Vec3, normal: Vec3): number {
   const normalLenSqr = normal.lengthSquared()
   if (normalLenSqr > 1.1) {
