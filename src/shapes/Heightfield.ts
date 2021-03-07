@@ -20,19 +20,19 @@ type HeightfieldPillar = {
  *
  * @example
  *     // Generate some height data (y-values).
- *     const data = [];
+ *     const data = []
  *     for(let i = 0; i < 1000; i++){
- *         const y = 0.5 * Math.cos(0.2 * i);
- *         data.push(y);
+ *         const y = 0.5 * Math.cos(0.2 * i)
+ *         data.push(y)
  *     }
  *
  *     // Create the heightfield shape
  *     const heightfieldShape = new Heightfield(data, {
  *         elementSize: 1 // Distance between the data points in X and Y directions
- *     });
- *     const heightfieldBody = new Body();
- *     heightfieldBody.addShape(heightfieldShape);
- *     world.addBody(heightfieldBody);
+ *     })
+ *     const heightfieldBody = new Body()
+ *     heightfieldBody.addShape(heightfieldShape)
+ *     world.addBody(heightfieldBody)
  */
 export class Heightfield extends Shape {
   /**

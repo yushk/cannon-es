@@ -68,7 +68,12 @@ export class World extends EventTarget {
    * Default and last timestep sizes.
    */
   default_dt: number
+
   nextId: number
+
+  /**
+   * gravity
+   */
   gravity: Vec3
 
   /**
@@ -94,6 +99,10 @@ export class World extends EventTarget {
   solver: Solver
   constraints: Constraint[]
   narrowphase: Narrowphase
+
+  /**
+   * collisionMatrix
+   */
   collisionMatrix: ArrayCollisionMatrix
 
   /**
@@ -105,14 +114,22 @@ export class World extends EventTarget {
 
   /**
    * All added materials.
+   * @deprecated
+   * @todo Remove
    */
   materials: Material[]
+  /**
+   * All added contactmaterials.
+   */
   contactmaterials: ContactMaterial[]
 
   /**
    * Used to look up a ContactMaterial given two instances of Material.
    */
   contactMaterialTable: TupleDictionary
+  /**
+   * The default material of the bodies.
+   */
   defaultMaterial: Material
 
   /**
@@ -261,9 +278,6 @@ export class World extends EventTarget {
 
   /**
    * Raycast test
-   * @param from
-   * @param to
-   * @param result
    * @deprecated Use .raycastAll, .raycastClosest or .raycastAny instead.
    */
   rayTest(from: Vec3, to: Vec3, result: RaycastResult | RaycastCallback): void {
@@ -278,14 +292,6 @@ export class World extends EventTarget {
 
   /**
    * Ray cast against all bodies. The provided callback will be executed for each hit with a RaycastResult as single argument.
-   * @param from
-   * @param to
-   * @param options
-   * @param [options.collisionFilterMask=-1]
-   * @param [options.collisionFilterGroup=-1]
-   * @param [options.skipBackfaces=false]
-   * @param [options.checkCollisionResponse=true]
-   * @param callback
    * @return True if any body was hit.
    */
   raycastAll(from?: Vec3, to?: Vec3, options: RayOptions = {}, callback?: RaycastCallback): boolean {
@@ -298,14 +304,6 @@ export class World extends EventTarget {
 
   /**
    * Ray cast, and stop at the first result. Note that the order is random - but the method is fast.
-   * @param from
-   * @param to
-   * @param options
-   * @param [options.collisionFilterMask=-1]
-   * @param [options.collisionFilterGroup=-1]
-   * @param [options.skipBackfaces=false]
-   * @param [options.checkCollisionResponse=true]
-   * @param result
    * @return True if any body was hit.
    */
   raycastAny(from?: Vec3, to?: Vec3, options: RayOptions = {}, result?: RaycastResult): boolean {
@@ -318,14 +316,6 @@ export class World extends EventTarget {
 
   /**
    * Ray cast, and return information of the closest hit.
-   * @param from
-   * @param to
-   * @param options
-   * @param [options.collisionFilterMask=-1]
-   * @param [options.collisionFilterGroup=-1]
-   * @param [options.skipBackfaces=false]
-   * @param [options.checkCollisionResponse=true]
-   * @param result
    * @return True if any body was hit.
    */
   raycastClosest(from?: Vec3, to?: Vec3, options: RayOptions = {}, result?: RaycastResult): boolean {
@@ -388,7 +378,9 @@ export class World extends EventTarget {
     return this.idToBodyMap[id]
   }
 
-  // TODO Make a faster map
+  /**
+   * @todo Make a faster map
+   */
   getShapeById(id: number): Shape | void {
     const bodies = this.bodies
     for (let i = 0, bl = bodies.length; i < bl; i++) {

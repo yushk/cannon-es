@@ -3,6 +3,9 @@ import { Vec3 } from '../math/Vec3'
 import type { Transform } from '../math/Transform'
 import type { Ray } from '../collision/Ray'
 
+/**
+ * OctreeNode
+ */
 class OctreeNode {
   /** The root node */
   root: OctreeNode | null
@@ -13,13 +16,23 @@ class OctreeNode {
   /** Children to this node */
   children: OctreeNode[]
 
-  constructor(options: { root?: Octree | null; aabb?: AABB } = {}) {
+  constructor(
+    options: {
+      /** The root node */
+      root?: Octree | null
+      /** Boundary of this node */
+      aabb?: AABB
+    } = {}
+  ) {
     this.root = options.root || null
     this.aabb = options.aabb ? options.aabb.clone() : new AABB()
     this.data = []
     this.children = []
   }
 
+  /**
+   * reset
+   */
   reset(): void {
     this.children.length = this.data.length = 0
   }
@@ -160,6 +173,9 @@ class OctreeNode {
     return result
   }
 
+  /**
+   * removeEmptyNodes
+   */
   removeEmptyNodes(): void {
     for (let i = this.children.length - 1; i >= 0; i--) {
       this.children[i].removeEmptyNodes()
@@ -171,7 +187,7 @@ class OctreeNode {
 }
 
 /**
- * @param aabb The total AABB of the tree
+ * Octree
  */
 export class Octree extends OctreeNode {
   /**
@@ -180,6 +196,9 @@ export class Octree extends OctreeNode {
    */
   maxDepth: number
 
+  /**
+   * @param aabb The total AABB of the tree
+   */
   constructor(
     aabb?: AABB,
     options: {

@@ -51,15 +51,18 @@ export type RayOptions = {
    */
   result?: RaycastResult
   /**
-   * skipBackfaces
+   * If set to `true`, the ray skips any hits with normal.dot(rayDirection) < 0.
+   * @default false
    */
   skipBackfaces?: boolean
   /**
    * collisionFilterMask
+   * @default -1
    */
   collisionFilterMask?: number
   /**
    * collisionFilterGroup
+   * @default -1
    */
   collisionFilterGroup?: number
   /**
@@ -97,20 +100,23 @@ export class Ray {
    */
   precision: number
   /**
-   * Set to `true` if you want the Ray to take `collisionResponse` flags into account on bodies and shapes.
+   * Set to `false` if you don't want the Ray to take `collisionResponse` flags into account on bodies and shapes.
    * @default true
    */
   checkCollisionResponse: boolean
   /**
    * If set to `true`, the ray skips any hits with normal.dot(rayDirection) < 0.
+   * @default false
    */
   skipBackfaces: boolean
   /**
    * collisionFilterMask
+   * @default -1
    */
   collisionFilterMask: number
   /**
    * collisionFilterGroup
+   * @default -1
    */
   collisionFilterGroup: number
   /**

@@ -208,7 +208,9 @@ export class Narrowphase {
     return false
   }
 
-  // Take the average N latest contact point on the plane.
+  /**
+   * Take the average N latest contact point on the plane.
+   */
   createFrictionFromAverage(numContacts: number): void {
     // The last contactEquation
     let c = this.result[this.result.length - 1]
@@ -254,7 +256,6 @@ export class Narrowphase {
    * Generate all contacts between a list of body pairs
    * @param p1 Array of body indices
    * @param p2 Array of body indices
-   * @param world
    * @param result Array to store generated contacts
    * @param oldcontacts Optional. Array of reusable contact objects
    */

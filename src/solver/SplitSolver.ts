@@ -19,7 +19,8 @@ export class SplitSolver extends Solver {
    * When tolerance is reached, the system is assumed to be converged.
    */
   tolerance: number
-  subsolver: GSSSolver
+  /** subsolver */
+  subsolver: GSSolver
   nodes: SplitSolverNode[]
   nodePool: SplitSolverNode[]
 
@@ -38,6 +39,9 @@ export class SplitSolver extends Solver {
     }
   }
 
+  /**
+   * createNode
+   */
   createNode(): SplitSolverNode {
     return { body: null, children: [], eqs: [], visited: false }
   }

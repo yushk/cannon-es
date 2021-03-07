@@ -4,7 +4,6 @@ import type { World } from '../world/World'
 /**
  * Constraint equation Gauss-Seidel solver.
  * @todo The spook parameters should be specified for each constraint, not globally.
- * @author schteppe / https://github.com/schteppe
  * @see https://www8.cs.umu.se/kurser/5DV058/VT09/lectures/spooknotes.pdf
  */
 export class GSSolver extends Solver {
@@ -19,6 +18,9 @@ export class GSSolver extends Solver {
    */
   tolerance: number
 
+  /**
+   * @todo remove useless constructor
+   */
   constructor() {
     super()
 
@@ -126,7 +128,7 @@ export class GSSolver extends Solver {
         w.vadd(b.wlambda, w)
       }
 
-      // Set the `multiplier` property of each equation
+      // Set the `.multiplier` property of each equation
       let l = equations.length
       const invDt = 1 / h
       while (l--) {

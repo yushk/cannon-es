@@ -1,14 +1,11 @@
 import { Pool } from '../utils/Pool'
 import { Vec3 } from '../math/Vec3'
 
+/**
+ * Vec3Pool
+ */
 export class Vec3Pool extends Pool {
-  type: typeof Vec3
-
-  constructor() {
-    super()
-
-    this.type = Vec3
-  }
+  type = Vec3
 
   /**
    * Construct a vector

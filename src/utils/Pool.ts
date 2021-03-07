@@ -2,13 +2,14 @@
  * For pooling objects that can be reused.
  */
 export class Pool {
-  objects: any[]
-  type: any
-
-  constructor() {
-    this.objects = []
-    this.type = Object
-  }
+  /**
+   * The objects array.
+   */
+  objects: any[] = []
+  /**
+   * The type of the objects.
+   */
+  type: any = Object
 
   /**
    * Release an object after use

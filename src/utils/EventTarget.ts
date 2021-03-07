@@ -4,8 +4,6 @@
 export class EventTarget {
   private _listeners: Record<string, Function[]> | undefined
 
-  constructor() {}
-
   /**
    * Add an event listener
    * @return The self object, for chainability.

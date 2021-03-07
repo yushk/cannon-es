@@ -10,12 +10,16 @@ export class Solver {
    */
   equations: Equation[]
 
+  /**
+   * @todo remove useless constructor
+   */
   constructor() {
     this.equations = []
   }
 
   /**
    * Should be implemented in subclasses!
+   * @todo use abstract
    * @return number of iterations performed
    */
   solve(dt: number, world: World): number {
