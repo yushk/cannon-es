@@ -33,6 +33,7 @@ export class World extends EventTarget {
 
   /**
    * Makes bodies go to sleep when they've been inactive.
+   * @default false
    */
   allowSleep: boolean
 
@@ -45,12 +46,14 @@ export class World extends EventTarget {
 
   /**
    * How often to normalize quaternions. Set to 0 for every step, 1 for every second etc.. A larger value increases performance. If bodies tend to explode, set to a smaller value (zero to be sure nothing can go wrong).
+   * @default 0
    */
   quatNormalizeSkip: number
 
   /**
    * Set to true to use fast quaternion normalization. It is often enough accurate to use.
    * If bodies tend to explode, set to false.
+   * @default false
    */
   quatNormalizeFast: boolean
 
@@ -72,7 +75,7 @@ export class World extends EventTarget {
   nextId: number
 
   /**
-   * gravity
+   * The gravity of the world.
    */
   gravity: Vec3
 
@@ -169,11 +172,35 @@ export class World extends EventTarget {
 
   constructor(
     options: {
+      /**
+       * The gravity of the world.
+       */
       gravity?: Vec3
+      /**
+       * Makes bodies go to sleep when they've been inactive.
+       * @default false
+       */
       allowSleep?: boolean
+      /**
+       * The broadphase algorithm to use.
+       * @default NaiveBroadphase
+       */
       broadphase?: Broadphase
+      /**
+       * The solver algorithm to use.
+       * @default GSSolver
+       */
       solver?: Solver
+      /**
+       * Set to true to use fast quaternion normalization. It is often enough accurate to use.
+       * If bodies tend to explode, set to false.
+       * @default false
+       */
       quatNormalizeFast?: boolean
+      /**
+       * How often to normalize quaternions. Set to 0 for every step, 1 for every second etc.. A larger value increases performance. If bodies tend to explode, set to a smaller value (zero to be sure nothing can go wrong).
+       * @default 0
+       */
       quatNormalizeSkip?: number
     } = {}
   ) {
@@ -208,7 +235,7 @@ export class World extends EventTarget {
     this.materials = []
     this.contactmaterials = []
     this.contactMaterialTable = new TupleDictionary()
-    this.defaultMaterial = new Material()
+    this.defaultMaterial = new Material('default')
     this.defaultContactMaterial = new ContactMaterial(this.defaultMaterial, this.defaultMaterial, {
       friction: 0.3,
       restitution: 0.0,
@@ -422,7 +449,7 @@ export class World extends EventTarget {
    * @param dt The fixed time step size to use.
    * @param timeSinceLastCalled The time elapsed since the function was last called.
    * @param maxSubSteps Maximum number of fixed steps to take per function call.
-   *
+   * @see https://web.archive.org/web/20180426154531/http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World#What_do_the_parameters_to_btDynamicsWorld::stepSimulation_mean.3F
    * @example
    *     // fixed timestepping without interpolation
    *     world.step(1 / 60)
