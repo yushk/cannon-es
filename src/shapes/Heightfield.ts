@@ -187,7 +187,7 @@ export class Heightfield extends Shape {
 
   /**
    * Get max/min in a rectangle in the matrix data
-   * @param [result] An array to store the results in.
+   * @param result An array to store the results in.
    * @return The result array, if it was passed in. Minimum will be at position 0 and max at 1.
    */
   getRectMinMax(iMinX: number, iMinY: number, iMaxX: number, iMaxY: number, result: number[] = []): void {

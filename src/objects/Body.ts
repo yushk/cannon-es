@@ -431,6 +431,12 @@ export class Body extends EventTarget {
        * Add a Shape to the body.
        */
       shape?: Shape
+      /**
+       * When true the body behaves like a trigger. It does not collide
+       * with other bodies but collision events are still triggered.
+       * @default false
+       */
+      isTrigger?: boolean
     } = {}
   ) {
     super()
@@ -667,9 +673,7 @@ export class Body extends EventTarget {
 
   /**
    * Remove a shape from the body.
-   * @method removeShape
-   * @param {Shape} shape
-   * @return {Body} The body object, for chainability.
+   * @return The body object, for chainability.
    */
   removeShape(shape: Shape): Body {
     const index = this.shapes.indexOf(shape)
@@ -777,7 +781,7 @@ export class Body extends EventTarget {
    * Apply force to a point of the body. This could for example be a point on the Body surface.
    * Applying force this way will add to Body.force and Body.torque.
    * @param force The amount of force to add.
-   * @param [relativePoint] A point relative to the center of mass to apply the force on.
+   * @param relativePoint A point relative to the center of mass to apply the force on.
    */
   applyForce(force: Vec3, relativePoint: Vec3 = new Vec3()): void {
     // Needed?
@@ -803,7 +807,7 @@ export class Body extends EventTarget {
   /**
    * Apply force to a local point in the body.
    * @param force The force vector to apply, defined locally in the body frame.
-   * @param [localPoint] A local point in the body to apply the force on.
+   * @param localPoint A local point in the body to apply the force on.
    */
   applyLocalForce(localForce: Vec3, localPoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
@@ -822,8 +826,7 @@ export class Body extends EventTarget {
 
   /**
    * Apply torque to the body.
-   * @method applyTorque
-   * @param  {Vec3} torque The amount of torque to add.
+   * @param torque The amount of torque to add.
    */
   applyTorque(torque: Vec3): void {
     if (this.type !== Body.DYNAMIC) {
