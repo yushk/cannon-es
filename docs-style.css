@@ -1,0 +1,22 @@
+.tsd-page-toolbar {
+  transform: none !important;
+}
+
+.tsd-navigation {
+  top: 40px !important;
+  max-height: calc(100vh - 40px) !important;
+  padding-top: 2rem !important;
+}
+
+.tsd-navigation > ul > li:first-child {
+  margin-top: 0 !important;
+}
+
+#tsd-filter-visibility {
+  display: none !important;
+}
+
+#tsd-filter-only-exported,
+[for='tsd-filter-only-exported'] {
+  display: none !important;
+}
