@@ -485,8 +485,8 @@ export class RaycastVehicle {
 
         wheel.forwardImpulse = rollingFriction //wheelInfo.engineForce* timeStep;
 
-        const x = wheel.forwardImpulse * fwdFactor / wheel.forwardAcceleration
-        const y = wheel.sideImpulse * sideFactor / wheel.sideAcceleration
+        const x = (wheel.forwardImpulse * fwdFactor) / wheel.forwardAcceleration
+        const y = (wheel.sideImpulse * sideFactor) / wheel.sideAcceleration
 
         const impulseSquared = x * x + y * y
 
