@@ -49,12 +49,9 @@ import * as CANNON from 'cannon-es'
 
 #### TO DO:
 
-- Correct & standardize JSDoc comments
 - Fix Octree `as any` assertions, and remove `as any` type assertions wherever possible
 - Remove use of defined assertion (!) where possible (profile performance to ensure no degradation)
-- Convert to static methods where possible? (memory savings)
 - Convert to abstract classes where possible (Equation, Solver, etc.?)
-- Test possible performance improvements by converting arrays and objects to Maps
 - V-HACD support (https://github.com/pmndrs/use-cannon/issues/35#issuecomment-600188994)
 - Explore performance enhancements:
   - https://github.com/RandyGaul/qu3e
