@@ -2695,15 +2695,19 @@ img {
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a href="vec3pool.html#release" class="tsd-kind-icon">release</a>
 				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a href="vec3pool.html#resize" class="tsd-kind-icon">resize</a>
-				</li>
 			</ul>
 		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<section class="tsd-panel tsd-comment">
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>Vec3Pool</p>
+				</div>
+			</div>
+		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
@@ -2740,7 +2744,6 @@ img {
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="vec3pool.html#constructobject" class="tsd-kind-icon">construct<wbr>Object</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="vec3pool.html#get" class="tsd-kind-icon">get</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="vec3pool.html#release" class="tsd-kind-icon">release</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="vec3pool.html#resize" class="tsd-kind-icon">resize</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2758,9 +2761,6 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#constructor">constructor</a></p>
-							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/utils/Vec3Pool.ts#L10">utils/Vec3Pool.ts:10</a></li>
-							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <a href="vec3pool.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3Pool</a></h4>
 					</li>
@@ -2772,22 +2772,27 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="objects" class="tsd-anchor"></a>
 				<h3>objects</h3>
-				<div class="tsd-signature tsd-kind-icon">objects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+				<div class="tsd-signature tsd-kind-icon">objects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#objects">objects</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/utils/Pool.ts#L7">utils/Pool.ts:7</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/Pool.ts#L8">utils/Pool.ts:8</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The objects array.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 				<a name="type" class="tsd-anchor"></a>
 				<h3>type</h3>
-				<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
+				<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<p>Overrides <a href="pool.html">Pool</a>.<a href="pool.html#type">type</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/utils/Vec3Pool.ts#L10">utils/Vec3Pool.ts:10</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/Vec3Pool.ts#L8">utils/Vec3Pool.ts:8</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2805,18 +2810,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="pool.html">Pool</a>.<a href="pool.html#constructobject">constructObject</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/utils/Vec3Pool.ts#L23">utils/Vec3Pool.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/Vec3Pool.ts#L13">utils/Vec3Pool.ts:13</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Construct a vector</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>constructObject</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h4>
 					</li>
@@ -2833,18 +2833,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/utils/Pool.ts#L33">utils/Pool.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/Pool.ts#L28">utils/Pool.ts:28</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get an object</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>get</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 					</li>
@@ -2861,18 +2856,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#release">release</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/utils/Pool.ts#L20">utils/Pool.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/Pool.ts#L17">utils/Pool.ts:17</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Release an object after use</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>release</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -2881,38 +2871,6 @@ img {
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="pool.html" class="tsd-signature-type" data-tsd-kind="Class">Pool</a></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-				<a name="resize" class="tsd-anchor"></a>
-				<h3>resize</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<li class="tsd-signature tsd-kind-icon">resize<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pool.html" class="tsd-signature-type" data-tsd-kind="Class">Pool</a></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#resize">resize</a></p>
-							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/utils/Pool.ts#L55">utils/Pool.ts:55</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>resize</p>
-								</dd>
-							</dl>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>size: <span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <a href="pool.html" class="tsd-signature-type" data-tsd-kind="Class">Pool</a></h4>
-						<p>Self, for chaining</p>
 					</li>
 				</ul>
 			</section>

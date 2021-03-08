@@ -2687,12 +2687,6 @@ img {
 					<a href="splitsolver.html#iterations" class="tsd-kind-icon">iterations</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="splitsolver.html#nodepool" class="tsd-kind-icon">node<wbr>Pool</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="splitsolver.html#nodes" class="tsd-kind-icon">nodes</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="splitsolver.html#subsolver" class="tsd-kind-icon">subsolver</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -2724,10 +2718,6 @@ img {
 				<div class="lead">
 					<p>Splits the equations into islands and solves them independently. Can improve performance.</p>
 				</div>
-				<dl class="tsd-comment-tags">
-					<dt>param</dt>
-					<dd></dd>
-				</dl>
 			</div>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
@@ -2758,8 +2748,6 @@ img {
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="splitsolver.html#equations" class="tsd-kind-icon">equations</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="splitsolver.html#iterations" class="tsd-kind-icon">iterations</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class"><a href="splitsolver.html#nodepool" class="tsd-kind-icon">node<wbr>Pool</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class"><a href="splitsolver.html#nodes" class="tsd-kind-icon">nodes</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="splitsolver.html#subsolver" class="tsd-kind-icon">subsolver</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="splitsolver.html#tolerance" class="tsd-kind-icon">tolerance</a></li>
 						</ul>
@@ -2783,20 +2771,20 @@ img {
 				<a name="constructor" class="tsd-anchor"></a>
 				<h3>constructor</h3>
 				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Split<wbr>Solver<span class="tsd-signature-symbol">(</span>subsolver<span class="tsd-signature-symbol">: </span><a href="splitsolver.html" class="tsd-signature-type" data-tsd-kind="Class">SplitSolver</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="splitsolver.html" class="tsd-signature-type" data-tsd-kind="Class">SplitSolver</a></li>
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Split<wbr>Solver<span class="tsd-signature-symbol">(</span>subsolver<span class="tsd-signature-symbol">: </span><a href="gssolver.html" class="tsd-signature-type" data-tsd-kind="Class">GSSolver</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="splitsolver.html" class="tsd-signature-type" data-tsd-kind="Class">SplitSolver</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#constructor">constructor</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L20">solver/SplitSolver.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/SplitSolver.ts#L25">solver/SplitSolver.ts:25</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>subsolver: <a href="splitsolver.html" class="tsd-signature-type" data-tsd-kind="Class">SplitSolver</a></h5>
+								<h5>subsolver: <a href="gssolver.html" class="tsd-signature-type" data-tsd-kind="Class">GSSolver</a></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="splitsolver.html" class="tsd-signature-type" data-tsd-kind="Class">SplitSolver</a></h4>
@@ -2813,9 +2801,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#equations">equations</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L11">solver/Solver.ts:11</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L11">solver/Solver.ts:11</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>All equations to be solved</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="iterations" class="tsd-anchor"></a>
@@ -2823,39 +2816,29 @@ img {
 				<div class="tsd-signature tsd-kind-icon">iterations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L16">solver/SplitSolver.ts:16</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/SplitSolver.ts#L16">solver/SplitSolver.ts:16</a></li>
 					</ul>
 				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-				<a name="nodepool" class="tsd-anchor"></a>
-				<h3>node<wbr>Pool</h3>
-				<div class="tsd-signature tsd-kind-icon">node<wbr>Pool<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SplitSolverNode</span><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L20">solver/SplitSolver.ts:20</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-				<a name="nodes" class="tsd-anchor"></a>
-				<h3>nodes</h3>
-				<div class="tsd-signature tsd-kind-icon">nodes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SplitSolverNode</span><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L19">solver/SplitSolver.ts:19</a></li>
-					</ul>
-				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="subsolver" class="tsd-anchor"></a>
 				<h3>subsolver</h3>
-				<div class="tsd-signature tsd-kind-icon">subsolver<span class="tsd-signature-symbol">:</span> <a href="splitsolver.html" class="tsd-signature-type" data-tsd-kind="Class">SplitSolver</a></div>
+				<div class="tsd-signature tsd-kind-icon">subsolver<span class="tsd-signature-symbol">:</span> <a href="gssolver.html" class="tsd-signature-type" data-tsd-kind="Class">GSSolver</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L18">solver/SplitSolver.ts:18</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/SplitSolver.ts#L23">solver/SplitSolver.ts:23</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>subsolver</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="tolerance" class="tsd-anchor"></a>
@@ -2863,9 +2846,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">tolerance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L17">solver/SplitSolver.ts:17</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/SplitSolver.ts#L21">solver/SplitSolver.ts:21</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>When tolerance is reached, the system is assumed to be converged.</p>
+					</div>
+				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -2881,25 +2869,18 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#addequation">addEquation</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L36">solver/Solver.ts:36</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L35">solver/Solver.ts:35</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Add an equation</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>addEquation</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>eq: <a href="equation.html" class="tsd-signature-type" data-tsd-kind="Class">Equation</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2916,9 +2897,14 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L37">solver/SplitSolver.ts:37</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/SplitSolver.ts#L45">solver/SplitSolver.ts:45</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>createNode</p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SplitSolverNode</span></h4>
 					</li>
 				</ul>
@@ -2934,18 +2920,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#removeallequations">removeAllEquations</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L59">solver/Solver.ts:59</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L55">solver/Solver.ts:55</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Add all equations</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>removeAllEquations</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -2962,25 +2943,18 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#removeequation">removeEquation</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L47">solver/Solver.ts:47</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L44">solver/Solver.ts:44</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Remove an equation</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>removeEquation</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>eq: <a href="equation.html" class="tsd-signature-type" data-tsd-kind="Class">Equation</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2998,18 +2972,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="solver.html">Solver</a>.<a href="solver.html#solve">solve</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/SplitSolver.ts#L48">solver/SplitSolver.ts:48</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/SplitSolver.ts#L53">solver/SplitSolver.ts:53</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Solve the subsystems</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>solve</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">

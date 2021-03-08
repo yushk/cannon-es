@@ -2699,9 +2699,6 @@ img {
 					<a href="aabb.html#extend" class="tsd-kind-icon">extend</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="aabb.html#getcorners" class="tsd-kind-icon">get<wbr>Corners</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="aabb.html#overlaps" class="tsd-kind-icon">overlaps</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -2716,9 +2713,6 @@ img {
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="aabb.html#toworldframe" class="tsd-kind-icon">to<wbr>World<wbr>Frame</a>
 				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="aabb.html#volume" class="tsd-kind-icon">volume</a>
-				</li>
 			</ul>
 		</li>
 	</ul>
@@ -2730,16 +2724,6 @@ img {
 				<div class="lead">
 					<p>Axis aligned bounding box class.</p>
 				</div>
-				<dl class="tsd-comment-tags">
-					<dt>param</dt>
-					<dd></dd>
-					<dt>param</dt>
-					<dd><p>The upper bound of the bounding box.</p>
-					</dd>
-					<dt>param</dt>
-					<dd><p>The lower bound of the bounding box</p>
-					</dd>
-				</dl>
 			</div>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
@@ -2774,13 +2758,11 @@ img {
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#contains" class="tsd-kind-icon">contains</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#copy" class="tsd-kind-icon">copy</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#extend" class="tsd-kind-icon">extend</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#getcorners" class="tsd-kind-icon">get<wbr>Corners</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#overlaps" class="tsd-kind-icon">overlaps</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#overlapsray" class="tsd-kind-icon">overlaps<wbr>Ray</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#setfrompoints" class="tsd-kind-icon">set<wbr>From<wbr>Points</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#tolocalframe" class="tsd-kind-icon">to<wbr>Local<wbr>Frame</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#toworldframe" class="tsd-kind-icon">to<wbr>World<wbr>Frame</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="aabb.html#volume" class="tsd-kind-icon">volume</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2798,7 +2780,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L16">collision/AABB.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L17">collision/AABB.ts:17</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2808,9 +2790,19 @@ img {
 								<ul class="tsd-parameters">
 									<li class="tsd-parameter">
 										<h5><span class="tsd-flag ts-flagOptional">Optional</span> lower<wbr>Bound<span class="tsd-signature-symbol">?: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>The upper bound of the bounding box</p>
+											</div>
+										</div>
 									</li>
 									<li class="tsd-parameter">
 										<h5><span class="tsd-flag ts-flagOptional">Optional</span> upper<wbr>Bound<span class="tsd-signature-symbol">?: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>The lower bound of the bounding box</p>
+											</div>
+										</div>
 									</li>
 								</ul>
 							</li>
@@ -2828,9 +2820,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">lower<wbr>Bound<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L15">collision/AABB.ts:15</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L13">collision/AABB.ts:13</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The lower bound of the bounding box</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="upperbound" class="tsd-anchor"></a>
@@ -2838,9 +2835,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">upper<wbr>Bound<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L16">collision/AABB.ts:16</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L17">collision/AABB.ts:17</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The upper bound of the bounding box</p>
+					</div>
+				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -2855,18 +2857,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L114">collision/AABB.ts:114</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L120">collision/AABB.ts:120</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Clone an AABB</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>clone</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <a href="aabb.html" class="tsd-signature-type" data-tsd-kind="Class">AABB</a></h4>
 					</li>
@@ -2882,18 +2879,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L169">collision/AABB.ts:169</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L167">collision/AABB.ts:167</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Returns true if the given AABB is fully contained in this AABB.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>contains</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -2915,18 +2907,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L104">collision/AABB.ts:104</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L111">collision/AABB.ts:111</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Copy bounds from an AABB to this AABB</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>copy</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -2952,78 +2939,18 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L123">collision/AABB.ts:123</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L127">collision/AABB.ts:127</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Extend this AABB so that it covers the given AABB too.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>extend</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>aabb: <a href="aabb.html" class="tsd-signature-type" data-tsd-kind="Class">AABB</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="getcorners" class="tsd-anchor"></a>
-				<h3>get<wbr>Corners</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">get<wbr>Corners<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, b<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, c<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, d<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, e<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, f<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, g<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, h<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L194">collision/AABB.ts:194</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getCorners</p>
-								</dd>
-							</dl>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>a: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-							</li>
-							<li>
-								<h5>b: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-							</li>
-							<li>
-								<h5>c: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-							</li>
-							<li>
-								<h5>d: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-							</li>
-							<li>
-								<h5>e: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-							</li>
-							<li>
-								<h5>f: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-							</li>
-							<li>
-								<h5>g: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-							</li>
-							<li>
-								<h5>h: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3040,18 +2967,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L138">collision/AABB.ts:138</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L139">collision/AABB.ts:139</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Returns true if the given AABB overlaps this AABB.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>overlaps</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3073,7 +2995,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L273">collision/AABB.ts:273</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L252">collision/AABB.ts:252</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3101,18 +3023,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L40">collision/AABB.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L48">collision/AABB.ts:48</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Set the AABB bounds from a set of points.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>setFromPoints</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3124,21 +3041,12 @@ img {
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> position: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>Optional.</p>
-								</div>
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> quaternion: <a href="quaternion.html" class="tsd-signature-type" data-tsd-kind="Class">Quaternion</a></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>Optional.</p>
-								</div>
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> skinSize: <span class="tsd-signature-type">number</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>Optional.</p>
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="aabb.html" class="tsd-signature-type" data-tsd-kind="Class">AABB</a></h4>
@@ -3156,18 +3064,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L215">collision/AABB.ts:215</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L199">collision/AABB.ts:199</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get the representation of an AABB in another frame.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>toLocalFrame</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3193,18 +3096,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L245">collision/AABB.ts:245</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/collision/AABB.ts#L226">collision/AABB.ts:226</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get the representation of an AABB in the global frame.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>toWorldFrame</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3217,23 +3115,6 @@ img {
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="aabb.html" class="tsd-signature-type" data-tsd-kind="Class">AABB</a></h4>
 						<p>The &quot;target&quot; AABB object.</p>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="volume" class="tsd-anchor"></a>
-				<h3>volume</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">volume<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/collision/AABB.ts#L157">collision/AABB.ts:157</a></li>
-							</ul>
-						</aside>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 					</li>
 				</ul>
 			</section>

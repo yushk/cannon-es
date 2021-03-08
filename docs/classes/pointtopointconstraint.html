@@ -2689,29 +2689,14 @@ img {
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a href="pointtopointconstraint.html#collideconnected" class="tsd-kind-icon">collide<wbr>Connected</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="pointtopointconstraint.html#equationx" class="tsd-kind-icon">equationX</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="pointtopointconstraint.html#equationy" class="tsd-kind-icon">equationY</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="pointtopointconstraint.html#equationz" class="tsd-kind-icon">equationZ</a>
-				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a href="pointtopointconstraint.html#equations" class="tsd-kind-icon">equations</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a href="pointtopointconstraint.html#id" class="tsd-kind-icon">id</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="pointtopointconstraint.html#pivota" class="tsd-kind-icon">pivotA</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="pointtopointconstraint.html#pivotb" class="tsd-kind-icon">pivotB</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-					<a href="pointtopointconstraint.html#idcounter" class="tsd-kind-icon">id<wbr>Counter</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a href="pointtopointconstraint.html#disable" class="tsd-kind-icon">disable</a>
@@ -2734,33 +2719,19 @@ img {
 					<p>Connects two bodies at given offset points.</p>
 				</div>
 				<dl class="tsd-comment-tags">
-					<dt>param</dt>
-					<dd></dd>
-					<dt>param</dt>
-					<dd><p>The point relative to the center of mass of bodyA which bodyA is constrained to.</p>
-					</dd>
-					<dt>param</dt>
-					<dd><p>Body that will be constrained in a similar way to the same point as bodyA. We will therefore get a link between bodyA and bodyB. If not specified, bodyA will be constrained to a static point.</p>
-					</dd>
-					<dt>param</dt>
-					<dd><p>See pivotA.</p>
-					</dd>
-					<dt>param</dt>
-					<dd><p>The maximum force that should be applied to constrain the bodies.</p>
-					</dd>
 					<dt>example</dt>
-					<dd><pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">bodyA</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Body</span><span style="color: #000000">({ </span><span style="color: #001080">mass:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> });</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">bodyB</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Body</span><span style="color: #000000">({ </span><span style="color: #001080">mass:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> });</span>
-<span style="color: #001080">bodyA</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">.</span><span style="color: #795E26">set</span><span style="color: #000000">(-</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">);</span>
-<span style="color: #001080">bodyB</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">.</span><span style="color: #795E26">set</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">);</span>
-<span style="color: #001080">bodyA</span><span style="color: #000000">.</span><span style="color: #795E26">addShape</span><span style="color: #000000">(</span><span style="color: #001080">shapeA</span><span style="color: #000000">);</span>
-<span style="color: #001080">bodyB</span><span style="color: #000000">.</span><span style="color: #795E26">addShape</span><span style="color: #000000">(</span><span style="color: #001080">shapeB</span><span style="color: #000000">);</span>
-<span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addBody</span><span style="color: #000000">(</span><span style="color: #001080">bodyA</span><span style="color: #000000">);</span>
-<span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addBody</span><span style="color: #000000">(</span><span style="color: #001080">bodyB</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">localPivotA</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Vec3</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">localPivotB</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Vec3</span><span style="color: #000000">(-</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">constraint</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">PointToPointConstraint</span><span style="color: #000000">(</span><span style="color: #001080">bodyA</span><span style="color: #000000">, </span><span style="color: #001080">localPivotA</span><span style="color: #000000">, </span><span style="color: #001080">bodyB</span><span style="color: #000000">, </span><span style="color: #001080">localPivotB</span><span style="color: #000000">);</span>
-<span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addConstraint</span><span style="color: #000000">(</span><span style="color: #001080">constraint</span><span style="color: #000000">);</span>
+					<dd><pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">bodyA</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Body</span><span style="color: #000000">({ </span><span style="color: #001080">mass:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> })</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">bodyB</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Body</span><span style="color: #000000">({ </span><span style="color: #001080">mass:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> })</span>
+<span style="color: #001080">bodyA</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">.</span><span style="color: #795E26">set</span><span style="color: #000000">(-</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">)</span>
+<span style="color: #001080">bodyB</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">.</span><span style="color: #795E26">set</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">)</span>
+<span style="color: #001080">bodyA</span><span style="color: #000000">.</span><span style="color: #795E26">addShape</span><span style="color: #000000">(</span><span style="color: #001080">shapeA</span><span style="color: #000000">)</span>
+<span style="color: #001080">bodyB</span><span style="color: #000000">.</span><span style="color: #795E26">addShape</span><span style="color: #000000">(</span><span style="color: #001080">shapeB</span><span style="color: #000000">)</span>
+<span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addBody</span><span style="color: #000000">(</span><span style="color: #001080">bodyA</span><span style="color: #000000">)</span>
+<span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addBody</span><span style="color: #000000">(</span><span style="color: #001080">bodyB</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">localPivotA</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Vec3</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">localPivotB</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Vec3</span><span style="color: #000000">(-</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">constraint</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">PointToPointConstraint</span><span style="color: #000000">(</span><span style="color: #001080">bodyA</span><span style="color: #000000">, </span><span style="color: #001080">localPivotA</span><span style="color: #000000">, </span><span style="color: #001080">bodyB</span><span style="color: #000000">, </span><span style="color: #001080">localPivotB</span><span style="color: #000000">)</span>
+<span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addConstraint</span><span style="color: #000000">(</span><span style="color: #001080">constraint</span><span style="color: #000000">)</span>
 </code></pre>
 					</dd>
 				</dl>
@@ -2806,14 +2777,9 @@ img {
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="pointtopointconstraint.html#bodya" class="tsd-kind-icon">bodyA</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="pointtopointconstraint.html#bodyb" class="tsd-kind-icon">bodyB</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="pointtopointconstraint.html#collideconnected" class="tsd-kind-icon">collide<wbr>Connected</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class"><a href="pointtopointconstraint.html#equationx" class="tsd-kind-icon">equationX</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class"><a href="pointtopointconstraint.html#equationy" class="tsd-kind-icon">equationY</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class"><a href="pointtopointconstraint.html#equationz" class="tsd-kind-icon">equationZ</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="pointtopointconstraint.html#equations" class="tsd-kind-icon">equations</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="pointtopointconstraint.html#id" class="tsd-kind-icon">id</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="pointtopointconstraint.html#pivota" class="tsd-kind-icon">pivotA</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="pointtopointconstraint.html#pivotb" class="tsd-kind-icon">pivotB</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="pointtopointconstraint.html#idcounter" class="tsd-kind-icon">id<wbr>Counter</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -2840,7 +2806,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#constructor">constructor</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/PointToPointConstraint.ts#L36">constraints/PointToPointConstraint.ts:36</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/PointToPointConstraint.ts#L34">constraints/PointToPointConstraint.ts:34</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2850,15 +2816,27 @@ img {
 							</li>
 							<li>
 								<h5>pivotA: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol"> = ...</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The point relative to the center of mass of bodyA which bodyA is constrained to.</p>
+								</div>
 							</li>
 							<li>
 								<h5>bodyB: <a href="body.html" class="tsd-signature-type" data-tsd-kind="Class">Body</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Body that will be constrained in a similar way to the same point as bodyA. We will therefore get a link between bodyA and bodyB. If not specified, bodyA will be constrained to a static point.</p>
+								</div>
 							</li>
 							<li>
 								<h5>pivotB: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol"> = ...</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The point relative to the center of mass of bodyB which bodyB is constrained to.</p>
+								</div>
 							</li>
 							<li>
 								<h5>maxForce: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1e6</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The maximum force that should be applied to constrain the bodies.</p>
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="pointtopointconstraint.html" class="tsd-signature-type" data-tsd-kind="Class">PointToPointConstraint</a></h4>
@@ -2875,9 +2853,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#bodya">bodyA</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L23">constraints/Constraint.ts:23</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/Constraint.ts#L18">constraints/Constraint.ts:18</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Body A.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="bodyb" class="tsd-anchor"></a>
@@ -2886,9 +2869,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#bodyb">bodyB</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L24">constraints/Constraint.ts:24</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/Constraint.ts#L22">constraints/Constraint.ts:22</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Body B.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="collideconnected" class="tsd-anchor"></a>
@@ -2897,39 +2885,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#collideconnected">collideConnected</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L26">constraints/Constraint.ts:26</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/Constraint.ts#L27">constraints/Constraint.ts:27</a></li>
 					</ul>
 				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-				<a name="equationx" class="tsd-anchor"></a>
-				<h3>equationX</h3>
-				<div class="tsd-signature tsd-kind-icon">equationX<span class="tsd-signature-symbol">:</span> <a href="contactequation.html" class="tsd-signature-type" data-tsd-kind="Class">ContactEquation</a></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/PointToPointConstraint.ts#L34">constraints/PointToPointConstraint.ts:34</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-				<a name="equationy" class="tsd-anchor"></a>
-				<h3>equationY</h3>
-				<div class="tsd-signature tsd-kind-icon">equationY<span class="tsd-signature-symbol">:</span> <a href="contactequation.html" class="tsd-signature-type" data-tsd-kind="Class">ContactEquation</a></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/PointToPointConstraint.ts#L35">constraints/PointToPointConstraint.ts:35</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-				<a name="equationz" class="tsd-anchor"></a>
-				<h3>equationZ</h3>
-				<div class="tsd-signature tsd-kind-icon">equationZ<span class="tsd-signature-symbol">:</span> <a href="contactequation.html" class="tsd-signature-type" data-tsd-kind="Class">ContactEquation</a></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/PointToPointConstraint.ts#L36">constraints/PointToPointConstraint.ts:36</a></li>
-					</ul>
-				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Set to false if you don&#39;t want the bodies to collide when they are connected.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="equations" class="tsd-anchor"></a>
@@ -2938,20 +2901,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#equations">equations</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L22">constraints/Constraint.ts:22</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/Constraint.ts#L14">constraints/Constraint.ts:14</a></li>
 					</ul>
 				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-				<a name="id" class="tsd-anchor"></a>
-				<h3>id</h3>
-				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#id">id</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L25">constraints/Constraint.ts:25</a></li>
-					</ul>
-				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Equations to be solved in this constraint.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="pivota" class="tsd-anchor"></a>
@@ -2959,9 +2916,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">pivotA<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/PointToPointConstraint.ts#L32">constraints/PointToPointConstraint.ts:32</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/PointToPointConstraint.ts#L26">constraints/PointToPointConstraint.ts:26</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Pivot, defined locally in bodyA.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="pivotb" class="tsd-anchor"></a>
@@ -2969,20 +2931,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">pivotB<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/PointToPointConstraint.ts#L33">constraints/PointToPointConstraint.ts:33</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/PointToPointConstraint.ts#L30">constraints/PointToPointConstraint.ts:30</a></li>
 					</ul>
 				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-				<a name="idcounter" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagStatic">Static</span> id<wbr>Counter</h3>
-				<div class="tsd-signature tsd-kind-icon">id<wbr>Counter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#idcounter">idCounter</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L28">constraints/Constraint.ts:28</a></li>
-					</ul>
-				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Pivot, defined locally in bodyB.</p>
+					</div>
+				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -2998,18 +2954,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#disable">disable</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L75">constraints/Constraint.ts:75</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/Constraint.ts#L88">constraints/Constraint.ts:88</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Disables all equations in the constraint.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>disable</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -3026,18 +2977,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="constraint.html">Constraint</a>.<a href="constraint.html#enable">enable</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/Constraint.ts#L64">constraints/Constraint.ts:64</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/Constraint.ts#L78">constraints/Constraint.ts:78</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Enables all equations in the constraint.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>enable</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -3054,7 +3000,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="constraint.html">Constraint</a>.<a href="constraint.html#update">update</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/constraints/PointToPointConstraint.ts#L60">constraints/PointToPointConstraint.ts:60</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/constraints/PointToPointConstraint.ts#L74">constraints/PointToPointConstraint.ts:74</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

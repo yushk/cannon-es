@@ -2716,9 +2716,6 @@ img {
 					<dt>todo</dt>
 					<dd><p>The spook parameters should be specified for each constraint, not globally.</p>
 					</dd>
-					<dt>author</dt>
-					<dd><p>schteppe / <a href="https://github.com/schteppe">https://github.com/schteppe</a></p>
-					</dd>
 					<dt>see</dt>
 					<dd><p><a href="https://www8.cs.umu.se/kurser/5DV058/VT09/lectures/spooknotes.pdf">https://www8.cs.umu.se/kurser/5DV058/VT09/lectures/spooknotes.pdf</a></p>
 					</dd>
@@ -2781,9 +2778,16 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#constructor">constructor</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/GSSolver.ts#L15">solver/GSSolver.ts:15</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/GSSolver.ts#L19">solver/GSSolver.ts:19</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<dl class="tsd-comment-tags">
+								<dt>todo</dt>
+								<dd><p>remove useless constructor</p>
+								</dd>
+							</dl>
+						</div>
 						<h4 class="tsd-returns-title">Returns <a href="gssolver.html" class="tsd-signature-type" data-tsd-kind="Class">GSSolver</a></h4>
 					</li>
 				</ul>
@@ -2798,9 +2802,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#equations">equations</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L11">solver/Solver.ts:11</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L11">solver/Solver.ts:11</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>All equations to be solved</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="iterations" class="tsd-anchor"></a>
@@ -2808,9 +2817,15 @@ img {
 				<div class="tsd-signature tsd-kind-icon">iterations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/GSSolver.ts#L14">solver/GSSolver.ts:14</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/GSSolver.ts#L14">solver/GSSolver.ts:14</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The number of solver iterations determines quality of the constraints in the world.
+						The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="tolerance" class="tsd-anchor"></a>
@@ -2818,9 +2833,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">tolerance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/GSSolver.ts#L15">solver/GSSolver.ts:15</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/GSSolver.ts#L19">solver/GSSolver.ts:19</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>When tolerance is reached, the system is assumed to be converged.</p>
+					</div>
+				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -2836,25 +2856,18 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#addequation">addEquation</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L36">solver/Solver.ts:36</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L35">solver/Solver.ts:35</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Add an equation</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>addEquation</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>eq: <a href="equation.html" class="tsd-signature-type" data-tsd-kind="Class">Equation</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2872,18 +2885,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#removeallequations">removeAllEquations</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L59">solver/Solver.ts:59</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L55">solver/Solver.ts:55</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Add all equations</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>removeAllEquations</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -2900,25 +2908,18 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="solver.html">Solver</a>.<a href="solver.html#removeequation">removeEquation</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/Solver.ts#L47">solver/Solver.ts:47</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/Solver.ts#L44">solver/Solver.ts:44</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Remove an equation</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>removeEquation</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>eq: <a href="equation.html" class="tsd-signature-type" data-tsd-kind="Class">Equation</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2936,18 +2937,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="solver.html">Solver</a>.<a href="solver.html#solve">solve</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/solver/GSSolver.ts#L31">solver/GSSolver.ts:31</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/solver/GSSolver.ts#L35">solver/GSSolver.ts:35</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Solve</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>solve</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">

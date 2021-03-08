@@ -2692,9 +2692,6 @@ img {
 				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="material.html#restitution" class="tsd-kind-icon">restitution</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a href="material.html#idcounter" class="tsd-kind-icon">id<wbr>Counter</a>
-				</li>
 			</ul>
 		</li>
 	</ul>
@@ -2706,13 +2703,6 @@ img {
 				<div class="lead">
 					<p>Defines a physics material.</p>
 				</div>
-				<dl class="tsd-comment-tags">
-					<dt>param</dt>
-					<dd></dd>
-					<dt>author</dt>
-					<dd><p>schteppe</p>
-					</dd>
-				</dl>
 			</div>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
@@ -2740,7 +2730,6 @@ img {
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="material.html#id" class="tsd-kind-icon">id</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="material.html#name" class="tsd-kind-icon">name</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="material.html#restitution" class="tsd-kind-icon">restitution</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="material.html#idcounter" class="tsd-kind-icon">id<wbr>Counter</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2752,19 +2741,19 @@ img {
 				<a name="constructor" class="tsd-anchor"></a>
 				<h3>constructor</h3>
 				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Material<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#materialoptions" class="tsd-signature-type" data-tsd-kind="Type alias">MaterialOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a></li>
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Material<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>friction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>restitution<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/material/Material.ts#L19">material/Material.ts:19</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/material/Material.ts#L26">material/Material.ts:26</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>options: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#materialoptions" class="tsd-signature-type" data-tsd-kind="Type alias">MaterialOptions</a><span class="tsd-signature-symbol"> = ...</span></h5>
+								<h5>options: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>friction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>restitution<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a></h4>
@@ -2780,9 +2769,15 @@ img {
 				<div class="tsd-signature tsd-kind-icon">friction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/material/Material.ts#L16">material/Material.ts:16</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/material/Material.ts#L19">material/Material.ts:19</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Friction for this material.
+						If non-negative, it will be used instead of the friction given by ContactMaterials. If there&#39;s no matching ContactMaterial, the value from <code>defaultContactMaterial</code> in the World will be used.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="id" class="tsd-anchor"></a>
@@ -2790,9 +2785,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/material/Material.ts#L15">material/Material.ts:15</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/material/Material.ts#L14">material/Material.ts:14</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Material id.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="name" class="tsd-anchor"></a>
@@ -2800,9 +2800,20 @@ img {
 				<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/material/Material.ts#L14">material/Material.ts:14</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/material/Material.ts#L12">material/Material.ts:12</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Material name.
+						If options is a string, name will be set to that string.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>todo</dt>
+						<dd><p>Deprecate this</p>
+						</dd>
+					</dl>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="restitution" class="tsd-anchor"></a>
@@ -2810,19 +2821,15 @@ img {
 				<div class="tsd-signature tsd-kind-icon">restitution<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/material/Material.ts#L17">material/Material.ts:17</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/material/Material.ts#L24">material/Material.ts:24</a></li>
 					</ul>
 				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-				<a name="idcounter" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagStatic">Static</span> id<wbr>Counter</h3>
-				<div class="tsd-signature tsd-kind-icon">id<wbr>Counter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/material/Material.ts#L19">material/Material.ts:19</a></li>
-					</ul>
-				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Restitution for this material.
+						If non-negative, it will be used instead of the restitution given by ContactMaterials. If there&#39;s no matching ContactMaterial, the value from <code>defaultContactMaterial</code> in the World will be used.</p>
+					</div>
+				</div>
 			</section>
 		</section>
 		<footer>

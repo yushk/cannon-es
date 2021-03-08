@@ -2690,12 +2690,6 @@ img {
 					<a href="trimesh.html#boundingsphereradius" class="tsd-kind-icon">bounding<wbr>Sphere<wbr>Radius</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a href="trimesh.html#collisionfiltergroup" class="tsd-kind-icon">collision<wbr>Filter<wbr>Group</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a href="trimesh.html#collisionfiltermask" class="tsd-kind-icon">collision<wbr>Filter<wbr>Mask</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a href="trimesh.html#collisionresponse" class="tsd-kind-icon">collision<wbr>Response</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -2726,15 +2720,12 @@ img {
 					<a href="trimesh.html#vertices" class="tsd-kind-icon">vertices</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-					<a href="trimesh.html#idcounter" class="tsd-kind-icon">id<wbr>Counter</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a href="trimesh.html#types" class="tsd-kind-icon">types</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a href="trimesh.html#calculatelocalinertia" class="tsd-kind-icon">calculate<wbr>Local<wbr>Inertia</a>
 				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="trimesh.html#calculateworldaabb" class="tsd-kind-icon">calculate<wbr>WorldAABB</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -2796,22 +2787,21 @@ img {
 	<div class="content-wrap">
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>Trimesh.</p>
+				</div>
 				<dl class="tsd-comment-tags">
-					<dt>param</dt>
-					<dd></dd>
-					<dt>param</dt>
-					<dd></dd>
 					<dt>example</dt>
 					<dd><pre><code><span style="color: #008000">// How to make a mesh with a single triangle</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">vertices</span><span style="color: #000000"> = [</span>
 <span style="color: #000000">    </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #008000">// vertex 0</span>
 <span style="color: #000000">    </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #008000">// vertex 1</span>
 <span style="color: #000000">    </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">  </span><span style="color: #008000">// vertex 2</span>
-<span style="color: #000000">];</span>
+<span style="color: #000000">]</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">indices</span><span style="color: #000000"> = [</span>
 <span style="color: #000000">    </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">2</span><span style="color: #000000">  </span><span style="color: #008000">// triangle 0</span>
-<span style="color: #000000">];</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">trimeshShape</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Trimesh</span><span style="color: #000000">(</span><span style="color: #001080">vertices</span><span style="color: #000000">, </span><span style="color: #001080">indices</span><span style="color: #000000">);</span>
+<span style="color: #000000">]</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">trimeshShape</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Trimesh</span><span style="color: #000000">(</span><span style="color: #001080">vertices</span><span style="color: #000000">, </span><span style="color: #001080">indices</span><span style="color: #000000">)</span>
 </code></pre>
 					</dd>
 				</dl>
@@ -2846,8 +2836,6 @@ img {
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="trimesh.html#aabb" class="tsd-kind-icon">aabb</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="trimesh.html#body" class="tsd-kind-icon">body</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="trimesh.html#boundingsphereradius" class="tsd-kind-icon">bounding<wbr>Sphere<wbr>Radius</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="trimesh.html#collisionfiltergroup" class="tsd-kind-icon">collision<wbr>Filter<wbr>Group</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="trimesh.html#collisionfiltermask" class="tsd-kind-icon">collision<wbr>Filter<wbr>Mask</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="trimesh.html#collisionresponse" class="tsd-kind-icon">collision<wbr>Response</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="trimesh.html#edges" class="tsd-kind-icon">edges</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="trimesh.html#id" class="tsd-kind-icon">id</a></li>
@@ -2858,7 +2846,6 @@ img {
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="trimesh.html#tree" class="tsd-kind-icon">tree</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="trimesh.html#type" class="tsd-kind-icon">type</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="trimesh.html#vertices" class="tsd-kind-icon">vertices</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="trimesh.html#idcounter" class="tsd-kind-icon">id<wbr>Counter</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="trimesh.html#types" class="tsd-kind-icon">types</a></li>
 						</ul>
 					</section>
@@ -2866,7 +2853,7 @@ img {
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="trimesh.html#calculatelocalinertia" class="tsd-kind-icon">calculate<wbr>Local<wbr>Inertia</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="trimesh.html#calculateworldaabb" class="tsd-kind-icon">calculate<wbr>WorldAABB</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trimesh.html#calculateworldaabb" class="tsd-kind-icon">calculate<wbr>WorldAABB</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trimesh.html#computelocalaabb" class="tsd-kind-icon">compute<wbr>LocalAABB</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trimesh.html#getedgevector" class="tsd-kind-icon">get<wbr>Edge<wbr>Vector</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trimesh.html#getedgevertex" class="tsd-kind-icon">get<wbr>Edge<wbr>Vertex</a></li>
@@ -2902,7 +2889,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#constructor">constructor</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L33">shapes/Trimesh.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L55">shapes/Trimesh.ts:55</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2927,9 +2914,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">aabb<span class="tsd-signature-symbol">:</span> <a href="aabb.html" class="tsd-signature-type" data-tsd-kind="Class">AABB</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L30">shapes/Trimesh.ts:30</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L40">shapes/Trimesh.ts:40</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The local AABB of the mesh.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="body" class="tsd-anchor"></a>
@@ -2938,9 +2930,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#body">body</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L47">shapes/Shape.ts:47</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Shape.ts#L80">shapes/Shape.ts:80</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The body to which the shape is added to.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="boundingsphereradius" class="tsd-anchor"></a>
@@ -2949,31 +2946,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#boundingsphereradius">boundingSphereRadius</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L42">shapes/Shape.ts:42</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Shape.ts#L54">shapes/Shape.ts:54</a></li>
 					</ul>
 				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-				<a name="collisionfiltergroup" class="tsd-anchor"></a>
-				<h3>collision<wbr>Filter<wbr>Group</h3>
-				<div class="tsd-signature tsd-kind-icon">collision<wbr>Filter<wbr>Group<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#collisionfiltergroup">collisionFilterGroup</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L44">shapes/Shape.ts:44</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-				<a name="collisionfiltermask" class="tsd-anchor"></a>
-				<h3>collision<wbr>Filter<wbr>Mask</h3>
-				<div class="tsd-signature tsd-kind-icon">collision<wbr>Filter<wbr>Mask<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#collisionfiltermask">collisionFilterMask</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L45">shapes/Shape.ts:45</a></li>
-					</ul>
-				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The local bounding sphere radius of this shape.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="collisionresponse" class="tsd-anchor"></a>
@@ -2982,9 +2962,19 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#collisionresponse">collisionResponse</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L43">shapes/Shape.ts:43</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Shape.ts#L60">shapes/Shape.ts:60</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>default</dt>
+						<dd><p>true</p>
+						</dd>
+					</dl>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="edges" class="tsd-anchor"></a>
@@ -2992,9 +2982,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">edges<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Int16Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L31">shapes/Trimesh.ts:31</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L45">shapes/Trimesh.ts:45</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>References to vertex pairs, making up all unique edges in the trimesh.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="id" class="tsd-anchor"></a>
@@ -3003,9 +2998,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#id">id</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L40">shapes/Shape.ts:40</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Shape.ts#L44">shapes/Shape.ts:44</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Identifier of the Shape.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="indices" class="tsd-anchor"></a>
@@ -3013,9 +3013,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">indices<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Int16Array</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L28">shapes/Trimesh.ts:28</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L31">shapes/Trimesh.ts:31</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Array of integers, indicating which vertices each triangle consists of. The length of this array is thus 3 times the number of triangles.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="material" class="tsd-anchor"></a>
@@ -3024,9 +3029,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#material">material</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L46">shapes/Shape.ts:46</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Shape.ts#L75">shapes/Shape.ts:75</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Optional material of the shape that regulates contact properties.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="normals" class="tsd-anchor"></a>
@@ -3034,9 +3044,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">normals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Float32Array</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L29">shapes/Trimesh.ts:29</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L36">shapes/Trimesh.ts:36</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The normals data.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="scale" class="tsd-anchor"></a>
@@ -3044,9 +3059,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L32">shapes/Trimesh.ts:32</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L50">shapes/Trimesh.ts:50</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Local scaling of the mesh. Use .setScale() to set it.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="tree" class="tsd-anchor"></a>
@@ -3054,9 +3074,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">tree<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Octree</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L33">shapes/Trimesh.ts:33</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L55">shapes/Trimesh.ts:55</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The indexed triangles. Use .updateTree() to update it.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 				<a name="type" class="tsd-anchor"></a>
@@ -3065,9 +3090,14 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#type">type</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L41">shapes/Shape.ts:41</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Shape.ts#L49">shapes/Shape.ts:49</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The type of this shape. Must be set to an int &gt; 0 by subclasses.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="vertices" class="tsd-anchor"></a>
@@ -3075,31 +3105,62 @@ img {
 				<div class="tsd-signature tsd-kind-icon">vertices<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Float32Array</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L27">shapes/Trimesh.ts:27</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L26">shapes/Trimesh.ts:26</a></li>
 					</ul>
 				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-				<a name="idcounter" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagStatic">Static</span> id<wbr>Counter</h3>
-				<div class="tsd-signature tsd-kind-icon">id<wbr>Counter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#idcounter">idCounter</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L49">shapes/Shape.ts:49</a></li>
-					</ul>
-				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>vertices</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 				<a name="types" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagStatic">Static</span> types</h3>
-				<div class="tsd-signature tsd-kind-icon">types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><a href="../modules.html#shape_types" class="tsd-signature-type" data-tsd-kind="Variable">SHAPE_TYPES</a></div>
+				<div class="tsd-signature tsd-kind-icon">types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>BOX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">4</span><span class="tsd-signature-symbol">; </span>COMPOUND<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">8</span><span class="tsd-signature-symbol">; </span>CONVEXPOLYHEDRON<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">16</span><span class="tsd-signature-symbol">; </span>CYLINDER<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">128</span><span class="tsd-signature-symbol">; </span>HEIGHTFIELD<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">32</span><span class="tsd-signature-symbol">; </span>PARTICLE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">64</span><span class="tsd-signature-symbol">; </span>PLANE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol">; </span>SPHERE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol">; </span>TRIMESH<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">256</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#types">types</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Shape.ts#L50">shapes/Shape.ts:50</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Shape.ts#L87">shapes/Shape.ts:87</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>All the Shape types.</p>
+					</div>
+				</div>
+				<div class="tsd-type-declaration">
+					<h4>Type declaration</h4>
+					<ul class="tsd-parameters">
+						<li class="tsd-parameter">
+							<h5>BOX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">4</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>COMPOUND<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">8</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>CONVEXPOLYHEDRON<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">16</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>CYLINDER<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">128</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>HEIGHTFIELD<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">32</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>PARTICLE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">64</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>PLANE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">2</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>SPHERE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>TRIMESH<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">256</span></h5>
+						</li>
+					</ul>
+				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -3115,16 +3176,9 @@ img {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="shape.html">Shape</a>.<a href="shape.html#calculatelocalinertia">calculateLocalInertia</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L311">shapes/Trimesh.ts:311</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L294">shapes/Trimesh.ts:294</a></li>
 							</ul>
 						</aside>
-						<div class="tsd-comment tsd-typography">
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>calculateLocalInertia</p>
-								</dd>
-							</dl>
-						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
@@ -3139,26 +3193,23 @@ img {
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="calculateworldaabb" class="tsd-anchor"></a>
 				<h3>calculate<wbr>WorldAABB</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 					<li class="tsd-signature tsd-kind-icon">calculate<wbr>WorldAABB<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, quat<span class="tsd-signature-symbol">: </span><a href="quaternion.html" class="tsd-signature-type" data-tsd-kind="Class">Quaternion</a>, min<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a>, max<span class="tsd-signature-symbol">: </span><a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
-							<p>Overrides <a href="shape.html">Shape</a>.<a href="shape.html#calculateworldaabb">calculateWorldAABB</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L398">shapes/Trimesh.ts:398</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L373">shapes/Trimesh.ts:373</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>calculateWorldAABB</p>
-								</dd>
-							</dl>
+							<div class="lead">
+								<p>calculateWorldAABB</p>
+							</div>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3173,8 +3224,6 @@ img {
 							</li>
 							<li>
 								<h5>max: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3191,25 +3240,18 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L330">shapes/Trimesh.ts:330</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L311">shapes/Trimesh.ts:311</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Compute the local AABB for the trimesh</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>computeLocalAABB</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>aabb: <a href="aabb.html" class="tsd-signature-type" data-tsd-kind="Class">AABB</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3226,18 +3268,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L207">shapes/Trimesh.ts:207</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L219">shapes/Trimesh.ts:219</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get a vector along an edge.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getEdgeVector</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3246,8 +3283,6 @@ img {
 							</li>
 							<li>
 								<h5>vectorStore: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3264,18 +3299,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L196">shapes/Trimesh.ts:196</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L211">shapes/Trimesh.ts:211</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get an edge vertex</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getEdgeVertex</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3309,18 +3339,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L300">shapes/Trimesh.ts:300</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L286">shapes/Trimesh.ts:286</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Compute the normal of triangle i.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getNormal</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3346,18 +3371,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L286">shapes/Trimesh.ts:286</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L275">shapes/Trimesh.ts:275</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get the three vertices for triangle i.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getTriangleVertices</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3372,8 +3392,6 @@ img {
 							</li>
 							<li>
 								<h5>c: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3390,18 +3408,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L96">shapes/Trimesh.ts:96</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L116">shapes/Trimesh.ts:116</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get triangles in a local AABB from the trimesh.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getTrianglesInAABB</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3429,18 +3442,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L240">shapes/Trimesh.ts:240</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L243">shapes/Trimesh.ts:243</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get vertex i.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getVertex</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3466,18 +3474,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L272">shapes/Trimesh.ts:272</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L266">shapes/Trimesh.ts:266</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get a vertex from the trimesh,transformed by the given position and quaternion.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>getWorldVertex</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3509,22 +3512,18 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L120">shapes/Trimesh.ts:120</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L139">shapes/Trimesh.ts:139</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>setScale</p>
-								</dd>
-							</dl>
+							<div class="lead">
+								<p>setScale</p>
+							</div>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>scale: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3541,18 +3540,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L368">shapes/Trimesh.ts:368</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L348">shapes/Trimesh.ts:348</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Update the .aabb property</p>
+								<p>Update the <code>.aabb</code> property</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>updateAABB</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -3569,18 +3563,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="shape.html">Shape</a>.<a href="shape.html#updateboundingsphereradius">updateBoundingSphereRadius</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L376">shapes/Trimesh.ts:376</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L355">shapes/Trimesh.ts:355</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Will update the .boundingSphereRadius property</p>
+								<p>Will update the <code>.boundingSphereRadius</code> property</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>updateBoundingSphereRadius</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -3596,18 +3585,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L165">shapes/Trimesh.ts:165</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L182">shapes/Trimesh.ts:182</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Update the .edges property</p>
+								<p>Update the <code>.edges</code> property</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>updateEdges</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -3623,18 +3607,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L137">shapes/Trimesh.ts:137</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L155">shapes/Trimesh.ts:155</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Compute the normals of the faces. Will save in the .normals array.</p>
+								<p>Compute the normals of the faces. Will save in the <code>.normals</code> array.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>updateNormals</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -3650,15 +3629,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L56">shapes/Trimesh.ts:56</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L78">shapes/Trimesh.ts:78</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>updateTree</p>
-								</dd>
-							</dl>
+							<div class="lead">
+								<p>updateTree</p>
+							</div>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
@@ -3675,18 +3652,13 @@ img {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="shape.html">Shape</a>.<a href="shape.html#volume">volume</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L446">shapes/Trimesh.ts:446</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L419">shapes/Trimesh.ts:419</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get approximate volume</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>method</dt>
-								<dd><p>volume</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 					</li>
@@ -3702,20 +3674,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L224">shapes/Trimesh.ts:224</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L230">shapes/Trimesh.ts:230</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Get face normal given 3 vertices</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>static</dt>
-								<dd></dd>
-								<dt>method</dt>
-								<dd><p>computeNormal</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3730,8 +3695,6 @@ img {
 							</li>
 							<li>
 								<h5>target: <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3748,20 +3711,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/8cf27115/src/shapes/Trimesh.ts#L461">shapes/Trimesh.ts:461</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/shapes/Trimesh.ts#L426">shapes/Trimesh.ts:426</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Create a Trimesh instance, shaped as a torus.</p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>static</dt>
-								<dd></dd>
-								<dt>method</dt>
-								<dd><p>createTorus</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -3782,7 +3738,6 @@ img {
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="trimesh.html" class="tsd-signature-type" data-tsd-kind="Class">Trimesh</a></h4>
-						<p>A torus</p>
 					</li>
 				</ul>
 			</section>
