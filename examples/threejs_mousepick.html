@@ -274,7 +274,7 @@
         // The pivot for the jointBody is zero
         jointConstraint = new CANNON.PointToPointConstraint(constrainedBody, pivot, jointBody, new CANNON.Vec3(0, 0, 0))
 
-        // Add the constriant to world
+        // Add the constraint to world
         world.addConstraint(jointConstraint)
       }
 
@@ -285,7 +285,7 @@
         jointConstraint.update()
       }
 
-      // Remove constriant from world
+      // Remove constraint from world
       function removeJointConstraint() {
         world.removeConstraint(jointConstraint)
         jointConstraint = undefined
