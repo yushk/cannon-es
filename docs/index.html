@@ -2921,7 +2921,7 @@ img {
 <span style="color: #008000">// Start the simulation loop</span>
 <span style="color: #795E26">animate</span><span style="color: #000000">()</span>
 </code></pre>
-			<p>Rigid Bodies are the entities which will be simulated in the world, they can be simple shapes such as <a href="">Sphere</a>, <a href="">Box</a>, <a href="">Plane</a>, <a href="">Cylinder</a>, or more complex shapes such as <a href="">ConvexPolyhedron</a>, <a href="">Particle</a>, <a href="">Heightfield</a>, <a href="">Trimesh</a>.</p>
+			<p>Rigid Bodies are the entities which will be simulated in the world, they can be simple shapes such as <a href="classes/sphere">Sphere</a>, <a href="classes/box">Box</a>, <a href="classes/plane">Plane</a>, <a href="classes/cylinder">Cylinder</a>, or more complex shapes such as <a href="classes/convexpolyhedron">ConvexPolyhedron</a>, <a href="classes/particle">Particle</a>, <a href="classes/heightfield">Heightfield</a>, <a href="classes/trimesh">Trimesh</a>.</p>
 			<p>Let&#39;s create a basic sphere body.</p>
 			<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">radius</span><span style="color: #000000"> = </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #008000">// m</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">sphereBody</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #0070C1">CANNON</span><span style="color: #000000">.</span><span style="color: #795E26">Body</span><span style="color: #000000">({</span>
@@ -2986,7 +2986,7 @@ img {
 <span style="color: #000000">}</span>
 <span style="color: #795E26">animate</span><span style="color: #000000">()</span>
 </code></pre>
-			<p>Note that <strong>cannon doesn&#39;t take care of rendering anything to the screen</strong>, it just computes the math of the simulation. To actually show something to the screen you have to use rendering libraries such as <a href="">three.js</a>. Let&#39;s see how we can achieve that.</p>
+			<p>Note that <strong>cannon doesn&#39;t take care of rendering anything to the screen</strong>, it just computes the math of the simulation. To actually show something to the screen you have to use rendering libraries such as <a href="https://github.com/mrdoob/three.js/">three.js</a>. Let&#39;s see how we can achieve that.</p>
 			<p>First of all, you have to create the body&#39;s correspondent entity in three.js. For example here is how you create a sphere in three.js.</p>
 			<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">radius</span><span style="color: #000000"> = </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #008000">// m</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">geometry</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #0070C1">THREE</span><span style="color: #000000">.</span><span style="color: #795E26">SphereGeometry</span><span style="color: #000000">(</span><span style="color: #001080">radius</span><span style="color: #000000">)</span>
@@ -3006,7 +3006,7 @@ img {
 <span style="color: #795E26">animate</span><span style="color: #000000">()</span>
 </code></pre>
 			<p>You should now see a falling ball on the screen!</p>
-			<p>That&#39;s it for the basic example, to learn more about all the different features, head over to the <a href="">examples page</a>!</p>
+			<p>That&#39;s it for the basic example, to learn more about all the different features, head over to the <a href="https://pmndrs.github.io/cannon-es/">examples page</a>!</p>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
@@ -3099,7 +3099,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Body<wbr>Sleep<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><a href="modules.html#body_sleep_states" class="tsd-signature-type" data-tsd-kind="Variable">BODY_SLEEP_STATES</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="modules.html#body_sleep_states" class="tsd-signature-type" data-tsd-kind="Variable">BODY_SLEEP_STATES</a><span class="tsd-signature-symbol">]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L43">objects/Body.ts:43</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/objects/Body.ts#L43">objects/Body.ts:43</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3114,7 +3114,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Body<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><a href="modules.html#body_types" class="tsd-signature-type" data-tsd-kind="Variable">BODY_TYPES</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="modules.html#body_types" class="tsd-signature-type" data-tsd-kind="Variable">BODY_TYPES</a><span class="tsd-signature-symbol">]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L26">objects/Body.ts:26</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/objects/Body.ts#L26">objects/Body.ts:26</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3129,7 +3129,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Convex<wbr>Polyhedron<wbr>Contact<wbr>Point<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/shapes/ConvexPolyhedron.ts#L7">shapes/ConvexPolyhedron.ts:7</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/shapes/ConvexPolyhedron.ts#L7">shapes/ConvexPolyhedron.ts:7</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3149,7 +3149,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Ray<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><a href="modules.html#ray_modes" class="tsd-signature-type" data-tsd-kind="Variable">RAY_MODES</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="modules.html#ray_modes" class="tsd-signature-type" data-tsd-kind="Variable">RAY_MODES</a><span class="tsd-signature-symbol">]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/collision/Ray.ts#L31">collision/Ray.ts:31</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/collision/Ray.ts#L31">collision/Ray.ts:31</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3164,7 +3164,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Ray<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RaycastCallback</span><span class="tsd-signature-symbol">; </span>checkCollisionResponse<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>collisionFilterGroup<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>collisionFilterMask<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>from<span class="tsd-signature-symbol">?: </span><a href="classes/vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol">; </span>mode<span class="tsd-signature-symbol">?: </span><a href="modules.html#raymode" class="tsd-signature-type" data-tsd-kind="Type alias">RayMode</a><span class="tsd-signature-symbol">; </span>result<span class="tsd-signature-symbol">?: </span><a href="classes/raycastresult.html" class="tsd-signature-type" data-tsd-kind="Class">RaycastResult</a><span class="tsd-signature-symbol">; </span>skipBackfaces<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>to<span class="tsd-signature-symbol">?: </span><a href="classes/vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/collision/Ray.ts#L36">collision/Ray.ts:36</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/collision/Ray.ts#L36">collision/Ray.ts:36</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3276,7 +3276,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Shape<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><a href="modules.html#shape_types" class="tsd-signature-type" data-tsd-kind="Variable">SHAPE_TYPES</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="modules.html#shape_types" class="tsd-signature-type" data-tsd-kind="Variable">SHAPE_TYPES</a><span class="tsd-signature-symbol">]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/shapes/Shape.ts#L33">shapes/Shape.ts:33</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/shapes/Shape.ts#L33">shapes/Shape.ts:33</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3294,7 +3294,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">BODY_<wbr>SLEEP_<wbr>STATES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>AWAKE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol">; </span>SLEEPING<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol">; </span>SLEEPY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L31">objects/Body.ts:31</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/objects/Body.ts#L31">objects/Body.ts:31</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3323,7 +3323,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">BODY_<wbr>TYPES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>DYNAMIC<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol">; </span>KINEMATIC<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">4</span><span class="tsd-signature-symbol">; </span>STATIC<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L14">objects/Body.ts:14</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/objects/Body.ts#L14">objects/Body.ts:14</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3352,7 +3352,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">RAY_<wbr>MODES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>ALL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">4</span><span class="tsd-signature-symbol">; </span>ANY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol">; </span>CLOSEST<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/collision/Ray.ts#L19">collision/Ray.ts:19</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/collision/Ray.ts#L19">collision/Ray.ts:19</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3381,7 +3381,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">SHAPE_<wbr>TYPES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>BOX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">4</span><span class="tsd-signature-symbol">; </span>COMPOUND<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">8</span><span class="tsd-signature-symbol">; </span>CONVEXPOLYHEDRON<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">16</span><span class="tsd-signature-symbol">; </span>CYLINDER<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">128</span><span class="tsd-signature-symbol">; </span>HEIGHTFIELD<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">32</span><span class="tsd-signature-symbol">; </span>PARTICLE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">64</span><span class="tsd-signature-symbol">; </span>PLANE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol">; </span>SPHERE<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol">; </span>TRIMESH<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">256</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/shapes/Shape.ts#L9">shapes/Shape.ts:9</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/303c8eba/src/shapes/Shape.ts#L9">shapes/Shape.ts:9</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
