@@ -41,7 +41,9 @@ import * as CANNON from 'cannon-es'
 // ...
 ```
 
-<!-- ## [Documentation]() -->
+## [Documentation](https://pmndrs.github.io/cannon-es/docs/)
+
+[![](screenshots/docs.png)](https://pmndrs.github.io/cannon-es/docs/)
 
 ## [Examples](https://pmndrs.github.io/cannon-es/)
 
