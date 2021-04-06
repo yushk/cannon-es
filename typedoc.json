@@ -1,6 +1,7 @@
 {
   "entryPoints": "./src/cannon-es.ts",
   "out": "docs/",
+  "readme": "./getting-started.md",
   "theme": "minimal",
   "excludePrivate": true,
   "excludeProtected": true,
