@@ -135,10 +135,12 @@ function animate() {
 
   sphereMesh.position.copy(sphereBody.position)
   sphereMesh.quaternion.copy(sphereBody.quaternion)
+
+  // three.js render...
 }
 animate()
 ```
 
-You should now see a falling ball on the screen!
+You should now see a falling ball on the screen! Check out the [basic three.js example](https://github.com/pmndrs/cannon-es/blob/master/examples/threejs.html) for the full code.
 
 That's it for the basic example, to learn more about all the different features, head over to the [examples page](https://pmndrs.github.io/cannon-es/)!
