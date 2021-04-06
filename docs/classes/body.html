@@ -1624,6 +1624,12 @@ pre code {
   background-color: transparent;
 }
 
+blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 4px solid gray;
+}
+
 .tsd-typography {
   line-height: 1.333em;
 }
@@ -2638,8 +2644,33 @@ input[type=checkbox]:checked + .tsd-widget:before {
 img {
   max-width: 100%;
 }
-</style>
-</head>
+
+    .tsd-page-toolbar {
+  transform: none !important;
+}
+
+.tsd-navigation {
+  top: 40px !important;
+  max-height: calc(100vh - 40px) !important;
+  padding-top: 2rem !important;
+}
+
+.tsd-navigation > ul > li:first-child {
+  margin-top: 0 !important;
+}
+
+#tsd-filter-visibility {
+  display: none !important;
+}
+
+#tsd-filter-only-exported,
+[for='tsd-filter-only-exported'] {
+  display: none !important;
+}
+
+    </style>
+    </head>
+    
 <body>
 <header>
 	<div class="tsd-page-toolbar">
@@ -2921,10 +2952,10 @@ img {
 				</div>
 				<dl class="tsd-comment-tags">
 					<dt>example</dt>
-					<dd><pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">body</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Body</span><span style="color: #000000">({</span>
+					<dd><pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">body</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Body</span><span style="color: #000000">({</span>
 <span style="color: #000000">  </span><span style="color: #001080">mass:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
 <span style="color: #000000">})</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">shape</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Sphere</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">shape</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Sphere</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">)</span>
 <span style="color: #001080">body</span><span style="color: #000000">.</span><span style="color: #795E26">addShape</span><span style="color: #000000">(</span><span style="color: #001080">shape</span><span style="color: #000000">)</span>
 <span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addBody</span><span style="color: #000000">(</span><span style="color: #001080">body</span><span style="color: #000000">)</span>
 </code></pre>
@@ -3062,7 +3093,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#constructor">constructor</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L344">objects/Body.ts:344</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L344">objects/Body.ts:344</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3297,7 +3328,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">COLLIDE_<wbr>EVENT_<wbr>NAME<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &#x27;collide&#x27;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L67">objects/Body.ts:67</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L67">objects/Body.ts:67</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3321,7 +3352,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">sleep<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L113">objects/Body.ts:113</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L113">objects/Body.ts:113</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3341,7 +3372,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">sleepy<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L107">objects/Body.ts:107</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L107">objects/Body.ts:107</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3361,7 +3392,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">wakeup<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L101">objects/Body.ts:101</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L101">objects/Body.ts:101</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3384,7 +3415,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">aabb<span class="tsd-signature-symbol">:</span> <a href="aabb.html" class="tsd-signature-type" data-tsd-kind="Class">AABB</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L327">objects/Body.ts:327</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L327">objects/Body.ts:327</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3399,7 +3430,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">aabb<wbr>Needs<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L332">objects/Body.ts:332</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L332">objects/Body.ts:332</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3414,7 +3445,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">allow<wbr>Sleep<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L221">objects/Body.ts:221</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L221">objects/Body.ts:221</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3434,7 +3465,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">angular<wbr>Damping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L312">objects/Body.ts:312</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L312">objects/Body.ts:312</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3454,7 +3485,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">angular<wbr>Factor<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L322">objects/Body.ts:322</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L322">objects/Body.ts:322</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3469,7 +3500,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">angular<wbr>Velocity<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L269">objects/Body.ts:269</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L269">objects/Body.ts:269</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3484,7 +3515,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">bounding<wbr>Radius<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L337">objects/Body.ts:337</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L337">objects/Body.ts:337</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3499,7 +3530,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">collision<wbr>Filter<wbr>Group<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L148">objects/Body.ts:148</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L148">objects/Body.ts:148</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3519,7 +3550,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">collision<wbr>Filter<wbr>Mask<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L154">objects/Body.ts:154</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L154">objects/Body.ts:154</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3539,7 +3570,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">collision<wbr>Response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L159">objects/Body.ts:159</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L159">objects/Body.ts:159</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3554,7 +3585,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">fixed<wbr>Rotation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L306">objects/Body.ts:306</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L306">objects/Body.ts:306</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3574,7 +3605,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">force<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L191">objects/Body.ts:191</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L191">objects/Body.ts:191</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3589,7 +3620,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L118">objects/Body.ts:118</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L118">objects/Body.ts:118</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3604,7 +3635,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L123">objects/Body.ts:123</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L123">objects/Body.ts:123</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3619,7 +3650,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">inertia<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L294">objects/Body.ts:294</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L294">objects/Body.ts:294</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3634,7 +3665,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">init<wbr>Angular<wbr>Velocity<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L274">objects/Body.ts:274</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L274">objects/Body.ts:274</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3649,7 +3680,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">init<wbr>Position<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L176">objects/Body.ts:176</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L176">objects/Body.ts:176</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3664,7 +3695,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">init<wbr>Quaternion<span class="tsd-signature-symbol">:</span> <a href="quaternion.html" class="tsd-signature-type" data-tsd-kind="Class">Quaternion</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L257">objects/Body.ts:257</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L257">objects/Body.ts:257</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3679,7 +3710,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">init<wbr>Velocity<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L186">objects/Body.ts:186</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L186">objects/Body.ts:186</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3694,7 +3725,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">interpolated<wbr>Position<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L171">objects/Body.ts:171</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L171">objects/Body.ts:171</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3709,7 +3740,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">interpolated<wbr>Quaternion<span class="tsd-signature-symbol">:</span> <a href="quaternion.html" class="tsd-signature-type" data-tsd-kind="Class">Quaternion</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L264">objects/Body.ts:264</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L264">objects/Body.ts:264</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3724,7 +3755,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">is<wbr>Trigger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L344">objects/Body.ts:344</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L344">objects/Body.ts:344</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3745,7 +3776,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">linear<wbr>Damping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L210">objects/Body.ts:210</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L210">objects/Body.ts:210</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3765,7 +3796,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">linear<wbr>Factor<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L317">objects/Body.ts:317</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L317">objects/Body.ts:317</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3780,7 +3811,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">mass<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L197">objects/Body.ts:197</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L197">objects/Body.ts:197</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3797,10 +3828,10 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="material" class="tsd-anchor"></a>
 				<h3>material</h3>
-				<div class="tsd-signature tsd-kind-icon">material<span class="tsd-signature-symbol">:</span> <a href="material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+				<div class="tsd-signature tsd-kind-icon">material<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L204">objects/Body.ts:204</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L204">objects/Body.ts:204</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3815,7 +3846,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L164">objects/Body.ts:164</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L164">objects/Body.ts:164</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3827,10 +3858,10 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="poststep" class="tsd-anchor"></a>
 				<h3>post<wbr>Step</h3>
-				<div class="tsd-signature tsd-kind-icon">post<wbr>Step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+				<div class="tsd-signature tsd-kind-icon">post<wbr>Step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L140">objects/Body.ts:140</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L140">objects/Body.ts:140</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3847,10 +3878,10 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="prestep" class="tsd-anchor"></a>
 				<h3>pre<wbr>Step</h3>
-				<div class="tsd-signature tsd-kind-icon">pre<wbr>Step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+				<div class="tsd-signature tsd-kind-icon">pre<wbr>Step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L134">objects/Body.ts:134</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L134">objects/Body.ts:134</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3870,7 +3901,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">quaternion<span class="tsd-signature-symbol">:</span> <a href="quaternion.html" class="tsd-signature-type" data-tsd-kind="Class">Quaternion</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L252">objects/Body.ts:252</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L252">objects/Body.ts:252</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3885,7 +3916,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">shape<wbr>Offsets<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L284">objects/Body.ts:284</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L284">objects/Body.ts:284</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3900,7 +3931,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">shape<wbr>Orientations<span class="tsd-signature-symbol">:</span> <a href="quaternion.html" class="tsd-signature-type" data-tsd-kind="Class">Quaternion</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L289">objects/Body.ts:289</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L289">objects/Body.ts:289</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3915,7 +3946,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">shapes<span class="tsd-signature-symbol">:</span> <a href="shape.html" class="tsd-signature-type" data-tsd-kind="Class">Shape</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L279">objects/Body.ts:279</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L279">objects/Body.ts:279</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3930,7 +3961,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">sleep<wbr>Speed<wbr>Limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L232">objects/Body.ts:232</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L232">objects/Body.ts:232</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3950,7 +3981,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">sleep<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../modules.html#bodysleepstate" class="tsd-signature-type" data-tsd-kind="Type alias">BodySleepState</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L226">objects/Body.ts:226</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L226">objects/Body.ts:226</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3965,7 +3996,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">sleep<wbr>Time<wbr>Limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L238">objects/Body.ts:238</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L238">objects/Body.ts:238</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3985,7 +4016,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">torque<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L247">objects/Body.ts:247</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L247">objects/Body.ts:247</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4000,7 +4031,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../modules.html#bodytype" class="tsd-signature-type" data-tsd-kind="Type alias">BodyType</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L215">objects/Body.ts:215</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L215">objects/Body.ts:215</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4015,7 +4046,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">velocity<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L181">objects/Body.ts:181</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L181">objects/Body.ts:181</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4027,10 +4058,10 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="world" class="tsd-anchor"></a>
 				<h3>world</h3>
-				<div class="tsd-signature tsd-kind-icon">world<span class="tsd-signature-symbol">:</span> <a href="world.html" class="tsd-signature-type" data-tsd-kind="Class">World</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+				<div class="tsd-signature tsd-kind-icon">world<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="world.html" class="tsd-signature-type" data-tsd-kind="Class">World</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L128">objects/Body.ts:128</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L128">objects/Body.ts:128</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4045,7 +4076,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">AWAKE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">0</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L87">objects/Body.ts:87</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L87">objects/Body.ts:87</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4060,7 +4091,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">DYNAMIC<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L72">objects/Body.ts:72</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L72">objects/Body.ts:72</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4075,7 +4106,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">KINEMATIC<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">4</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L82">objects/Body.ts:82</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L82">objects/Body.ts:82</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4090,7 +4121,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">SLEEPING<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L95">objects/Body.ts:95</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L95">objects/Body.ts:95</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4105,7 +4136,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">SLEEPY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L91">objects/Body.ts:91</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L91">objects/Body.ts:91</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4120,7 +4151,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">STATIC<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> = ...</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L77">objects/Body.ts:77</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L77">objects/Body.ts:77</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -4143,7 +4174,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#addeventlistener">addEventListener</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/EventTarget.ts#L11">utils/EventTarget.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/utils/EventTarget.ts#L11">utils/EventTarget.ts:11</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4175,7 +4206,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L650">objects/Body.ts:650</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L650">objects/Body.ts:650</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4210,7 +4241,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L786">objects/Body.ts:786</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L786">objects/Body.ts:786</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4248,7 +4279,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L851">objects/Body.ts:851</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L851">objects/Body.ts:851</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4287,7 +4318,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L812">objects/Body.ts:812</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L812">objects/Body.ts:812</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4321,7 +4352,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L891">objects/Body.ts:891</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L891">objects/Body.ts:891</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4355,7 +4386,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L831">objects/Body.ts:831</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L831">objects/Body.ts:831</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4387,7 +4418,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#dispatchevent">dispatchEvent</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/EventTarget.ts#L73">utils/EventTarget.ts:73</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/utils/EventTarget.ts#L73">utils/EventTarget.ts:73</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4416,7 +4447,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L939">objects/Body.ts:939</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L939">objects/Body.ts:939</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4449,7 +4480,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#hasanyeventlistener">hasAnyEventListener</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/EventTarget.ts#L42">utils/EventTarget.ts:42</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/utils/EventTarget.ts#L42">utils/EventTarget.ts:42</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4478,7 +4509,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#haseventlistener">hasEventListener</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/EventTarget.ts#L28">utils/EventTarget.ts:28</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/utils/EventTarget.ts#L28">utils/EventTarget.ts:28</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4509,7 +4540,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L953">objects/Body.ts:953</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L953">objects/Body.ts:953</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4552,7 +4583,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L615">objects/Body.ts:615</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L615">objects/Body.ts:615</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4583,7 +4614,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L632">objects/Body.ts:632</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L632">objects/Body.ts:632</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4615,7 +4646,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#removeeventlistener">removeEventListener</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/utils/EventTarget.ts#L54">utils/EventTarget.ts:54</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/utils/EventTarget.ts#L54">utils/EventTarget.ts:54</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4647,7 +4678,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L678">objects/Body.ts:678</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L678">objects/Body.ts:678</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4676,7 +4707,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L568">objects/Body.ts:568</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L568">objects/Body.ts:568</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4698,7 +4729,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L579">objects/Body.ts:579</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L579">objects/Body.ts:579</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4729,7 +4760,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L724">objects/Body.ts:724</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L724">objects/Body.ts:724</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4751,7 +4782,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L702">objects/Body.ts:702</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L702">objects/Body.ts:702</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4773,7 +4804,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L761">objects/Body.ts:761</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L761">objects/Body.ts:761</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4801,7 +4832,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L909">objects/Body.ts:909</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L909">objects/Body.ts:909</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4823,7 +4854,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L600">objects/Body.ts:600</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L600">objects/Body.ts:600</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4845,7 +4876,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L624">objects/Body.ts:624</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L624">objects/Body.ts:624</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4876,7 +4907,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L641">objects/Body.ts:641</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L641">objects/Body.ts:641</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4907,7 +4938,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/7616d03e/src/objects/Body.ts#L556">objects/Body.ts:556</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/fbf5f5ae/src/objects/Body.ts#L556">objects/Body.ts:556</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -5049,7 +5080,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"initSearch\": () => /* binding */ initSearch\n/* harmony export */ });\n/* harmony import */ var _utils_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/debounce */ \"./default/assets/js/src/typedoc/utils/debounce.ts\");\n/* harmony import */ var lunr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lunr */ \"../node_modules/lunr/lunr.js\");\n/* harmony import */ var lunr__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lunr__WEBPACK_IMPORTED_MODULE_1__);\n\n\nfunction initSearch() {\n    var searchEl = document.getElementById(\"tsd-search\");\n    if (!searchEl)\n        return;\n    var searchScript = document.getElementById(\"search-script\");\n    if (searchScript) {\n        searchScript.addEventListener(\"error\", function () {\n            searchEl.classList.remove(\"loading\");\n            searchEl.classList.add(\"failure\");\n        });\n        searchScript.addEventListener(\"load\", function () {\n            searchEl.classList.remove(\"loading\");\n            searchEl.classList.add(\"ready\");\n        });\n    }\n    searchEl.classList.add(\"loading\");\n    var field = document.querySelector(\"#tsd-search-field\");\n    var results = document.querySelector(\".results\");\n    if (!field || !results) {\n        throw new Error(\"The input field or the result list wrapper was not found\");\n    }\n    field.addEventListener(\"focus\", function () { return searchEl.classList.add(\"has-focus\"); });\n    field.addEventListener(\"blur\", function () {\n        // Delay a bit so that mouse clicks don't get swallowed\n        setTimeout(function () { return searchEl.classList.remove(\"has-focus\"); }, 100);\n    });\n    var state = {\n        base: searchEl.dataset.base + \"/\",\n    };\n    bindEvents(searchEl, results, field, state);\n}\nfunction bindEvents(searchEl, results, field, state) {\n    field.addEventListener(\"input\", (0,_utils_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(function () {\n        updateResults(searchEl, results, field, state);\n    }, 200));\n    var preventPress = false;\n    field.addEventListener(\"keydown\", function (e) {\n        preventPress = true;\n        if (e.key == \"Enter\") {\n            gotoCurrentResult(results, field);\n        }\n        else if (e.key == \"Escape\") {\n            field.blur();\n        }\n        else if (e.key == \"ArrowUp\") {\n            setCurrentResult(results, -1);\n        }\n        else if (e.key === \"ArrowDown\") {\n            setCurrentResult(results, 1);\n        }\n        else {\n            preventPress = false;\n        }\n    });\n    field.addEventListener(\"keypress\", function (e) {\n        if (preventPress)\n            e.preventDefault();\n    });\n    /**\n     * Start searching by pressing slash.\n     */\n    document.body.addEventListener(\"keydown\", function (e) {\n        if (e.altKey || e.ctrlKey || e.metaKey)\n            return;\n        if (!field.matches(\":focus\") && e.key === \"/\") {\n            field.focus();\n            e.preventDefault();\n        }\n    });\n}\nfunction checkIndex(state, searchEl) {\n    if (state.index)\n        return;\n    if (window.searchData) {\n        searchEl.classList.remove(\"loading\");\n        searchEl.classList.add(\"ready\");\n        state.data = window.searchData;\n        state.index = lunr__WEBPACK_IMPORTED_MODULE_1__.Index.load(window.searchData.index);\n    }\n}\nfunction updateResults(searchEl, results, query, state) {\n    checkIndex(state, searchEl);\n    // Don't clear results if loading state is not ready,\n    // because loading or error message can be removed.\n    if (!state.index || !state.data)\n        return;\n    results.textContent = \"\";\n    var searchText = query.value.trim();\n    // Perform a wildcard search\n    var res = state.index.search(\"*\" + searchText + \"*\");\n    for (var i = 0, c = Math.min(10, res.length); i < c; i++) {\n        var row = state.data.rows[Number(res[i].ref)];\n        // Bold the matched part of the query in the search results\n        var name_1 = boldMatches(row.name, searchText);\n        if (row.parent) {\n            name_1 = \"<span class=\\\"parent\\\">\" + boldMatches(row.parent, searchText) + \".</span>\" + name_1;\n        }\n        var item = document.createElement(\"li\");\n        item.classList.value = row.classes;\n        var anchor = document.createElement(\"a\");\n        anchor.href = state.base + row.url;\n        anchor.classList.add(\"tsd-kind-icon\");\n        anchor.innerHTML = name_1;\n        item.append(anchor);\n        results.appendChild(item);\n    }\n}\n/**\n * Move the highlight within the result set.\n */\nfunction setCurrentResult(results, dir) {\n    var current = results.querySelector(\".current\");\n    if (!current) {\n        current = results.querySelector(dir == 1 ? \"li:first-child\" : \"li:last-child\");\n        if (current) {\n            current.classList.add(\"current\");\n        }\n    }\n    else {\n        var rel = dir == 1\n            ? current.nextElementSibling\n            : current.previousElementSibling;\n        if (rel) {\n            current.classList.remove(\"current\");\n            rel.classList.add(\"current\");\n        }\n    }\n}\n/**\n * Navigate to the highlighted result.\n */\nfunction gotoCurrentResult(results, field) {\n    var current = results.querySelector(\".current\");\n    if (!current) {\n        current = results.querySelector(\"li:first-child\");\n    }\n    if (current) {\n        var link = current.querySelector(\"a\");\n        if (link) {\n            window.location.href = link.href;\n        }\n        field.blur();\n    }\n}\nfunction boldMatches(text, search) {\n    if (search === \"\") {\n        return text;\n    }\n    var lowerText = text.toLocaleLowerCase();\n    var lowerSearch = search.toLocaleLowerCase();\n    var parts = [];\n    var lastIndex = 0;\n    var index = lowerText.indexOf(lowerSearch);\n    while (index != -1) {\n        parts.push(escapeHtml(text.substring(lastIndex, index)), \"<b>\" + escapeHtml(text.substring(index, index + lowerSearch.length)) + \"</b>\");\n        lastIndex = index + lowerSearch.length;\n        index = lowerText.indexOf(lowerSearch, lastIndex);\n    }\n    parts.push(escapeHtml(text.substring(lastIndex)));\n    return parts.join(\"\");\n}\nvar SPECIAL_HTML = {\n    \"&\": \"&amp;\",\n    \"<\": \"&lt;\",\n    \">\": \"&gt;\",\n    \"'\": \"&#039;\",\n    '\"': \"&quot;\",\n};\nfunction escapeHtml(text) {\n    return text.replace(/[&<>\"'\"]/g, function (match) { return SPECIAL_HTML[match]; });\n}\n\n\n//# sourceURL=webpack:///./default/assets/js/src/typedoc/components/Search.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"initSearch\": () => /* binding */ initSearch\n/* harmony export */ });\n/* harmony import */ var _utils_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/debounce */ \"./default/assets/js/src/typedoc/utils/debounce.ts\");\n/* harmony import */ var lunr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lunr */ \"../node_modules/lunr/lunr.js\");\n/* harmony import */ var lunr__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lunr__WEBPACK_IMPORTED_MODULE_1__);\n\n\nfunction initSearch() {\n    var searchEl = document.getElementById(\"tsd-search\");\n    if (!searchEl)\n        return;\n    var searchScript = document.getElementById(\"search-script\");\n    searchEl.classList.add(\"loading\");\n    if (searchScript) {\n        searchScript.addEventListener(\"error\", function () {\n            searchEl.classList.remove(\"loading\");\n            searchEl.classList.add(\"failure\");\n        });\n        searchScript.addEventListener(\"load\", function () {\n            searchEl.classList.remove(\"loading\");\n            searchEl.classList.add(\"ready\");\n        });\n        if (window.searchData) {\n            searchEl.classList.remove(\"loading\");\n        }\n    }\n    var field = document.querySelector(\"#tsd-search-field\");\n    var results = document.querySelector(\".results\");\n    if (!field || !results) {\n        throw new Error(\"The input field or the result list wrapper was not found\");\n    }\n    var resultClicked = false;\n    results.addEventListener(\"mousedown\", function () { return (resultClicked = true); });\n    results.addEventListener(\"mouseup\", function () {\n        resultClicked = false;\n        searchEl.classList.remove(\"has-focus\");\n    });\n    field.addEventListener(\"focus\", function () { return searchEl.classList.add(\"has-focus\"); });\n    field.addEventListener(\"blur\", function () {\n        if (!resultClicked) {\n            resultClicked = false;\n            searchEl.classList.remove(\"has-focus\");\n        }\n    });\n    var state = {\n        base: searchEl.dataset.base + \"/\",\n    };\n    bindEvents(searchEl, results, field, state);\n}\nfunction bindEvents(searchEl, results, field, state) {\n    field.addEventListener(\"input\", (0,_utils_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(function () {\n        updateResults(searchEl, results, field, state);\n    }, 200));\n    var preventPress = false;\n    field.addEventListener(\"keydown\", function (e) {\n        preventPress = true;\n        if (e.key == \"Enter\") {\n            gotoCurrentResult(results, field);\n        }\n        else if (e.key == \"Escape\") {\n            field.blur();\n        }\n        else if (e.key == \"ArrowUp\") {\n            setCurrentResult(results, -1);\n        }\n        else if (e.key === \"ArrowDown\") {\n            setCurrentResult(results, 1);\n        }\n        else {\n            preventPress = false;\n        }\n    });\n    field.addEventListener(\"keypress\", function (e) {\n        if (preventPress)\n            e.preventDefault();\n    });\n    /**\n     * Start searching by pressing slash.\n     */\n    document.body.addEventListener(\"keydown\", function (e) {\n        if (e.altKey || e.ctrlKey || e.metaKey)\n            return;\n        if (!field.matches(\":focus\") && e.key === \"/\") {\n            field.focus();\n            e.preventDefault();\n        }\n    });\n}\nfunction checkIndex(state, searchEl) {\n    if (state.index)\n        return;\n    if (window.searchData) {\n        searchEl.classList.remove(\"loading\");\n        searchEl.classList.add(\"ready\");\n        state.data = window.searchData;\n        state.index = lunr__WEBPACK_IMPORTED_MODULE_1__.Index.load(window.searchData.index);\n    }\n}\nfunction updateResults(searchEl, results, query, state) {\n    checkIndex(state, searchEl);\n    // Don't clear results if loading state is not ready,\n    // because loading or error message can be removed.\n    if (!state.index || !state.data)\n        return;\n    results.textContent = \"\";\n    var searchText = query.value.trim();\n    // Perform a wildcard search\n    var res = state.index.search(\"*\" + searchText + \"*\");\n    for (var i = 0, c = Math.min(10, res.length); i < c; i++) {\n        var row = state.data.rows[Number(res[i].ref)];\n        // Bold the matched part of the query in the search results\n        var name_1 = boldMatches(row.name, searchText);\n        if (row.parent) {\n            name_1 = \"<span class=\\\"parent\\\">\" + boldMatches(row.parent, searchText) + \".</span>\" + name_1;\n        }\n        var item = document.createElement(\"li\");\n        item.classList.value = row.classes;\n        var anchor = document.createElement(\"a\");\n        anchor.href = state.base + row.url;\n        anchor.classList.add(\"tsd-kind-icon\");\n        anchor.innerHTML = name_1;\n        item.append(anchor);\n        results.appendChild(item);\n    }\n}\n/**\n * Move the highlight within the result set.\n */\nfunction setCurrentResult(results, dir) {\n    var current = results.querySelector(\".current\");\n    if (!current) {\n        current = results.querySelector(dir == 1 ? \"li:first-child\" : \"li:last-child\");\n        if (current) {\n            current.classList.add(\"current\");\n        }\n    }\n    else {\n        var rel = dir == 1\n            ? current.nextElementSibling\n            : current.previousElementSibling;\n        if (rel) {\n            current.classList.remove(\"current\");\n            rel.classList.add(\"current\");\n        }\n    }\n}\n/**\n * Navigate to the highlighted result.\n */\nfunction gotoCurrentResult(results, field) {\n    var current = results.querySelector(\".current\");\n    if (!current) {\n        current = results.querySelector(\"li:first-child\");\n    }\n    if (current) {\n        var link = current.querySelector(\"a\");\n        if (link) {\n            window.location.href = link.href;\n        }\n        field.blur();\n    }\n}\nfunction boldMatches(text, search) {\n    if (search === \"\") {\n        return text;\n    }\n    var lowerText = text.toLocaleLowerCase();\n    var lowerSearch = search.toLocaleLowerCase();\n    var parts = [];\n    var lastIndex = 0;\n    var index = lowerText.indexOf(lowerSearch);\n    while (index != -1) {\n        parts.push(escapeHtml(text.substring(lastIndex, index)), \"<b>\" + escapeHtml(text.substring(index, index + lowerSearch.length)) + \"</b>\");\n        lastIndex = index + lowerSearch.length;\n        index = lowerText.indexOf(lowerSearch, lastIndex);\n    }\n    parts.push(escapeHtml(text.substring(lastIndex)));\n    return parts.join(\"\");\n}\nvar SPECIAL_HTML = {\n    \"&\": \"&amp;\",\n    \"<\": \"&lt;\",\n    \">\": \"&gt;\",\n    \"'\": \"&#039;\",\n    '\"': \"&quot;\",\n};\nfunction escapeHtml(text) {\n    return text.replace(/[&<>\"'\"]/g, function (match) { return SPECIAL_HTML[match]; });\n}\n\n\n//# sourceURL=webpack:///./default/assets/js/src/typedoc/components/Search.ts?");
 
 /***/ }),
 
