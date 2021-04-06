@@ -36,7 +36,7 @@ function animate() {
 animate()
 ```
 
-Rigid Bodies are the entities which will be simulated in the world, they can be simple shapes such as [Sphere](), [Box](), [Plane](), [Cylinder](), or more complex shapes such as [ConvexPolyhedron](), [Particle](), [Heightfield](), [Trimesh]().
+Rigid Bodies are the entities which will be simulated in the world, they can be simple shapes such as [Sphere](classes/sphere), [Box](classes/box), [Plane](classes/plane), [Cylinder](classes/cylinder), or more complex shapes such as [ConvexPolyhedron](classes/convexpolyhedron), [Particle](classes/particle), [Heightfield](classes/heightfield), [Trimesh](classes/trimesh).
 
 Let's create a basic sphere body.
 
@@ -113,7 +113,7 @@ function animate() {
 animate()
 ```
 
-Note that **cannon doesn't take care of rendering anything to the screen**, it just computes the math of the simulation. To actually show something to the screen you have to use rendering libraries such as [three.js](). Let's see how we can achieve that.
+Note that **cannon doesn't take care of rendering anything to the screen**, it just computes the math of the simulation. To actually show something to the screen you have to use rendering libraries such as [three.js](https://github.com/mrdoob/three.js/). Let's see how we can achieve that.
 
 First of all, you have to create the body's correspondent entity in three.js. For example here is how you create a sphere in three.js.
 
@@ -141,4 +141,4 @@ animate()
 
 You should now see a falling ball on the screen!
 
-That's it for the basic example, to learn more about all the different features, head over to the [examples page]()!
+That's it for the basic example, to learn more about all the different features, head over to the [examples page](https://pmndrs.github.io/cannon-es/)!
