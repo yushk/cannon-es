@@ -28,7 +28,8 @@
        */
 
       // Specify the simulation constants
-      const dt = 1 / 60
+      const timeStep = 1 / 60
+      let lastCallTime
 
       const clothMass = 1 // 1 kg in total
       const clothSize = 1 // 1 meter
@@ -209,9 +210,21 @@
       function animate() {
         requestAnimationFrame(animate)
         controls.update()
-        world.step(dt)
+        updatePhysics()
         render()
         stats.update()
+      }
+
+      // Step the physics world
+      function updatePhysics() {
+        const time = performance.now() / 1000
+        if (!lastCallTime) {
+          world.step(timeStep)
+        } else {
+          const dt = time - lastCallTime
+          world.step(timeStep, dt)
+        }
+        lastCallTime = time
       }
 
       function render() {

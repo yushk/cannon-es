@@ -19,7 +19,7 @@
       import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js'
       import { geometryToShape } from './js/three-conversion-utils.js'
 
-      const dt = 1 / 60
+      const timeStep = 1 / 60
 
       // The bodies passed down from three.js
       const bodies = []
@@ -71,12 +71,12 @@
         }
 
         // Start the loop
-        setInterval(update, dt * 1000)
+        setInterval(update, timeStep * 1000)
       })
 
       function update() {
         // Step the world
-        world.step(dt)
+        world.step(timeStep)
 
         // Copy the cannon.js data into the buffers
         for (let i = 0; i < bodies.length; i++) {

@@ -33,6 +33,7 @@
       let world
       let body
       const timeStep = 1 / 60
+      let lastCallTime
 
       initThree()
       initCannon()
@@ -85,17 +86,25 @@
       function animate() {
         requestAnimationFrame(animate)
 
-        updatePhysics()
-        render()
-      }
-
-      function updatePhysics() {
         // Step the physics world
-        world.step(timeStep)
+        updatePhysics()
 
         // Copy coordinates from cannon.js to three.js
         mesh.position.copy(body.position)
         mesh.quaternion.copy(body.quaternion)
+
+        render()
+      }
+
+      function updatePhysics() {
+        const time = performance.now() / 1000
+        if (!lastCallTime) {
+          world.step(timeStep)
+        } else {
+          const dt = time - lastCallTime
+          world.step(timeStep, dt)
+        }
+        lastCallTime = time
       }
 
       function render() {
