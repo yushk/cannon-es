@@ -47,10 +47,10 @@
       }
 
       self.addEventListener('message', (event) => {
-        const { positions, quaternions, dt } = event.data
+        const { positions, quaternions, timeStep } = event.data
 
         // Step the world
-        world.step(dt)
+        world.step(timeStep)
 
         // Copy the cannon.js data into the buffers
         for (let i = 0; i < bodies.length; i++) {
@@ -84,7 +84,7 @@
       import { OrbitControls } from 'https://unpkg.com/three@0.122.0/examples/jsm/controls/OrbitControls.js'
 
       // Parameters
-      const dt = 1 / 60
+      const timeStep = 1 / 60
       const N = 40 // number of objects
 
       // Data arrays. Contains all our kinematic data we need for rendering.
@@ -118,7 +118,7 @@
         sendTime = performance.now()
         worker.postMessage(
           {
-            dt,
+            timeStep,
             positions,
             quaternions,
           },
@@ -145,9 +145,9 @@
           )
         }
 
-        // Delay the next step by the amount of dt remaining,
+        // Delay the next step by the amount of timeStep remaining,
         // otherwise run it immediatly
-        const delay = dt * 1000 - (performance.now() - sendTime)
+        const delay = timeStep * 1000 - (performance.now() - sendTime)
         setTimeout(requestDataFromWorker, Math.max(delay, 0))
       })
 

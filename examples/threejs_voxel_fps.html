@@ -62,8 +62,8 @@
       // cannon.js variables
       let world
       let controls
-      const dt = 1 / 60
-      let lastTime = performance.now()
+      const timeStep = 1 / 60
+      let lastCallTime = performance.now() / 1000
       let sphereShape
       let sphereBody
       let physicsMaterial
@@ -299,11 +299,12 @@
       function animate() {
         requestAnimationFrame(animate)
 
-        const deltaTime = performance.now() - lastTime
-        lastTime = performance.now()
+        const time = performance.now() / 1000
+        const dt = time - lastCallTime
+        lastCallTime = time
 
         if (controls.enabled) {
-          world.step(dt)
+          world.step(timeStep, dt)
 
           // Update ball positions
           for (let i = 0; i < balls.length; i++) {
@@ -318,7 +319,7 @@
           }
         }
 
-        controls.update(deltaTime)
+        controls.update(dt)
         renderer.render(scene, camera)
         stats.update()
       }

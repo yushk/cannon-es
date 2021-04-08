@@ -86,12 +86,17 @@
       function animate() {
         requestAnimationFrame(animate)
 
+        // Step the physics world
         updatePhysics()
+
+        // Copy coordinates from cannon.js to three.js
+        mesh.position.copy(body.position)
+        mesh.quaternion.copy(body.quaternion)
+
         render()
       }
 
       function updatePhysics() {
-        // Step the physics world
         const time = performance.now() / 1000
         if (!lastCallTime) {
           world.step(timeStep)
@@ -100,10 +105,6 @@
           world.step(timeStep, dt)
         }
         lastCallTime = time
-
-        // Copy coordinates from cannon.js to three.js
-        mesh.position.copy(body.position)
-        mesh.quaternion.copy(body.quaternion)
       }
 
       function render() {
