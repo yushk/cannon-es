@@ -21,6 +21,7 @@
   "types": "./dist/cannon-es.d.ts",
   "sideEffects": false,
   "scripts": {
+    "start": "npx serve",
     "prebuild": "rimraf dist",
     "build": "npm run typegen && rollup -c",
     "prepublishOnly": "npm run build && npm run test",
