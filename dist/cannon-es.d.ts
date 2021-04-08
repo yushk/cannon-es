@@ -1,7 +1,6 @@
 declare module "utils/EventTarget" {
     export class EventTarget {
         private _listeners;
-        constructor();
         addEventListener(type: string, listener: Function): EventTarget;
         hasEventListener(type: string, listener: Function): boolean;
         hasAnyEventListener(type: string): boolean;
@@ -106,14 +105,14 @@ declare module "math/Vec3" {
 declare module "math/Transform" {
     import { Vec3 } from "math/Vec3";
     import { Quaternion } from "math/Quaternion";
-    export type TransformOptions = {
-        position?: Vec3;
-        quaternion?: Quaternion;
-    };
+    export type TransformOptions = ConstructorParameters<typeof Transform>[0];
     export class Transform {
         position: Vec3;
         quaternion: Quaternion;
-        constructor(options?: TransformOptions);
+        constructor(options?: {
+            position?: Vec3;
+            quaternion?: Quaternion;
+        });
         pointToLocal(worldPoint: Vec3, result?: Vec3): Vec3;
         pointToWorld(localPoint: Vec3, result?: Vec3): Vec3;
         vectorToWorldFrame(localVector: Vec3, result?: Vec3): Vec3;
@@ -124,17 +123,17 @@ declare module "math/Transform" {
     }
 }
 declare module "material/Material" {
-    export type MaterialOptions = {
-        friction?: number;
-        restitution?: number;
-    };
+    export type MaterialOptions = ConstructorParameters<typeof Material>[0];
     export class Material {
         name: string;
         id: number;
         friction: number;
         restitution: number;
         static idCounter: number;
-        constructor(options?: MaterialOptions | string);
+        constructor(options?: {
+            friction?: number;
+            restitution?: number;
+        } | string);
     }
 }
 declare module "shapes/Shape" {
@@ -154,13 +153,7 @@ declare module "shapes/Shape" {
         readonly TRIMESH: 256;
     };
     export type ShapeType = typeof SHAPE_TYPES[keyof typeof SHAPE_TYPES];
-    export type ShapeOptions = {
-        type?: ShapeType;
-        collisionResponse?: boolean;
-        collisionFilterGroup?: number;
-        collisionFilterMask?: number;
-        material?: Material;
-    };
+    export type ShapeOptions = ConstructorParameters<typeof Shape>[0];
     export class Shape {
         id: number;
         type: ShapeType | 0;
@@ -171,8 +164,24 @@ declare module "shapes/Shape" {
         material: Material | null;
         body: Body | null;
         static idCounter: number;
-        static types: typeof SHAPE_TYPES;
-        constructor(options?: ShapeOptions);
+        static types: {
+            readonly SPHERE: 1;
+            readonly PLANE: 2;
+            readonly BOX: 4;
+            readonly COMPOUND: 8;
+            readonly CONVEXPOLYHEDRON: 16;
+            readonly HEIGHTFIELD: 32;
+            readonly PARTICLE: 64;
+            readonly CYLINDER: 128;
+            readonly TRIMESH: 256;
+        };
+        constructor(options?: {
+            type?: ShapeType;
+            collisionResponse?: boolean;
+            collisionFilterGroup?: number;
+            collisionFilterMask?: number;
+            material?: Material;
+        });
         updateBoundingSphereRadius(): void;
         volume(): number;
         calculateLocalInertia(mass: number, target: Vec3): void;
@@ -308,11 +317,7 @@ declare module "shapes/Heightfield" {
     import { Vec3 } from "math/Vec3";
     import type { AABB } from "collision/AABB";
     import type { Quaternion } from "math/Quaternion";
-    export type HeightfieldOptions = {
-        maxValue?: number | null;
-        minValue?: number | null;
-        elementSize?: number;
-    };
+    export type HeightfieldOptions = ConstructorParameters<typeof Heightfield>[1];
     type HeightfieldPillar = {
         convex: any;
         offset: any;
@@ -326,7 +331,11 @@ declare module "shapes/Heightfield" {
         pillarConvex: ConvexPolyhedron;
         pillarOffset: Vec3;
         private _cachedPillars;
-        constructor(data: number[][], options?: HeightfieldOptions);
+        constructor(data: number[][], options?: {
+            maxValue?: number | null;
+            minValue?: number | null;
+            elementSize?: number;
+        });
         update(): void;
         updateMinValue(): void;
         updateMaxValue(): void;
@@ -443,7 +452,7 @@ declare module "equations/Equation" {
         jacobianElementB: JacobianElement;
         enabled: boolean;
         multiplier: number;
-        static id: number;
+        static idCounter: number;
         constructor(bi: Body, bj: Body, minForce?: number, maxForce?: number);
         setSpookParams(stiffness: number, relaxation: number, timeStep: number): void;
         computeB(a: number, b: number, h: number): number;
@@ -513,7 +522,6 @@ declare module "utils/Pool" {
     export class Pool {
         objects: any[];
         type: any;
-        constructor();
         release(...args: any[]): Pool;
         get(): any;
         constructObject(): void;
@@ -525,7 +533,6 @@ declare module "utils/Vec3Pool" {
     import { Vec3 } from "math/Vec3";
     export class Vec3Pool extends Pool {
         type: typeof Vec3;
-        constructor();
         constructObject(): Vec3;
     }
 }
@@ -579,14 +586,7 @@ declare module "shapes/Cylinder" {
 }
 declare module "material/ContactMaterial" {
     import type { Material } from "material/Material";
-    export type ContactMaterialOptions = {
-        friction?: number;
-        restitution?: number;
-        contactEquationStiffness?: number;
-        contactEquationRelaxation?: number;
-        frictionEquationStiffness?: number;
-        frictionEquationRelaxation?: number;
-    };
+    export type ContactMaterialOptions = ConstructorParameters<typeof ContactMaterial>[2];
     export class ContactMaterial {
         id: number;
         materials: [Material, Material];
@@ -597,7 +597,14 @@ declare module "material/ContactMaterial" {
         frictionEquationStiffness: number;
         frictionEquationRelaxation: number;
         static idCounter: number;
-        constructor(m1: Material, m2: Material, options: ContactMaterialOptions);
+        constructor(m1: Material, m2: Material, options: {
+            friction?: number;
+            restitution?: number;
+            contactEquationStiffness?: number;
+            contactEquationRelaxation?: number;
+            frictionEquationStiffness?: number;
+            frictionEquationRelaxation?: number;
+        });
     }
 }
 declare module "world/Narrowphase" {
@@ -655,31 +662,31 @@ declare module "world/Narrowphase" {
         world: World;
         currentContactMaterial: ContactMaterial;
         enableFrictionReduction: boolean;
-        [COLLISION_TYPES.sphereSphere]: typeof Narrowphase.prototype.sphereSphere;
-        [COLLISION_TYPES.spherePlane]: typeof Narrowphase.prototype.spherePlane;
-        [COLLISION_TYPES.boxBox]: typeof Narrowphase.prototype.boxBox;
-        [COLLISION_TYPES.sphereBox]: typeof Narrowphase.prototype.sphereBox;
-        [COLLISION_TYPES.planeBox]: typeof Narrowphase.prototype.planeBox;
-        [COLLISION_TYPES.convexConvex]: typeof Narrowphase.prototype.convexConvex;
-        [COLLISION_TYPES.sphereConvex]: typeof Narrowphase.prototype.sphereConvex;
-        [COLLISION_TYPES.planeConvex]: typeof Narrowphase.prototype.planeConvex;
-        [COLLISION_TYPES.boxConvex]: typeof Narrowphase.prototype.boxConvex;
-        [COLLISION_TYPES.sphereHeightfield]: typeof Narrowphase.prototype.sphereHeightfield;
-        [COLLISION_TYPES.boxHeightfield]: typeof Narrowphase.prototype.boxHeightfield;
-        [COLLISION_TYPES.convexHeightfield]: typeof Narrowphase.prototype.convexHeightfield;
-        [COLLISION_TYPES.sphereParticle]: typeof Narrowphase.prototype.sphereParticle;
-        [COLLISION_TYPES.planeParticle]: typeof Narrowphase.prototype.planeParticle;
-        [COLLISION_TYPES.boxParticle]: typeof Narrowphase.prototype.boxParticle;
-        [COLLISION_TYPES.convexParticle]: typeof Narrowphase.prototype.convexParticle;
-        [COLLISION_TYPES.cylinderCylinder]: typeof Narrowphase.prototype.convexConvex;
-        [COLLISION_TYPES.sphereCylinder]: typeof Narrowphase.prototype.sphereConvex;
-        [COLLISION_TYPES.planeCylinder]: typeof Narrowphase.prototype.planeConvex;
-        [COLLISION_TYPES.boxCylinder]: typeof Narrowphase.prototype.boxConvex;
-        [COLLISION_TYPES.convexCylinder]: typeof Narrowphase.prototype.convexConvex;
-        [COLLISION_TYPES.heightfieldCylinder]: typeof Narrowphase.prototype.heightfieldCylinder;
-        [COLLISION_TYPES.particleCylinder]: typeof Narrowphase.prototype.particleCylinder;
-        [COLLISION_TYPES.sphereTrimesh]: typeof Narrowphase.prototype.sphereTrimesh;
-        [COLLISION_TYPES.planeTrimesh]: typeof Narrowphase.prototype.planeTrimesh;
+        get [COLLISION_TYPES.sphereSphere](): (si: Sphere, sj: Sphere, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => boolean | void;
+        get [COLLISION_TYPES.spherePlane](): (si: Sphere, sj: Plane, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.boxBox](): (si: Box, sj: Box, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.sphereBox](): (si: Sphere, sj: Box, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.planeBox](): (si: Plane, sj: Box, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.convexConvex](): (si: ConvexPolyhedron, sj: ConvexPolyhedron, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined, faceListA?: number[] | null | undefined, faceListB?: number[] | null | undefined) => true | void;
+        get [COLLISION_TYPES.sphereConvex](): (si: Sphere, sj: ConvexPolyhedron, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.planeConvex](): (planeShape: Plane, convexShape: ConvexPolyhedron, planePosition: Vec3, convexPosition: Vec3, planeQuat: Quaternion, convexQuat: Quaternion, planeBody: Body, convexBody: Body, si?: Shape | undefined, sj?: Shape | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.boxConvex](): (si: Box, sj: ConvexPolyhedron, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.sphereHeightfield](): (sphereShape: Sphere, hfShape: Heightfield, spherePos: Vec3, hfPos: Vec3, sphereQuat: Quaternion, hfQuat: Quaternion, sphereBody: Body, hfBody: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.boxHeightfield](): (si: Box, sj: Heightfield, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.convexHeightfield](): (convexShape: ConvexPolyhedron, hfShape: Heightfield, convexPos: Vec3, hfPos: Vec3, convexQuat: Quaternion, hfQuat: Quaternion, convexBody: Body, hfBody: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.sphereParticle](): (sj: Sphere, si: Particle, xj: Vec3, xi: Vec3, qj: Quaternion, qi: Quaternion, bj: Body, bi: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.planeParticle](): (sj: Plane, si: Particle, xj: Vec3, xi: Vec3, qj: Quaternion, qi: Quaternion, bj: Body, bi: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.boxParticle](): (si: Box, sj: Particle, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.convexParticle](): (sj: ConvexPolyhedron, si: Particle, xj: Vec3, xi: Vec3, qj: Quaternion, qi: Quaternion, bj: Body, bi: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.cylinderCylinder](): (si: ConvexPolyhedron, sj: ConvexPolyhedron, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined, faceListA?: number[] | null | undefined, faceListB?: number[] | null | undefined) => true | void;
+        get [COLLISION_TYPES.sphereCylinder](): (si: Sphere, sj: ConvexPolyhedron, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.planeCylinder](): (planeShape: Plane, convexShape: ConvexPolyhedron, planePosition: Vec3, convexPosition: Vec3, planeQuat: Quaternion, convexQuat: Quaternion, planeBody: Body, convexBody: Body, si?: Shape | undefined, sj?: Shape | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.boxCylinder](): (si: Box, sj: ConvexPolyhedron, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.convexCylinder](): (si: ConvexPolyhedron, sj: ConvexPolyhedron, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined, faceListA?: number[] | null | undefined, faceListB?: number[] | null | undefined) => true | void;
+        get [COLLISION_TYPES.heightfieldCylinder](): (hfShape: Heightfield, convexShape: Cylinder, hfPos: Vec3, convexPos: Vec3, hfQuat: Quaternion, convexQuat: Quaternion, hfBody: Body, convexBody: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.particleCylinder](): (si: Particle, sj: Cylinder, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion, bi: Body, bj: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.sphereTrimesh](): (sphereShape: Sphere, trimeshShape: Trimesh, spherePos: Vec3, trimeshPos: Vec3, sphereQuat: Quaternion, trimeshQuat: Quaternion, sphereBody: Body, trimeshBody: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
+        get [COLLISION_TYPES.planeTrimesh](): (planeShape: Plane, trimeshShape: Trimesh, planePos: Vec3, trimeshPos: Vec3, planeQuat: Quaternion, trimeshQuat: Quaternion, planeBody: Body, trimeshBody: Body, rsi?: Shape | null | undefined, rsj?: Shape | null | undefined, justTest?: boolean | undefined) => true | void;
         constructor(world: World);
         createContactEquation(bi: Body, bj: Body, si: Shape, sj: Shape, overrideShapeA?: Shape | null, overrideShapeB?: Shape | null): ContactEquation;
         createFrictionEquationsFromContact(contactEquation: ContactEquation, outArray: FrictionEquation[]): boolean;
@@ -735,7 +742,6 @@ declare module "utils/TupleDictionary" {
             [id: string]: any;
             keys: string[];
         };
-        constructor();
         get(i: number, j: number): any;
         set(i: number, j: number, value: any): void;
         reset(): void;
@@ -744,10 +750,7 @@ declare module "utils/TupleDictionary" {
 declare module "constraints/Constraint" {
     import type { Body } from "objects/Body";
     import type { Equation } from "equations/Equation";
-    export type ConstraintOptions = {
-        collideConnected?: boolean;
-        wakeUpBodies?: boolean;
-    };
+    export type ConstraintOptions = ConstructorParameters<typeof Constraint>[2];
     export class Constraint {
         equations: Equation[];
         bodyA: Body;
@@ -755,7 +758,10 @@ declare module "constraints/Constraint" {
         id: number;
         collideConnected: boolean;
         static idCounter: number;
-        constructor(bodyA: Body, bodyB: Body, options?: ConstraintOptions);
+        constructor(bodyA: Body, bodyB: Body, options?: {
+            collideConnected?: boolean;
+            wakeUpBodies?: boolean;
+        });
         update(): void;
         enable(): void;
         disable(): void;
@@ -779,14 +785,7 @@ declare module "world/World" {
     import type { RayOptions, RaycastCallback } from "collision/Ray";
     import type { Constraint } from "constraints/Constraint";
     import type { Shape } from "shapes/Shape";
-    export type WorldOptions = {
-        gravity?: Vec3;
-        allowSleep?: boolean;
-        broadphase?: Broadphase;
-        solver?: Solver;
-        quatNormalizeFast?: boolean;
-        quatNormalizeSkip?: number;
-    };
+    export type WorldOptions = ConstructorParameters<typeof World>[0];
     export class World extends EventTarget {
         dt: number;
         allowSleep: boolean;
@@ -835,8 +834,14 @@ declare module "world/World" {
         idToBodyMap: {
             [id: number]: Body;
         };
-        emitContactEvents: () => void;
-        constructor(options?: WorldOptions);
+        constructor(options?: {
+            gravity?: Vec3;
+            allowSleep?: boolean;
+            broadphase?: Broadphase;
+            solver?: Solver;
+            quatNormalizeFast?: boolean;
+            quatNormalizeSkip?: number;
+        });
         getContactMaterial(m1: Material, m2: Material): ContactMaterial;
         numObjects(): number;
         collisionMatrixTick(): void;
@@ -849,11 +854,12 @@ declare module "world/World" {
         addBody(body: Body): void;
         removeBody(body: Body): void;
         getBodyById(id: number): Body;
-        getShapeById(id: number): Shape | void;
+        getShapeById(id: number): Shape | null;
         addMaterial(m: Material): void;
         addContactMaterial(cmat: ContactMaterial): void;
         step(dt: number, timeSinceLastCalled?: number, maxSubSteps?: number): void;
         internalStep(dt: number): void;
+        emitContactEvents(): void;
         clearForces(): void;
     }
 }
@@ -872,9 +878,9 @@ declare module "collision/Ray" {
     import type { Trimesh } from "shapes/Trimesh";
     import type { World } from "world/World";
     export const RAY_MODES: {
-        CLOSEST: 1;
-        ANY: 2;
-        ALL: 4;
+        readonly CLOSEST: 1;
+        readonly ANY: 2;
+        readonly ALL: 4;
     };
     export type RayMode = typeof RAY_MODES[keyof typeof RAY_MODES];
     export type RayOptions = {
@@ -902,17 +908,23 @@ declare module "collision/Ray" {
         result: RaycastResult;
         hasHit: boolean;
         callback: RaycastCallback;
-        static CLOSEST: typeof RAY_MODES['CLOSEST'];
-        static ANY: typeof RAY_MODES['ANY'];
-        static ALL: typeof RAY_MODES['ALL'];
+        static CLOSEST: typeof RAY_MODES.CLOSEST;
+        static ANY: typeof RAY_MODES.ANY;
+        static ALL: typeof RAY_MODES.ALL;
         static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
-        [Shape.types.SPHERE]: typeof Ray.prototype._intersectSphere;
-        [Shape.types.PLANE]: typeof Ray.prototype._intersectPlane;
-        [Shape.types.BOX]: typeof Ray.prototype._intersectBox;
-        [Shape.types.CYLINDER]: typeof Ray.prototype._intersectConvex;
-        [Shape.types.CONVEXPOLYHEDRON]: typeof Ray.prototype._intersectConvex;
-        [Shape.types.HEIGHTFIELD]: typeof Ray.prototype._intersectHeightfield;
-        [Shape.types.TRIMESH]: typeof Ray.prototype._intersectTrimesh;
+        get [Shape.types.SPHERE](): (sphere: Sphere, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape) => void;
+        get [Shape.types.PLANE](): (shape: Plane, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape) => void;
+        get [Shape.types.BOX](): (box: Box, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape) => void;
+        get [Shape.types.CYLINDER](): (shape: ConvexPolyhedron, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape, options?: {
+            faceList: number[];
+        } | undefined) => void;
+        get [Shape.types.CONVEXPOLYHEDRON](): (shape: ConvexPolyhedron, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape, options?: {
+            faceList: number[];
+        } | undefined) => void;
+        get [Shape.types.HEIGHTFIELD](): (shape: Heightfield, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape) => void;
+        get [Shape.types.TRIMESH](): (mesh: Trimesh, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape, options?: {
+            faceList?: any[] | undefined;
+        } | undefined) => void;
         constructor(from?: Vec3, to?: Vec3);
         intersectWorld(world: World, options: RayOptions): boolean;
         intersectBody(body: Body, result?: RaycastResult): void;
@@ -968,40 +980,36 @@ declare module "objects/Body" {
     import type { Material } from "material/Material";
     import type { World } from "world/World";
     export const BODY_TYPES: {
-        DYNAMIC: 1;
-        STATIC: 2;
-        KINEMATIC: 4;
+        readonly DYNAMIC: 1;
+        readonly STATIC: 2;
+        readonly KINEMATIC: 4;
     };
     export type BodyType = typeof BODY_TYPES[keyof typeof BODY_TYPES];
     export const BODY_SLEEP_STATES: {
-        AWAKE: 0;
-        SLEEPY: 1;
-        SLEEPING: 2;
+        readonly AWAKE: 0;
+        readonly SLEEPY: 1;
+        readonly SLEEPING: 2;
     };
     export type BodySleepState = typeof BODY_SLEEP_STATES[keyof typeof BODY_SLEEP_STATES];
-    export type BodyOptions = {
-        collisionFilterGroup?: number;
-        collisionFilterMask?: number;
-        collisionResponse?: boolean;
-        position?: Vec3;
-        velocity?: Vec3;
-        mass?: number;
-        material?: Material;
-        linearDamping?: number;
-        type?: BodyType;
-        allowSleep?: boolean;
-        sleepSpeedLimit?: number;
-        sleepTimeLimit?: number;
-        quaternion?: Quaternion;
-        angularVelocity?: Vec3;
-        fixedRotation?: boolean;
-        angularDamping?: number;
-        linearFactor?: Vec3;
-        angularFactor?: Vec3;
-        shape?: Shape;
-        isTrigger?: boolean;
-    };
+    export type BodyOptions = ConstructorParameters<typeof Body>[0];
     export class Body extends EventTarget {
+        static idCounter: number;
+        static COLLIDE_EVENT_NAME: string;
+        static DYNAMIC: 1;
+        static STATIC: 2;
+        static KINEMATIC: 4;
+        static AWAKE: 0;
+        static SLEEPY: 1;
+        static SLEEPING: 2;
+        static wakeupEvent: {
+            type: string;
+        };
+        static sleepyEvent: {
+            type: string;
+        };
+        static sleepEvent: {
+            type: string;
+        };
         id: number;
         index: number;
         world: World | null;
@@ -1054,24 +1062,28 @@ declare module "objects/Body" {
         boundingRadius: number;
         wlambda: Vec3;
         isTrigger: boolean;
-        static idCounter: number;
-        static COLLIDE_EVENT_NAME: 'collide';
-        static DYNAMIC: typeof BODY_TYPES['DYNAMIC'];
-        static STATIC: typeof BODY_TYPES['STATIC'];
-        static KINEMATIC: typeof BODY_TYPES['KINEMATIC'];
-        static AWAKE: typeof BODY_SLEEP_STATES['AWAKE'];
-        static SLEEPY: typeof BODY_SLEEP_STATES['SLEEPY'];
-        static SLEEPING: typeof BODY_SLEEP_STATES['SLEEPING'];
-        static wakeupEvent: {
-            type: 'wakeup';
-        };
-        static sleepyEvent: {
-            type: 'sleepy';
-        };
-        static sleepEvent: {
-            type: 'sleep';
-        };
-        constructor(options?: BodyOptions);
+        constructor(options?: {
+            collisionFilterGroup?: number;
+            collisionFilterMask?: number;
+            collisionResponse?: boolean;
+            position?: Vec3;
+            velocity?: Vec3;
+            mass?: number;
+            material?: Material;
+            linearDamping?: number;
+            type?: BodyType;
+            allowSleep?: boolean;
+            sleepSpeedLimit?: number;
+            sleepTimeLimit?: number;
+            quaternion?: Quaternion;
+            angularVelocity?: Vec3;
+            fixedRotation?: boolean;
+            angularDamping?: number;
+            linearFactor?: Vec3;
+            angularFactor?: Vec3;
+            shape?: Shape;
+            isTrigger?: boolean;
+        });
         wakeUp(): void;
         sleep(): void;
         sleepTick(time: number): void;
@@ -1134,10 +1146,10 @@ declare module "collision/SAPBroadphase" {
         axisIndex: 0 | 1 | 2;
         private _addBodyHandler;
         private _removeBodyHandler;
-        static checkBounds: (bi: Body, bj: Body, axisIndex: 0 | 1 | 2) => boolean;
-        static insertionSortX: (a: Body[]) => Body[];
-        static insertionSortY: (a: Body[]) => Body[];
-        static insertionSortZ: (a: Body[]) => Body[];
+        static checkBounds(bi: Body, bj: Body, axisIndex: 0 | 1 | 2): boolean;
+        static insertionSortX(a: Body[]): Body[];
+        static insertionSortY(a: Body[]): Body[];
+        static insertionSortZ(a: Body[]): Body[];
         constructor(world: World);
         setWorld(world: World): void;
         collisionPairs(world: World, p1: Body[], p2: Body[]): void;
@@ -1165,17 +1177,17 @@ declare module "equations/ConeEquation" {
     import { Vec3 } from "math/Vec3";
     import { Equation } from "equations/Equation";
     import type { Body } from "objects/Body";
-    export type ConeEquationOptions = {
-        maxForce?: number;
-        axisA?: Vec3;
-        axisB?: Vec3;
-        angle?: number;
-    };
+    export type ConeEquationOptions = ConstructorParameters<typeof ConeEquation>[2];
     export class ConeEquation extends Equation {
         axisA: Vec3;
         axisB: Vec3;
         angle: number;
-        constructor(bodyA: Body, bodyB: Body, options?: ConeEquationOptions);
+        constructor(bodyA: Body, bodyB: Body, options?: {
+            maxForce?: number;
+            axisA?: Vec3;
+            axisB?: Vec3;
+            angle?: number;
+        });
         computeB(h: number): number;
     }
 }
@@ -1183,17 +1195,17 @@ declare module "equations/RotationalEquation" {
     import { Equation } from "equations/Equation";
     import { Vec3 } from "math/Vec3";
     import type { Body } from "objects/Body";
-    export type RotationalEquationOptions = {
-        maxForce?: number;
-        axisA?: Vec3;
-        axisB?: Vec3;
-        maxAngle?: number;
-    };
+    export type RotationalEquationOptions = ConstructorParameters<typeof RotationalEquation>[2];
     export class RotationalEquation extends Equation {
         axisA: Vec3;
         axisB: Vec3;
         maxAngle: number;
-        constructor(bodyA: Body, bodyB: Body, options?: RotationalEquationOptions);
+        constructor(bodyA: Body, bodyB: Body, options?: {
+            axisA?: Vec3;
+            axisB?: Vec3;
+            maxAngle?: number;
+            maxForce?: number;
+        });
         computeB(h: number): number;
     }
 }
@@ -1203,24 +1215,24 @@ declare module "constraints/ConeTwistConstraint" {
     import { RotationalEquation } from "equations/RotationalEquation";
     import { Vec3 } from "math/Vec3";
     import type { Body } from "objects/Body";
-    export type ConeTwistConstraintOptions = {
-        maxForce?: number;
-        pivotA?: Vec3;
-        pivotB?: Vec3;
-        axisA?: Vec3;
-        axisB?: Vec3;
-        collideConnected?: boolean;
-        angle?: number;
-        twistAngle?: number;
-    };
+    export type ConeTwistConstraintOptions = ConstructorParameters<typeof ConeTwistConstraint>[2];
     export class ConeTwistConstraint extends PointToPointConstraint {
         axisA: Vec3;
         axisB: Vec3;
         angle: number;
+        twistAngle: number;
         coneEquation: ConeEquation;
         twistEquation: RotationalEquation;
-        twistAngle: number;
-        constructor(bodyA: Body, bodyB: Body, options?: ConeTwistConstraintOptions);
+        constructor(bodyA: Body, bodyB: Body, options?: {
+            pivotA?: Vec3;
+            pivotB?: Vec3;
+            axisA?: Vec3;
+            axisB?: Vec3;
+            angle?: number;
+            twistAngle?: number;
+            maxForce?: number;
+            collideConnected?: boolean;
+        });
         update(): void;
     }
 }
@@ -1253,9 +1265,7 @@ declare module "constraints/LockConstraint" {
     import { Vec3 } from "math/Vec3";
     import type { Body } from "objects/Body";
     import type { RotationalMotorEquation } from "equations/RotationalMotorEquation";
-    export type LockConstraintOptions = {
-        maxForce?: number;
-    };
+    export type LockConstraintOptions = ConstructorParameters<typeof LockConstraint>[2];
     export class LockConstraint extends PointToPointConstraint {
         xA: Vec3;
         xB: Vec3;
@@ -1267,7 +1277,9 @@ declare module "constraints/LockConstraint" {
         rotationalEquation2: RotationalEquation;
         rotationalEquation3: RotationalEquation;
         motorEquation?: RotationalMotorEquation;
-        constructor(bodyA: Body, bodyB: Body, options?: LockConstraintOptions);
+        constructor(bodyA: Body, bodyB: Body, options?: {
+            maxForce?: number;
+        });
         update(): void;
     }
 }
@@ -1277,21 +1289,21 @@ declare module "constraints/HingeConstraint" {
     import { RotationalMotorEquation } from "equations/RotationalMotorEquation";
     import { Vec3 } from "math/Vec3";
     import type { Body } from "objects/Body";
-    export type HingeConstraintOptions = {
-        maxForce?: number;
-        pivotA?: Vec3;
-        pivotB?: Vec3;
-        axisA?: Vec3;
-        axisB?: Vec3;
-        collideConnected?: boolean;
-    };
+    export type HingeConstraintOptions = ConstructorParameters<typeof HingeConstraint>[2];
     export class HingeConstraint extends PointToPointConstraint {
         axisA: Vec3;
         axisB: Vec3;
         rotationalEquation1: RotationalEquation;
         rotationalEquation2: RotationalEquation;
         motorEquation: RotationalMotorEquation;
-        constructor(bodyA: Body, bodyB: Body, options?: HingeConstraintOptions);
+        constructor(bodyA: Body, bodyB: Body, options?: {
+            pivotA?: Vec3;
+            pivotB?: Vec3;
+            axisA?: Vec3;
+            axisB?: Vec3;
+            collideConnected?: boolean;
+            maxForce?: number;
+        });
         enableMotor(): void;
         disableMotor(): void;
         setMotorSpeed(speed: number): void;
@@ -1302,15 +1314,7 @@ declare module "constraints/HingeConstraint" {
 declare module "objects/Spring" {
     import { Vec3 } from "math/Vec3";
     import type { Body } from "objects/Body";
-    export type SpringOptions = {
-        restLength?: number;
-        stiffness?: number;
-        damping?: number;
-        localAnchorA?: Vec3;
-        localAnchorB?: Vec3;
-        worldAnchorA?: Vec3;
-        worldAnchorB?: Vec3;
-    };
+    export type SpringOptions = ConstructorParameters<typeof Spring>[2];
     export class Spring {
         restLength: number;
         stiffness: number;
@@ -1319,7 +1323,15 @@ declare module "objects/Spring" {
         bodyB: Body;
         localAnchorA: Vec3;
         localAnchorB: Vec3;
-        constructor(bodyA: Body, bodyB: Body, options?: SpringOptions);
+        constructor(bodyA: Body, bodyB: Body, options?: {
+            restLength?: number;
+            stiffness?: number;
+            damping?: number;
+            localAnchorA?: Vec3;
+            localAnchorB?: Vec3;
+            worldAnchorA?: Vec3;
+            worldAnchorB?: Vec3;
+        });
         setWorldAnchorA(worldAnchorA: Vec3): void;
         setWorldAnchorB(worldAnchorB: Vec3): void;
         getWorldAnchorA(result: Vec3): void;
@@ -1332,38 +1344,7 @@ declare module "objects/WheelInfo" {
     import { Transform } from "math/Transform";
     import { RaycastResult } from "collision/RaycastResult";
     import type { Body } from "objects/Body";
-    export type WheelInfoOptions = {
-        chassisConnectionPointLocal?: Vec3;
-        chassisConnectionPointWorld?: Vec3;
-        directionLocal?: Vec3;
-        directionWorld?: Vec3;
-        axleLocal?: Vec3;
-        axleWorld?: Vec3;
-        suspensionRestLength?: number;
-        suspensionMaxLength?: number;
-        radius?: number;
-        suspensionStiffness?: number;
-        dampingCompression?: number;
-        dampingRelaxation?: number;
-        frictionSlip?: number;
-        forwardAcceleration?: number;
-        sideAcceleration?: number;
-        steering?: number;
-        rotation?: number;
-        deltaRotation?: number;
-        rollInfluence?: number;
-        maxSuspensionForce?: number;
-        isFrontWheel?: boolean;
-        clippedInvContactDotSuspension?: number;
-        suspensionRelativeVelocity?: number;
-        suspensionForce?: number;
-        slipInfo?: number;
-        skidInfo?: number;
-        suspensionLength?: number;
-        maxSuspensionTravel?: number;
-        useCustomSlidingRotationalSpeed?: boolean;
-        customSlidingRotationalSpeed?: number;
-    };
+    export type WheelInfoOptions = ConstructorParameters<typeof WheelInfo>[0];
     export type WheelRaycastResult = RaycastResult & Partial<{
         suspensionLength: number;
         directionWorld: Vec3;
@@ -1408,24 +1389,49 @@ declare module "objects/WheelInfo" {
         raycastResult: WheelRaycastResult;
         worldTransform: Transform;
         isInContact: boolean;
-        constructor(options?: WheelInfoOptions);
+        constructor(options?: {
+            chassisConnectionPointLocal?: Vec3;
+            chassisConnectionPointWorld?: Vec3;
+            directionLocal?: Vec3;
+            directionWorld?: Vec3;
+            axleLocal?: Vec3;
+            axleWorld?: Vec3;
+            suspensionRestLength?: number;
+            suspensionMaxLength?: number;
+            radius?: number;
+            suspensionStiffness?: number;
+            dampingCompression?: number;
+            dampingRelaxation?: number;
+            frictionSlip?: number;
+            forwardAcceleration?: number;
+            sideAcceleration?: number;
+            steering?: number;
+            rotation?: number;
+            deltaRotation?: number;
+            rollInfluence?: number;
+            maxSuspensionForce?: number;
+            isFrontWheel?: boolean;
+            clippedInvContactDotSuspension?: number;
+            suspensionRelativeVelocity?: number;
+            suspensionForce?: number;
+            slipInfo?: number;
+            skidInfo?: number;
+            suspensionLength?: number;
+            maxSuspensionTravel?: number;
+            useCustomSlidingRotationalSpeed?: boolean;
+            customSlidingRotationalSpeed?: number;
+        });
         updateWheel(chassis: Body): void;
     }
 }
 declare module "objects/RaycastVehicle" {
     import type { Body } from "objects/Body";
-    import { Vec3 } from "math/Vec3";
     import { WheelInfo } from "objects/WheelInfo";
     import type { WheelInfoOptions } from "objects/WheelInfo";
     import type { Transform } from "math/Transform";
     import type { Constraint } from "constraints/Constraint";
     import type { World } from "world/World";
-    export type RaycastVehicleOptions = {
-        chassisBody: Body;
-        indexRightAxis?: number;
-        indexForwardAxis?: number;
-        indexUpAxis?: number;
-    };
+    export type RaycastVehicleOptions = ConstructorParameters<typeof RaycastVehicle>[0];
     export class RaycastVehicle {
         chassisBody: Body;
         wheelInfos: WheelInfo[];
@@ -1437,13 +1443,18 @@ declare module "objects/RaycastVehicle" {
         constraints: Constraint[];
         preStepCallback: () => void;
         currentVehicleSpeedKmHour: number;
-        constructor(options: RaycastVehicleOptions);
+        constructor(options: {
+            chassisBody: Body;
+            indexRightAxis?: number;
+            indexForwardAxis?: number;
+            indexUpAxis?: number;
+        });
         addWheel(options?: WheelInfoOptions): number;
         setSteeringValue(value: number, wheelIndex: number): void;
         applyEngineForce(value: number, wheelIndex: number): void;
         setBrake(brake: number, wheelIndex: number): void;
         addToWorld(world: World): void;
-        getVehicleAxisWorld(axisIndex: number, result: Vec3): void;
+        private getVehicleAxisWorld;
         updateVehicle(timeStep: number): void;
         updateSuspension(deltaTime: number): void;
         removeFromWorld(world: World): void;
@@ -1459,15 +1470,7 @@ declare module "objects/RigidVehicle" {
     import { Body } from "objects/Body";
     import { HingeConstraint } from "constraints/HingeConstraint";
     import type { World } from "world/World";
-    export type RigidVehicleOptions = {
-        coordinateSystem?: Vec3;
-        chassisBody?: Body;
-    };
-    export type RigidVehicleWheelOptions = {
-        body?: Body;
-        position?: Vec3;
-        axis?: Vec3;
-    };
+    export type RigidVehicleOptions = ConstructorParameters<typeof RigidVehicle>[0];
     export class RigidVehicle {
         wheelBodies: Body[];
         coordinateSystem: Vec3;
@@ -1477,8 +1480,16 @@ declare module "objects/RigidVehicle" {
         })[];
         wheelAxes: Vec3[];
         wheelForces: number[];
-        constructor(options?: RigidVehicleOptions);
-        addWheel(options?: RigidVehicleWheelOptions): number;
+        constructor(options?: {
+            coordinateSystem?: Vec3;
+            chassisBody?: Body;
+        });
+        addWheel(options?: {
+            body?: Body;
+            position?: Vec3;
+            axis?: Vec3;
+            direction?: Vec3;
+        }): number;
         setSteeringValue(value: number, wheelIndex: number): void;
         setMotorSpeed(value: number, wheelIndex: number): void;
         disableMotor(wheelIndex: number): void;
@@ -1567,6 +1578,7 @@ declare module "cannon-es" {
     export * from "objects/Body";
     export * from "objects/Spring";
     export * from "objects/RaycastVehicle";
+    export * from "objects/WheelInfo";
     export * from "objects/RigidVehicle";
     export * from "objects/SPHSystem";
     export * from "shapes/Box";
