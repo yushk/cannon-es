@@ -73,33 +73,86 @@ export class Narrowphase {
   v3pool: Vec3Pool
   world: World
   currentContactMaterial: ContactMaterial
-  enableFrictionReduction: boolean;
+  enableFrictionReduction: boolean
 
-  [COLLISION_TYPES.sphereSphere]: typeof Narrowphase.prototype.sphereSphere;
-  [COLLISION_TYPES.spherePlane]: typeof Narrowphase.prototype.spherePlane;
-  [COLLISION_TYPES.boxBox]: typeof Narrowphase.prototype.boxBox;
-  [COLLISION_TYPES.sphereBox]: typeof Narrowphase.prototype.sphereBox;
-  [COLLISION_TYPES.planeBox]: typeof Narrowphase.prototype.planeBox;
-  [COLLISION_TYPES.convexConvex]: typeof Narrowphase.prototype.convexConvex;
-  [COLLISION_TYPES.sphereConvex]: typeof Narrowphase.prototype.sphereConvex;
-  [COLLISION_TYPES.planeConvex]: typeof Narrowphase.prototype.planeConvex;
-  [COLLISION_TYPES.boxConvex]: typeof Narrowphase.prototype.boxConvex;
-  [COLLISION_TYPES.sphereHeightfield]: typeof Narrowphase.prototype.sphereHeightfield;
-  [COLLISION_TYPES.boxHeightfield]: typeof Narrowphase.prototype.boxHeightfield;
-  [COLLISION_TYPES.convexHeightfield]: typeof Narrowphase.prototype.convexHeightfield;
-  [COLLISION_TYPES.sphereParticle]: typeof Narrowphase.prototype.sphereParticle;
-  [COLLISION_TYPES.planeParticle]: typeof Narrowphase.prototype.planeParticle;
-  [COLLISION_TYPES.boxParticle]: typeof Narrowphase.prototype.boxParticle;
-  [COLLISION_TYPES.convexParticle]: typeof Narrowphase.prototype.convexParticle;
-  [COLLISION_TYPES.cylinderCylinder]: typeof Narrowphase.prototype.convexConvex;
-  [COLLISION_TYPES.sphereCylinder]: typeof Narrowphase.prototype.sphereConvex;
-  [COLLISION_TYPES.planeCylinder]: typeof Narrowphase.prototype.planeConvex;
-  [COLLISION_TYPES.boxCylinder]: typeof Narrowphase.prototype.boxConvex;
-  [COLLISION_TYPES.convexCylinder]: typeof Narrowphase.prototype.convexConvex;
-  [COLLISION_TYPES.heightfieldCylinder]: typeof Narrowphase.prototype.heightfieldCylinder;
-  [COLLISION_TYPES.particleCylinder]: typeof Narrowphase.prototype.particleCylinder;
-  [COLLISION_TYPES.sphereTrimesh]: typeof Narrowphase.prototype.sphereTrimesh;
-  [COLLISION_TYPES.planeTrimesh]: typeof Narrowphase.prototype.planeTrimesh
+  get [COLLISION_TYPES.sphereSphere]() {
+    return this.sphereSphere
+  }
+  get [COLLISION_TYPES.spherePlane]() {
+    return this.spherePlane
+  }
+  get [COLLISION_TYPES.boxBox]() {
+    return this.boxBox
+  }
+  get [COLLISION_TYPES.sphereBox]() {
+    return this.sphereBox
+  }
+  get [COLLISION_TYPES.planeBox]() {
+    return this.planeBox
+  }
+  get [COLLISION_TYPES.convexConvex]() {
+    return this.convexConvex
+  }
+  get [COLLISION_TYPES.sphereConvex]() {
+    return this.sphereConvex
+  }
+  get [COLLISION_TYPES.planeConvex]() {
+    return this.planeConvex
+  }
+  get [COLLISION_TYPES.boxConvex]() {
+    return this.boxConvex
+  }
+  get [COLLISION_TYPES.sphereHeightfield]() {
+    return this.sphereHeightfield
+  }
+  get [COLLISION_TYPES.boxHeightfield]() {
+    return this.boxHeightfield
+  }
+  get [COLLISION_TYPES.convexHeightfield]() {
+    return this.convexHeightfield
+  }
+  get [COLLISION_TYPES.sphereParticle]() {
+    return this.sphereParticle
+  }
+  get [COLLISION_TYPES.planeParticle]() {
+    return this.planeParticle
+  }
+  get [COLLISION_TYPES.boxParticle]() {
+    return this.boxParticle
+  }
+  get [COLLISION_TYPES.convexParticle]() {
+    return this.convexParticle
+  }
+  get [COLLISION_TYPES.cylinderCylinder]() {
+    return this.convexConvex
+  }
+  get [COLLISION_TYPES.sphereCylinder]() {
+    return this.sphereConvex
+  }
+  get [COLLISION_TYPES.planeCylinder]() {
+    return this.planeConvex
+  }
+  get [COLLISION_TYPES.boxCylinder]() {
+    return this.boxConvex
+  }
+  get [COLLISION_TYPES.convexCylinder]() {
+    return this.convexConvex
+  }
+  get [COLLISION_TYPES.heightfieldCylinder]() {
+    return this.heightfieldCylinder
+  }
+  get [COLLISION_TYPES.particleCylinder]() {
+    return this.particleCylinder
+  }
+  get [COLLISION_TYPES.sphereTrimesh]() {
+    return this.sphereTrimesh
+  }
+  get [COLLISION_TYPES.planeTrimesh]() {
+    return this.planeTrimesh
+  }
+  // get [COLLISION_TYPES.convexTrimesh]() {
+  //   return this.convexTrimesh
+  // }
 
   constructor(world: World) {
     this.contactPointPool = []
@@ -1942,19 +1995,9 @@ function warn(msg: string): void {
   console.warn(msg)
 }
 
-Narrowphase.prototype[COLLISION_TYPES.boxBox] = Narrowphase.prototype.boxBox
-
-Narrowphase.prototype[COLLISION_TYPES.boxConvex] = Narrowphase.prototype.boxConvex
-
-Narrowphase.prototype[COLLISION_TYPES.boxParticle] = Narrowphase.prototype.boxParticle
-
-Narrowphase.prototype[COLLISION_TYPES.sphereSphere] = Narrowphase.prototype.sphereSphere
-
 const planeTrimesh_normal = new Vec3()
 const planeTrimesh_relpos = new Vec3()
 const planeTrimesh_projected = new Vec3()
-
-Narrowphase.prototype[COLLISION_TYPES.planeTrimesh] = Narrowphase.prototype.planeTrimesh
 
 const sphereTrimesh_normal = new Vec3()
 const sphereTrimesh_relpos = new Vec3()
@@ -1973,12 +2016,8 @@ const sphereTrimesh_vc = new Vec3()
 const sphereTrimesh_localSphereAABB = new AABB()
 const sphereTrimesh_triangles: number[] = []
 
-Narrowphase.prototype[COLLISION_TYPES.sphereTrimesh] = Narrowphase.prototype.sphereTrimesh
-
 const point_on_plane_to_sphere = new Vec3()
 const plane_to_sphere_ortho = new Vec3()
-
-Narrowphase.prototype[COLLISION_TYPES.spherePlane] = Narrowphase.prototype.spherePlane
 
 // See http://bulletphysics.com/Bullet/BulletFull/SphereTriangleDetector_8cpp_source.html
 const pointInPolygon_edge = new Vec3()
@@ -2031,8 +2070,6 @@ const sphereBox_side_ns = new Vec3()
 const sphereBox_side_ns1 = new Vec3()
 const sphereBox_side_ns2 = new Vec3()
 
-Narrowphase.prototype[COLLISION_TYPES.sphereBox] = Narrowphase.prototype.sphereBox
-
 const convex_to_sphere = new Vec3()
 const sphereConvex_edge = new Vec3()
 const sphereConvex_edgeUnit = new Vec3()
@@ -2044,44 +2081,22 @@ const sphereConvex_worldSpherePointClosestToPlane = new Vec3()
 const sphereConvex_penetrationVec = new Vec3()
 const sphereConvex_sphereToWorldPoint = new Vec3()
 
-Narrowphase.prototype[COLLISION_TYPES.sphereConvex] = Narrowphase.prototype.sphereConvex
-
 const planeBox_normal = new Vec3()
 const plane_to_corner = new Vec3()
-
-Narrowphase.prototype[COLLISION_TYPES.planeBox] = Narrowphase.prototype.planeBox
 
 const planeConvex_v = new Vec3()
 const planeConvex_normal = new Vec3()
 const planeConvex_relpos = new Vec3()
 const planeConvex_projected = new Vec3()
 
-Narrowphase.prototype[COLLISION_TYPES.planeConvex] = Narrowphase.prototype.planeConvex
-
 const convexConvex_sepAxis = new Vec3()
 const convexConvex_q = new Vec3()
-
-Narrowphase.prototype[COLLISION_TYPES.convexConvex] = Narrowphase.prototype.convexConvex
-
-// Narrowphase.prototype[COLLISION_TYPES.convexTrimesh] = Narrowphase.prototype.convexTrimesh
 
 const particlePlane_normal = new Vec3()
 const particlePlane_relpos = new Vec3()
 const particlePlane_projected = new Vec3()
 
-Narrowphase.prototype[COLLISION_TYPES.planeParticle] = Narrowphase.prototype.planeParticle
-
 const particleSphere_normal = new Vec3()
-
-Narrowphase.prototype[COLLISION_TYPES.sphereParticle] = Narrowphase.prototype.sphereParticle
-
-Narrowphase.prototype[COLLISION_TYPES.cylinderCylinder] = Narrowphase.prototype.convexConvex
-Narrowphase.prototype[COLLISION_TYPES.sphereCylinder] = Narrowphase.prototype.sphereConvex
-Narrowphase.prototype[COLLISION_TYPES.planeCylinder] = Narrowphase.prototype.planeConvex
-Narrowphase.prototype[COLLISION_TYPES.boxCylinder] = Narrowphase.prototype.boxConvex
-Narrowphase.prototype[COLLISION_TYPES.convexCylinder] = Narrowphase.prototype.convexConvex
-Narrowphase.prototype[COLLISION_TYPES.heightfieldCylinder] = Narrowphase.prototype.heightfieldCylinder
-Narrowphase.prototype[COLLISION_TYPES.particleCylinder] = Narrowphase.prototype.particleCylinder
 
 // WIP
 const cqj = new Quaternion()
@@ -2091,17 +2106,9 @@ const convexParticle_penetratedFaceNormal = new Vec3()
 const convexParticle_vertexToParticle = new Vec3()
 const convexParticle_worldPenetrationVec = new Vec3()
 
-Narrowphase.prototype[COLLISION_TYPES.convexParticle] = Narrowphase.prototype.convexParticle
-
-Narrowphase.prototype[COLLISION_TYPES.boxHeightfield] = Narrowphase.prototype.boxHeightfield
-
 const convexHeightfield_tmp1 = new Vec3()
 const convexHeightfield_tmp2 = new Vec3()
 const convexHeightfield_faceList = [0]
 
-Narrowphase.prototype[COLLISION_TYPES.convexHeightfield] = Narrowphase.prototype.convexHeightfield
-
 const sphereHeightfield_tmp1 = new Vec3()
 const sphereHeightfield_tmp2 = new Vec3()
-
-Narrowphase.prototype[COLLISION_TYPES.sphereHeightfield] = Narrowphase.prototype.sphereHeightfield

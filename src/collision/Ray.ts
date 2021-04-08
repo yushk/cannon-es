@@ -154,15 +154,29 @@ export class Ray {
    * As per "Barycentric Technique" as named
    * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
    */
-  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
+  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean
 
-  [Shape.types.SPHERE]: typeof Ray.prototype._intersectSphere;
-  [Shape.types.PLANE]: typeof Ray.prototype._intersectPlane;
-  [Shape.types.BOX]: typeof Ray.prototype._intersectBox;
-  [Shape.types.CYLINDER]: typeof Ray.prototype._intersectConvex;
-  [Shape.types.CONVEXPOLYHEDRON]: typeof Ray.prototype._intersectConvex;
-  [Shape.types.HEIGHTFIELD]: typeof Ray.prototype._intersectHeightfield;
-  [Shape.types.TRIMESH]: typeof Ray.prototype._intersectTrimesh
+  get [Shape.types.SPHERE]() {
+    return this._intersectSphere
+  }
+  get [Shape.types.PLANE]() {
+    return this._intersectPlane
+  }
+  get [Shape.types.BOX]() {
+    return this._intersectBox
+  }
+  get [Shape.types.CYLINDER]() {
+    return this._intersectConvex
+  }
+  get [Shape.types.CONVEXPOLYHEDRON]() {
+    return this._intersectConvex
+  }
+  get [Shape.types.HEIGHTFIELD]() {
+    return this._intersectHeightfield
+  }
+  get [Shape.types.TRIMESH]() {
+    return this._intersectTrimesh
+  }
 
   constructor(from = new Vec3(), to = new Vec3()) {
     this.from = from.clone()
@@ -766,14 +780,6 @@ const c = new Vec3()
 const d = new Vec3()
 
 const tmpRaycastResult = new RaycastResult()
-
-Ray.prototype[Shape.types.BOX] = Ray.prototype._intersectBox
-Ray.prototype[Shape.types.PLANE] = Ray.prototype._intersectPlane
-Ray.prototype[Shape.types.HEIGHTFIELD] = Ray.prototype._intersectHeightfield
-Ray.prototype[Shape.types.SPHERE] = Ray.prototype._intersectSphere
-Ray.prototype[Shape.types.CYLINDER] = Ray.prototype._intersectConvex
-Ray.prototype[Shape.types.CONVEXPOLYHEDRON] = Ray.prototype._intersectConvex
-Ray.prototype[Shape.types.TRIMESH] = Ray.prototype._intersectTrimesh
 
 const intersectConvexOptions = {
   faceList: [0],
