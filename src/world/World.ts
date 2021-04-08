@@ -168,8 +168,6 @@ export class World extends EventTarget {
 
   idToBodyMap: { [id: number]: Body }
 
-  emitContactEvents!: () => void
-
   constructor(
     options: {
       /**
@@ -408,17 +406,19 @@ export class World extends EventTarget {
   /**
    * @todo Make a faster map
    */
-  getShapeById(id: number): Shape | void {
+  getShapeById(id: number): Shape | null {
     const bodies = this.bodies
-    for (let i = 0, bl = bodies.length; i < bl; i++) {
+    for (let i = 0; i < bodies.length; i++) {
       const shapes = bodies[i].shapes
-      for (let j = 0, sl = shapes.length; j < sl; j++) {
+      for (let j = 0; j < shapes.length; j++) {
         const shape = shapes[j]
         if (shape.id === id) {
           return shape
         }
       }
     }
+
+    return null
   }
 
   /**
@@ -856,6 +856,68 @@ export class World extends EventTarget {
     this.hasActiveBodies = hasActiveBodies
   }
 
+  emitContactEvents(): void {
+    const hasBeginContact = this.hasAnyEventListener('beginContact')
+    const hasEndContact = this.hasAnyEventListener('endContact')
+
+    if (hasBeginContact || hasEndContact) {
+      this.bodyOverlapKeeper.getDiff(additions, removals)
+    }
+
+    if (hasBeginContact) {
+      for (let i = 0, l = additions.length; i < l; i += 2) {
+        beginContactEvent.bodyA = this.getBodyById(additions[i])
+        beginContactEvent.bodyB = this.getBodyById(additions[i + 1])
+        this.dispatchEvent(beginContactEvent)
+      }
+      beginContactEvent.bodyA = beginContactEvent.bodyB = null
+    }
+
+    if (hasEndContact) {
+      for (let i = 0, l = removals.length; i < l; i += 2) {
+        endContactEvent.bodyA = this.getBodyById(removals[i])
+        endContactEvent.bodyB = this.getBodyById(removals[i + 1])
+        this.dispatchEvent(endContactEvent)
+      }
+      endContactEvent.bodyA = endContactEvent.bodyB = null
+    }
+
+    additions.length = removals.length = 0
+
+    const hasBeginShapeContact = this.hasAnyEventListener('beginShapeContact')
+    const hasEndShapeContact = this.hasAnyEventListener('endShapeContact')
+
+    if (hasBeginShapeContact || hasEndShapeContact) {
+      this.shapeOverlapKeeper.getDiff(additions, removals)
+    }
+
+    if (hasBeginShapeContact) {
+      for (let i = 0, l = additions.length; i < l; i += 2) {
+        const shapeA = this.getShapeById(additions[i])
+        const shapeB = this.getShapeById(additions[i + 1])
+        beginShapeContactEvent.shapeA = shapeA
+        beginShapeContactEvent.shapeB = shapeB
+        if (shapeA) beginShapeContactEvent.bodyA = shapeA.body
+        if (shapeB) beginShapeContactEvent.bodyB = shapeB.body
+        this.dispatchEvent(beginShapeContactEvent)
+      }
+      beginShapeContactEvent.bodyA = beginShapeContactEvent.bodyB = beginShapeContactEvent.shapeA = beginShapeContactEvent.shapeB = null
+    }
+
+    if (hasEndShapeContact) {
+      for (let i = 0, l = removals.length; i < l; i += 2) {
+        const shapeA = this.getShapeById(removals[i])
+        const shapeB = this.getShapeById(removals[i + 1])
+        endShapeContactEvent.shapeA = shapeA
+        endShapeContactEvent.shapeB = shapeB
+        if (shapeA) endShapeContactEvent.bodyA = shapeA.body
+        if (shapeB) endShapeContactEvent.bodyB = shapeB.body
+        this.dispatchEvent(endShapeContactEvent)
+      }
+      endShapeContactEvent.bodyA = endShapeContactEvent.bodyB = endShapeContactEvent.shapeA = endShapeContactEvent.shapeB = null
+    }
+  }
+
   /**
    * Sets all body forces in the world to zero.
    */
@@ -912,93 +974,42 @@ const World_step_frictionEquationPool: FrictionEquation[] = []
 const World_step_p1: Body[] = []
 const World_step_p2: Body[] = []
 
-World.prototype.emitContactEvents = (() => {
-  const additions: number[] = []
-  const removals: number[] = []
-  const beginContactEvent = {
-    type: 'beginContact',
-    bodyA: null,
-    bodyB: null,
-  }
-  const endContactEvent = {
-    type: 'endContact',
-    bodyA: null,
-    bodyB: null,
-  }
-  const beginShapeContactEvent = {
-    type: 'beginShapeContact',
-    bodyA: null,
-    bodyB: null,
-    shapeA: null,
-    shapeB: null,
-  }
-  const endShapeContactEvent = {
-    type: 'endShapeContact',
-    bodyA: null,
-    bodyB: null,
-    shapeA: null,
-    shapeB: null,
-  }
-
-  return function (): void {
-    const hasBeginContact = this.hasAnyEventListener('beginContact')
-    const hasEndContact = this.hasAnyEventListener('endContact')
-
-    if (hasBeginContact || hasEndContact) {
-      this.bodyOverlapKeeper.getDiff(additions, removals)
-    }
-
-    if (hasBeginContact) {
-      for (let i = 0, l = additions.length; i < l; i += 2) {
-        beginContactEvent.bodyA = this.getBodyById(additions[i])
-        beginContactEvent.bodyB = this.getBodyById(additions[i + 1])
-        this.dispatchEvent(beginContactEvent)
-      }
-      beginContactEvent.bodyA = beginContactEvent.bodyB = null
-    }
-
-    if (hasEndContact) {
-      for (let i = 0, l = removals.length; i < l; i += 2) {
-        endContactEvent.bodyA = this.getBodyById(removals[i])
-        endContactEvent.bodyB = this.getBodyById(removals[i + 1])
-        this.dispatchEvent(endContactEvent)
-      }
-      endContactEvent.bodyA = endContactEvent.bodyB = null
-    }
-
-    additions.length = removals.length = 0
-
-    const hasBeginShapeContact = this.hasAnyEventListener('beginShapeContact')
-    const hasEndShapeContact = this.hasAnyEventListener('endShapeContact')
-
-    if (hasBeginShapeContact || hasEndShapeContact) {
-      this.shapeOverlapKeeper.getDiff(additions, removals)
-    }
-
-    if (hasBeginShapeContact) {
-      for (let i = 0, l = additions.length; i < l; i += 2) {
-        const shapeA = this.getShapeById(additions[i])
-        const shapeB = this.getShapeById(additions[i + 1])
-        beginShapeContactEvent.shapeA = shapeA
-        beginShapeContactEvent.shapeB = shapeB
-        beginShapeContactEvent.bodyA = shapeA.body
-        beginShapeContactEvent.bodyB = shapeB.body
-        this.dispatchEvent(beginShapeContactEvent)
-      }
-      beginShapeContactEvent.bodyA = beginShapeContactEvent.bodyB = beginShapeContactEvent.shapeA = beginShapeContactEvent.shapeB = null
-    }
-
-    if (hasEndShapeContact) {
-      for (let i = 0, l = removals.length; i < l; i += 2) {
-        const shapeA = this.getShapeById(removals[i])
-        const shapeB = this.getShapeById(removals[i + 1])
-        endShapeContactEvent.shapeA = shapeA
-        endShapeContactEvent.shapeB = shapeB
-        endShapeContactEvent.bodyA = shapeA.body
-        endShapeContactEvent.bodyB = shapeB.body
-        this.dispatchEvent(endShapeContactEvent)
-      }
-      endShapeContactEvent.bodyA = endShapeContactEvent.bodyB = endShapeContactEvent.shapeA = endShapeContactEvent.shapeB = null
-    }
-  }
-})()
+// Stuff for emitContactEvents
+const additions: number[] = []
+const removals: number[] = []
+type ContactEvent = {
+  type: string
+  bodyA: Body | null
+  bodyB: Body | null
+}
+const beginContactEvent: ContactEvent = {
+  type: 'beginContact',
+  bodyA: null,
+  bodyB: null,
+}
+const endContactEvent: ContactEvent = {
+  type: 'endContact',
+  bodyA: null,
+  bodyB: null,
+}
+type ShapeContactEvent = {
+  type: string
+  bodyA: Body | null
+  bodyB: Body | null
+  shapeA: Shape | null
+  shapeB: Shape | null
+}
+const beginShapeContactEvent: ShapeContactEvent = {
+  type: 'beginShapeContact',
+  bodyA: null,
+  bodyB: null,
+  shapeA: null,
+  shapeB: null,
+}
+const endShapeContactEvent: ShapeContactEvent = {
+  type: 'endShapeContact',
+  bodyA: null,
+  bodyB: null,
+  shapeA: null,
+  shapeB: null,
+}

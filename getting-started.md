@@ -5,7 +5,7 @@ It is inspired by the [three.js](https://github.com/mrdoob/three.js/)' simple AP
 
 The first thing to set up is our physics world, which will hold all of our physics bodies and step the simulation forward.
 
-Let's create a world with Earth's gravity. Note that Cannon.js uses [SI units](https://en.wikipedia.org/wiki/International_System_of_Units) (metre, kilogram, second, etc.).
+Let's create a world with Earth's gravity. Note that cannon.js uses [SI units](https://en.wikipedia.org/wiki/International_System_of_Units) (metre, kilogram, second, etc.).
 
 ```js
 const world = new CANNON.World({
