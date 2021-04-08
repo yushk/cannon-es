@@ -908,10 +908,9 @@ declare module "collision/Ray" {
         result: RaycastResult;
         hasHit: boolean;
         callback: RaycastCallback;
-        static CLOSEST: typeof RAY_MODES.CLOSEST;
-        static ANY: typeof RAY_MODES.ANY;
-        static ALL: typeof RAY_MODES.ALL;
-        static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean;
+        static CLOSEST: 1;
+        static ANY: 2;
+        static ALL: 4;
         get [Shape.types.SPHERE](): (sphere: Sphere, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape) => void;
         get [Shape.types.PLANE](): (shape: Plane, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape) => void;
         get [Shape.types.BOX](): (box: Box, quat: Quaternion, position: Vec3, body: Body, reportedShape: Shape) => void;
@@ -943,6 +942,7 @@ declare module "collision/Ray" {
             faceList?: any[];
         }): void;
         private reportIntersection;
+        static pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean;
     }
 }
 declare module "collision/AABB" {

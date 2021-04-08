@@ -4726,11 +4726,6 @@ class Ray {
   /**
    * ALL
    */
-
-  /**
-   * As per "Barycentric Technique" as named
-   * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
-   */
   get [_Shape$types$SPHERE]() {
     return this._intersectSphere;
   }
@@ -5214,7 +5209,7 @@ class Ray {
       mesh.getVertex(indices[trianglesIndex * 3 + 2], c);
       const squaredDistance = intersectPoint.distanceSquared(localFrom);
 
-      if (!(pointInTriangle(intersectPoint, b, a, c) || pointInTriangle(intersectPoint, a, b, c)) || squaredDistance > fromToDistanceSquared) {
+      if (!(Ray.pointInTriangle(intersectPoint, b, a, c) || Ray.pointInTriangle(intersectPoint, a, b, c)) || squaredDistance > fromToDistanceSquared) {
         continue;
       } // transform intersectpoint and normal to world
 
@@ -5270,32 +5265,30 @@ class Ray {
         break;
     }
   }
+  /**
+   * As per "Barycentric Technique" as named
+   * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
+   */
+
+
+  static pointInTriangle(p, a, b, c) {
+    c.vsub(a, v0);
+    b.vsub(a, v1);
+    p.vsub(a, v2);
+    const dot00 = v0.dot(v0);
+    const dot01 = v0.dot(v1);
+    const dot02 = v0.dot(v2);
+    const dot11 = v1.dot(v1);
+    const dot12 = v1.dot(v2);
+    let u;
+    let v;
+    return (u = dot11 * dot02 - dot01 * dot12) >= 0 && (v = dot00 * dot12 - dot01 * dot02) >= 0 && u + v < dot00 * dot11 - dot01 * dot01;
+  }
 
 }
-Ray.CLOSEST = void 0;
-Ray.ANY = void 0;
-Ray.ALL = void 0;
-Ray.pointInTriangle = void 0;
-Ray.pointInTriangle = pointInTriangle;
-/**
- * As per "Barycentric Technique" as named
- * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
- */
-
-function pointInTriangle(p, a, b, c) {
-  c.vsub(a, v0);
-  b.vsub(a, v1);
-  p.vsub(a, v2);
-  const dot00 = v0.dot(v0);
-  const dot01 = v0.dot(v1);
-  const dot02 = v0.dot(v2);
-  const dot11 = v1.dot(v1);
-  const dot12 = v1.dot(v2);
-  let u;
-  let v;
-  return (u = dot11 * dot02 - dot01 * dot12) >= 0 && (v = dot00 * dot12 - dot01 * dot02) >= 0 && u + v < dot00 * dot11 - dot01 * dot01;
-}
-
+Ray.CLOSEST = RAY_MODES.CLOSEST;
+Ray.ANY = RAY_MODES.ANY;
+Ray.ALL = RAY_MODES.ALL;
 const tmpAABB$1 = new AABB();
 const tmpArray = [];
 const v1 = new Vec3();
