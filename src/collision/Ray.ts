@@ -140,21 +140,15 @@ export class Ray {
   /**
    * CLOSEST
    */
-  static CLOSEST: typeof RAY_MODES.CLOSEST
+  static CLOSEST = RAY_MODES.CLOSEST
   /**
    * ANY
    */
-  static ANY: typeof RAY_MODES.ANY
+  static ANY = RAY_MODES.ANY
   /**
    * ALL
    */
-  static ALL: typeof RAY_MODES.ALL
-
-  /**
-   * As per "Barycentric Technique" as named
-   * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
-   */
-  static pointInTriangle: (p: Vec3, a: Vec3, b: Vec3, c: Vec3) => boolean
+  static ALL = RAY_MODES.ALL
 
   get [Shape.types.SPHERE]() {
     return this._intersectSphere
@@ -683,7 +677,7 @@ export class Ray {
       const squaredDistance = intersectPoint.distanceSquared(localFrom)
 
       if (
-        !(pointInTriangle(intersectPoint, b, a, c) || pointInTriangle(intersectPoint, a, b, c)) ||
+        !(Ray.pointInTriangle(intersectPoint, b, a, c) || Ray.pointInTriangle(intersectPoint, a, b, c)) ||
         squaredDistance > fromToDistanceSquared
       ) {
         continue
@@ -739,29 +733,28 @@ export class Ray {
         break
     }
   }
-}
 
-Ray.pointInTriangle = pointInTriangle
-/**
- * As per "Barycentric Technique" as named
- * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
- */
-function pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
-  c.vsub(a, v0)
-  b.vsub(a, v1)
-  p.vsub(a, v2)
-  const dot00 = v0.dot(v0)
-  const dot01 = v0.dot(v1)
-  const dot02 = v0.dot(v2)
-  const dot11 = v1.dot(v1)
-  const dot12 = v1.dot(v2)
-  let u
-  let v
-  return (
-    (u = dot11 * dot02 - dot01 * dot12) >= 0 &&
-    (v = dot00 * dot12 - dot01 * dot02) >= 0 &&
-    u + v < dot00 * dot11 - dot01 * dot01
-  )
+  /**
+   * As per "Barycentric Technique" as named
+   * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
+   */
+  static pointInTriangle(p: Vec3, a: Vec3, b: Vec3, c: Vec3): boolean {
+    c.vsub(a, v0)
+    b.vsub(a, v1)
+    p.vsub(a, v2)
+    const dot00 = v0.dot(v0)
+    const dot01 = v0.dot(v1)
+    const dot02 = v0.dot(v2)
+    const dot11 = v1.dot(v1)
+    const dot12 = v1.dot(v2)
+    let u
+    let v
+    return (
+      (u = dot11 * dot02 - dot01 * dot12) >= 0 &&
+      (v = dot00 * dot12 - dot01 * dot02) >= 0 &&
+      u + v < dot00 * dot11 - dot01 * dot01
+    )
+  }
 }
 
 const tmpAABB = new AABB()
