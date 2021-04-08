@@ -3,23 +3,24 @@ import type { World } from '../world/World'
 
 /**
  * Constraint equation solver base class.
- * @class Solver
- * @constructor
- * @author schteppe / https://github.com/schteppe
  */
 export class Solver {
-  equations: Equation[] // All equations to be solved
+  /**
+   * All equations to be solved
+   */
+  equations: Equation[]
 
+  /**
+   * @todo remove useless constructor
+   */
   constructor() {
     this.equations = []
   }
 
   /**
    * Should be implemented in subclasses!
-   * @method solve
-   * @param  {Number} dt
-   * @param  {World} world
-   * @return {Number} number of iterations performed
+   * @todo use abstract
+   * @return number of iterations performed
    */
   solve(dt: number, world: World): number {
     return (
@@ -30,8 +31,6 @@ export class Solver {
 
   /**
    * Add an equation
-   * @method addEquation
-   * @param {Equation} eq
    */
   addEquation(eq: Equation): void {
     if (eq.enabled && !eq.bi.isTrigger && !eq.bj.isTrigger) {
@@ -41,8 +40,6 @@ export class Solver {
 
   /**
    * Remove an equation
-   * @method removeEquation
-   * @param {Equation} eq
    */
   removeEquation(eq: Equation): void {
     const eqs = this.equations
@@ -54,7 +51,6 @@ export class Solver {
 
   /**
    * Add all equations
-   * @method removeAllEquations
    */
   removeAllEquations(): void {
     this.equations.length = 0

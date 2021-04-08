@@ -2,21 +2,22 @@ import type { Body } from '../objects/Body'
 
 /**
  * Records what objects are colliding with each other
- * @class ObjectCollisionMatrix
- * @constructor
  */
 export class ObjectCollisionMatrix {
-  matrix: Record<string, boolean> // The matrix storage.
+  /**
+   * The matrix storage.
+   */
+  matrix: Record<string, boolean>
 
+  /**
+   * @todo Remove useless constructor
+   */
   constructor() {
     this.matrix = {}
   }
 
   /**
-   * @method get
-   * @param  {Body} bi
-   * @param  {Body} bj
-   * @return {boolean}
+   * get
    */
   get(bi: Body, bj: Body): boolean {
     let { id: i } = bi
@@ -30,10 +31,7 @@ export class ObjectCollisionMatrix {
   }
 
   /**
-   * @method set
-   * @param  {Body} bi
-   * @param  {Body} bj
-   * @param {boolean} value
+   * set
    */
   set(bi: Body, bj: Body, value: boolean): void {
     let { id: i } = bi
@@ -52,7 +50,6 @@ export class ObjectCollisionMatrix {
 
   /**
    * Empty the matrix
-   * @method reset
    */
   reset(): void {
     this.matrix = {}
@@ -60,8 +57,6 @@ export class ObjectCollisionMatrix {
 
   /**
    * Set max number of objects
-   * @method setNumObjects
-   * @param {Number} n
    */
   setNumObjects(n: number): void {}
 }

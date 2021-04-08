@@ -5,17 +5,29 @@ import type { Quaternion } from '../math/Quaternion'
 
 /**
  * Axis aligned bounding box class.
- * @class AABB
- * @constructor
- * @param {Object} [options]
- * @param {Vec3}   [options.upperBound] The upper bound of the bounding box.
- * @param {Vec3}   [options.lowerBound] The lower bound of the bounding box
  */
 export class AABB {
-  lowerBound: Vec3 // The lower bound of the bounding box
-  upperBound: Vec3 // The upper bound of the bounding box
+  /**
+   * The lower bound of the bounding box
+   */
+  lowerBound: Vec3
+  /**
+   * The upper bound of the bounding box
+   */
+  upperBound: Vec3
 
-  constructor(options: { upperBound?: Vec3; lowerBound?: Vec3 } = {}) {
+  constructor(
+    options: {
+      /**
+       * The lower bound of the bounding box
+       */
+      upperBound?: Vec3
+      /**
+       * The upper bound of the bounding box
+       */
+      lowerBound?: Vec3
+    } = {}
+  ) {
     this.lowerBound = new Vec3()
     this.upperBound = new Vec3()
 
@@ -30,12 +42,8 @@ export class AABB {
 
   /**
    * Set the AABB bounds from a set of points.
-   * @method setFromPoints
-   * @param {Array} points An array of Vec3's.
-   * @param {Vec3} position Optional.
-   * @param {Quaternion} quaternion Optional.
-   * @param {number} skinSize Optional.
-   * @return {AABB} The self object
+   * @param points An array of Vec3's.
+   * @return The self object
    */
   setFromPoints(points: Vec3[], position?: Vec3, quaternion?: Quaternion, skinSize?: number): AABB {
     const l = this.lowerBound
@@ -97,9 +105,8 @@ export class AABB {
 
   /**
    * Copy bounds from an AABB to this AABB
-   * @method copy
-   * @param  {AABB} aabb Source to copy from
-   * @return {AABB} The this object, for chainability
+   * @param aabb Source to copy from
+   * @return The this object, for chainability
    */
   copy(aabb: AABB): AABB {
     this.lowerBound.copy(aabb.lowerBound)
@@ -109,7 +116,6 @@ export class AABB {
 
   /**
    * Clone an AABB
-   * @method clone
    */
   clone(): AABB {
     return new AABB().copy(this)
@@ -117,8 +123,6 @@ export class AABB {
 
   /**
    * Extend this AABB so that it covers the given AABB too.
-   * @method extend
-   * @param  {AABB} aabb
    */
   extend(aabb: AABB): void {
     this.lowerBound.x = Math.min(this.lowerBound.x, aabb.lowerBound.x)
@@ -131,9 +135,6 @@ export class AABB {
 
   /**
    * Returns true if the given AABB overlaps this AABB.
-   * @method overlaps
-   * @param  {AABB} aabb
-   * @return {Boolean}
    */
   overlaps(aabb: AABB): boolean {
     const l1 = this.lowerBound
@@ -162,9 +163,6 @@ export class AABB {
 
   /**
    * Returns true if the given AABB is fully contained in this AABB.
-   * @method contains
-   * @param {AABB} aabb
-   * @return {Boolean}
    */
   contains(aabb: AABB): boolean {
     const l1 = this.lowerBound
@@ -180,17 +178,6 @@ export class AABB {
     return l1.x <= l2.x && u1.x >= u2.x && l1.y <= l2.y && u1.y >= u2.y && l1.z <= l2.z && u1.z >= u2.z
   }
 
-  /**
-   * @method getCorners
-   * @param {Vec3} a
-   * @param {Vec3} b
-   * @param {Vec3} c
-   * @param {Vec3} d
-   * @param {Vec3} e
-   * @param {Vec3} f
-   * @param {Vec3} g
-   * @param {Vec3} h
-   */
   getCorners(a: Vec3, b: Vec3, c: Vec3, d: Vec3, e: Vec3, f: Vec3, g: Vec3, h: Vec3): void {
     const l = this.lowerBound
     const u = this.upperBound
@@ -207,10 +194,7 @@ export class AABB {
 
   /**
    * Get the representation of an AABB in another frame.
-   * @method toLocalFrame
-   * @param  {Transform} frame
-   * @param  {AABB} target
-   * @return {AABB} The "target" AABB object.
+   * @return The "target" AABB object.
    */
   toLocalFrame(frame: Transform, target: AABB): AABB {
     const corners = transformIntoFrame_corners
@@ -237,10 +221,7 @@ export class AABB {
 
   /**
    * Get the representation of an AABB in the global frame.
-   * @method toWorldFrame
-   * @param  {Transform} frame
-   * @param  {AABB} target
-   * @return {AABB} The "target" AABB object.
+   * @return The "target" AABB object.
    */
   toWorldFrame(frame: Transform, target: AABB): AABB {
     const corners = transformIntoFrame_corners
@@ -267,12 +248,10 @@ export class AABB {
 
   /**
    * Check if the AABB is hit by a ray.
-   * @param  {Ray} ray
-   * @return {Boolean}
    */
   overlapsRay(ray: Ray): boolean {
     const { direction, from } = ray
-    const t = 0
+    // const t = 0
 
     // ray.direction is unit direction vector of ray
     const dirFracX = 1 / direction.x

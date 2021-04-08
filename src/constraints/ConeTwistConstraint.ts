@@ -4,40 +4,73 @@ import { RotationalEquation } from '../equations/RotationalEquation'
 import { Vec3 } from '../math/Vec3'
 import type { Body } from '../objects/Body'
 
-export type ConeTwistConstraintOptions = {
-  maxForce?: number
-  pivotA?: Vec3
-  pivotB?: Vec3
-  axisA?: Vec3
-  axisB?: Vec3
-  collideConnected?: boolean
-  angle?: number
-  twistAngle?: number
-}
+export type ConeTwistConstraintOptions = ConstructorParameters<typeof ConeTwistConstraint>[2]
 
 /**
- * @class ConeTwistConstraint
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {object} [options]
- * @param {Vec3} [options.pivotA]
- * @param {Vec3} [options.pivotB]
- * @param {Vec3} [options.axisA]
- * @param {Vec3} [options.axisB]
- * @param {Number} [options.maxForce=1e6]
- * @extends PointToPointConstraint
+ * A Cone Twist constraint, useful for ragdolls.
  */
 export class ConeTwistConstraint extends PointToPointConstraint {
+  /**
+   * The axis direction for the constraint of the body A.
+   */
   axisA: Vec3
+  /**
+   * The axis direction for the constraint of the body B.
+   */
   axisB: Vec3
+  /**
+   * The aperture angle of the cone.
+   */
   angle: number
+  /**
+   * The twist angle of the joint.
+   */
+  twistAngle: number
   coneEquation: ConeEquation
   twistEquation: RotationalEquation
-  twistAngle: number
 
-  constructor(bodyA: Body, bodyB: Body, options: ConeTwistConstraintOptions = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * The pivot point for bodyA.
+       */
+      pivotA?: Vec3
+      /**
+       * The pivot point for bodyB.
+       */
+      pivotB?: Vec3
+      /**
+       * The axis direction for the constraint of the body A.
+       */
+      axisA?: Vec3
+      /**
+       * The axis direction for the constraint of the body B.
+       */
+      axisB?: Vec3
+      /**
+       * The aperture angle of the cone.
+       * @default 0
+       */
+      angle?: number
+      /**
+       * The twist angle of the joint.
+       * @default 0
+       */
+      twistAngle?: number
+      /**
+       * The maximum force that should be applied to constrain the bodies.
+       * @default 1e6
+       */
+      maxForce?: number
+      /**
+       * Wether to collide the connected bodies or not.
+       * @default false
+       */
+      collideConnected?: boolean
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     // Set pivot point in between

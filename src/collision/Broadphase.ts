@@ -6,14 +6,21 @@ import type { World } from '../world/World'
 
 /**
  * Base class for broadphase implementations
- * @class Broadphase
- * @constructor
  * @author schteppe
  */
 export class Broadphase {
-  world: World | null // The world to search for collisions in.
-  useBoundingBoxes: boolean // If set to true, the broadphase uses bounding boxes for intersection test, else it uses bounding spheres.
-  dirty: boolean // Set to true if the objects in the world moved.
+  /**
+   * The world to search for collisions in.
+   */
+  world: World | null
+  /**
+   * If set to true, the broadphase uses bounding boxes for intersection tests, else it uses bounding spheres.
+   */
+  useBoundingBoxes: boolean
+  /**
+   * Set to true if the objects in the world moved.
+   */
+  dirty: boolean
 
   constructor() {
     this.world = null
@@ -23,10 +30,9 @@ export class Broadphase {
 
   /**
    * Get the collision pairs from the world
-   * @method collisionPairs
-   * @param {World} world The world to search in
-   * @param {Array} p1 Empty array to be filled with body objects
-   * @param {Array} p2 Empty array to be filled with body objects
+   * @param world The world to search in
+   * @param p1 Empty array to be filled with body objects
+   * @param p2 Empty array to be filled with body objects
    */
   collisionPairs(world: World, p1: Body[], p2: Body[]): void {
     throw new Error('collisionPairs not implemented for this BroadPhase class!')
@@ -34,10 +40,6 @@ export class Broadphase {
 
   /**
    * Check if a body pair needs to be intersection tested at all.
-   * @method needBroadphaseCollision
-   * @param {Body} bodyA
-   * @param {Body} bodyB
-   * @return {bool}
    */
   needBroadphaseCollision(bodyA: Body, bodyB: Body): boolean {
     // Check collision filter masks
@@ -62,11 +64,6 @@ export class Broadphase {
 
   /**
    * Check if the bounding volumes of two bodies intersect.
-   * @method intersectionTest
-   * @param {Body} bodyA
-   * @param {Body} bodyB
-   * @param {array} pairs1
-   * @param {array} pairs2
    */
   intersectionTest(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void {
     if (this.useBoundingBoxes) {
@@ -78,11 +75,8 @@ export class Broadphase {
 
   /**
    * Check if the bounding spheres of two bodies are intersecting.
-   * @method doBoundingSphereBroadphase
-   * @param {Body} bodyA
-   * @param {Body} bodyB
-   * @param {Array} pairs1 bodyA is appended to this array if intersection
-   * @param {Array} pairs2 bodyB is appended to this array if intersection
+   * @param pairs1 bodyA is appended to this array if intersection
+   * @param pairs2 bodyB is appended to this array if intersection
    */
   doBoundingSphereBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void {
     const r = Broadphase_collisionPairs_r
@@ -97,11 +91,6 @@ export class Broadphase {
 
   /**
    * Check if the bounding boxes of two bodies are intersecting.
-   * @method doBoundingBoxBroadphase
-   * @param {Body} bodyA
-   * @param {Body} bodyB
-   * @param {Array} pairs1
-   * @param {Array} pairs2
    */
   doBoundingBoxBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void {
     if (bodyA.aabbNeedsUpdate) {
@@ -120,9 +109,6 @@ export class Broadphase {
 
   /**
    * Removes duplicate pairs from the pair arrays.
-   * @method makePairsUnique
-   * @param {Array} pairs1
-   * @param {Array} pairs2
    */
   makePairsUnique(pairs1: Body[], pairs2: Body[]): void {
     const t = Broadphase_makePairsUnique_temp
@@ -157,18 +143,11 @@ export class Broadphase {
 
   /**
    * To be implemented by subcasses
-   * @method setWorld
-   * @param {World} world
    */
   setWorld(world: World): void {}
 
   /**
    * Check if the bounding spheres of two bodies overlap.
-   * @static
-   * @method boundingSphereCheck
-   * @param {Body} bodyA
-   * @param {Body} bodyB
-   * @return {boolean}
    */
   static boundingSphereCheck(bodyA: Body, bodyB: Body): boolean {
     const dist = new Vec3() // bsc_dist;
@@ -180,11 +159,6 @@ export class Broadphase {
 
   /**
    * Returns all the bodies within the AABB.
-   * @method aabbQuery
-   * @param  {World} world
-   * @param  {AABB} aabb
-   * @param  {array} result An array to store resulting bodies in.
-   * @return {array}
    */
   aabbQuery(world: World, aabb: AABB, result: Body[]): Body[] {
     console.warn('.aabbQuery is not implemented in this Broadphase subclass.')
@@ -200,7 +174,6 @@ const Broadphase_collisionPairs_quat = new Quaternion()
 const Broadphase_collisionPairs_relpos = new Vec3()
 
 const Broadphase_makePairsUnique_temp: Record<string, any> = { keys: [] }
-
 const Broadphase_makePairsUnique_p1: Body[] = []
 const Broadphase_makePairsUnique_p2: Body[] = []
 

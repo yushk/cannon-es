@@ -2,10 +2,10 @@ import { Vec3 } from '../math/Vec3'
 
 /**
  * A Quaternion describes a rotation in 3D space. The Quaternion is mathematically defined as Q = x*i + y*j + z*k + w, where (i,j,k) are imaginary basis vectors. (x,y,z) can be seen as a vector related to the axis of rotation, while the real multiplier, w, is related to the amount of rotation.
- * @param {Number} x Multiplier of the imaginary basis vector i.
- * @param {Number} y Multiplier of the imaginary basis vector j.
- * @param {Number} z Multiplier of the imaginary basis vector k.
- * @param {Number} w Multiplier of the real part.
+ * @param x Multiplier of the imaginary basis vector i.
+ * @param y Multiplier of the imaginary basis vector j.
+ * @param z Multiplier of the imaginary basis vector k.
+ * @param w Multiplier of the real part.
  * @see http://en.wikipedia.org/wiki/Quaternion
  */
 export class Quaternion {
@@ -34,7 +34,7 @@ export class Quaternion {
 
   /**
    * Convert to a readable format
-   * @return {String} "x,y,z,w"
+   * @return "x,y,z,w"
    */
   toString(): string {
     return `${this.x},${this.y},${this.z},${this.w}`
@@ -42,7 +42,7 @@ export class Quaternion {
 
   /**
    * Convert to an Array
-   * @return {Array} [x, y, z, w]
+   * @return [x, y, z, w]
    */
   toArray(): [number, number, number, number] {
     return [this.x, this.y, this.z, this.w]
@@ -62,8 +62,8 @@ export class Quaternion {
 
   /**
    * Converts the quaternion to [ axis, angle ] representation.
-   * @param {Vec3} [targetAxis] A vector object to reuse for storing the axis.
-   * @return {Array} An array, first element is the axis and the second is the angle in radians.
+   * @param targetAxis A vector object to reuse for storing the axis.
+   * @return An array, first element is the axis and the second is the angle in radians.
    */
   toAxisAngle(targetAxis = new Vec3()): [Vec3, number] {
     this.normalize() // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
@@ -158,7 +158,6 @@ export class Quaternion {
 
   /**
    * Normalize the quaternion. Note that this changes the values of the quaternion.
-   * @method normalize
    */
   normalize(): Quaternion {
     let l = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
@@ -179,7 +178,6 @@ export class Quaternion {
 
   /**
    * Approximation of quaternion normalization. Works best when quat is already almost-normalized.
-   * @see http://jsperf.com/fast-quaternion-normalization
    * @author unphased, https://github.com/unphased
    */
   normalizeFast(): Quaternion {
@@ -226,9 +224,7 @@ export class Quaternion {
 
   /**
    * Copies value of source to this quaternion.
-   * @method copy
-   * @param {Quaternion} source
-   * @return {Quaternion} this
+   * @return this
    */
   copy(quat: Quaternion): Quaternion {
     this.x = quat.x
@@ -239,10 +235,8 @@ export class Quaternion {
   }
 
   /**
-   * Convert the quaternion to euler angle representation. Order: YZX, as this page describes: http://www.euclideanspace.com/maths/standards/index.htm
-   * @method toEuler
-   * @param {Vec3} target
-   * @param {String} order Three-character string, defaults to "YZX"
+   * Convert the quaternion to euler angle representation. Order: YZX, as this page describes: https://www.euclideanspace.com/maths/standards/index.htm
+   * @param order Three-character string, defaults to "YZX"
    */
   toEuler(target: Vec3, order = 'YZX'): void {
     let heading
@@ -287,11 +281,9 @@ export class Quaternion {
   }
 
   /**
-   * @param {Number} x
-   * @param {Number} y
-   * @param {Number} z
-   * @param {String} order The order to apply angles: 'XYZ' or 'YXZ' or any other combination
-   * @see http://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/content/SpinCalc.m
+   * @param order The order to apply angles: 'XYZ' or 'YXZ' or any other combination.
+   *
+   * See {@link https://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors MathWorks} reference
    */
   setFromEuler(x: number, y: number, z: number, order = 'XYZ'): Quaternion {
     const c1 = Math.cos(x / 2)
@@ -336,10 +328,6 @@ export class Quaternion {
     return this
   }
 
-  /**
-   * @method clone
-   * @return {Quaternion}
-   */
   clone(): Quaternion {
     return new Quaternion(this.x, this.y, this.z, this.w)
   }
@@ -347,9 +335,9 @@ export class Quaternion {
   /**
    * Performs a spherical linear interpolation between two quat
    *
-   * @param {Quaternion} toQuat second operand
-   * @param {Number} t interpolation amount between the self quaternion and toQuat
-   * @param {Quaternion} [target] A quaternion to store the result in. If not provided, a new one will be created.
+   * @param toQuat second operand
+   * @param t interpolation amount between the self quaternion and toQuat
+   * @param target A quaternion to store the result in. If not provided, a new one will be created.
    * @returns {Quaternion} The "target" object
    */
   slerp(toQuat: Quaternion, t: number, target = new Quaternion()): Quaternion {

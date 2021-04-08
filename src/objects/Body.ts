@@ -8,128 +8,333 @@ import type { Shape } from '../shapes/Shape'
 import type { Material } from '../material/Material'
 import type { World } from '../world/World'
 
+/**
+ * BODY_TYPES
+ */
 export const BODY_TYPES = {
-  DYNAMIC: 1 as const,
-  STATIC: 2 as const,
-  KINEMATIC: 4 as const,
-}
+  /** DYNAMIC */
+  DYNAMIC: 1,
+  /** STATIC */
+  STATIC: 2,
+  /** KINEMATIC */
+  KINEMATIC: 4,
+} as const
 
+/**
+ * BodyType
+ */
 export type BodyType = typeof BODY_TYPES[keyof typeof BODY_TYPES]
 
+/**
+ * BODY_SLEEP_STATES
+ */
 export const BODY_SLEEP_STATES = {
-  AWAKE: 0 as const,
-  SLEEPY: 1 as const,
-  SLEEPING: 2 as const,
-}
+  /** AWAKE */
+  AWAKE: 0,
+  /** SLEEPY */
+  SLEEPY: 1,
+  /** SLEEPING */
+  SLEEPING: 2,
+} as const
 
+/**
+ * BodySleepState
+ */
 export type BodySleepState = typeof BODY_SLEEP_STATES[keyof typeof BODY_SLEEP_STATES]
 
-export type BodyOptions = {
-  collisionFilterGroup?: number
-  collisionFilterMask?: number
-  collisionResponse?: boolean
-  position?: Vec3
-  velocity?: Vec3
-  mass?: number
-  material?: Material
-  linearDamping?: number
-  type?: BodyType
-  allowSleep?: boolean
-  sleepSpeedLimit?: number
-  sleepTimeLimit?: number
-  quaternion?: Quaternion
-  angularVelocity?: Vec3
-  fixedRotation?: boolean
-  angularDamping?: number
-  linearFactor?: Vec3
-  angularFactor?: Vec3
-  shape?: Shape
-  isTrigger?: boolean
-}
+export type BodyOptions = ConstructorParameters<typeof Body>[0]
 
 /**
  * Base class for all body types.
- * @class Body
- * @constructor
- * @extends EventTarget
- * @param {object} [options]
- * @param {Vec3} [options.position]
- * @param {Vec3} [options.velocity]
- * @param {Vec3} [options.angularVelocity]
- * @param {Quaternion} [options.quaternion]
- * @param {number} [options.mass]
- * @param {Material} [options.material]
- * @param {number} [options.type]
- * @param {number} [options.linearDamping=0.01]
- * @param {number} [options.angularDamping=0.01]
- * @param {boolean} [options.allowSleep=true]
- * @param {number} [options.sleepSpeedLimit=0.1]
- * @param {number} [options.sleepTimeLimit=1]
- * @param {number} [options.collisionFilterGroup=1]
- * @param {number} [options.collisionFilterMask=-1]
- * @param {boolean} [options.fixedRotation=false]
- * @param {Vec3} [options.linearFactor]
- * @param {Vec3} [options.angularFactor]
- * @param {Shape} [options.shape]
  * @example
  *     const body = new Body({
- *         mass: 1
- *     });
- *     const shape = new Sphere(1);
- *     body.addShape(shape);
- *     world.addBody(body);
+ *       mass: 1,
+ *     })
+ *     const shape = new Sphere(1)
+ *     body.addShape(shape)
+ *     world.addBody(body)
  */
 export class Body extends EventTarget {
+  static idCounter = 0
+
+  /**
+   * Dispatched after two bodies collide. This event is dispatched on each
+   * of the two bodies involved in the collision.
+   * @event collide
+   * @param body The body that was involved in the collision.
+   * @param contact The details of the collision.
+   */
+  static COLLIDE_EVENT_NAME = 'collide'
+
+  /**
+   * A dynamic body is fully simulated. Can be moved manually by the user, but normally they move according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero mass.
+   */
+  static DYNAMIC = BODY_TYPES.DYNAMIC
+
+  /**
+   * A static body does not move during simulation and behaves as if it has infinite mass. Static bodies can be moved manually by setting the position of the body. The velocity of a static body is always zero. Static bodies do not collide with other static or kinematic bodies.
+   */
+  static STATIC = BODY_TYPES.STATIC
+
+  /**
+   * A kinematic body moves under simulation according to its velocity. They do not respond to forces. They can be moved manually, but normally a kinematic body is moved by setting its velocity. A kinematic body behaves as if it has infinite mass. Kinematic bodies do not collide with other static or kinematic bodies.
+   */
+  static KINEMATIC = BODY_TYPES.KINEMATIC
+
+  /**
+   * AWAKE
+   */
+  static AWAKE = BODY_SLEEP_STATES.AWAKE
+  /**
+   * SLEEPY
+   */
+  static SLEEPY = BODY_SLEEP_STATES.SLEEPY
+  /**
+   * SLEEPING
+   */
+  static SLEEPING = BODY_SLEEP_STATES.SLEEPING
+
+  /**
+   * Dispatched after a sleeping body has woken up.
+   * @event wakeup
+   */
+  static wakeupEvent = { type: 'wakeup' }
+
+  /**
+   * Dispatched after a body has gone in to the sleepy state.
+   * @event sleepy
+   */
+  static sleepyEvent = { type: 'sleepy' }
+
+  /**
+   * Dispatched after a body has fallen asleep.
+   * @event sleep
+   */
+  static sleepEvent = { type: 'sleep' }
+
+  /**
+   * Identifier of the body.
+   */
   id: number
-  index: number // Position of body in World.bodies. Updated by World and used in ArrayCollisionMatrix.
-  world: World | null // Reference to the world the body is living in.
-  preStep: (() => void) | null // Callback function that is used BEFORE stepping the system. Use it to apply forces, for example. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
-  postStep: (() => void) | null // Callback function that is used AFTER stepping the system. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
+
+  /**
+   * Position of body in World.bodies. Updated by World and used in ArrayCollisionMatrix.
+   */
+  index: number
+
+  /**
+   * Reference to the world the body is living in.
+   */
+  world: World | null
+
+  /**
+   * Callback function that is used BEFORE stepping the system. Use it to apply forces, for example. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
+   * @deprecated Use World events instead
+   */
+  preStep: (() => void) | null
+
+  /**
+   * Callback function that is used AFTER stepping the system. Inside the function, "this" will refer to this Body object. Deprecated - use World events instead.
+   * @deprecated Use World events instead
+   */
+  postStep: (() => void) | null
+
   vlambda: Vec3
+
+  /**
+   * The collision group the body belongs to.
+   * @default 1
+   */
   collisionFilterGroup: number
+
+  /**
+   * The collision group the body can collide with.
+   * @default -1
+   */
   collisionFilterMask: number
-  collisionResponse: boolean // Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled - i.e. "collide" events will be raised, but forces will not be altered.
-  position: Vec3 // World space position of the body.
+
+  /**
+   * Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled - i.e. "collide" events will be raised, but forces will not be altered.
+   */
+  collisionResponse: boolean
+
+  /**
+   * World space position of the body.
+   */
+  position: Vec3
+
   previousPosition: Vec3
-  interpolatedPosition: Vec3 // Interpolated position of the body.
-  initPosition: Vec3 // Initial position of the body.
-  velocity: Vec3 // World space velocity of the body.
+
+  /**
+   * Interpolated position of the body.
+   */
+  interpolatedPosition: Vec3
+
+  /**
+   * Initial position of the body.
+   */
+  initPosition: Vec3
+
+  /**
+   * World space velocity of the body.
+   */
+  velocity: Vec3
+
+  /**
+   * Initial velocity of the body.
+   */
   initVelocity: Vec3
-  force: Vec3 // Linear force on the body in world space.
+
+  /**
+   * Linear force on the body in world space.
+   */
+  force: Vec3
+
+  /**
+   * The mass of the body.
+   * @default 0
+   */
   mass: number
+
   invMass: number
+
+  /**
+   * The physics material of the body. It defines the body interaction with other bodies.
+   */
   material: Material | null
+
+  /**
+   * How much to damp the body velocity each step. It can go from 0 to 1.
+   * @default 0.01
+   */
   linearDamping: number
-  type: BodyType // One of: Body.DYNAMIC, Body.STATIC and Body.KINEMATIC.
-  allowSleep: boolean // If true, the body will automatically fall to sleep.
-  sleepState: BodySleepState // Current sleep state.
-  sleepSpeedLimit: number // If the speed (the norm of the velocity) is smaller than this value, the body is considered sleepy.
-  sleepTimeLimit: number // If the body has been sleepy for this sleepTimeLimit seconds, it is considered sleeping.
+
+  /**
+   * One of: `Body.DYNAMIC`, `Body.STATIC` and `Body.KINEMATIC`.
+   */
+  type: BodyType
+
+  /**
+   * If true, the body will automatically fall to sleep.
+   * @default true
+   */
+  allowSleep: boolean
+
+  /**
+   * Current sleep state.
+   */
+  sleepState: BodySleepState
+
+  /**
+   * If the speed (the norm of the velocity) is smaller than this value, the body is considered sleepy.
+   * @default 0.1
+   */
+  sleepSpeedLimit: number
+
+  /**
+   * If the body has been sleepy for this sleepTimeLimit seconds, it is considered sleeping.
+   * @default 1
+   */
+  sleepTimeLimit: number
+
   timeLastSleepy: number
+
   wakeUpAfterNarrowphase: boolean
-  torque: Vec3 // World space rotational force on the body, around center of mass.
-  quaternion: Quaternion // World space orientation of the body.
+
+  /**
+   * World space rotational force on the body, around center of mass.
+   */
+  torque: Vec3
+
+  /**
+   * World space orientation of the body.
+   */
+  quaternion: Quaternion
+
+  /**
+   * Initial quaternion of the body.
+   */
   initQuaternion: Quaternion
+
   previousQuaternion: Quaternion
-  interpolatedQuaternion: Quaternion // Interpolated orientation of the body.
-  angularVelocity: Vec3 // Angular velocity of the body, in world space. Think of the angular velocity as a vector, which the body rotates around. The length of this vector determines how fast (in radians per second) the body rotates.
+
+  /**
+   * Interpolated orientation of the body.
+   */
+  interpolatedQuaternion: Quaternion
+
+  /**
+   * Angular velocity of the body, in world space. Think of the angular velocity as a vector, which the body rotates around. The length of this vector determines how fast (in radians per second) the body rotates.
+   */
+  angularVelocity: Vec3
+
+  /**
+   * Initial angular velocity of the body.
+   */
   initAngularVelocity: Vec3
+
+  /**
+   * List of Shapes that have been added to the body.
+   */
   shapes: Shape[]
-  shapeOffsets: Vec3[] // Position of each Shape in the body, given in local Body space.
-  shapeOrientations: Quaternion[] // Orientation of each Shape, given in local Body space.
+
+  /**
+   * Position of each Shape in the body, given in local Body space.
+   */
+  shapeOffsets: Vec3[]
+
+  /**
+   * Orientation of each Shape, given in local Body space.
+   */
+  shapeOrientations: Quaternion[]
+
+  /**
+   * The inertia of the body.
+   */
   inertia: Vec3
+
   invInertia: Vec3
   invInertiaWorld: Mat3
   invMassSolve: number
   invInertiaSolve: Vec3
   invInertiaWorldSolve: Mat3
-  fixedRotation: boolean // Set to true if you don't want the body to rotate. Make sure to run .updateMassProperties() after changing this.
+
+  /**
+   * Set to true if you don't want the body to rotate. Make sure to run .updateMassProperties() if you change this after the body creation.
+   * @default false
+   */
+  fixedRotation: boolean
+
+  /**
+   * How much to damp the body angular velocity each step. It can go from 0 to 1.
+   * @default 0.01
+   */
   angularDamping: number
-  linearFactor: Vec3 // Use this property to limit the motion along any world axis. (1,1,1) will allow motion along all axes while (0,0,0) allows none.
-  angularFactor: Vec3 // Use this property to limit the rotational motion along any world axis. (1,1,1) will allow rotation along all axes while (0,0,0) allows none.
-  aabb: AABB // World space bounding box of the body and its shapes.
-  aabbNeedsUpdate: boolean // Indicates if the AABB needs to be updated before use.
-  boundingRadius: number // Total bounding radius of the Body including its shapes, relative to body.position.
+
+  /**
+   * Use this property to limit the motion along any world axis. (1,1,1) will allow motion along all axes while (0,0,0) allows none.
+   */
+  linearFactor: Vec3
+
+  /**
+   * Use this property to limit the rotational motion along any world axis. (1,1,1) will allow rotation along all axes while (0,0,0) allows none.
+   */
+  angularFactor: Vec3
+
+  /**
+   * World space bounding box of the body and its shapes.
+   */
+  aabb: AABB
+
+  /**
+   * Indicates if the AABB needs to be updated before use.
+   */
+  aabbNeedsUpdate: boolean
+
+  /**
+   * Total bounding radius of the Body including its shapes, relative to body.position.
+   */
+  boundingRadius: number
   wlambda: Vec3
   /**
    * When true the body behaves like a trigger. It does not collide
@@ -138,19 +343,102 @@ export class Body extends EventTarget {
    */
   isTrigger: boolean
 
-  static idCounter: number
-  static COLLIDE_EVENT_NAME: 'collide'
-  static DYNAMIC: typeof BODY_TYPES['DYNAMIC']
-  static STATIC: typeof BODY_TYPES['STATIC']
-  static KINEMATIC: typeof BODY_TYPES['KINEMATIC']
-  static AWAKE: typeof BODY_SLEEP_STATES['AWAKE']
-  static SLEEPY: typeof BODY_SLEEP_STATES['SLEEPY']
-  static SLEEPING: typeof BODY_SLEEP_STATES['SLEEPING']
-  static wakeupEvent: { type: 'wakeup' }
-  static sleepyEvent: { type: 'sleepy' }
-  static sleepEvent: { type: 'sleep' }
+  constructor(
+    options: {
+      /**
+       * The collision group the body belongs to.
+       * @default 1
+       */
+      collisionFilterGroup?: number
+      /**
+       * The collision group the body can collide with.
+       * @default -1
+       */
+      collisionFilterMask?: number
 
-  constructor(options: BodyOptions = {}) {
+      /**
+       * Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled - i.e. "collide" events will be raised, but forces will not be altered.
+       */
+      collisionResponse?: boolean
+      /**
+       * World space position of the body.
+       */
+      position?: Vec3
+      /**
+       * World space velocity of the body.
+       */
+      velocity?: Vec3
+      /**
+       * The mass of the body.
+       * @default 0
+       */
+      mass?: number
+      /**
+       * The physics material of the body. It defines the body interaction with other bodies.
+       */
+      material?: Material
+      /**
+       * How much to damp the body velocity each step. It can go from 0 to 1.
+       * @default 0.01
+       */
+      linearDamping?: number
+      /**
+       * One of: `Body.DYNAMIC`, `Body.STATIC` and `Body.KINEMATIC`.
+       */
+      type?: BodyType
+      /**
+       * If true, the body will automatically fall to sleep.
+       * @default true
+       */
+      allowSleep?: boolean
+      /**
+       * If the speed (the norm of the velocity) is smaller than this value, the body is considered sleepy.
+       * @default 0.1
+       */
+      sleepSpeedLimit?: number
+      /**
+       * If the body has been sleepy for this sleepTimeLimit seconds, it is considered sleeping.
+       * @default 1
+       */
+      sleepTimeLimit?: number
+      /**
+       * World space orientation of the body.
+       */
+      quaternion?: Quaternion
+      /**
+       * Angular velocity of the body, in world space. Think of the angular velocity as a vector, which the body rotates around. The length of this vector determines how fast (in radians per second) the body rotates.
+       */
+      angularVelocity?: Vec3
+      /**
+       * Set to true if you don't want the body to rotate. Make sure to run .updateMassProperties() if you change this after the body creation.
+       * @default false
+       */
+      fixedRotation?: boolean
+      /**
+       * How much to damp the body angular velocity each step. It can go from 0 to 1.
+       * @default 0.01
+       */
+      angularDamping?: number
+      /**
+       * Use this property to limit the motion along any world axis. (1,1,1) will allow motion along all axes while (0,0,0) allows none.
+       */
+      linearFactor?: Vec3
+      /**
+       * Use this property to limit the rotational motion along any world axis. (1,1,1) will allow rotation along all axes while (0,0,0) allows none.
+       */
+      angularFactor?: Vec3
+      /**
+       * Add a Shape to the body.
+       */
+      shape?: Shape
+      /**
+       * When true the body behaves like a trigger. It does not collide
+       * with other bodies but collision events are still triggered.
+       * @default false
+       */
+      isTrigger?: boolean
+    } = {}
+  ) {
     super()
 
     this.id = Body.idCounter++
@@ -264,7 +552,6 @@ export class Body extends EventTarget {
 
   /**
    * Wake the body up.
-   * @method wakeUp
    */
   wakeUp(): void {
     const prevState = this.sleepState
@@ -277,7 +564,6 @@ export class Body extends EventTarget {
 
   /**
    * Force body sleep
-   * @method sleep
    */
   sleep(): void {
     this.sleepState = Body.SLEEPING
@@ -288,8 +574,7 @@ export class Body extends EventTarget {
 
   /**
    * Called every timestep to update internal sleep timer and change sleep state if needed.
-   * @method sleepTick
-   * @param {Number} time The world time in seconds
+   * @param time The world time in seconds
    */
   sleepTick(time: number): void {
     if (this.allowSleep) {
@@ -311,7 +596,6 @@ export class Body extends EventTarget {
 
   /**
    * If the body is sleeping, it should be immovable / have infinite mass during solve. We solve it by having a separate "solve mass".
-   * @method updateSolveMassProperties
    */
   updateSolveMassProperties(): void {
     if (this.sleepState === Body.SLEEPING || this.type === Body.KINEMATIC) {
@@ -327,10 +611,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a world point to local body frame.
-   * @method pointToLocalFrame
-   * @param  {Vec3} worldPoint
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   pointToLocalFrame(worldPoint: Vec3, result = new Vec3()): Vec3 {
     worldPoint.vsub(this.position, result)
@@ -340,10 +620,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a world vector to local body frame.
-   * @method vectorToLocalFrame
-   * @param  {Vec3} worldPoint
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   vectorToLocalFrame(worldVector: Vec3, result = new Vec3()): Vec3 {
     this.quaternion.conjugate().vmult(worldVector, result)
@@ -352,10 +628,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a local body point to world frame.
-   * @method pointToWorldFrame
-   * @param  {Vec3} localPoint
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   pointToWorldFrame(localPoint: Vec3, result = new Vec3()): Vec3 {
     this.quaternion.vmult(localPoint, result)
@@ -365,10 +637,6 @@ export class Body extends EventTarget {
 
   /**
    * Convert a local body point to world frame.
-   * @method vectorToWorldFrame
-   * @param  {Vec3} localVector
-   * @param  {Vec3} result
-   * @return {Vec3}
    */
   vectorToWorldFrame(localVector: Vec3, result = new Vec3()): Vec3 {
     this.quaternion.vmult(localVector, result)
@@ -377,11 +645,7 @@ export class Body extends EventTarget {
 
   /**
    * Add a shape to the body with a local offset and orientation.
-   * @method addShape
-   * @param {Shape} shape
-   * @param {Vec3} [_offset]
-   * @param {Quaternion} [_orientation]
-   * @return {Body} The body object, for chainability.
+   * @return The body object, for chainability.
    */
   addShape(shape: Shape, _offset?: Vec3, _orientation?: Quaternion): Body {
     const offset = new Vec3()
@@ -409,9 +673,7 @@ export class Body extends EventTarget {
 
   /**
    * Remove a shape from the body.
-   * @method removeShape
-   * @param {Shape} shape
-   * @return {Body} The body object, for chainability.
+   * @return The body object, for chainability.
    */
   removeShape(shape: Shape): Body {
     const index = this.shapes.indexOf(shape)
@@ -436,7 +698,6 @@ export class Body extends EventTarget {
 
   /**
    * Update the bounding radius of the body. Should be done if any of the shapes are changed.
-   * @method updateBoundingRadius
    */
   updateBoundingRadius(): void {
     const shapes = this.shapes
@@ -459,7 +720,6 @@ export class Body extends EventTarget {
 
   /**
    * Updates the .aabb
-   * @method updateAABB
    */
   updateAABB(): void {
     const shapes = this.shapes
@@ -496,8 +756,7 @@ export class Body extends EventTarget {
   }
 
   /**
-   * Update .inertiaWorld and .invInertiaWorld
-   * @method updateInertiaWorld
+   * Update `.inertiaWorld` and `.invInertiaWorld`
    */
   updateInertiaWorld(force?: boolean): void {
     const I = this.invInertia
@@ -521,9 +780,8 @@ export class Body extends EventTarget {
   /**
    * Apply force to a point of the body. This could for example be a point on the Body surface.
    * Applying force this way will add to Body.force and Body.torque.
-   * @method applyForce
-   * @param  {Vec3} force The amount of force to add.
-   * @param  {Vec3} [relativePoint] A point relative to the center of mass to apply the force on.
+   * @param force The amount of force to add.
+   * @param relativePoint A point relative to the center of mass to apply the force on.
    */
   applyForce(force: Vec3, relativePoint: Vec3 = new Vec3()): void {
     // Needed?
@@ -548,9 +806,8 @@ export class Body extends EventTarget {
 
   /**
    * Apply force to a local point in the body.
-   * @method applyLocalForce
-   * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
-   * @param  {Vec3} [localPoint] A local point in the body to apply the force on.
+   * @param force The force vector to apply, defined locally in the body frame.
+   * @param localPoint A local point in the body to apply the force on.
    */
   applyLocalForce(localForce: Vec3, localPoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
@@ -569,8 +826,7 @@ export class Body extends EventTarget {
 
   /**
    * Apply torque to the body.
-   * @method applyTorque
-   * @param  {Vec3} torque The amount of torque to add.
+   * @param torque The amount of torque to add.
    */
   applyTorque(torque: Vec3): void {
     if (this.type !== Body.DYNAMIC) {
@@ -589,9 +845,8 @@ export class Body extends EventTarget {
    * Apply impulse to a point of the body. This could for example be a point on the Body surface.
    * An impulse is a force added to a body during a short period of time (impulse = force * time).
    * Impulses will be added to Body.velocity and Body.angularVelocity.
-   * @method applyImpulse
-   * @param  {Vec3} impulse The amount of impulse to add.
-   * @param  {Vec3} relativePoint A point relative to the center of mass to apply the force on.
+   * @param impulse The amount of impulse to add.
+   * @param relativePoint A point relative to the center of mass to apply the force on.
    */
   applyImpulse(impulse: Vec3, relativePoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
@@ -630,9 +885,8 @@ export class Body extends EventTarget {
 
   /**
    * Apply locally-defined impulse to a local point in the body.
-   * @method applyLocalImpulse
-   * @param  {Vec3} force The force vector to apply, defined locally in the body frame.
-   * @param  {Vec3} localPoint A local point in the body to apply the force on.
+   * @param force The force vector to apply, defined locally in the body frame.
+   * @param localPoint A local point in the body to apply the force on.
    */
   applyLocalImpulse(localImpulse: Vec3, localPoint: Vec3 = new Vec3()): void {
     if (this.type !== Body.DYNAMIC) {
@@ -651,7 +905,6 @@ export class Body extends EventTarget {
 
   /**
    * Should be called whenever you change the body shape or mass.
-   * @method updateMassProperties
    */
   updateMassProperties(): void {
     const halfExtents = Body_updateMassProperties_halfExtents
@@ -679,10 +932,9 @@ export class Body extends EventTarget {
 
   /**
    * Get world velocity of a point in the body.
-   * @method getVelocityAtWorldPoint
-   * @param  {Vec3} worldPoint
-   * @param  {Vec3} result
-   * @return {Vec3} The result vector.
+   * @param worldPoint
+   * @param result
+   * @return The result vector.
    */
   getVelocityAtWorldPoint(worldPoint: Vec3, result: Vec3): Vec3 {
     const r = new Vec3()
@@ -694,9 +946,9 @@ export class Body extends EventTarget {
 
   /**
    * Move the body forward in time.
-   * @param {number} dt Time step
-   * @param {boolean} quatNormalize Set to true to normalize the body quaternion
-   * @param {boolean} quatNormalizeFast If the quaternion should be normalized using "fast" quaternion normalization
+   * @param dt Time step
+   * @param quatNormalize Set to true to normalize the body quaternion
+   * @param quatNormalizeFast If the quaternion should be normalized using "fast" quaternion normalization
    */
   integrate(dt: number, quatNormalize: boolean, quatNormalizeFast: boolean): void {
     // Save previous position
@@ -753,68 +1005,6 @@ export class Body extends EventTarget {
     this.updateInertiaWorld()
   }
 }
-
-/**
- * Dispatched after two bodies collide. This event is dispatched on each
- * of the two bodies involved in the collision.
- * @event collide
- * @param {Body} body The body that was involved in the collision.
- * @param {ContactEquation} contact The details of the collision.
- */
-Body.COLLIDE_EVENT_NAME = 'collide'
-
-/**
- * A dynamic body is fully simulated. Can be moved manually by the user, but normally they move according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero mass.
- * @static
- * @property DYNAMIC
- * @type {Number}
- */
-Body.DYNAMIC = 1
-
-/**
- * A static body does not move during simulation and behaves as if it has infinite mass. Static bodies can be moved manually by setting the position of the body. The velocity of a static body is always zero. Static bodies do not collide with other static or kinematic bodies.
- * @static
- * @property STATIC
- * @type {Number}
- */
-Body.STATIC = 2
-
-/**
- * A kinematic body moves under simulation according to its velocity. They do not respond to forces. They can be moved manually, but normally a kinematic body is moved by setting its velocity. A kinematic body behaves as if it has infinite mass. Kinematic bodies do not collide with other static or kinematic bodies.
- * @static
- * @property KINEMATIC
- * @type {Number}
- */
-Body.KINEMATIC = 4
-
-/**
- * @static
- * @property AWAKE
- * @type {number}
- */
-Body.AWAKE = BODY_SLEEP_STATES.AWAKE
-Body.SLEEPY = BODY_SLEEP_STATES.SLEEPY
-Body.SLEEPING = BODY_SLEEP_STATES.SLEEPING
-
-Body.idCounter = 0
-
-/**
- * Dispatched after a sleeping body has woken up.
- * @event wakeup
- */
-Body.wakeupEvent = { type: 'wakeup' }
-
-/**
- * Dispatched after a body has gone in to the sleepy state.
- * @event sleepy
- */
-Body.sleepyEvent = { type: 'sleepy' }
-
-/**
- * Dispatched after a body has fallen asleep.
- * @event sleep
- */
-Body.sleepEvent = { type: 'sleep' }
 
 const tmpVec = new Vec3()
 const tmpQuat = new Quaternion()

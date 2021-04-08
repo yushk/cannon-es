@@ -5,22 +5,19 @@ import type { World } from '../world/World'
 
 /**
  * Naive broadphase implementation, used in lack of better ones.
- * @class NaiveBroadphase
- * @constructor
- * @description The naive broadphase looks at all possible pairs without restriction, therefore it has complexity N^2 (which is bad)
- * @extends Broadphase
+ *
+ * The naive broadphase looks at all possible pairs without restriction, therefore it has complexity N^2 _(which is bad)_
  */
 export class NaiveBroadphase extends Broadphase {
+  /**
+   * @todo Remove useless constructor
+   */
   constructor() {
     super()
   }
 
   /**
    * Get all the collision pairs in the physics world
-   * @method collisionPairs
-   * @param {World} world
-   * @param {Array} pairs1
-   * @param {Array} pairs2
    */
   collisionPairs(world: World, pairs1: Body[], pairs2: Body[]): void {
     const bodies = world.bodies
@@ -45,11 +42,7 @@ export class NaiveBroadphase extends Broadphase {
 
   /**
    * Returns all the bodies within an AABB.
-   * @method aabbQuery
-   * @param  {World} world
-   * @param  {AABB} aabb
-   * @param {array} result An array to store resulting bodies in.
-   * @return {array}
+   * @param result An array to store resulting bodies in.
    */
   aabbQuery(world: World, aabb: AABB, result: Body[] = []): Body[] {
     for (let i = 0; i < world.bodies.length; i++) {

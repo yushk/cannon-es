@@ -4,20 +4,10 @@ import { Vec3 } from '../math/Vec3'
 import type { Body } from '../objects/Body'
 import type { RotationalMotorEquation } from '../equations/RotationalMotorEquation'
 
-export type LockConstraintOptions = {
-  maxForce?: number
-}
+export type LockConstraintOptions = ConstructorParameters<typeof LockConstraint>[2]
 
 /**
  * Lock constraint. Will remove all degrees of freedom between the bodies.
- * @class LockConstraint
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {object} [options]
- * @param {Number} [options.maxForce=1e6]
- * @extends PointToPointConstraint
  */
 export class LockConstraint extends PointToPointConstraint {
   xA: Vec3
@@ -26,12 +16,23 @@ export class LockConstraint extends PointToPointConstraint {
   yB: Vec3
   zA: Vec3
   zB: Vec3
+
   rotationalEquation1: RotationalEquation
   rotationalEquation2: RotationalEquation
   rotationalEquation3: RotationalEquation
   motorEquation?: RotationalMotorEquation
 
-  constructor(bodyA: Body, bodyB: Body, options: LockConstraintOptions = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * The maximum force that should be applied to constrain the bodies.
+       * @default 1e6
+       */
+      maxForce?: number
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     // Set pivot point in between
@@ -62,6 +63,9 @@ export class LockConstraint extends PointToPointConstraint {
     this.equations.push(r1, r2, r3)
   }
 
+  /**
+   * update
+   */
   update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB

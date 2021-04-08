@@ -2,31 +2,47 @@ import { Equation } from '../equations/Equation'
 import { Vec3 } from '../math/Vec3'
 import type { Body } from '../objects/Body'
 
-export type RotationalEquationOptions = {
-  maxForce?: number
-  axisA?: Vec3
-  axisB?: Vec3
-  maxAngle?: number
-}
+export type RotationalEquationOptions = ConstructorParameters<typeof RotationalEquation>[2]
 
 /**
  * Rotational constraint. Works to keep the local vectors orthogonal to each other in world space.
- * @class RotationalEquation
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {Vec3} [options.axisA]
- * @param {Vec3} [options.axisB]
- * @param {number} [options.maxForce]
- * @extends Equation
  */
 export class RotationalEquation extends Equation {
+  /**
+   * World oriented rotational axis.
+   */
   axisA: Vec3
+  /**
+   * World oriented rotational axis.
+   */
   axisB: Vec3
+  /**
+   * maxAngle
+   */
   maxAngle: number
 
-  constructor(bodyA: Body, bodyB: Body, options: RotationalEquationOptions = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * World oriented rotational axis.
+       */
+      axisA?: Vec3
+      /**
+       * World oriented rotational axis.
+       */
+      axisB?: Vec3
+      /**
+       * maxAngle
+       */
+      maxAngle?: number
+      /**
+       * @default 1e6
+       */
+      maxForce?: number
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
 
     super(bodyA, bodyB, -maxForce, maxForce)

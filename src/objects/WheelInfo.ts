@@ -4,38 +4,7 @@ import { RaycastResult } from '../collision/RaycastResult'
 import { Utils } from '../utils/Utils'
 import type { Body } from '../objects/Body'
 
-export type WheelInfoOptions = {
-  chassisConnectionPointLocal?: Vec3
-  chassisConnectionPointWorld?: Vec3
-  directionLocal?: Vec3
-  directionWorld?: Vec3
-  axleLocal?: Vec3
-  axleWorld?: Vec3
-  suspensionRestLength?: number
-  suspensionMaxLength?: number
-  radius?: number
-  suspensionStiffness?: number
-  dampingCompression?: number
-  dampingRelaxation?: number
-  frictionSlip?: number
-  forwardAcceleration?: number
-  sideAcceleration?: number
-  steering?: number
-  rotation?: number
-  deltaRotation?: number
-  rollInfluence?: number
-  maxSuspensionForce?: number
-  isFrontWheel?: boolean
-  clippedInvContactDotSuspension?: number
-  suspensionRelativeVelocity?: number
-  suspensionForce?: number
-  slipInfo?: number
-  skidInfo?: number
-  suspensionLength?: number
-  maxSuspensionTravel?: number
-  useCustomSlidingRotationalSpeed?: boolean
-  customSlidingRotationalSpeed?: number
-}
+export type WheelInfoOptions = ConstructorParameters<typeof WheelInfo>[0]
 
 export type WheelRaycastResult = RaycastResult &
   Partial<{
@@ -45,79 +14,318 @@ export type WheelRaycastResult = RaycastResult &
   }>
 
 /**
- * @class WheelInfo
- * @constructor
- * @param {Object} [options]
- *
- * @param {Vec3} [options.chassisConnectionPointLocal]
- * @param {Vec3} [options.chassisConnectionPointWorld]
- * @param {Vec3} [options.directionLocal]
- * @param {Vec3} [options.directionWorld]
- * @param {Vec3} [options.axleLocal]
- * @param {Vec3} [options.axleWorld]
- * @param {number} [options.suspensionRestLength=1]
- * @param {number} [options.suspensionMaxLength=2]
- * @param {number} [options.radius=1]
- * @param {number} [options.suspensionStiffness=100]
- * @param {number} [options.dampingCompression=10]
- * @param {number} [options.dampingRelaxation=10]
- * @param {number} [options.frictionSlip=10.5]
- * @param {number} [options.steering=0]
- * @param {number} [options.rotation=0]
- * @param {number} [options.deltaRotation=0]
- * @param {number} [options.rollInfluence=0.01]
- * @param {number} [options.maxSuspensionForce]
- * @param {boolean} [options.isFrontWheel=true]
- * @param {number} [options.clippedInvContactDotSuspension=1]
- * @param {number} [options.suspensionRelativeVelocity=0]
- * @param {number} [options.suspensionForce=0]
- * @param {number} [options.skidInfo=0]
- * @param {number} [options.suspensionLength=0]
- * @param {number} [options.maxSuspensionTravel=1]
- * @param {boolean} [options.useCustomSlidingRotationalSpeed=false]
- * @param {number} [options.customSlidingRotationalSpeed=-0.1]
+ * WheelInfo
  */
 export class WheelInfo {
-  maxSuspensionTravel: number // Max travel distance of the suspension, in meters.
-  customSlidingRotationalSpeed: number // Speed to apply to the wheel rotation when the wheel is sliding.
-  useCustomSlidingRotationalSpeed: boolean // If the customSlidingRotationalSpeed should be used.
+  /**
+   * Max travel distance of the suspension, in meters.
+   * @default 1
+   */
+  maxSuspensionTravel: number
+  /**
+   * Speed to apply to the wheel rotation when the wheel is sliding.
+   * @default -0.1
+   */
+  customSlidingRotationalSpeed: number
+  /**
+   * If the customSlidingRotationalSpeed should be used.
+   * @default false
+   */
+  useCustomSlidingRotationalSpeed: boolean
+  /**
+   * sliding
+   */
   sliding: boolean
-  chassisConnectionPointLocal: Vec3 // Connection point, defined locally in the chassis body frame.
+  /**
+   * Connection point, defined locally in the chassis body frame.
+   */
+  chassisConnectionPointLocal: Vec3
+  /**
+   * chassisConnectionPointWorld
+   */
   chassisConnectionPointWorld: Vec3
+  /**
+   * directionLocal
+   */
   directionLocal: Vec3
+  /**
+   * directionWorld
+   */
   directionWorld: Vec3
+  /**
+   * axleLocal
+   */
   axleLocal: Vec3
+  /**
+   * axleWorld
+   */
   axleWorld: Vec3
+  /**
+   * suspensionRestLength
+   * @default 1
+   */
   suspensionRestLength: number
+  /**
+   * suspensionMaxLength
+   * @default 2
+   */
   suspensionMaxLength: number
+  /**
+   * radius
+   * @default 1
+   */
   radius: number
+  /**
+   * suspensionStiffness
+   * @default 100
+   */
   suspensionStiffness: number
+  /**
+   * dampingCompression
+   * @default 10
+   */
   dampingCompression: number
+  /**
+   * dampingRelaxation
+   * @default 10
+   */
   dampingRelaxation: number
+  /**
+   * frictionSlip
+   * @default 10.5
+   */
   frictionSlip: number
+  /** forwardAcceleration */
   forwardAcceleration: number
+  /** sideAcceleration */
   sideAcceleration: number
+  /**
+   * steering
+   * @default 0
+   */
   steering: number
-  rotation: number // Rotation value, in radians.
+  /**
+   * Rotation value, in radians.
+   * @default 0
+   */
+  rotation: number
+  /**
+   * deltaRotation
+   * @default 0
+   */
   deltaRotation: number
+  /**
+   * rollInfluence
+   * @default 0.01
+   */
   rollInfluence: number
+  /**
+   * maxSuspensionForce
+   */
   maxSuspensionForce: number
+  /**
+   * engineForce
+   */
   engineForce: number
+  /**
+   * brake
+   */
   brake: number
+  /**
+   * isFrontWheel
+   * @default true
+   */
   isFrontWheel: boolean
+  /**
+   * clippedInvContactDotSuspension
+   * @default 1
+   */
   clippedInvContactDotSuspension: number
+  /**
+   * suspensionRelativeVelocity
+   * @default 0
+   */
   suspensionRelativeVelocity: number
+  /**
+   * suspensionForce
+   * @default 0
+   */
   suspensionForce: number
+  /**
+   * slipInfo
+   */
   slipInfo: number
+  /**
+   * skidInfo
+   * @default 0
+   */
   skidInfo: number
+  /**
+   * suspensionLength
+   * @default 0
+   */
   suspensionLength: number
+  /**
+   * sideImpulse
+   */
   sideImpulse: number
+  /**
+   * forwardImpulse
+   */
   forwardImpulse: number
-  raycastResult: WheelRaycastResult // The result from raycasting.
-  worldTransform: Transform // Wheel world transform.
+  /**
+   * The result from raycasting.
+   */
+  raycastResult: WheelRaycastResult
+  /**
+   * Wheel world transform.
+   */
+  worldTransform: Transform
+  /**
+   * isInContact
+   */
   isInContact: boolean
 
-  constructor(options: WheelInfoOptions = {}) {
+  constructor(
+    options: {
+      /**
+       * Connection point, defined locally in the chassis body frame.
+       */
+      chassisConnectionPointLocal?: Vec3
+      /**
+       * chassisConnectionPointWorld
+       */
+      chassisConnectionPointWorld?: Vec3
+      /**
+       * directionLocal
+       */
+      directionLocal?: Vec3
+      /**
+       * directionWorld
+       */
+      directionWorld?: Vec3
+      /**
+       * axleLocal
+       */
+      axleLocal?: Vec3
+      /**
+       * axleWorld
+       */
+      axleWorld?: Vec3
+      /**
+       * suspensionRestLength
+       * @default 1
+       */
+      suspensionRestLength?: number
+      /**
+       * suspensionMaxLength
+       * @default 2
+       */
+      suspensionMaxLength?: number
+      /**
+       * radius
+       * @default 1
+       */
+      radius?: number
+      /**
+       * suspensionStiffness
+       * @default 100
+       */
+      suspensionStiffness?: number
+      /**
+       * dampingCompression
+       * @default 10
+       */
+      dampingCompression?: number
+      /**
+       * dampingRelaxation
+       * @default 10
+       */
+      dampingRelaxation?: number
+      /**
+       * frictionSlip
+       * @default 10.5
+       */
+      frictionSlip?: number
+      /** forwardAcceleration */
+      forwardAcceleration?: number
+      /** sideAcceleration */
+      sideAcceleration?: number
+      /**
+       * steering
+       * @default 0
+       */
+      steering?: number
+      /**
+       * Rotation value, in radians.
+       * @default 0
+       */
+      rotation?: number
+      /**
+       * deltaRotation
+       * @default 0
+       */
+      deltaRotation?: number
+      /**
+       * rollInfluence
+       * @default 0.01
+       */
+      rollInfluence?: number
+      /**
+       * maxSuspensionForce
+       */
+      maxSuspensionForce?: number
+      /**
+       * isFrontWheel
+       * @default true
+       */
+      isFrontWheel?: boolean
+      /**
+       * clippedInvContactDotSuspension
+       * @default 1
+       */
+      clippedInvContactDotSuspension?: number
+      /**
+       * suspensionRelativeVelocity
+       * @default 0
+       */
+      suspensionRelativeVelocity?: number
+      /**
+       * suspensionForce
+       * @default 0
+       */
+      suspensionForce?: number
+      /**
+       * slipInfo
+       */
+      slipInfo?: number
+      /**
+       * skidInfo
+       * @default 0
+       */
+      skidInfo?: number
+      /**
+       * suspensionLength
+       * @default 0
+       */
+      suspensionLength?: number
+      /**
+       * Max travel distance of the suspension, in meters.
+       * @default 1
+       */
+      maxSuspensionTravel?: number
+      /**
+       * If the customSlidingRotationalSpeed should be used.
+       * @default false
+       */
+      useCustomSlidingRotationalSpeed?: boolean
+      /**
+       * Speed to apply to the wheel rotation when the wheel is sliding.
+       * @default -0.1
+       */
+      customSlidingRotationalSpeed?: number
+    } = {}
+  ) {
     options = Utils.defaults(options, {
       chassisConnectionPointLocal: new Vec3(),
       chassisConnectionPointWorld: new Vec3(),

@@ -4,38 +4,57 @@ import { RotationalMotorEquation } from '../equations/RotationalMotorEquation'
 import { Vec3 } from '../math/Vec3'
 import type { Body } from '../objects/Body'
 
-export type HingeConstraintOptions = {
-  maxForce?: number
-  pivotA?: Vec3
-  pivotB?: Vec3
-  axisA?: Vec3
-  axisB?: Vec3
-  collideConnected?: boolean
-}
+export type HingeConstraintOptions = ConstructorParameters<typeof HingeConstraint>[2]
 
 /**
  * Hinge constraint. Think of it as a door hinge. It tries to keep the door in the correct place and with the correct orientation.
- * @class HingeConstraint
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {object} [options]
- * @param {Vec3} [options.pivotA] A point defined locally in bodyA. This defines the offset of axisA.
- * @param {Vec3} [options.axisA] An axis that bodyA can rotate around, defined locally in bodyA.
- * @param {Vec3} [options.pivotB]
- * @param {Vec3} [options.axisB]
- * @param {Number} [options.maxForce=1e6]
- * @extends PointToPointConstraint
  */
 export class HingeConstraint extends PointToPointConstraint {
-  axisA: Vec3 // Rotation axis, defined locally in bodyA.
-  axisB: Vec3 // Rotation axis, defined locally in bodyB.
+  /**
+   * Rotation axis, defined locally in bodyA.
+   */
+  axisA: Vec3
+  /**
+   * Rotation axis, defined locally in bodyB.
+   */
+  axisB: Vec3
+
   rotationalEquation1: RotationalEquation
   rotationalEquation2: RotationalEquation
   motorEquation: RotationalMotorEquation
 
-  constructor(bodyA: Body, bodyB: Body, options: HingeConstraintOptions = {}) {
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * A point defined locally in bodyA. This defines the offset of axisA.
+       */
+      pivotA?: Vec3
+      /**
+       * A point defined locally in bodyB. This defines the offset of axisB.
+       */
+      pivotB?: Vec3
+      /**
+       * An axis that bodyA can rotate around, defined locally in bodyA.
+       */
+      axisA?: Vec3
+      /**
+       * An axis that bodyB can rotate around, defined locally in bodyB.
+       */
+      axisB?: Vec3
+      /**
+       * Wheter to collide the connected bodies or not.
+       * @default false
+       */
+      collideConnected?: boolean
+      /**
+       * The maximum force that should be applied to constrain the bodies.
+       * @default 1e6
+       */
+      maxForce?: number
+    } = {}
+  ) {
     const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6
     const pivotA = options.pivotA ? options.pivotA.clone() : new Vec3()
     const pivotB = options.pivotB ? options.pivotB.clone() : new Vec3()
@@ -60,36 +79,37 @@ export class HingeConstraint extends PointToPointConstraint {
   }
 
   /**
-   * @method enableMotor
+   * enableMotor
    */
   enableMotor(): void {
     this.motorEquation.enabled = true
   }
 
   /**
-   * @method disableMotor
+   * disableMotor
    */
   disableMotor(): void {
     this.motorEquation.enabled = false
   }
 
   /**
-   * @method setMotorSpeed
-   * @param {number} speed
+   * setMotorSpeed
    */
   setMotorSpeed(speed: number): void {
     this.motorEquation.targetVelocity = speed
   }
 
   /**
-   * @method setMotorMaxForce
-   * @param {number} maxForce
+   * setMotorMaxForce
    */
   setMotorMaxForce(maxForce: number): void {
     this.motorEquation.maxForce = maxForce
     this.motorEquation.minForce = -maxForce
   }
 
+  /**
+   * update
+   */
   update(): void {
     const bodyA = this.bodyA
     const bodyB = this.bodyB

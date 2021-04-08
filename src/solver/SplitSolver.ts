@@ -8,14 +8,18 @@ type SplitSolverNode = { body: Body | null; children: SplitSolverNode[]; eqs: Eq
 
 /**
  * Splits the equations into islands and solves them independently. Can improve performance.
- * @class SplitSolver
- * @constructor
- * @extends Solver
- * @param {Solver} subsolver
  */
 export class SplitSolver extends Solver {
-  iterations: number // The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
-  tolerance: number // When tolerance is reached, the system is assumed to be converged.
+  /**
+   * The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
+   */
+  iterations: number
+
+  /**
+   * When tolerance is reached, the system is assumed to be converged.
+   */
+  tolerance: number
+  /** subsolver */
   subsolver: GSSolver
   nodes: SplitSolverNode[]
   nodePool: SplitSolverNode[]
@@ -35,16 +39,16 @@ export class SplitSolver extends Solver {
     }
   }
 
+  /**
+   * createNode
+   */
   createNode(): SplitSolverNode {
     return { body: null, children: [], eqs: [], visited: false }
   }
 
   /**
    * Solve the subsystems
-   * @method solve
-   * @param  {Number} dt
-   * @param  {World} world
-   * @return {Number} number of iterations performed
+   * @return number of iterations performed
    */
   solve(dt: number, world: World): number {
     const nodes = SplitSolver_solve_nodes

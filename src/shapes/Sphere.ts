@@ -4,15 +4,17 @@ import type { Quaternion } from '../math/Quaternion'
 
 /**
  * Spherical shape
- * @class Sphere
- * @constructor
- * @extends Shape
- * @param {Number} radius The radius of the sphere, a non-negative number.
- * @author schteppe / http://github.com/schteppe
  */
 export class Sphere extends Shape {
+  /**
+   * The radius of the sphere.
+   */
   radius: number
 
+  /**
+   *
+   * @param radius The radius of the sphere, a non-negative number.
+   */
   constructor(radius: number) {
     super({ type: Shape.types.SPHERE })
 
@@ -25,6 +27,7 @@ export class Sphere extends Shape {
     this.updateBoundingSphereRadius()
   }
 
+  /** calculateLocalInertia */
   calculateLocalInertia(mass: number, target = new Vec3()): Vec3 {
     const I = (2.0 * mass * this.radius * this.radius) / 5.0
     target.x = I
@@ -33,6 +36,7 @@ export class Sphere extends Shape {
     return target
   }
 
+  /** volume */
   volume(): number {
     return (4.0 * Math.PI * Math.pow(this.radius, 3)) / 3.0
   }

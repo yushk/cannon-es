@@ -22,6 +22,14 @@ const babelOptions = {
     ],
     '@babel/preset-typescript',
   ],
+  plugins: [
+    [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true,
+      },
+    ],
+  ],
 }
 
 export default [

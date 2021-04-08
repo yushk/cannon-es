@@ -4,18 +4,24 @@ import type { Body } from '../objects/Body'
 
 /**
  * Contact/non-penetration constraint equation
- * @class ContactEquation
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @extends Equation
  */
 export class ContactEquation extends Equation {
-  restitution: number // "bounciness": u1 = -e*u0
-  ri: Vec3 // World-oriented vector that goes from the center of bi to the contact point.
-  rj: Vec3 // World-oriented vector that starts in body j position and goes to the contact point.
-  ni: Vec3 // Contact normal, pointing out of body i.
+  /**
+   * "bounciness": u1 = -e*u0
+   */
+  restitution: number
+  /**
+   * World-oriented vector that goes from the center of bi to the contact point.
+   */
+  ri: Vec3
+  /**
+   * World-oriented vector that starts in body j position and goes to the contact point.
+   */
+  rj: Vec3
+  /**
+   * Contact normal, pointing out of body i.
+   */
+  ni: Vec3
 
   constructor(bodyA: Body, bodyB: Body, maxForce = 1e6) {
     super(bodyA, bodyB, 0, maxForce)
@@ -79,8 +85,6 @@ export class ContactEquation extends Equation {
 
   /**
    * Get the current relative velocity in the contact point.
-   * @method getImpactVelocityAlongNormal
-   * @return {number}
    */
   getImpactVelocityAlongNormal(): number {
     const vi = ContactEquation_getImpactVelocityAlongNormal_vi

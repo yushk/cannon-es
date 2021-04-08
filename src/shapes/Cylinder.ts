@@ -3,21 +3,24 @@ import { Vec3 } from '../math/Vec3'
 import { Shape } from './Shape'
 
 /**
- * @class Cylinder
- * @constructor
- * @extends ConvexPolyhedron
- * @author schteppe / https://github.com/schteppe
- * @param {Number} radiusTop
- * @param {Number} radiusBottom
- * @param {Number} height
- * @param {Number} numSegments The number of segments to build the cylinder out of
+ * Cylinder class.
  */
 export class Cylinder extends ConvexPolyhedron {
+  /** The radius of the top of the Cylinder. */
   radiusTop: number
+  /** The radius of the bottom of the Cylinder. */
   radiusBottom: number
+  /** The height of the Cylinder. */
   height: number
+  /** The number of segments to build the cylinder out of. */
   numSegments: number
 
+  /**
+   * @param radiusTop The radius of the top of the Cylinder.
+   * @param radiusBottom The radius of the bottom of the Cylinder.
+   * @param height The height of the Cylinder.
+   * @param numSegments The number of segments to build the cylinder out of.
+   */
   constructor(radiusTop: number = 1, radiusBottom: number = 1, height: number = 1, numSegments: number = 8) {
     if (radiusTop < 0) {
       throw new Error('The cylinder radiusTop cannot be negative.')

@@ -1,42 +1,106 @@
 import { Vec3 } from '../math/Vec3'
 import type { Body } from '../objects/Body'
 
-export type SpringOptions = {
-  restLength?: number
-  stiffness?: number
-  damping?: number
-  localAnchorA?: Vec3
-  localAnchorB?: Vec3
-  worldAnchorA?: Vec3
-  worldAnchorB?: Vec3
-}
+export type SpringOptions = ConstructorParameters<typeof Spring>[2]
 
 /**
  * A spring, connecting two bodies.
+ * @example
+ *     const spring = new Spring(boxBody, sphereBody, {
+ *       restLength: 0,
+ *       stiffness: 50,
+ *       damping: 1,
+ *     })
  *
- * @class Spring
- * @constructor
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {Object} [options]
- * @param {number} [options.restLength]   A number > 0. Default: 1
- * @param {number} [options.stiffness]    A number >= 0. Default: 100
- * @param {number} [options.damping]      A number >= 0. Default: 1
- * @param {Vec3}  [options.worldAnchorA] Where to hook the spring to body A, in world coordinates.
- * @param {Vec3}  [options.worldAnchorB]
- * @param {Vec3}  [options.localAnchorA] Where to hook the spring to body A, in local body coordinates.
- * @param {Vec3}  [options.localAnchorB]
+ *     // Compute the force after each step
+ *     world.addEventListener('postStep', (event) => {
+ *       spring.applyForce()
+ *     })
  */
 export class Spring {
-  restLength: number // Rest length of the spring.
-  stiffness: number // Stiffness of the spring.
-  damping: number // Damping of the spring.
-  bodyA: Body // First connected body.
-  bodyB: Body // Second connected body.
-  localAnchorA: Vec3 // Anchor for bodyA in local bodyA coordinates.
-  localAnchorB: Vec3 // Anchor for bodyB in local bodyB coordinates.
+  /**
+   * Rest length of the spring. A number > 0.
+   * @default 1
+   */
+  restLength: number
 
-  constructor(bodyA: Body, bodyB: Body, options: SpringOptions = {}) {
+  /**
+   * Stiffness of the spring. A number >= 0.
+   * @default 100
+   */
+  stiffness: number
+
+  /**
+   * Damping of the spring. A number >= 0.
+   * @default 1
+   */
+  damping: number
+
+  /**
+   * First connected body.
+   */
+  bodyA: Body
+
+  /**
+   * Second connected body.
+   */
+  bodyB: Body
+
+  /**
+   * Anchor for bodyA in local bodyA coordinates.
+   * Where to hook the spring to body A, in local body coordinates.
+   * @default new Vec3()
+   */
+  localAnchorA: Vec3
+
+  /**
+   * Anchor for bodyB in local bodyB coordinates.
+   * Where to hook the spring to body B, in local body coordinates.
+   * @default new Vec3()
+   */
+  localAnchorB: Vec3
+
+  constructor(
+    bodyA: Body,
+    bodyB: Body,
+    options: {
+      /**
+       * Rest length of the spring. A number > 0.
+       * @default 1
+       */
+      restLength?: number
+      /**
+       * Stiffness of the spring. A number >= 0.
+       * @default 100
+       */
+      stiffness?: number
+      /**
+       * Damping of the spring. A number >= 0.
+       * @default 1
+       */
+      damping?: number
+      /**
+       * Anchor for bodyA in local bodyA coordinates.
+       * Where to hook the spring to body A, in local body coordinates.
+       * @default new Vec3()
+       */
+      localAnchorA?: Vec3
+      /**
+       * Anchor for bodyB in local bodyB coordinates.
+       * Where to hook the spring to body B, in local body coordinates.
+       * @default new Vec3()
+       */
+      localAnchorB?: Vec3
+      /**
+       * Where to hook the spring to body A, in world coordinates.
+       */
+      worldAnchorA?: Vec3
+      /**
+       * Where to hook the spring to body B, in world coordinates.
+       */
+      worldAnchorB?: Vec3
+    } = {}
+  ) {
     this.restLength = typeof options.restLength === 'number' ? options.restLength : 1
     this.stiffness = options.stiffness || 100
     this.damping = options.damping || 1
@@ -61,8 +125,6 @@ export class Spring {
 
   /**
    * Set the anchor point on body A, using world coordinates.
-   * @method setWorldAnchorA
-   * @param {Vec3} worldAnchorA
    */
   setWorldAnchorA(worldAnchorA: Vec3): void {
     this.bodyA.pointToLocalFrame(worldAnchorA, this.localAnchorA)
@@ -70,8 +132,6 @@ export class Spring {
 
   /**
    * Set the anchor point on body B, using world coordinates.
-   * @method setWorldAnchorB
-   * @param {Vec3} worldAnchorB
    */
   setWorldAnchorB(worldAnchorB: Vec3): void {
     this.bodyB.pointToLocalFrame(worldAnchorB, this.localAnchorB)
@@ -79,8 +139,7 @@ export class Spring {
 
   /**
    * Get the anchor point on body A, in world coordinates.
-   * @method getWorldAnchorA
-   * @param {Vec3} result The vector to store the result in.
+   * @param result The vector to store the result in.
    */
   getWorldAnchorA(result: Vec3): void {
     this.bodyA.pointToWorldFrame(this.localAnchorA, result)
@@ -88,8 +147,7 @@ export class Spring {
 
   /**
    * Get the anchor point on body B, in world coordinates.
-   * @method getWorldAnchorB
-   * @param {Vec3} result The vector to store the result in.
+   * @param result The vector to store the result in.
    */
   getWorldAnchorB(result: Vec3): void {
     this.bodyB.pointToWorldFrame(this.localAnchorB, result)
@@ -97,7 +155,6 @@ export class Spring {
 
   /**
    * Apply the spring force to the connected bodies.
-   * @method applyForce
    */
   applyForce(): void {
     const k = this.stiffness

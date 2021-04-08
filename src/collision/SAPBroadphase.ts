@@ -5,24 +5,108 @@ import type { World } from '../world/World'
 
 /**
  * Sweep and prune broadphase along one axis.
- *
- * @class SAPBroadphase
- * @constructor
- * @param {World} [world]
- * @extends Broadphase
  */
 export class SAPBroadphase extends Broadphase {
-  axisList: Body[] // List of bodies currently in the broadphase.
-  world: World | null // The world to search in.
-  axisIndex: 0 | 1 | 2 // Axis to sort the bodies along. Set to 0 for x axis, and 1 for y axis. For best performance, choose an axis that the bodies are spread out more on.
+  /**
+   * List of bodies currently in the broadphase.
+   */
+  axisList: Body[]
+
+  /**
+   * The world to search in.
+   */
+  world: World | null
+
+  /**
+   * Axis to sort the bodies along.
+   * Set to 0 for x axis, and 1 for y axis.
+   * For best performance, pick the axis where bodies are most distributed.
+   */
+  axisIndex: 0 | 1 | 2
 
   private _addBodyHandler: (event: { body: Body }) => void
   private _removeBodyHandler: (event: { body: Body }) => void
 
-  static checkBounds: (bi: Body, bj: Body, axisIndex: 0 | 1 | 2) => boolean
-  static insertionSortX: (a: Body[]) => Body[]
-  static insertionSortY: (a: Body[]) => Body[]
-  static insertionSortZ: (a: Body[]) => Body[]
+  /**
+   * Check if the bounds of two bodies overlap, along the given SAP axis.
+   */
+  static checkBounds(bi: Body, bj: Body, axisIndex: 0 | 1 | 2): boolean {
+    let biPos: number
+    let bjPos: number
+
+    if (axisIndex === 0) {
+      biPos = bi.position.x
+      bjPos = bj.position.x
+    } else if (axisIndex === 1) {
+      biPos = bi.position.y
+      bjPos = bj.position.y
+    } else if (axisIndex === 2) {
+      biPos = bi.position.z
+      bjPos = bj.position.z
+    }
+
+    const ri = bi.boundingRadius,
+      rj = bj.boundingRadius,
+      boundA2 = biPos! + ri,
+      boundB1 = bjPos! - rj
+
+    return boundB1 < boundA2
+  }
+
+  // Note: these are identical, save for x/y/z lowerbound
+  /**
+   * insertionSortX
+   */
+  static insertionSortX(a: Body[]): Body[] {
+    for (let i = 1, l = a.length; i < l; i++) {
+      const v = a[i]
+      let j: number
+      for (j = i - 1; j >= 0; j--) {
+        if (a[j].aabb.lowerBound.x <= v.aabb.lowerBound.x) {
+          break
+        }
+        a[j + 1] = a[j]
+      }
+      a[j + 1] = v
+    }
+    return a
+  }
+
+  /**
+   * insertionSortY
+   */
+  static insertionSortY(a: Body[]): Body[] {
+    for (let i = 1, l = a.length; i < l; i++) {
+      const v = a[i]
+      let j: number
+      for (j = i - 1; j >= 0; j--) {
+        if (a[j].aabb.lowerBound.y <= v.aabb.lowerBound.y) {
+          break
+        }
+        a[j + 1] = a[j]
+      }
+      a[j + 1] = v
+    }
+    return a
+  }
+
+  /**
+   * insertionSortZ
+   */
+  static insertionSortZ(a: Body[]): Body[] {
+    for (let i = 1, l = a.length; i < l; i++) {
+      const v = a[i]
+      let j: number
+      for (j = i - 1; j >= 0; j--) {
+        if (a[j].aabb.lowerBound.z <= v.aabb.lowerBound.z) {
+          break
+        }
+        a[j + 1] = a[j]
+      }
+      a[j + 1] = v
+    }
+    return a
+  }
 
   constructor(world: World) {
     super()
@@ -51,8 +135,6 @@ export class SAPBroadphase extends Broadphase {
 
   /**
    * Change the world
-   * @method setWorld
-   * @param  {World} world
    */
   setWorld(world: World): void {
     // Clear the old axis array
@@ -77,10 +159,6 @@ export class SAPBroadphase extends Broadphase {
 
   /**
    * Collect all collision pairs
-   * @method collisionPairs
-   * @param  {World} world
-   * @param  {Array} p1
-   * @param  {Array} p2
    */
   collisionPairs(world: World, p1: Body[], p2: Body[]): void {
     const bodies = this.axisList
@@ -138,9 +216,8 @@ export class SAPBroadphase extends Broadphase {
   }
 
   /**
-   * Computes the variance of the body positions and estimates the best
-   * axis to use. Will automatically set property .axisIndex.
-   * @method autoDetectAxis
+   * Computes the variance of the body positions and estimates the best axis to use.
+   * Will automatically set property `axisIndex`.
    */
   autoDetectAxis(): void {
     let sumX = 0
@@ -188,11 +265,7 @@ export class SAPBroadphase extends Broadphase {
 
   /**
    * Returns all the bodies within an AABB.
-   * @method aabbQuery
-   * @param  {World} world
-   * @param  {AABB} aabb
-   * @param {array} result An array to store resulting bodies in.
-   * @return {array}
+   * @param result An array to store resulting bodies in.
    */
   aabbQuery(world: World, aabb: AABB, result: Body[] = []): Body[] {
     if (this.dirty) {
@@ -226,101 +299,4 @@ export class SAPBroadphase extends Broadphase {
 
     return result
   }
-}
-
-/**
- * @static
- * @method insertionSortX
- * @param  {Array} a
- * @return {Array}
- */
-SAPBroadphase.insertionSortX = (a: Body[]): Body[] => {
-  for (let i = 1, l = a.length; i < l; i++) {
-    const v = a[i]
-    let j: number
-    for (j = i - 1; j >= 0; j--) {
-      if (a[j].aabb.lowerBound.x <= v.aabb.lowerBound.x) {
-        break
-      }
-      a[j + 1] = a[j]
-    }
-    a[j + 1] = v
-  }
-  return a
-}
-
-/**
- * @static
- * @method insertionSortY
- * @param  {Array} a
- * @return {Array}
- */
-SAPBroadphase.insertionSortY = (a: Body[]): Body[] => {
-  for (let i = 1, l = a.length; i < l; i++) {
-    const v = a[i]
-    let j: number
-    for (j = i - 1; j >= 0; j--) {
-      if (a[j].aabb.lowerBound.y <= v.aabb.lowerBound.y) {
-        break
-      }
-      a[j + 1] = a[j]
-    }
-    a[j + 1] = v
-  }
-  return a
-}
-
-/**
- * @static
- * @method insertionSortZ
- * @param  {Array} a
- * @return {Array}
- */
-SAPBroadphase.insertionSortZ = (a: Body[]): Body[] => {
-  for (let i = 1, l = a.length; i < l; i++) {
-    const v = a[i]
-    let j: number
-    for (j = i - 1; j >= 0; j--) {
-      if (a[j].aabb.lowerBound.z <= v.aabb.lowerBound.z) {
-        break
-      }
-      a[j + 1] = a[j]
-    }
-    a[j + 1] = v
-  }
-  return a
-}
-
-/**
- * Check if the bounds of two bodies overlap, along the given SAP axis.
- * @static
- * @method checkBounds
- * @param  {Body} bi
- * @param  {Body} bj
- * @param  {Number} axisIndex
- * @return {Boolean}
- */
-SAPBroadphase.checkBounds = (bi: Body, bj: Body, axisIndex: 0 | 1 | 2): boolean => {
-  let biPos: number
-  let bjPos: number
-
-  if (axisIndex === 0) {
-    biPos = bi.position.x
-    bjPos = bj.position.x
-  } else if (axisIndex === 1) {
-    biPos = bi.position.y
-    bjPos = bj.position.y
-  } else if (axisIndex === 2) {
-    biPos = bi.position.z
-    bjPos = bj.position.z
-  }
-
-  const ri = bi.boundingRadius,
-    rj = bj.boundingRadius,
-    // boundA1 = biPos - ri,
-    boundA2 = biPos! + ri,
-    boundB1 = bjPos! - rj
-  // boundB2 = bjPos + rj;
-
-  return boundB1 < boundA2
 }

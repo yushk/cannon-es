@@ -3,17 +3,24 @@ import type { World } from '../world/World'
 
 /**
  * Constraint equation Gauss-Seidel solver.
- * @class GSSolver
- * @constructor
  * @todo The spook parameters should be specified for each constraint, not globally.
- * @author schteppe / https://github.com/schteppe
  * @see https://www8.cs.umu.se/kurser/5DV058/VT09/lectures/spooknotes.pdf
- * @extends Solver
  */
 export class GSSolver extends Solver {
-  iterations: number // The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
-  tolerance: number // When tolerance is reached, the system is assumed to be converged.
+  /**
+   * The number of solver iterations determines quality of the constraints in the world.
+   * The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
+   */
+  iterations: number
 
+  /**
+   * When tolerance is reached, the system is assumed to be converged.
+   */
+  tolerance: number
+
+  /**
+   * @todo remove useless constructor
+   */
   constructor() {
     super()
 
@@ -23,10 +30,7 @@ export class GSSolver extends Solver {
 
   /**
    * Solve
-   * @method solve
-   * @param  {Number} dt
-   * @param  {World} world
-   * @return {Number} number of iterations performed
+   * @return number of iterations performed
    */
   solve(dt: number, world: World): number {
     let iter = 0
@@ -52,7 +56,7 @@ export class GSSolver extends Solver {
       }
     }
 
-    // Things that does not change during iteration can be computed once
+    // Things that do not change during iteration can be computed once
     const invCs = GSSolver_solve_invCs
 
     const Bs = GSSolver_solve_Bs
@@ -124,7 +128,7 @@ export class GSSolver extends Solver {
         w.vadd(b.wlambda, w)
       }
 
-      // Set the .multiplier property of each equation
+      // Set the `.multiplier` property of each equation
       let l = equations.length
       const invDt = 1 / h
       while (l--) {
@@ -136,6 +140,7 @@ export class GSSolver extends Solver {
   }
 }
 
-const GSSolver_solve_lambda: number[] = [] // Just temporary number holders that we want to reuse each solve.
+// Just temporary number holders that we want to reuse each iteration.
+const GSSolver_solve_lambda: number[] = []
 const GSSolver_solve_invCs: number[] = []
 const GSSolver_solve_Bs: number[] = []

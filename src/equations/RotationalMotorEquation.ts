@@ -4,18 +4,20 @@ import type { Body } from '../objects/Body'
 
 /**
  * Rotational motor constraint. Tries to keep the relative angular velocity of the bodies to a given value.
- * @class RotationalMotorEquation
- * @constructor
- * @author schteppe
- * @param {Body} bodyA
- * @param {Body} bodyB
- * @param {Number} maxForce
- * @extends Equation
  */
 export class RotationalMotorEquation extends Equation {
-  axisA: Vec3 // World oriented rotational axis.
-  axisB: Vec3 // World oriented rotational axis.
-  targetVelocity: number // Motor velocity.
+  /**
+   * World oriented rotational axis.
+   */
+  axisA: Vec3
+  /**
+   * World oriented rotational axis.
+   */
+  axisB: Vec3
+  /**
+   * Motor velocity.
+   */
+  targetVelocity: number
 
   constructor(bodyA: Body, bodyB: Body, maxForce = 1e6) {
     super(bodyA, bodyB, -maxForce, maxForce)

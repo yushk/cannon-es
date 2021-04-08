@@ -1,21 +1,18 @@
 /**
  * For pooling objects that can be reused.
- * @class Pool
- * @constructor
  */
 export class Pool {
-  objects: any[]
-  type: any
-
-  constructor() {
-    this.objects = []
-    this.type = Object
-  }
+  /**
+   * The objects array.
+   */
+  objects: any[] = []
+  /**
+   * The type of the objects.
+   */
+  type: any = Object
 
   /**
    * Release an object after use
-   * @method release
-   * @param {Object} obj
    */
   release(...args: any[]): Pool {
     const Nargs = args.length
@@ -27,8 +24,6 @@ export class Pool {
 
   /**
    * Get an object
-   * @method get
-   * @return {mixed}
    */
   get(): any {
     if (this.objects.length === 0) {
@@ -40,17 +35,13 @@ export class Pool {
 
   /**
    * Construct an object. Should be implemented in each subclass.
-   * @method constructObject
-   * @return {mixed}
    */
   constructObject(): void {
     throw new Error('constructObject() not implemented in this Pool subclass yet!')
   }
 
   /**
-   * @method resize
-   * @param {number} size
-   * @return {Pool} Self, for chaining
+   * @return Self, for chaining
    */
   resize(size: number): Pool {
     const objects = this.objects
