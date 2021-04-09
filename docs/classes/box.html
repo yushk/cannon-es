@@ -2807,6 +2807,16 @@ pre span[style='color: #001080'] {
 				<div class="lead">
 					<p>A 3d box shape.</p>
 				</div>
+				<dl class="tsd-comment-tags">
+					<dt>example</dt>
+					<dd><pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">size</span><span style="color: #000000"> = </span><span style="color: #098658">1</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">halfExtents</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #0070C1">CANNON</span><span style="color: #000000">.</span><span style="color: #795E26">Vec3</span><span style="color: #000000">(</span><span style="color: #001080">size</span><span style="color: #000000">, </span><span style="color: #001080">size</span><span style="color: #000000">, </span><span style="color: #001080">size</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">boxShape</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #0070C1">CANNON</span><span style="color: #000000">.</span><span style="color: #795E26">Box</span><span style="color: #000000">(</span><span style="color: #001080">halfExtents</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">boxBody</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #0070C1">CANNON</span><span style="color: #000000">.</span><span style="color: #795E26">Body</span><span style="color: #000000">({ </span><span style="color: #001080">mass:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #001080">shape:</span><span style="color: #000000"> </span><span style="color: #001080">boxShape</span><span style="color: #000000"> })</span>
+<span style="color: #001080">world</span><span style="color: #000000">.</span><span style="color: #795E26">addBody</span><span style="color: #000000">(</span><span style="color: #001080">boxBody</span><span style="color: #000000">)</span>
+</code></pre>
+					</dd>
+				</dl>
 			</div>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
@@ -2874,7 +2884,7 @@ pre span[style='color: #001080'] {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#constructor">constructor</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L18">shapes/Box.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L24">shapes/Box.ts:24</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2897,7 +2907,7 @@ pre span[style='color: #001080'] {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#body">body</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Shape.ts#L80">shapes/Shape.ts:80</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Shape.ts#L80">shapes/Shape.ts:80</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2913,7 +2923,7 @@ pre span[style='color: #001080'] {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#boundingsphereradius">boundingSphereRadius</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Shape.ts#L54">shapes/Shape.ts:54</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Shape.ts#L54">shapes/Shape.ts:54</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2929,7 +2939,7 @@ pre span[style='color: #001080'] {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#collisionresponse">collisionResponse</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Shape.ts#L60">shapes/Shape.ts:60</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Shape.ts#L60">shapes/Shape.ts:60</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2949,7 +2959,7 @@ pre span[style='color: #001080'] {
 				<div class="tsd-signature tsd-kind-icon">convex<wbr>Polyhedron<wbr>Representation<span class="tsd-signature-symbol">:</span> <a href="convexpolyhedron.html" class="tsd-signature-type" data-tsd-kind="Class">ConvexPolyhedron</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L18">shapes/Box.ts:18</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L24">shapes/Box.ts:24</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2964,7 +2974,7 @@ pre span[style='color: #001080'] {
 				<div class="tsd-signature tsd-kind-icon">half<wbr>Extents<span class="tsd-signature-symbol">:</span> <a href="vec3.html" class="tsd-signature-type" data-tsd-kind="Class">Vec3</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L13">shapes/Box.ts:13</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L19">shapes/Box.ts:19</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2980,7 +2990,7 @@ pre span[style='color: #001080'] {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#id">id</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Shape.ts#L44">shapes/Shape.ts:44</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Shape.ts#L44">shapes/Shape.ts:44</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2996,7 +3006,7 @@ pre span[style='color: #001080'] {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#material">material</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Shape.ts#L75">shapes/Shape.ts:75</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Shape.ts#L75">shapes/Shape.ts:75</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3012,7 +3022,7 @@ pre span[style='color: #001080'] {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#type">type</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Shape.ts#L49">shapes/Shape.ts:49</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Shape.ts#L49">shapes/Shape.ts:49</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3028,7 +3038,7 @@ pre span[style='color: #001080'] {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="shape.html">Shape</a>.<a href="shape.html#types">types</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Shape.ts#L87">shapes/Shape.ts:87</a></li>
+						<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Shape.ts#L87">shapes/Shape.ts:87</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3083,7 +3093,7 @@ pre span[style='color: #001080'] {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="shape.html">Shape</a>.<a href="shape.html#calculatelocalinertia">calculateLocalInertia</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L68">shapes/Box.ts:68</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L74">shapes/Box.ts:74</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3114,7 +3124,7 @@ pre span[style='color: #001080'] {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L144">shapes/Box.ts:144</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L150">shapes/Box.ts:150</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3151,7 +3161,7 @@ pre span[style='color: #001080'] {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L121">shapes/Box.ts:121</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L127">shapes/Box.ts:127</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3209,7 +3219,7 @@ pre span[style='color: #001080'] {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L85">shapes/Box.ts:85</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L91">shapes/Box.ts:91</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3247,7 +3257,7 @@ pre span[style='color: #001080'] {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="shape.html">Shape</a>.<a href="shape.html#updateboundingsphereradius">updateBoundingSphereRadius</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L114">shapes/Box.ts:114</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L120">shapes/Box.ts:120</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3269,7 +3279,7 @@ pre span[style='color: #001080'] {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L32">shapes/Box.ts:32</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L38">shapes/Box.ts:38</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3292,7 +3302,7 @@ pre span[style='color: #001080'] {
 						<aside class="tsd-sources">
 							<p>Overrides <a href="shape.html">Shape</a>.<a href="shape.html#volume">volume</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d6501f4f/src/shapes/Box.ts#L107">shapes/Box.ts:107</a></li>
+								<li>Defined in <a href="https://github.com/react-spring/cannon-es/blob/d1a4f408/src/shapes/Box.ts#L113">shapes/Box.ts:113</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
