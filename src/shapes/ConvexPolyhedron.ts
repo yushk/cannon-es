@@ -22,6 +22,10 @@ export type ConvexPolyhedronContactPoint = {
  *
  * @todo Move the clipping functions to ContactGenerator?
  * @todo Automatically merge coplanar polygons in constructor.
+ * @example
+ *     const convexShape = new CANNON.ConvexPolyhedron({ vertices, faces })
+ *     const convexBody = new CANNON.Body({ mass: 1, shape: convexShape })
+ *     world.addBody(convexBody)
  */
 
 export class ConvexPolyhedron extends Shape {

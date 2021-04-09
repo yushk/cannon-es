@@ -5,6 +5,12 @@ import type { Quaternion } from '../math/Quaternion'
 
 /**
  * A 3d box shape.
+ * @example
+ *     const size = 1
+ *     const halfExtents = new CANNON.Vec3(size, size, size)
+ *     const boxShape = new CANNON.Box(halfExtents)
+ *     const boxBody = new CANNON.Body({ mass: 1, shape: boxShape })
+ *     world.addBody(boxBody)
  */
 export class Box extends Shape {
   /**

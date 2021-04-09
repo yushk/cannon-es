@@ -4,6 +4,14 @@ import { Shape } from './Shape'
 
 /**
  * Cylinder class.
+ * @example
+ *     const radiusTop = 0.5
+ *     const radiusBottom = 0.5
+ *     const height = 2
+ *     const numSegments = 12
+ *     const cylinderShape = new CANNON.Cylinder(radiusTop, radiusBottom, height, numSegments)
+ *     const cylinderBody = new CANNON.Body({ mass: 1, shape: cylinderShape })
+ *     world.addBody(cylinderBody)
  */
 export class Cylinder extends ConvexPolyhedron {
   /** The radius of the top of the Cylinder. */

@@ -21,17 +21,16 @@ type HeightfieldPillar = {
  * @example
  *     // Generate some height data (y-values).
  *     const data = []
- *     for(let i = 0; i < 1000; i++){
+ *     for (let i = 0; i < 1000; i++) {
  *         const y = 0.5 * Math.cos(0.2 * i)
  *         data.push(y)
  *     }
  *
  *     // Create the heightfield shape
- *     const heightfieldShape = new Heightfield(data, {
+ *     const heightfieldShape = new CANNON.Heightfield(data, {
  *         elementSize: 1 // Distance between the data points in X and Y directions
  *     })
- *     const heightfieldBody = new Body()
- *     heightfieldBody.addShape(heightfieldShape)
+ *     const heightfieldBody = new CANNON.Body({ shape: heightfieldShape })
  *     world.addBody(heightfieldBody)
  */
 export class Heightfield extends Shape {
@@ -51,7 +50,7 @@ export class Heightfield extends Shape {
   minValue: number | null
 
   /**
-   * World spacing between the data points in X direction.
+   * World spacing between the data points in X and Y direction.
    * @todo elementSizeX and Y
    * @default 1
    */

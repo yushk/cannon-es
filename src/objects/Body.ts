@@ -47,11 +47,11 @@ export type BodyOptions = ConstructorParameters<typeof Body>[0]
 /**
  * Base class for all body types.
  * @example
- *     const body = new Body({
+ *     const shape = new CANNON.Sphere(1)
+ *     const body = new CANNON.Body({
  *       mass: 1,
+ *       shape,
  *     })
- *     const shape = new Sphere(1)
- *     body.addShape(shape)
  *     world.addBody(body)
  */
 export class Body extends EventTarget {

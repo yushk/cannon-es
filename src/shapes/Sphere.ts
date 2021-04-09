@@ -4,6 +4,11 @@ import type { Quaternion } from '../math/Quaternion'
 
 /**
  * Spherical shape
+ * @example
+ *     const radius = 1
+ *     const sphereShape = new CANNON.Sphere(radius)
+ *     const sphereBody = new CANNON.Body({ mass: 1, shape: sphereShape })
+ *     world.addBody(sphereBody)
  */
 export class Sphere extends Shape {
   /**

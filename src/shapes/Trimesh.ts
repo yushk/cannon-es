@@ -17,7 +17,7 @@ import type { Quaternion } from '../math/Quaternion'
  *     const indices = [
  *         0, 1, 2  // triangle 0
  *     ]
- *     const trimeshShape = new Trimesh(vertices, indices)
+ *     const trimeshShape = new CANNON.Trimesh(vertices, indices)
  */
 export class Trimesh extends Shape {
   /**
