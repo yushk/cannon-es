@@ -18,6 +18,7 @@
   ],
   "main": "./dist/cannon-es.cjs.js",
   "module": "./dist/cannon-es.js",
+  "react-native": "./dist/cannon-es.js",
   "types": "./dist/cannon-es.d.ts",
   "sideEffects": false,
   "scripts": {
