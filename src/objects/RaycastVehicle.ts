@@ -388,14 +388,14 @@ export class RaycastVehicle {
     const forwardWS = updateFriction_forwardWS
     const axle = updateFriction_axle
 
-    let numWheelsOnGroundTemp = 0
+    this.numWheelsOnGround = 0
 
     for (let i = 0; i < numWheels; i++) {
       const wheel = wheelInfos[i]
 
       const groundObject = wheel.raycastResult.body
       if (groundObject) {
-        numWheelsOnGroundTemp++
+        this.numWheelsOnGround++
       }
 
       wheel.sideImpulse = 0
@@ -407,8 +407,6 @@ export class RaycastVehicle {
         axle[i] = new Vec3()
       }
     }
-
-    this.numWheelsOnGround = numWheelsOnGroundTemp
 
     for (let i = 0; i < numWheels; i++) {
       const wheel = wheelInfos[i]
