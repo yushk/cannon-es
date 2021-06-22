@@ -32,6 +32,8 @@ export class RaycastVehicle {
   /** Optional pre-step callback. */
   preStepCallback: () => void
   currentVehicleSpeedKmHour: number
+  /** Number of wheels on the ground. */
+  numWheelsOnGround: number
 
   constructor(options: {
     /** The car chassis body. */
@@ -53,6 +55,7 @@ export class RaycastVehicle {
     this.constraints = []
     this.preStepCallback = () => {}
     this.currentVehicleSpeedKmHour = 0
+    this.numWheelsOnGround = 0
   }
 
   /**
@@ -385,14 +388,14 @@ export class RaycastVehicle {
     const forwardWS = updateFriction_forwardWS
     const axle = updateFriction_axle
 
-    let numWheelsOnGround = 0
+    this.numWheelsOnGround = 0
 
     for (let i = 0; i < numWheels; i++) {
       const wheel = wheelInfos[i]
 
       const groundObject = wheel.raycastResult.body
       if (groundObject) {
-        numWheelsOnGround++
+        this.numWheelsOnGround++
       }
 
       wheel.sideImpulse = 0
