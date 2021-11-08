@@ -11,6 +11,9 @@
       addTitle()
       addSourceButton()
     </script>
+    <!-- This allows us to use SharedArrayBuffer in Chrome -->
+    <!-- See https://web.dev/coop-coep/ -->
+    <script src="coi-serviceworker.js"></script>
   </head>
   <body>
     <!-- Worker script, will be run in separate thread -->
