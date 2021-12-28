@@ -22,6 +22,7 @@
   "types": "./dist/cannon-es.d.ts",
   "sideEffects": false,
   "scripts": {
+    "prepare": "husky install",
     "start": "npx serve",
     "prebuild": "rimraf dist",
     "build": "npm run typegen && rollup -c",
@@ -29,8 +30,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false --strict",
     "typegen": "tsc --outFile dist/cannon-es.d.ts",
     "generate-docs": "typedoc",
-    "test": "jest",
-    "prepare": "husky install"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -64,6 +64,6 @@
     "typescript": "^4.5.4"
   },
   "lint-staged": {
-    "*.{js,json,jsx,md,ts,tsx,md,yaml,yml}": "prettier --write"
+    "*.{js,json,jsx,ts,tsx,md,yaml,yml}": "prettier --write"
   }
 }
