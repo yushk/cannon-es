@@ -1,11 +1,11 @@
-name: Build and Test
+name: Test
 
 on:
   push:
 
 jobs:
   test:
-    name: Build and Test
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -14,6 +14,12 @@ jobs:
         with:
           node-version: 16
           cache: 'yarn'
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
+
+      - name: yarn install
+        run: yarn install
+
+      - name: yarn typecheck
+        run: yarn typecheck
+
+      - name: yarn test
+        run: yarn test
