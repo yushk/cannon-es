@@ -79,7 +79,7 @@
 
       function update() {
         // Step the world
-        world.step(timeStep)
+        world.fixedStep(timeStep)
 
         // Copy the cannon.js data into the buffers
         for (let i = 0; i < bodies.length; i++) {

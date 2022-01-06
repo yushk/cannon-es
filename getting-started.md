@@ -13,9 +13,25 @@ const world = new CANNON.World({
 })
 ```
 
-To step the simulation forward, we have to call **`world.step()`** each frame.
-As a first argument we pass the fixed timestep at which we want the simulation to run, `1 / 60` means 60fps.
-As a second argument, we pass the elapsed time since the last `.step()` call. This is used to keep the simulation at the same speed independently of the framerate, since `requestAnimationFrame` calls may vary on different devices or there might be performance issues. [Read more about fixed simulation stepping here](https://gafferongames.com/post/fix_your_timestep/).
+To step the simulation forward, we have to call **`world.fixedStep()`** each frame.
+As a first argument, we can pass the fixed timestep at which we want the simulation to run, the default value is `1 / 60` meaning `60fps`.
+**`world.fixedStep()`** keeps track of the last time it was called to keep the simulation at the same speed independently of the framerate, since `requestAnimationFrame` calls may vary on different devices or if there are performance issues. [Read more about fixed simulation stepping here](https://gafferongames.com/post/fix_your_timestep/).
+
+```js
+function animate() {
+  requestAnimationFrame(animate)
+
+  // Run the simulation independently of framerate every 1 / 60 ms
+  world.fixedStep()
+}
+// Start the simulation loop
+animate()
+```
+
+If you wish to pass the time since last call by hand (`dt` in the game world) you can use the more advanced **`world.step()`**.
+
+<details>
+<summary>See advanced world stepping example</summary>
 
 ```js
 const timeStep = 1 / 60 // seconds
@@ -35,6 +51,8 @@ function animate() {
 // Start the simulation loop
 animate()
 ```
+
+</details>
 
 Rigid Bodies are the entities which will be simulated in the world, they can be simple shapes such as [Sphere](classes/sphere), [Box](classes/box), [Plane](classes/plane), [Cylinder](classes/cylinder), or more complex shapes such as [ConvexPolyhedron](classes/convexpolyhedron), [Particle](classes/particle), [Heightfield](classes/heightfield), [Trimesh](classes/trimesh).
 
@@ -93,19 +111,10 @@ groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0) // make it face up
 world.addBody(groundBody)
 
 // Start the simulation loop
-const timeStep = 1 / 60 // seconds
-let lastCallTime
 function animate() {
   requestAnimationFrame(animate)
 
-  const time = performance.now() / 1000 // seconds
-  if (!lastCallTime) {
-    world.step(timeStep)
-  } else {
-    const dt = time - lastCallTime
-    world.step(timeStep, dt)
-  }
-  lastCallTime = time
+  world.fixedStep()
 
   // the sphere y position shows the sphere falling
   console.log(`Sphere y position: ${sphereBody.position.y}`)
