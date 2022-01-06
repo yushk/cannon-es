@@ -31,8 +31,6 @@
 
       // cannon.js variables
       let world
-      const timeStep = 1 / 60
-      let lastCallTime
       let jointBody
       let jointConstraint
       let cubeBody
@@ -296,7 +294,7 @@
         requestAnimationFrame(animate)
 
         // Step the physics world
-        updatePhysics()
+        world.fixedStep()
 
         // Sync the three.js meshes with the bodies
         for (let i = 0; i !== meshes.length; i++) {
@@ -304,19 +302,10 @@
           meshes[i].quaternion.copy(bodies[i].quaternion)
         }
 
+        // Render three.js
         renderer.render(scene, camera)
-        stats.update()
-      }
 
-      function updatePhysics() {
-        const time = performance.now() / 1000
-        if (!lastCallTime) {
-          world.step(timeStep)
-        } else {
-          const dt = time - lastCallTime
-          world.step(timeStep, dt)
-        }
-        lastCallTime = time
+        stats.update()
       }
     </script>
   </body>
