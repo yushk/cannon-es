@@ -12453,13 +12453,46 @@ class World extends EventTarget {
     this.contactMaterialTable.set(cmat.materials[0].id, cmat.materials[1].id, cmat);
   }
   /**
+   * Step the simulation forward keeping track of last called time
+   * to be able to step the world at a fixed rate, independently of framerate.
+   *
+   * @param dt The fixed time step size to use (default: 1 / 60).
+   * @param maxSubSteps Maximum number of fixed steps to take per function call (default: 10).
+   * @see https://gafferongames.com/post/fix_your_timestep/
+   * @example
+   *     // Run the simulation independently of framerate every 1 / 60 ms
+   *     world.fixedStep()
+   */
+
+
+  fixedStep(dt, maxSubSteps) {
+    if (dt === void 0) {
+      dt = 1 / 60;
+    }
+
+    if (maxSubSteps === void 0) {
+      maxSubSteps = 10;
+    }
+
+    const time = performance.now() / 1000; // seconds
+
+    if (!this.lastCallTime) {
+      this.step(dt, undefined, maxSubSteps);
+    } else {
+      const timeSinceLastCalled = time - this.lastCallTime;
+      this.step(dt, timeSinceLastCalled, maxSubSteps);
+    }
+
+    this.lastCallTime = time;
+  }
+  /**
    * Step the physics world forward in time.
    *
    * There are two modes. The simple mode is fixed timestepping without interpolation. In this case you only use the first argument. The second case uses interpolation. In that you also provide the time since the function was last used, as well as the maximum fixed timesteps to take.
    *
    * @param dt The fixed time step size to use.
    * @param timeSinceLastCalled The time elapsed since the function was last called.
-   * @param maxSubSteps Maximum number of fixed steps to take per function call.
+   * @param maxSubSteps Maximum number of fixed steps to take per function call (default: 10).
    * @see https://web.archive.org/web/20180426154531/http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World#What_do_the_parameters_to_btDynamicsWorld::stepSimulation_mean.3F
    * @example
    *     // fixed timestepping without interpolation

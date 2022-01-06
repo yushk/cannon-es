@@ -834,6 +834,7 @@ declare module "world/World" {
         idToBodyMap: {
             [id: number]: Body;
         };
+        lastCallTime?: number;
         constructor(options?: {
             gravity?: Vec3;
             allowSleep?: boolean;
@@ -857,6 +858,7 @@ declare module "world/World" {
         getShapeById(id: number): Shape | null;
         addMaterial(m: Material): void;
         addContactMaterial(cmat: ContactMaterial): void;
+        fixedStep(dt?: number, maxSubSteps?: number): void;
         step(dt: number, timeSinceLastCalled?: number, maxSubSteps?: number): void;
         internalStep(dt: number): void;
         emitContactEvents(): void;
