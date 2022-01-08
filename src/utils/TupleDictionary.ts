@@ -1,3 +1,5 @@
+const getKey = (i: number, j: number): string => (i < j ? `${i}-${j}` : `${j}-${i}`)
+
 /**
  * TupleDictionary
  */
@@ -6,23 +8,13 @@ export class TupleDictionary {
 
   /** get */
   get(i: number, j: number): any {
-    if (i > j) {
-      // swap
-      const temp = j
-      j = i
-      i = temp
-    }
-    return this.data[`${i}-${j}`]
+    const key = getKey(i, j)
+    return this.data[key]
   }
 
   /** set */
   set(i: number, j: number, value: any): void {
-    if (i > j) {
-      const temp = j
-      j = i
-      i = temp
-    }
-    const key = `${i}-${j}`
+    const key = getKey(i, j)
 
     // Check if key already exists
     if (!this.get(i, j)) {
@@ -30,6 +22,16 @@ export class TupleDictionary {
     }
 
     this.data[key] = value
+  }
+
+  /** delete */
+  delete(i: number, j: number): void {
+    const key = getKey(i, j)
+    const index = this.data.keys.indexOf(key)
+    if (index !== -1) {
+      this.data.keys.splice(index, 1)
+    }
+    delete this.data[key]
   }
 
   /** reset */
