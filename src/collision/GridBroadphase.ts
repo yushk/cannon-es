@@ -77,7 +77,7 @@ export class GridBroadphase extends Broadphase {
    * Get all the collision pairs in the physics world
    */
   collisionPairs(world: World, pairs1: Body[], pairs2: Body[]): void {
-    const N = world.numObjects()
+    const N = world.bodies.length
     const bodies = world.bodies
     const max = this.aabbMax
     const min = this.aabbMin

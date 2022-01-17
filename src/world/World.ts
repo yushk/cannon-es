@@ -266,14 +266,6 @@ export class World extends EventTarget {
   }
 
   /**
-   * Get number of objects in the world.
-   * @deprecated
-   */
-  numObjects(): number {
-    return this.bodies.length
-  }
-
-  /**
    * Store old collision state info
    */
   collisionMatrixTick(): void {
@@ -527,7 +519,7 @@ export class World extends EventTarget {
     const contacts = this.contacts
     const p1 = World_step_p1
     const p2 = World_step_p2
-    const N = this.numObjects()
+    const N = this.bodies.length
     const bodies = this.bodies
     const solver = this.solver
     const gravity = this.gravity
