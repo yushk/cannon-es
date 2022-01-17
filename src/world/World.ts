@@ -116,12 +116,6 @@ export class World extends EventTarget {
   shapeOverlapKeeper: OverlapKeeper
 
   /**
-   * All added materials.
-   * @deprecated
-   * @todo Remove
-   */
-  materials: Material[]
-  /**
    * All added contactmaterials.
    */
   contactmaterials: ContactMaterial[]
@@ -232,7 +226,6 @@ export class World extends EventTarget {
     this.collisionMatrixPrevious = new ArrayCollisionMatrix()
     this.bodyOverlapKeeper = new OverlapKeeper()
     this.shapeOverlapKeeper = new OverlapKeeper()
-    this.materials = []
     this.contactmaterials = []
     this.contactMaterialTable = new TupleDictionary()
     this.defaultMaterial = new Material('default')
@@ -413,15 +406,6 @@ export class World extends EventTarget {
     }
 
     return null
-  }
-
-  /**
-   * Adds a material to the World.
-   * @deprecated
-   * @todo Remove
-   */
-  addMaterial(m: Material): void {
-    this.materials.push(m)
   }
 
   /**
