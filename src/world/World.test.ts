@@ -8,6 +8,8 @@ import { ArrayCollisionMatrix } from '../collision/ArrayCollisionMatrix'
 import { ObjectCollisionMatrix } from '../collision/ObjectCollisionMatrix'
 import { RaycastResult } from '../collision/RaycastResult'
 import { testCollisionMatrix } from '../../test/helpers'
+import { Material } from '../material/Material'
+import { ContactMaterial } from '../material/ContactMaterial'
 
 describe('World', () => {
   test('clearForces', () => {
@@ -212,6 +214,42 @@ describe('World', () => {
     world.raycastAny(from, to, {}, result)
 
     expect(result.hasHit).toBe(true)
+  })
+
+  test('getContactMaterial: empty', () => {
+    const world = new World()
+    const m1 = new Material('m1')
+    const m2 = new Material('m2')
+
+    expect(world.getContactMaterial(m1, m2)).toBe(undefined)
+  })
+
+  test('addContactMaterial & getContactMaterial', () => {
+    const world = new World()
+    const m1 = new Material('m1')
+    const m2 = new Material('m2')
+    const m3 = new Material('m3')
+    const cmat1 = new ContactMaterial(m1, m2, { friction: 0.5 })
+    const cmat2 = new ContactMaterial(m1, m3, { friction: 0.9 })
+
+    world.addContactMaterial(cmat1)
+    world.addContactMaterial(cmat2)
+
+    expect(world.getContactMaterial(m1, m2)).toBe(cmat1)
+    expect(world.getContactMaterial(m1, m3)).toBe(cmat2)
+  })
+
+  test('removeContactMaterial', () => {
+    const world = new World()
+    const m1 = new Material('m1')
+    const m2 = new Material('m2')
+    const m3 = new Material('m3')
+    const cmat1 = new ContactMaterial(m1, m2, { friction: 0.5 })
+
+    world.addContactMaterial(cmat1)
+    world.removeContactMaterial(cmat1)
+
+    expect(world.getContactMaterial(m1, m2)).toBe(undefined)
   })
 
   test('using ArrayCollisionMatrix', () => {

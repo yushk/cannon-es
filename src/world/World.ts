@@ -420,6 +420,19 @@ export class World extends EventTarget {
   }
 
   /**
+   * Removes a contact material from the World.
+   */
+  removeContactMaterial(cmat: ContactMaterial): void {
+    const idx = this.contactmaterials.indexOf(cmat)
+    if (idx === -1) {
+      return
+    }
+
+    this.contactmaterials.splice(idx, 1)
+    this.contactMaterialTable.delete(cmat.materials[0].id, cmat.materials[1].id)
+  }
+
+  /**
    * Step the simulation forward keeping track of last called time
    * to be able to step the world at a fixed rate, independently of framerate.
    *
