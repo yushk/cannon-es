@@ -3365,8 +3365,6 @@ class Body extends EventTarget {
     this.id = Body.idCounter++;
     this.index = -1;
     this.world = null;
-    this.preStep = null;
-    this.postStep = null;
     this.vlambda = new Vec3();
     this.collisionFilterGroup = typeof options.collisionFilterGroup === 'number' ? options.collisionFilterGroup : 1;
     this.collisionFilterMask = typeof options.collisionFilterMask === 'number' ? options.collisionFilterMask : -1;
@@ -4237,7 +4235,7 @@ class GridBroadphase extends Broadphase {
 
 
   collisionPairs(world, pairs1, pairs2) {
-    const N = world.numObjects();
+    const N = world.bodies.length;
     const bodies = world.bodies;
     const max = this.aabbMax;
     const min = this.aabbMin;
@@ -12015,9 +12013,12 @@ function unpackAndPush(array, key) {
   array.push((key & 0xffff0000) >> 16, key & 0x0000ffff);
 }
 
+const getKey = (i, j) => i < j ? `${i}-${j}` : `${j}-${i}`;
 /**
  * TupleDictionary
  */
+
+
 class TupleDictionary {
   constructor() {
     this.data = {
@@ -12027,32 +12028,33 @@ class TupleDictionary {
 
   /** get */
   get(i, j) {
-    if (i > j) {
-      // swap
-      const temp = j;
-      j = i;
-      i = temp;
-    }
-
-    return this.data[`${i}-${j}`];
+    const key = getKey(i, j);
+    return this.data[key];
   }
   /** set */
 
 
   set(i, j, value) {
-    if (i > j) {
-      const temp = j;
-      j = i;
-      i = temp;
-    }
-
-    const key = `${i}-${j}`; // Check if key already exists
+    const key = getKey(i, j); // Check if key already exists
 
     if (!this.get(i, j)) {
       this.data.keys.push(key);
     }
 
     this.data[key] = value;
+  }
+  /** delete */
+
+
+  delete(i, j) {
+    const key = getKey(i, j);
+    const index = this.data.keys.indexOf(key);
+
+    if (index !== -1) {
+      this.data.keys.splice(index, 1);
+    }
+
+    delete this.data[key];
   }
   /** reset */
 
@@ -12140,12 +12142,6 @@ class World extends EventTarget {
    */
 
   /**
-   * All added materials.
-   * @deprecated
-   * @todo Remove
-   */
-
-  /**
    * All added contactmaterials.
    */
 
@@ -12205,7 +12201,6 @@ class World extends EventTarget {
     this.collisionMatrixPrevious = new ArrayCollisionMatrix();
     this.bodyOverlapKeeper = new OverlapKeeper();
     this.shapeOverlapKeeper = new OverlapKeeper();
-    this.materials = [];
     this.contactmaterials = [];
     this.contactMaterialTable = new TupleDictionary();
     this.defaultMaterial = new Material('default');
@@ -12242,15 +12237,6 @@ class World extends EventTarget {
 
   getContactMaterial(m1, m2) {
     return this.contactMaterialTable.get(m1.id, m2.id);
-  }
-  /**
-   * Get number of objects in the world.
-   * @deprecated
-   */
-
-
-  numObjects() {
-    return this.bodies.length;
   }
   /**
    * Store old collision state info
@@ -12436,16 +12422,6 @@ class World extends EventTarget {
     return null;
   }
   /**
-   * Adds a material to the World.
-   * @deprecated
-   * @todo Remove
-   */
-
-
-  addMaterial(m) {
-    this.materials.push(m);
-  }
-  /**
    * Adds a contact material to the World
    */
 
@@ -12455,6 +12431,21 @@ class World extends EventTarget {
     this.contactmaterials.push(cmat); // Add current contact material to the material table
 
     this.contactMaterialTable.set(cmat.materials[0].id, cmat.materials[1].id, cmat);
+  }
+  /**
+   * Removes a contact material from the World.
+   */
+
+
+  removeContactMaterial(cmat) {
+    const idx = this.contactmaterials.indexOf(cmat);
+
+    if (idx === -1) {
+      return;
+    }
+
+    this.contactmaterials.splice(idx, 1);
+    this.contactMaterialTable.delete(cmat.materials[0].id, cmat.materials[1].id);
   }
   /**
    * Step the simulation forward keeping track of last called time
@@ -12554,7 +12545,7 @@ class World extends EventTarget {
     const contacts = this.contacts;
     const p1 = World_step_p1;
     const p2 = World_step_p2;
-    const N = this.numObjects();
+    const N = this.bodies.length;
     const bodies = this.bodies;
     const solver = this.solver;
     const gravity = this.gravity;
@@ -12826,18 +12817,9 @@ class World extends EventTarget {
       }
     }
 
-    this.dispatchEvent(World_step_preStepEvent); // Invoke pre-step callbacks
-
-    for (i = 0; i !== N; i++) {
-      const bi = bodies[i];
-
-      if (bi.preStep) {
-        bi.preStep.call(bi);
-      }
-    } // Leap frog
+    this.dispatchEvent(World_step_preStepEvent); // Leap frog
     // vnew = v + h*f/m
     // xnew = x + h*vnew
-
 
     if (doProfiling) {
       profilingStart = performance.now();
@@ -12860,17 +12842,7 @@ class World extends EventTarget {
 
 
     this.stepnumber += 1;
-    this.dispatchEvent(World_step_postStepEvent); // Invoke post-step callbacks
-
-    for (i = 0; i !== N; i++) {
-      const bi = bodies[i];
-      const postStep = bi.postStep;
-
-      if (postStep) {
-        postStep.call(bi);
-      }
-    } // Sleeping update
-
+    this.dispatchEvent(World_step_postStepEvent); // Sleeping update
 
     let hasActiveBodies = true;
 

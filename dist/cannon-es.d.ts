@@ -744,6 +744,7 @@ declare module "utils/TupleDictionary" {
         };
         get(i: number, j: number): any;
         set(i: number, j: number, value: any): void;
+        delete(i: number, j: number): void;
         reset(): void;
     }
 }
@@ -808,7 +809,6 @@ declare module "world/World" {
         collisionMatrixPrevious: ArrayCollisionMatrix;
         bodyOverlapKeeper: OverlapKeeper;
         shapeOverlapKeeper: OverlapKeeper;
-        materials: Material[];
         contactmaterials: ContactMaterial[];
         contactMaterialTable: TupleDictionary;
         defaultMaterial: Material;
@@ -844,7 +844,6 @@ declare module "world/World" {
             quatNormalizeSkip?: number;
         });
         getContactMaterial(m1: Material, m2: Material): ContactMaterial;
-        numObjects(): number;
         collisionMatrixTick(): void;
         addConstraint(c: Constraint): void;
         removeConstraint(c: Constraint): void;
@@ -856,8 +855,8 @@ declare module "world/World" {
         removeBody(body: Body): void;
         getBodyById(id: number): Body;
         getShapeById(id: number): Shape | null;
-        addMaterial(m: Material): void;
         addContactMaterial(cmat: ContactMaterial): void;
+        removeContactMaterial(cmat: ContactMaterial): void;
         fixedStep(dt?: number, maxSubSteps?: number): void;
         step(dt: number, timeSinceLastCalled?: number, maxSubSteps?: number): void;
         internalStep(dt: number): void;
@@ -1015,8 +1014,6 @@ declare module "objects/Body" {
         id: number;
         index: number;
         world: World | null;
-        preStep: (() => void) | null;
-        postStep: (() => void) | null;
         vlambda: Vec3;
         collisionFilterGroup: number;
         collisionFilterMask: number;
