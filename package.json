@@ -21,6 +21,9 @@
   "react-native": "./dist/cannon-es.js",
   "types": "./dist/cannon-es.d.ts",
   "sideEffects": false,
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "prepare": "husky install",
     "start": "npx serve",
