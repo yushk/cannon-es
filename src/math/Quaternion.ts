@@ -281,6 +281,8 @@ export class Quaternion {
   }
 
   /**
+   * Set the quaternion components given Euler angle representation.
+   *
    * @param order The order to apply angles: 'XYZ' or 'YXZ' or any other combination.
    *
    * See {@link https://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors MathWorks} reference
