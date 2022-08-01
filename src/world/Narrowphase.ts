@@ -224,7 +224,7 @@ export class Narrowphase {
 
     if (friction > 0) {
       // Create 2 tangent equations
-      const mug = friction * world.gravity.length()
+      const mug = friction * world.frictionGravity.length()
       let reducedMass = bodyA.invMass + bodyB.invMass
       if (reducedMass > 0) {
         reducedMass = 1 / reducedMass

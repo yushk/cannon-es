@@ -259,4 +259,21 @@ describe('World', () => {
   test('using ObjectCollisionMatrix', () => {
     testCollisionMatrix(ObjectCollisionMatrix)
   })
+
+  test('frictionGravity: should default to world gravity', () => {
+    const gravity = new Vec3(0, -9.81, 0)
+    const world = new World({ gravity })
+
+    expect(world.gravity).toEqual(gravity)
+    expect(world.frictionGravity).toEqual(gravity)
+  })
+
+  test('frictionGravity: should allow overrides', () => {
+    const gravity = new Vec3(0, 0, 0)
+    const frictionGravity = new Vec3(0, -9.81, 0)
+    const world = new World({ gravity, frictionGravity })
+
+    expect(world.gravity).toEqual(gravity)
+    expect(world.frictionGravity).toEqual(frictionGravity)
+  })
 })
