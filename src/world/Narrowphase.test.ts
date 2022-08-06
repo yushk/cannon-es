@@ -65,7 +65,46 @@ describe('Narrowphase', () => {
     expect(result.length).toBe(1)
   })
 
-  test('should use frictionGravity to create friction equations', () => {
+  test('should default to using global gravity to create friction equations', () => {
+    const gravity = new Vec3(0, -9.81, 0)
+    const world = new World({ gravity })
+    // No frictionGravity override.
+    expect(world.frictionGravity).toBeUndefined()
+
+    const narrowPhase = new Narrowphase(world)
+    const contacts: ContactEquation[] = []
+    const sphereShape = new Sphere(1)
+
+    const bodyA = new Body({ mass: 1 })
+    const bodyB = new Body({ mass: 1 })
+    bodyA.addShape(sphereShape)
+    bodyB.addShape(sphereShape)
+
+    narrowPhase.result = contacts
+    narrowPhase.sphereSphere(
+      sphereShape,
+      sphereShape,
+      new Vec3(0.5, 0, 0),
+      new Vec3(-0.5, 0, 0),
+      new Quaternion(),
+      new Quaternion(),
+      bodyA,
+      bodyB
+    )
+
+    expect(contacts.length).toBe(1)
+    const [contact] = contacts
+    const result: FrictionEquation[] = []
+
+    // No frictionGravity, should use global gravity.
+    narrowPhase.createFrictionEquationsFromContact(contact, result)
+    expect(result.length).toBe(2)
+    result.forEach((result) => {
+      expect(result.maxForce > 0).toBe(true)
+    })
+  })
+
+  test('if provided, should use frictionGravity to create friction equations', () => {
     const gravity = new Vec3(0, 0, 0)
     const frictionGravity = new Vec3(0, -9.81, 0)
     const world = new World({ gravity, frictionGravity })

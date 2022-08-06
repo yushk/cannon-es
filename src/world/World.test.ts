@@ -260,15 +260,15 @@ describe('World', () => {
     testCollisionMatrix(ObjectCollisionMatrix)
   })
 
-  test('frictionGravity: should default to world gravity', () => {
+  test('frictionGravity: should be undefined by default', () => {
     const gravity = new Vec3(0, -9.81, 0)
     const world = new World({ gravity })
 
     expect(world.gravity).toEqual(gravity)
-    expect(world.frictionGravity).toEqual(gravity)
+    expect(world.frictionGravity).toBeUndefined()
   })
 
-  test('frictionGravity: should allow overrides', () => {
+  test('frictionGravity: should be configurable', () => {
     const gravity = new Vec3(0, 0, 0)
     const frictionGravity = new Vec3(0, -9.81, 0)
     const world = new World({ gravity, frictionGravity })
