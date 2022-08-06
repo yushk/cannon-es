@@ -1797,8 +1797,6 @@ class Quaternion {
     target.x = bank;
   }
   /**
-   * Set the quaternion components given Euler angle representation.
-   *
    * @param order The order to apply angles: 'XYZ' or 'YXZ' or any other combination.
    *
    * See {@link https://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors MathWorks} reference
@@ -10455,7 +10453,7 @@ class Narrowphase {
 
     if (friction > 0) {
       // Create 2 tangent equations
-      const mug = friction * world.frictionGravity.length();
+      const mug = friction * world.gravity.length();
       let reducedMass = bodyA.invMass + bodyB.invMass;
 
       if (reducedMass > 0) {
@@ -12114,11 +12112,6 @@ class World extends EventTarget {
    */
 
   /**
-   * Gravity to use when approximating the friction max force (mu*mass*gravity).
-   * Use to enable friction in a World with a null gravity vector (no gravity).
-   */
-
-  /**
    * The broadphase algorithm to use.
    * @default NaiveBroadphase
    */
@@ -12189,16 +12182,9 @@ class World extends EventTarget {
     this.default_dt = 1 / 60;
     this.nextId = 0;
     this.gravity = new Vec3();
-    this.frictionGravity = new Vec3();
 
     if (options.gravity) {
       this.gravity.copy(options.gravity);
-    }
-
-    if (options.frictionGravity) {
-      this.frictionGravity.copy(options.frictionGravity);
-    } else if (options.gravity) {
-      this.frictionGravity.copy(options.gravity);
     }
 
     this.broadphase = options.broadphase !== undefined ? options.broadphase : new NaiveBroadphase();

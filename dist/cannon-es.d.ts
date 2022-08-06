@@ -799,7 +799,6 @@ declare module "world/World" {
         default_dt: number;
         nextId: number;
         gravity: Vec3;
-        frictionGravity: Vec3;
         broadphase: Broadphase;
         bodies: Body[];
         hasActiveBodies: boolean;
@@ -838,7 +837,6 @@ declare module "world/World" {
         lastCallTime?: number;
         constructor(options?: {
             gravity?: Vec3;
-            frictionGravity?: Vec3;
             allowSleep?: boolean;
             broadphase?: Broadphase;
             solver?: Solver;
