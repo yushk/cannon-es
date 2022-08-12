@@ -80,6 +80,13 @@ export class World extends EventTarget {
   gravity: Vec3
 
   /**
+   * Gravity to use when approximating the friction max force (mu*mass*gravity).
+   * If undefined, global gravity will be used.
+   * Use to enable friction in a World with a null gravity vector (no gravity).
+   */
+  frictionGravity?: Vec3
+
+  /**
    * The broadphase algorithm to use.
    * @default NaiveBroadphase
    */
@@ -171,6 +178,11 @@ export class World extends EventTarget {
        */
       gravity?: Vec3
       /**
+       * Gravity to use when approximating the friction max force (mu*mass*gravity).
+       * If undefined, global gravity will be used.
+       */
+      frictionGravity?: Vec3
+      /**
        * Makes bodies go to sleep when they've been inactive.
        * @default false
        */
@@ -214,6 +226,10 @@ export class World extends EventTarget {
 
     if (options.gravity) {
       this.gravity.copy(options.gravity)
+    }
+    if (options.frictionGravity) {
+      this.frictionGravity = new Vec3()
+      this.frictionGravity.copy(options.frictionGravity)
     }
 
     this.broadphase = options.broadphase !== undefined ? options.broadphase : new NaiveBroadphase()
